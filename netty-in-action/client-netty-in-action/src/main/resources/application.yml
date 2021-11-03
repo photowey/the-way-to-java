@@ -1,0 +1,8 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: "client-netty-dubbo-in-action"
+  profiles:
+    active: dev

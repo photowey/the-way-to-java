@@ -1,0 +1,8 @@
+local:
+  config:
+    mysql:
+      host: "192.168.0.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "mybatis-in-action"

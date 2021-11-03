@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "zookeeper-in-action"
+  profiles:
+    active: dev
+  zookeeper:
+    host: ${local.config.zookeeper.host}
+    port: ${local.config.zookeeper.port}
+    connect-string: "${spring.zookeeper.host}:${spring.zookeeper.port}"
+    session-timeout: "${local.config.zookeeper.session-timeout}"
+    connection-timeout: "${local.config.zookeeper.connection-timeout}"
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

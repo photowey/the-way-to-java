@@ -1,0 +1,89 @@
+package com.photowey.mybatis.in.action.config;
+
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.sql.DataSource;
+
+/**
+ * {@code MybatisConfigure}
+ *
+ * @author photowey
+ * @date 2021/11/02
+ * @since 1.0.0
+ */
+@Configuration
+@MapperScan("com.photowey.mybatis.in.action.repository")
+public class MybatisConfigure {
+
+    /**
+     * {@link DataSource}
+     *
+     * @return {@link DataSource}
+     */
+    @Bean
+    public DataSource druidDataSource() {
+        return DruidDataSourceBuilder.create().build();
+    }
+
+    /**
+     * {@link PlatformTransactionManager}
+     *
+     * @param druidDataSource {@link DataSource}
+     * @return {@link PlatformTransactionManager}
+     */
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(DataSource druidDataSource) {
+        return new DataSourceTransactionManager(druidDataSource);
+    }
+
+    /**
+     * {@link SqlSessionTemplate}
+     *
+     * @param sqlSessionFactory {@link SqlSessionFactory}
+     * @return {@link SqlSessionTemplate}
+     */
+    @Bean
+    @ConditionalOnMissingBean(SqlSessionTemplate.class)
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    /**
+     * {@link TransactionTemplate}
+     *
+     * @param transactionManager {@link PlatformTransactionManager}
+     * @return {@link TransactionTemplate}
+     */
+    @Bean
+    @ConditionalOnMissingBean(TransactionTemplate.class)
+    public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
+        return new TransactionTemplate(transactionManager);
+    }
+
+    /**
+     * {@link MybatisPlusInterceptor}
+     *
+     * @return {@link MybatisPlusInterceptor}
+     */
+//    @Bean
+//    @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
+//    public MybatisPlusInterceptor mybatisPlusInterceptor(SqlSessionFactory sqlSessionFactory) {
+//        MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+//        // default: MYSQL
+//        PaginationInnerInterceptor paginationInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+//        mybatisPlusInterceptor.addInnerInterceptor(paginationInterceptor);
+//        org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
+//        configuration.addInterceptor(mybatisPlusInterceptor);
+//
+//        return mybatisPlusInterceptor;
+//    }
+}

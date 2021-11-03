@@ -1,0 +1,8 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: "consumer-dubbo-in-action"
+  profiles:
+    active: dev

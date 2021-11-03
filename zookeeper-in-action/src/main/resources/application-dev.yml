@@ -1,0 +1,7 @@
+local:
+  config:
+    zookeeper:
+      host: "192.168.0.11"
+      port: 2181
+      session-timeout: 6000
+      connection-timeout: 6000

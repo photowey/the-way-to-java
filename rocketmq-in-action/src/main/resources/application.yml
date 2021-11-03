@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "rocketmq-in-action"
+  profiles:
+    active: dev
+  rocketmq:
+    host: ${local.config.rocketmq.host}
+    port: ${local.config.rocketmq.port}
+    name-server: "${local.config.rocketmq.host}:${local.config.rocketmq.port}"
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

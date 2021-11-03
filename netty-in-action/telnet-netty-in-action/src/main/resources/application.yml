@@ -1,0 +1,8 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: "telnet-netty-dubbo-in-action"
+  profiles:
+    active: dev

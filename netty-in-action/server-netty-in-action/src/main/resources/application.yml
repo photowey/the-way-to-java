@@ -1,0 +1,8 @@
+server:
+  port: 6666
+
+spring:
+  application:
+    name: "server-netty-dubbo-in-action"
+  profiles:
+    active: dev
