@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="consumer-dubbo-in-action"/>
+
+    <!-- consumer 全局配置 -->
+    <dubbo:consumer timeout="5000"/>
+
+    <dubbo:registry address="zookeeper://192.168.0.11:2182" check="false"/>
+    <dubbo:protocol name="dubbo" port="29527"/>
+
+    <bean id="consumerService"
+          class="com.photowey.dubbo.consumer.in.action.service.impl.ConsumerServiceImpl"/>
+
+    <dubbo:reference
+            interface="com.photowey.dubbo.api.in.action.service.user.UserService"
+            id="userService" timeout="2000" check="false">
+        <dubbo:method name="sayHello" timeout="9000"/>
+    </dubbo:reference>
+
+    <dubbo:annotation package="com.photowey"/>
+</beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="producer-dubbo-in-action"/>
+
+    <!-- provider 全局配置 -->
+    <dubbo:provider timeout="5000"/>
+
+    <dubbo:registry address="zookeeper://192.168.0.11:2182" check="false"/>
+    <!-- 如果协议是 dubbo,这个就是 netty 服务端绑定的端口,默认: 20880 -->
+    <dubbo:protocol name="dubbo" port="29527"/>
+
+    <bean id="userService"
+          class="com.photowey.dubbo.producer.in.action.service.impl.user.UserServiceImpl"/>
+
+    <dubbo:service
+            interface="com.photowey.dubbo.api.in.action.service.user.UserService"
+            ref="userService" timeout="2000">
+    </dubbo:service>
+
+    <dubbo:annotation package="com.photowey"/>
+</beans>
