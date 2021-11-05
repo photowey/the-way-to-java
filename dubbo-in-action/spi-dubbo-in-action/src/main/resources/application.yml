@@ -1,0 +1,8 @@
+server:
+  port: 4444
+
+spring:
+  application:
+    name: "spi-dubbo-in-action"
+  profiles:
+    active: dev

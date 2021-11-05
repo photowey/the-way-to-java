@@ -1,0 +1,7 @@
+dubbo=com.photowey.dubbo.spi.in.action.spi.adaptive.DubboActivate
+spring=com.photowey.dubbo.spi.in.action.spi.adaptive.SpringActivate
+kafka=com.photowey.dubbo.spi.in.action.spi.activate.KafkaActivate
+mybatis=com.photowey.dubbo.spi.in.action.spi.activate.MybatisActivate
+rabbitmq=com.photowey.dubbo.spi.in.action.spi.activate.RabbitMQActivate
+rocketmq=com.photowey.dubbo.spi.in.action.spi.activate.RocketMQActivate
+springboot=com.photowey.dubbo.spi.in.action.spi.activate.SpringBootActivate

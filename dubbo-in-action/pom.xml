@@ -61,6 +61,7 @@
         <module>api-dubbo-in-action</module>
         <module>producer-dubbo-in-action</module>
         <module>consumer-dubbo-in-action</module>
+        <module>spi-dubbo-in-action</module>
     </modules>
 
 </project>
