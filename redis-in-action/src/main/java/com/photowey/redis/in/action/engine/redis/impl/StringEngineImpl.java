@@ -43,8 +43,47 @@ public class StringEngineImpl implements IStringEngine {
     }
 
     @Override
+    public void setRange(String key, String value, long offset) {
+        this.stringRedisTemplate.opsForValue().set(key, value, offset);
+    }
+
+    @Override
     public String get(String key) {
         return this.stringRedisTemplate.opsForValue().get(key);
+    }
+
+    @Override
+    public String getAndSet(String key, String value) {
+        return this.stringRedisTemplate.opsForValue().getAndSet(key, value);
+    }
+
+    @Override
+    public String getRange(String key, long start, long end) {
+        return this.stringRedisTemplate.opsForValue().get(key, start, end);
+    }
+
+    // ========================================= incr
+
+    @Override
+    public Long incr(String key) {
+        return this.stringRedisTemplate.opsForValue().increment(key);
+    }
+
+    @Override
+    public Long incrBy(String key, long delta) {
+        return this.stringRedisTemplate.opsForValue().increment(key, delta);
+    }
+
+    // ========================================= decr
+
+    @Override
+    public Long decr(String key) {
+        return this.stringRedisTemplate.opsForValue().decrement(key);
+    }
+
+    @Override
+    public Long decrBy(String key, long delta) {
+        return this.stringRedisTemplate.opsForValue().decrement(key, delta);
     }
 
     // ========================================= multi
@@ -70,12 +109,40 @@ public class StringEngineImpl implements IStringEngine {
         return map;
     }
 
+    // ========================================= exists
+
+    @Override
+    public Boolean exists(String key) {
+        return this.stringRedisTemplate.hasKey(key);
+    }
+
+    // ========================================= append
+
+    @Override
+    public Integer append(String key, String value) {
+        return this.stringRedisTemplate.opsForValue().append(key, value);
+    }
+
+    // ========================================= strlen
+
+    @Override
+    public Long strlen(String key) {
+        return this.stringRedisTemplate.opsForValue().size(key);
+    }
+
+    // ========================================= delete
+
+    @Override
+    public Boolean delete(String key) {
+        return this.stringRedisTemplate.delete(key);
+    }
+
     // copy from hashmap
 
     private static final int MAXIMUM_CAPACITY = 1 << 30;
 
     /**
-     * @see {@link HashMap#tableSizeFor(int)}
+     * @see {@code HashMap#tableSizeFor(int)}
      */
     private static final int tableSizeFor(int cap) {
         int n = -1 >>> Integer.numberOfLeadingZeros(cap - 1);
