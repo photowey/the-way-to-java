@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 1.0.0
  */
 @SpringBootTest
-class NettyTelnetServerTests {
+class NettyTelnetServerAppTests {
 
     @Test
     void contextLoads() {
