@@ -1,0 +1,4 @@
+local:
+  config:
+    spring:
+      name: "spring-in-action"

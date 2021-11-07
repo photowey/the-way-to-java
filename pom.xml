@@ -33,6 +33,8 @@
         <module>redis-in-action</module>
         <module>rocketmq-in-action</module>
         <module>zookeeper-in-action</module>
+        <module>spring-in-action</module>
+        <module>spring-cloud-alibaba-in-action</module>
     </modules>
 
     <dependencyManagement>
