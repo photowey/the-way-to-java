@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--  @Deprecated  -->
+    <properties resource="db.properties"/>
+
+    <!--    <settings>-->
+    <!--        <setting name="cacheEnabled" value="false"/>-->
+    <!--        <setting name="lazyLoadingEnabled" value="false"/>-->
+    <!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+    <!--        <setting name="multipleResultSetsEnabled" value="true"/>-->
+    <!--        <setting name="useColumnLabel" value="true"/>-->
+    <!--        <setting name="useGeneratedKeys" value="false"/>-->
+    <!--        <setting name="autoMappingBehavior" value="PARTIAL"/>-->
+    <!--        <setting name="autoMappingUnknownColumnBehavior" value="NONE"/>-->
+    <!--        <setting name="defaultStatementTimeout" value="25"/>-->
+    <!--        <setting name="safeRowBoundsEnabled" value="false"/>-->
+    <!--        <setting name="safeResultHandlerEnabled" value="true"/>-->
+    <!--        <setting name="mapUnderscoreToCamelCase" value="false"/>-->
+    <!--        <setting name="localCacheScope" value="SESSION"/>-->
+    <!--        <setting name="jdbcTypeForNull" value="OTHER"/>-->
+    <!--        <setting name="lazyLoadTriggerMethods"-->
+    <!--                 value="equals,clone,hashCode,toString"/>-->
+    <!--        <setting name="defaultScriptingLanguage"-->
+    <!--                 value="org.apache.ibatis.scripting.xmltags.XMLLanguageDriver"/>-->
+    <!--        <setting name="callSettersOnNulls" value="false"/>-->
+    <!--        <setting name="returnInstanceForEmptyRow" value="false"/>-->
+    <!--        <setting name="logImpl" value="SLF4J"/>-->
+    <!--        <setting name="proxyFactory" value="JAVASSIST"/>-->
+    <!--        <setting name="useActualParamName" value="true"/>-->
+    <!--    </settings>-->
+
+    <typeAliases>
+        <package name="com.photowey.mybatis.in.action.domain.entity"/>
+    </typeAliases>
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver"
+                          value="${mybatis.druid.driver-class-name}"/>
+                <property name="url" value="${mybatis.druid.url}"/>
+                <property name="username" value="${mybatis.druid.username}"/>
+                <property name="password" value="${mybatis.druid.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="MySQL" value="mysql"/>
+    </databaseIdProvider>
+
+    <mappers>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+    </mappers>
+
+</configuration>
