@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 192.168.0.11-master
- Source Server Type    : MySQL
- Source Server Version : 50726
- Source Host           : 192.168.0.11:3307
- Source Schema         : mybatis-in-action
-
- Target Server Type    : MySQL
- Target Server Version : 50726
- File Encoding         : 65001
-
- Date: 07/11/2021 14:44:52
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

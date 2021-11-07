@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<!--  @Deprecated  -->
-    <properties resource="db.properties"/>
+    <!--  @Deprecated  -->
+    <properties resource="db-sample.properties"/>
 
     <!--    <settings>-->
     <!--        <setting name="cacheEnabled" value="false"/>-->
@@ -18,7 +18,7 @@
     <!--        <setting name="defaultStatementTimeout" value="25"/>-->
     <!--        <setting name="safeRowBoundsEnabled" value="false"/>-->
     <!--        <setting name="safeResultHandlerEnabled" value="true"/>-->
-    <!--        <setting name="mapUnderscoreToCamelCase" value="false"/>-->
+    <!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
     <!--        <setting name="localCacheScope" value="SESSION"/>-->
     <!--        <setting name="jdbcTypeForNull" value="OTHER"/>-->
     <!--        <setting name="lazyLoadTriggerMethods"-->
@@ -27,14 +27,30 @@
     <!--                 value="org.apache.ibatis.scripting.xmltags.XMLLanguageDriver"/>-->
     <!--        <setting name="callSettersOnNulls" value="false"/>-->
     <!--        <setting name="returnInstanceForEmptyRow" value="false"/>-->
+
+    <!--        &lt;!&ndash; LOG4J ... &ndash;&gt;-->
     <!--        <setting name="logImpl" value="SLF4J"/>-->
+    <!--        &lt;!&ndash; CGLIB ... &ndash;&gt;-->
     <!--        <setting name="proxyFactory" value="JAVASSIST"/>-->
+
     <!--        <setting name="useActualParamName" value="true"/>-->
     <!--    </settings>-->
 
+    <!-- 类型别名注册 -->
     <typeAliases>
+        <!-- 指定全限定名 -->
+        <typeAlias type="com.photowey.mybatis.in.action.domain.entity.Employee"
+                   alias="Employee"/>
+        <!-- 指定包 -->
         <package name="com.photowey.mybatis.in.action.domain.entity"/>
     </typeAliases>
+
+    <!-- 插件注册 -->
+    <plugins>
+        <plugin interceptor="com.photowey.mybatis.in.action.mybatis.plugin.MybatisSamplePlugin">
+            <property name="name" value="mybatisSample"/>
+        </plugin>
+    </plugins>
 
     <environments default="dev">
         <environment id="dev">

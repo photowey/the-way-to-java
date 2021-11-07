@@ -14,6 +14,9 @@
     <description>Mybatis-in-action project for Spring Boot</description>
 
     <properties>
+        <!-- TODO Mybatis 版本声明->方便本地:带有注释的源码调试-可去掉 -->
+        <mybatis.version>3.5.2</mybatis.version>
+
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <mybatis-typehandlers-jsr310.version>1.0.2
         </mybatis-typehandlers-jsr310.version>
@@ -47,6 +50,13 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- TODO 方便本地:带有注释的源码调试-可去掉 -->
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -61,6 +71,12 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- TODO 方便本地:带有注释的源码调试-可去掉 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
         </dependency>
     </dependencies>
 
@@ -86,6 +102,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

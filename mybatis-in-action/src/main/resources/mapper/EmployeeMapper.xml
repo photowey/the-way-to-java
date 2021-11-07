@@ -1,411 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.enjoy.dao.CommonMapper">
-    <!-- 开启二级缓存-->
-    <!--    <cache type="cn.enjoy.cache.CaffeineCache"
-               size="1024"
-               eviction="LRU"
-               flushInterval="120000"
-               readOnly="true"/>-->
-    <resultMap id="RECORDResultMap" type="cn.enjoy.pojo.ConsultRecord">
-        <id column="ID" property="id"/>
-        <result column="PSPTID" property="psptId"/>
-        <result column="NAME" property="name" jdbcType="VARCHAR"/>
-        <result column="ACTIVETIME" property="activeTime" jdbcType="VARCHAR" javaType="string"/>
-        <result column="AUTOGRAPH" property="autograph" jdbcType="VARCHAR"/>
-        <result column="ISPASS" property="ispass" jdbcType="VARCHAR"/>
-        <result column="DOCAUTOGRAPH" property="docautograph" jdbcType="VARCHAR"/>
-        <result column="FINGERPRINT" property="fingerprint" jdbcType="VARCHAR"/>
-        <result column="PRINT_FLAG" property="printFlag" jdbcType="VARCHAR"/>
-        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.photowey.mybatis.in.action.repository.EmployeeRepository">
+
+    <!-- 自定义-返回数据映射-建议:手动映射 -->
+    <!-- 一个 resultMap 节点对应一个 ResultMap {@link org.apache.ibatis.mapping.ResultMap} 对象 -->
+    <resultMap id="findByIdResultMap"
+               type="com.photowey.mybatis.in.action.domain.model.EmployeeModel">
+        <!-- 一个子节点对应一个 ResultMapping {@link org.apache.ibatis.mapping.ResultMapping} 对象 -->
+        <id column="id" property="id"/>
+        <result column="employee_no" property="employeeNo"/>
+        <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
-    <resultMap id="ContentResultMap" type="cn.enjoy.pojo.ConsultContent">
-        <id column="ID" property="id"/>
-        <result column="ITEMINDEX" property="itemIndex"/>
-        <result column="CONTENT" property="content"/>
-        <result column="TYPE" property="type"/>
-        <result column="STATE" property="state"/>
-    </resultMap>
-
-    <resultMap id="ContractResultMap" type="cn.enjoy.pojo.ConsultContract">
-        <id column="CONTRACT_ID" property="contractId"/>
-        <result column="PSPTID" property="psptId"/>
-        <result column="CONTRACT_CODE" property="contractCode"/>
-        <result column="ACTIVETIME" property="activeTime"/>
-        <result column="STATE" property="state"/>
-    </resultMap>
-
-    <resultMap id="CountResultMap" type="cn.enjoy.pojo.ConsultRecordCount">
-        <result column="PSPTID" property="psptId" jdbcType="VARCHAR"/>
-        <result column="ISPRODUCE" property="isproduce"/>
-        <result column="UNPRODUCE" property="unproduce"/>
-    </resultMap>
-
-    <resultMap id="CardIdInfoResultMap" type="ConsultIdCardInfo">
-        <id column="innerId" property="innerId"/>
-        <result column="PSPTID" property="psptId" jdbcType="VARCHAR"/>
-        <result column="NAME" property="name"/>
-        <result column="Birthday" property="birthday"/>
-        <result column="Sex" property="sex"/>
-        <result column="Address" property="address"/>
-        <result column="activeTime" property="activeTime"/>
-        <result column="picture" property="picture"/>
-        <result column="nation" property="nation"/>
-    </resultMap>
-
-    <resultMap id="AreaResultMap" type="Area">
-        <result column="AREACODE" property="areaCode" jdbcType="VARCHAR"/>
-        <result column="AREANAME" property="areaName" jdbcType="VARCHAR"/>
-        <result column="STATE" property="state"/>
-    </resultMap>
-
-    <resultMap id="qctcid" type="ConsultContractCardInfo">
-        <id column="CONTRACT_ID" property="contractId"/>
-        <result column="CONTRACT_CODE" property="contractCode"/>
-        <result column="ACTIVETIME" property="activeTime"/>
-        <result column="STATE" property="state"/>
-        <!--        <association property="info" javaType="ConsultIdCardInfo" resultMap="CardIdInfoResultMap"/>-->
-<!--        <collection property="infos" javaType="java.util.List" resultMap="CardIdInfoResultMap"/>-->
-        <collection property="infos" column="PSPTID" fetchType="lazy" select="queryUserByPsptId"/>
-    </resultMap>
-
-    <select id="queryCardIdInfo" resultType="ConsultIdCardInfo">
-		select * from consult_idcardinfo
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="cc.psptId != null and cc.psptId != ''">
-                and psptId = #{cc.psptId,jdbcType=VARCHAR}
-            </if>
-        </trim>
-	</select>
-
-<!--    select * from consult_contract a join consult_idcardinfo b on a.psptId = b.psptId-->
-    <select id="queryContractbyCardId" resultMap="qctcid">
- 		select * from consult_contract
-	</select>
-
-    <update id="updateConsultRecord" parameterType="java.util.Map" databaseId="mysql" statementType="PREPARED">
-        update consult_record
-        <trim prefix="set" suffixOverrides=",">
-            <if test="handState != null and handState != ''">
-                hand_state = #{handState,jdbcType=VARCHAR},
-            </if>
-            <if test="ispass != null and ispass != ''">
-                ISPASS = #{ispass,jdbcType=VARCHAR},
-            </if>
-            <if test="docautograph != null and docautograph != ''">
-                DOCAUTOGRAPH = #{docautograph,jdbcType=VARCHAR}
-            </if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <update id="updateConsultRecord" parameterType="java.util.Map" databaseId="oracle">
-        update consult_record
-        <set>
-            <if test="handState != null and handState != ''">
-                hand_state = #{handState,jdbcType=VARCHAR},
-            </if>
-            <if test="ispass != null and ispass != ''">
-                ISPASS = #{ispass,jdbcType=VARCHAR},
-            </if>
-            <if test="docautograph != null and docautograph != ''">
-                DOCAUTOGRAPH = #{docautograph,jdbcType=VARCHAR}
-            </if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <update id="updateRecordCount" parameterType="java.util.Map">
-        update consult_recordcount
-        <set>
-            <if test="isproduce != null">
-                isproduce = #{isproduce,jdbcType=DECIMAL},
-            </if>
-            <if test="unproduce != null">
-                unproduce = #{unproduce,jdbcType=DECIMAL},
-            </if>
-        </set>
-        where psptId = #{psptId,jdbcType=VARCHAR}
-    </update>
-
-    <update id="updateArea" parameterType="cn.enjoy.pojo.ConsultConfigArea">
-        update consult_configarea
-        <set>
-            <if test="areaCode != null">
-                areaCode = #{areaCode,jdbcType=VARCHAR},
-            </if>
-            <if test="areaName != null">
-                areaName = #{areaName,jdbcType=VARCHAR},
-            </if>
-            <if test="state != null">
-                state = #{state},
-            </if>
-        </set>
-        where areaCode = #{areaCode,jdbcType=VARCHAR}
-    </update>
-
-    <update id="updateRecords" parameterType="java.util.Map">
-
-        update consult_record set
-        PRINT_FLAG='Y'
-        where id in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
-    </update>
-
-    <update id="updateRecordsByPsptId" parameterType="java.util.Map">
-
-        update consult_record set
-        PRINT_FLAG='Y'
-        where psptId in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
-    </update>
-
-    <select id="qryContracts" parameterType="java.util.Map" resultMap="ContractResultMap" databaseId="oracle">
-        select * from consult_contract where psptId in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+    <!-- findById -->
+    <!-- 一个 select | update | insert | delete ... 节点对应一个 MappedStatement {@link org.apache.ibatis.mapping.MappedStatement} 对象 -->
+    <select id="findById" parameterType="java.lang.Long"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.id = #{id}
     </select>
 
-    <insert id="saveContracts" parameterType="java.util.List">
-        insert into consult_contract(psptId,contract_code,state,activeTime)
-        values
-        <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.psptId},#{item.contractCode},#{item.state},#{item.activeTime})
-        </foreach>
-    </insert>
-
-    <insert id="saveContract" useGeneratedKeys="true" keyProperty="contractId" parameterType="ConsultContract">
-		insert into consult_contract(psptId,contract_code,state,activeTime)
-		values(#{psptId},#{contractCode},#{state},#{activeTime})
-	</insert>
-
-    <insert id="saveContractSelectKey" parameterType="ConsultContract">
-        <!--        <selectKey keyProperty="contractId" order="BEFORE" resultType="int">
-                    select LAST_INSERT_ID()
-                </selectKey>-->
-        insert into consult_contract(psptId,contract_code,state,activeTime)
-        values(#{psptId},#{contractCode},#{state},#{activeTime})
-    </insert>
-
-    <!--	<select
-                id="selectPerson"
-                parameterType="int"
-                parameterMap="deprecated"
-                resultType="hashmap"
-                resultMap="personResultMap"
-                flushCache="false"
-                useCache="true"
-                timeout="10000"
-                fetchSize="256"
-                statementType="PREPARED"
-                resultSetType="FORWARD_ONLY">-->
-    <sql id="queryAreaByAreaCodesql" databaseId="mysql">
-		areaCode,areaName,state
-	</sql>
-    <!--#{areaCode,javaType=string,typeHandler=string,jdbcType=varchar}-->
-    <select id="queryAreaByAreaCode" flushCache="false" useCache="false" parameterType="java.util.Map"
-            resultMap="AreaResultMap">
-        select <include refid="queryAreaByAreaCodesql"></include> from consult_configarea where areaCode =
-        #{areaCode} and areaName = #{areaName}
+    <!-- findByEmployeeNo$ -->
+    <!-- 通过工号查询-测试:$拼接 -->
+    <select id="findByEmployeeNo$" parameterType="java.lang.String"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.employee_no = ${employeeNo}
     </select>
 
-    <select id="queryUserByPsptId" parameterType="java.util.Map" resultMap="CardIdInfoResultMap">
-  	select * from consult_idcardinfo where psptId = #{psptId,jdbcType=VARCHAR}
-	</select>
-
-    <select id="queryUserByPsptIdParam" resultType="java.util.Map">
-        select *,date_format(birthday,'%Y-%m-%d') birthday1,date_format(activeTime,'%Y-%m-%d') activeTime1 from
-        consult_idcardinfo
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="psptId != null and psptId != ''">
-                and psptId = #{psptId,jdbcType=VARCHAR}
-            </if>
-        </trim>
+    <!-- findAllByDynamicSQL -->
+    <!-- 动态查询: 带有 query 别名 -->
+    <select id="findAllByDynamicSQL"
+            parameterType="com.photowey.mybatis.in.action.query.EmployeeQuery"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="query.orgId != null and query.orgId != ''">
+                    AND e.org_id = #{query.orgId}
+                </if>
+                <if test="query.orgName != null and query.orgName != ''">
+                    AND e.org_name = #{query.orgName}
+                </if>
+                <if test="query.employeeNo != null and query.employeeNo != ''">
+                    AND e.employee_no = #{query.employeeNo}
+                </if>
+            </trim>
+        </where>
     </select>
 
-    <select id="queryUserByPsptIdObj" parameterType="ConsultIdCardInfo" resultType="java.util.Map">
-  	select *,date_format(birthday,'%Y-%m-%d') birthday1,date_format(activeTime,'%Y-%m-%d') activeTime1 from consult_idcardinfo where psptId = #{psptId,jdbcType=VARCHAR}
-	</select>
-
-    <select id="queryRecordCount" parameterType="java.util.Map" resultMap="CountResultMap">
-        select * from consult_recordcount
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="psptId != null and psptId != ''">
-                and psptId = #{psptId,jdbcType=VARCHAR}
-            </if>
-        </trim>
+    <!-- findAllByDynamicSQLMap -->
+    <!-- 动态查询: 不带 query 别名 -->
+    <select id="findAllByDynamicSQLMap" parameterType="java.util.Map"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="orgId != null and orgId != ''">
+                    AND e.org_id = #{orgId}
+                </if>
+                <if test="orgName != null and orgName != ''">
+                    AND e.org_name = #{orgName}
+                </if>
+                <if test="employeeNo != null and employeeNo != ''">
+                    AND e.employee_no = #{employeeNo}
+                </if>
+            </trim>
+        </where>
     </select>
 
-    <select id="queryContent" parameterType="java.util.Map" resultMap="ContentResultMap">
-        select * from consult_content a where a.state = 0
-        <if test="type != null and type != ''">
-            and a.type = #{type,jdbcType=VARCHAR}
-        </if>
-        order by a.itemindex
-    </select>
-
-    <select id="queryConsultRecords" parameterType="java.util.Map" resultMap="RECORDResultMap">
-  	select ID,PSPTID,date_format(ACTIVETIME,'%Y-%m-%d') ACTIVETIME,date_format(ACTIVETIME,'%Y-%m-%d %T') ACTIVETIME1,AUTOGRAPH,ISPASS,DOCAUTOGRAPH,FINGERPRINT,PRINT_FLAG,REMARK
-  	 from consult_record where PSPTID = #{psptId,jdbcType=VARCHAR} and hand_state = 'C' order by ACTIVETIME1 desc
-	</select>
-
-    <select id="queryRecords" parameterType="java.util.Map" resultMap="RECORDResultMap">
-        select bb.*,(select name from consult_idcardinfo aa where aa.PSPTID = bb.PSPTID) name from (select
-        ID,PSPTID,date_format(ACTIVETIME,'%Y-%m-%d')
-        ACTIVETIME,AUTOGRAPH,ISPASS,DOCAUTOGRAPH,FINGERPRINT,PRINT_FLAG,REMARK
-        from consult_record
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="psptId != null and psptId != ''">
-                and PSPTID like CONCAT('%',#{psptId,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="name != null and name != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where name like
-                CONCAT('%',#{name,jdbcType=VARCHAR},'%'))
-            </if>
-            <if test="simple != null and simple != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where pinyin(name) = #{simple,jdbcType=VARCHAR})
-            </if>
-            <if test="innerId != null and innerId != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where innerId = #{innerId})
-            </if>
-            <if test="activeTime != null and activeTime != ''">
-                and ACTIVETIME >= str_to_date(#{activeTime,jdbcType=VARCHAR},'%Y-%m-%d')
-            </if>
-            <if test="printFlag != null and printFlag != ''">
-                and PRINT_FLAG = #{printFlag,jdbcType=VARCHAR}
-            </if>
-            <if test="handState != null and handState != ''">
-                and hand_state = #{handState,jdbcType=VARCHAR}
-            </if>
-        </trim>
-        order by ACTIVETIME desc
-        <if test="beginPage != null and beginPage != '' or beginPage==0">
-            LIMIT #{beginPage}
-        </if>
-        <if test="pageSize != null and pageSize != ''">
-            ,#{pageSize}
-        </if>
-        ) bb
-    </select>
-
-    <select id="queryRecordshaveH" parameterType="java.util.Map" resultMap="RECORDResultMap">
-        select bb.*,(select name from consult_idcardinfo aa where aa.PSPTID = bb.PSPTID) name from (select
-        ID,PSPTID,date_format(ACTIVETIME,'%Y-%m-%d %T')
-        ACTIVETIME,AUTOGRAPH,ISPASS,DOCAUTOGRAPH,FINGERPRINT,PRINT_FLAG,REMARK
-        from consult_record
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="psptId != null and psptId != ''">
-                and PSPTID = #{psptId,jdbcType=VARCHAR}
-            </if>
-            <if test="name != null and name != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where name like
-                CONCAT('%',#{name,jdbcType=VARCHAR},'%'))
-            </if>
-            <if test="simple != null and simple != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where pinyin(name) = #{simple,jdbcType=VARCHAR})
-            </if>
-            <if test="innerId != null and innerId != ''">
-                and PSPTID in (select PSPTID from consult_idcardinfo where innerId = #{innerId})
-            </if>
-            <if test="activeTime != null and activeTime != ''">
-                and ACTIVETIME >= str_to_date(#{activeTime,jdbcType=VARCHAR},'%Y-%m-%d')
-            </if>
-            <if test="handState != null and handState != ''">
-                and hand_state = #{handState,jdbcType=VARCHAR}
-            </if>
-        </trim>
-        order by ACTIVETIME
-        <if test="beginPage != null and beginPage != '' or beginPage==0">
-            LIMIT #{beginPage}
-        </if>
-        <if test="pageSize != null and pageSize != ''">
-            ,#{pageSize}
-        </if>
-        ) bb
-    </select>
-
-    <select id="qryArea" parameterType="java.util.Map" resultMap="AreaResultMap">
-
-        select * from consult_configarea
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-            <if test="areaCode != null and areaCode != ''">
-                and areaCode = #{areaCode,jdbcType=VARCHAR}
-            </if>
-            <if test="areaName != null and areaName != ''">
-                and areaName = #{areaName,jdbcType=VARCHAR}
-            </if>
-            <if test="state != null and state != ''">
-                and state = #{state}
-            </if>
-        </trim>
-        order by areaCode desc
-        <if test="beginPage != null and beginPage != ''">
-            LIMIT #{beginPage}
-        </if>
-        <if test="pageSize != null and pageSize != ''">
-            ,#{pageSize}
-        </if>
-    </select>
-    <insert id="saveArea" parameterType="cn.enjoy.pojo.ConsultConfigArea">
-        <!--<SelectKey></SelectKey>-->
-        insert into consult_configarea (AREACODE, AREANAME, STATE)
-        values (#{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR})
-    </insert>
-
-    <delete id="deleteAreaAll">
-		
-		delete from consult_configarea
-		
-	</delete>
-
-    <delete id="deleteArea" parameterType="cn.enjoy.pojo.ConsultConfigArea">
-
-        delete from consult_configarea where areaCode in
-        <foreach item="item" index="index" collection="areaCodes" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-
-    </delete>
-
-    <insert id="saveUser" parameterType="cn.enjoy.pojo.ConsultIdCardInfo">
-  	
-	insert into consult_idcardinfo (PSPTID, NAME, BIRTHDAY,SEX,ADDRESS,ACTIVETIME,PICTURE,NATION)
-		values (#{psptId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},str_to_date(#{birthday,jdbcType=VARCHAR},'%Y-%m-%d'),
-		#{sex,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},str_to_date(#{activeTime,jdbcType=VARCHAR},'%Y-%m-%d %T'),#{picture,jdbcType=VARCHAR},#{nation,jdbcType=VARCHAR})
-	</insert>
-
-    <insert id="saveRecord" parameterType="cn.enjoy.pojo.ConsultRecord">
-
-        insert into consult_record(PSPTID,ACTIVETIME,AUTOGRAPH,
-        <if test="ispass != null and ispass != ''">
-            ISPASS,
-        </if>
-        <if test="docautograph != null and docautograph != ''">
-            DOCAUTOGRAPH,
-        </if>
-        FINGERPRINT,REMARK,PRINT_FLAG)
-        values (#{psptId,jdbcType=VARCHAR},str_to_date(#{activeTime,jdbcType=VARCHAR},'%Y-%m-%d
-        %T'),#{autograph,jdbcType=VARCHAR},
-        <if test="ispass != null and ispass != ''">
-            #{ispass,jdbcType=VARCHAR},
-        </if>
-        <if test="docautograph != null and docautograph != ''">
-            #{docautograph,jdbcType=VARCHAR},
-        </if>
-        #{fingerprint,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{printFlag,jdbcType=VARCHAR})
-    </insert>
-
-    <insert id="saveRecordCount" parameterType="cn.enjoy.pojo.ConsultRecordCount">
-  	
-	insert into consult_recordcount(PSPTID,ISPRODUCE,UNPRODUCE)
-		values (#{psptId,jdbcType=VARCHAR},#{isproduce},#{unproduce})
-	</insert>
 </mapper>
