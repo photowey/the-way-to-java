@@ -12,6 +12,7 @@
     <artifactId>the-way-to-java</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <inceptionYear>2021</inceptionYear>
 
     <name>the-way-to-java</name>
     <description>the-way-to-java parent project</description>
@@ -19,6 +20,8 @@
     <properties>
         <java.version>11</java.version>
         <fastjson.version>1.2.75</fastjson.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
     </properties>
 
     <modules>
@@ -41,5 +44,60 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <target>${java.version}</target>
+                    <source>${java.version}</source>
+                </configuration>
+            </plugin>
+            <!-- license -->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>remove</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <header>
+                        com/mycila/maven/plugin/license/templates/APACHE-2.txt
+                    </header>
+                    <properties>
+                        <owner>photowey</owner>
+                        <email>photowey@gmail.com</email>
+                    </properties>
+                    <excludes>
+                        <exclude>.gitignore</exclude>
+                        <exclude>LICENSE</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.yml</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.png</exclude>
+                        <exclude>**/*.jpg</exclude>
+                        <exclude>**/*.sql</exclude>
+                        <exclude>**/.mvn/**</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
