@@ -18,6 +18,7 @@ package com.photowey.mybatis.in.action.domain.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.photowey.mybatis.in.action.mybatis.dynamic.enums.IdTypeEnum;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
 
@@ -38,57 +39,70 @@ import java.time.LocalDateTime;
 @Alias("Employee")
 @TableName(value = "sys_employee")
 @EqualsAndHashCode(callSuper = true)
+@com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableName(value = "sys_employee")
 public class Employee extends Model<Employee> {
 
     /**
      * 主键标识
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableId(value = "id", type = IdTypeEnum.INPUT)
     private Long id;
     /**
      * 工号
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("employee_no")
     private String employeeNo;
     /**
      * 隶属机构标识
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("org_id")
     private Long orgId;
     /**
      * 隶属机构名称
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("org_name")
     private String orgName;
     /**
      * 序号
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("order_no")
     private Integer orderNo;
     /**
      * 状态
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("status")
     private Integer status;
     /**
      * 备注
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("remark")
     private String remark;
     /**
      * 创建时间
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("gmt_create")
     @TableField("gmt_create")
     private LocalDateTime createTime;
     /**
      * 创建人
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("create_by")
     private Long createBy;
     /**
      * 更新时间
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("gmt_modified")
     @TableField("gmt_modified")
     private LocalDateTime modifiedTime;
     /**
      * 更新人
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("update_by")
     private Long updateBy;
     /**
      * 删除标记
      */
+    @com.photowey.mybatis.in.action.mybatis.dynamic.annotation.TableField("deleted")
     private Integer deleted;
 
     @Override

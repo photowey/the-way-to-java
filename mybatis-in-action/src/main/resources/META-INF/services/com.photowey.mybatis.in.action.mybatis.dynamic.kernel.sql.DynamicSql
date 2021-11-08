@@ -1,0 +1,5 @@
+com.photowey.mybatis.in.action.mybatis.dynamic.kernel.sql.InsertDynamicSql
+com.photowey.mybatis.in.action.mybatis.dynamic.kernel.sql.DeleteDynamicSql
+com.photowey.mybatis.in.action.mybatis.dynamic.kernel.sql.UpdateDynamicSql
+com.photowey.mybatis.in.action.mybatis.dynamic.kernel.sql.SelectDynamicSql
+com.photowey.mybatis.in.action.mybatis.dynamic.kernel.sql.CriteriaDynamicSql

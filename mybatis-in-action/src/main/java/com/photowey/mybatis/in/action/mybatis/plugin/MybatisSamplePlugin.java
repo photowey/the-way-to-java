@@ -16,33 +16,63 @@
 package com.photowey.mybatis.in.action.mybatis.plugin;
 
 import lombok.Data;
-import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.MappedStatement;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.util.Objects;
 
 /**
  * {@code MybatisSamplePlugin}
+ * 能够生成代理的四个对象
  *
  * @author photowey
  * @date 2021/11/07
+ * @see {@link org.apache.ibatis.executor.Executor}
+ * @see {@link StatementHandler}
+ * @see {@link org.apache.ibatis.executor.parameter.ParameterHandler}
+ * @see {@link org.apache.ibatis.executor.resultset.ResultSetHandler}
  * @since 1.0.0
  */
+@Slf4j
 @Data
 @Intercepts(value = {
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})}
+        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})}
 )
 public class MybatisSamplePlugin implements Interceptor {
 
-    // Inject by mybatis
-    private String name;
-
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        Object[] args = invocation.getArgs();
-        MappedStatement ms = (MappedStatement) args[0];
+        if (invocation.getTarget() instanceof StatementHandler) {
+            // RoutingStatementHandler
+            StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+            log.info("the statementHandler value is:{}", statementHandler.getClass().getName());
+            // BaseStatementHandler
+            Field delegate = findField(statementHandler, "delegate");
+            StatementHandler prepareStatement = (StatementHandler) delegate.get(statementHandler);
+            log.info("the prepareStatement value is:{}", prepareStatement.getClass().getName());
+
+            Field boundSqlField = findField(prepareStatement, "boundSql");
+            BoundSql boundSql = (BoundSql) boundSqlField.get(prepareStatement);
+
+            Field sqlField = findField(boundSql, "sql");
+            String sql = (String) sqlField.get(boundSql);
+            log.info("the sql value is:{}", sql);
+        }
+
         return invocation.proceed();
+    }
+
+    private Field findField(Object target, String fieldName) {
+        Field field = ReflectionUtils.findField(target.getClass(), fieldName);
+        ReflectionUtils.makeAccessible(Objects.requireNonNull(field));
+        return field;
     }
 }

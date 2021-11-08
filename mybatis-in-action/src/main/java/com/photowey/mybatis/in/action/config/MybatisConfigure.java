@@ -16,6 +16,7 @@
 package com.photowey.mybatis.in.action.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.photowey.mybatis.in.action.mybatis.dynamic.annotation.EnableDynamicSql;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -37,6 +38,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @MapperScan("com.photowey.mybatis.in.action.repository")
+@EnableDynamicSql(basePackages = "com.photowey.mybatis.in.action.repository.dynamic")
 public class MybatisConfigure {
 
     /**
