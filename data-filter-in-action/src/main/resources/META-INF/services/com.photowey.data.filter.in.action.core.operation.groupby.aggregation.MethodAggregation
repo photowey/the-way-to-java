@@ -1,0 +1,3 @@
+com.photowey.data.filter.in.action.core.operation.groupby.aggregation.CountAggregation
+com.photowey.data.filter.in.action.core.operation.groupby.aggregation.SumAggregation
+com.photowey.data.filter.in.action.core.operation.groupby.aggregation.AvgAggregation

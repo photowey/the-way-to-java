@@ -35,6 +35,7 @@
         <module>zookeeper-in-action</module>
         <module>spring-in-action</module>
         <module>spring-cloud-alibaba-in-action</module>
+        <module>data-filter-in-action</module>
     </modules>
 
     <dependencyManagement>

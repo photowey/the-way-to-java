@@ -1,0 +1,8 @@
+server:
+  port: 2222
+
+spring:
+  application:
+    name: "data-filter-dubbo-in-action"
+  profiles:
+    active: dev
