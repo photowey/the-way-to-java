@@ -15,6 +15,7 @@
  */
 package com.photowey.mybatis.in.action.mybatis.plugin;
 
+import com.alibaba.druid.sql.SQLUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -63,11 +64,12 @@ public class MybatisSamplePlugin implements Interceptor {
             BoundSql boundSql = (BoundSql) boundSqlField.get(prepareStatement);
 
             Field sqlField = this.findField(boundSql, "sql");
+
             String sql = (String) sqlField.get(boundSql);
-            log.info("\n" +
-                            "-------------------------------------------------------------------------------\n{}" +
-                            "\n-------------------------------------------------------------------------------",
-                    sql.replaceAll("[\\t\\n\\r]", "").replaceAll("\\s+", " "));
+            sql = sql.replaceAll("[\\t\\n\\r]", "").replaceAll("\\s+", " ");
+            sql = SQLUtils.formatMySql(sql);
+            log.info("\n-------------------------------------------------------------------------------\n{}" +
+                    "\n-------------------------------------------------------------------------------", sql);
         }
 
         return invocation.proceed();
