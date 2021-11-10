@@ -1,0 +1,2 @@
+com.photowey.spring.in.action.dynamic.proxy.cglib.CglibProxyFactory
+com.photowey.spring.in.action.dynamic.proxy.jdk.JdkProxyFactory

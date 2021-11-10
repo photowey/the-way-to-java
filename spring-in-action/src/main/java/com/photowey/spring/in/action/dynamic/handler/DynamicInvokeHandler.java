@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
+package com.photowey.spring.in.action.dynamic.handler;
 
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.lang.reflect.Method;
 
 /**
- * {@code SpringApp}
+ * {@code InjectedInvokeHandler}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/10
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
+public interface DynamicInvokeHandler {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
-    }
+    boolean supports(String type);
+
+    Object invoke(Object bean, Method method, Object[] args, Class<?> targetType, String[] candidates);
 }

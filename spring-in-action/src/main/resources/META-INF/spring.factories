@@ -1,0 +1,4 @@
+﻿# spring EXT
+com.photowey.spring.in.action.dynamic.handler.DynamicInvokeHandler=\
+com.photowey.spring.in.action.dynamic.handler.impl.AssignInvokeHandlerImpl,\
+com.photowey.spring.in.action.dynamic.handler.impl.BatchInvokeHandlerImpl

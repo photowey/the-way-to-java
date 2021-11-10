@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.di.annotation;
+package com.photowey.spring.in.action.service.payment;
 
-import java.lang.annotation.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code Injected}
+ * {@code AlipayPayment}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/10
  * @since 1.0.0
  */
-@Inherited
-@Documented
-@Target({ElementType.METHOD, ElementType.FIELD})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Injected {
+@Slf4j
+@Component
+public class AlipayPayment implements IPayment {
+
+    @Override
+    public String doPay(String openId, String merchant, Integer amount) {
+        log.info("the one:{} pay {} RMB -> merchant:{} by Alipay, is OK~", openId, amount, merchant);
+        return "OK";
+    }
 }

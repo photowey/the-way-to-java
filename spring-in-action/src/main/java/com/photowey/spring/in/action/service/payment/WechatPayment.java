@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
+package com.photowey.spring.in.action.service.payment;
 
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code SpringApp}
+ * {@code WechatPayment}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/10
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
+@Slf4j
+@Component
+public class WechatPayment implements IPayment {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
+    @Override
+    public String doPay(String openId, String merchant, Integer amount) {
+        log.info("the one:{} pay {} RMB -> merchant:{} by WechatPay, is OK~", openId, amount, merchant);
+        return "OK";
     }
 }

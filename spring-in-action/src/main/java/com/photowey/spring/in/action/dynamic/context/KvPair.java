@@ -13,24 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
+package com.photowey.spring.in.action.dynamic.context;
 
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
- * {@code SpringApp}
+ * {@code KvPair}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/11
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class KvPair implements Serializable {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
-    }
+    /**
+     * the key
+     */
+    private Object you;
+    /**
+     * the value
+     */
+    private Object me;
 }

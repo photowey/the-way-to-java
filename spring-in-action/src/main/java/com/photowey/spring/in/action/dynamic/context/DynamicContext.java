@@ -13,24 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
+package com.photowey.spring.in.action.dynamic.context;
 
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * {@code SpringApp}
+ * {@code DynamicContext}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/11
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
+public class DynamicContext {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
+    private static final ThreadLocal<List<KvPair>> THREAD_LOCAL = ThreadLocal.withInitial(ArrayList::new);
+
+    public static void add(KvPair kvPair) {
+        THREAD_LOCAL.get().add(kvPair);
+    }
+
+    public static List<KvPair> get() {
+        return THREAD_LOCAL.get();
+    }
+
+    public static void clear() {
+        THREAD_LOCAL.get().clear();
     }
 }

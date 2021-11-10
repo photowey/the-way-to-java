@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
+package com.photowey.spring.in.action.dynamic.annotation;
 
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.photowey.spring.in.action.dynamic.registrar.DynamicInjectedBeanPostProcessorRegistrar;
+import com.photowey.spring.in.action.dynamic.selector.DynamicInjectedAutoConfigurationImportSelector;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * {@code SpringApp}
+ * {@code EnableDynamicInjected}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/10
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
-    }
+@Inherited
+@Documented
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Import(value = {
+        DynamicInjectedAutoConfigurationImportSelector.class,
+        DynamicInjectedBeanPostProcessorRegistrar.class
+})
+public @interface EnableDynamicInjected {
 }

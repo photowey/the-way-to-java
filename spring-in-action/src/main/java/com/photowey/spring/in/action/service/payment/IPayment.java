@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action;
-
-import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package com.photowey.spring.in.action.service.payment;
 
 /**
- * {@code SpringApp}
+ * {@code IPayment}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/10
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableDynamicInjected
-public class SpringApp {
+public interface IPayment {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringApp.class, args);
-    }
+    String doPay(String openId, String merchant, Integer amount);
 }
