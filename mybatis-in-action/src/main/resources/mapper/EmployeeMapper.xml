@@ -73,4 +73,24 @@
         </where>
     </select>
 
+    <!-- findAllByDynamicSQLMap -->
+    <!-- 动态查询: 不带 query 别名 - 执行-自定义分页插件的分页查询 -->
+    <select id="findPageByDynamicSQLMap" parameterType="java.util.Map"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="orgId != null and orgId != ''">
+                    AND e.org_id = #{orgId}
+                </if>
+                <if test="orgName != null and orgName != ''">
+                    AND e.org_name = #{orgName}
+                </if>
+                <if test="employeeNo != null and employeeNo != ''">
+                    AND e.employee_no = #{employeeNo}
+                </if>
+            </trim>
+        </where>
+    </select>
+
 </mapper>

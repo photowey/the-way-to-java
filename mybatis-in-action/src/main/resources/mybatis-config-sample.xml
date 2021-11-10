@@ -50,6 +50,7 @@
         <plugin interceptor="com.photowey.mybatis.in.action.mybatis.plugin.MybatisSamplePlugin">
             <property name="name" value="mybatisSample"/>
         </plugin>
+        <plugin interceptor="com.photowey.mybatis.in.action.page.kernel.plugin.PageInterceptor"/>
     </plugins>
 
     <environments default="dev">

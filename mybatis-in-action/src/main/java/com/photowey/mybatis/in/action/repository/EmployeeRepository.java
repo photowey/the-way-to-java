@@ -18,6 +18,7 @@ package com.photowey.mybatis.in.action.repository;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.photowey.mybatis.in.action.domain.entity.Employee;
 import com.photowey.mybatis.in.action.domain.model.EmployeeModel;
+import com.photowey.mybatis.in.action.page.Page;
 import com.photowey.mybatis.in.action.query.EmployeeQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,5 +41,13 @@ public interface EmployeeRepository extends BaseMapper<Employee> {
     List<EmployeeModel> findAllByDynamicSQL(@Param("query") EmployeeQuery query);
 
     List<EmployeeModel> findAllByDynamicSQLMap(Map<String, Object> query);
+
+    /**
+     * 自定义插件-分页
+     *
+     * @param query 查询条件装
+     * @return
+     */
+    Page<EmployeeModel> findPageByDynamicSQLMap(Map<String, Object> query);
 
 }
