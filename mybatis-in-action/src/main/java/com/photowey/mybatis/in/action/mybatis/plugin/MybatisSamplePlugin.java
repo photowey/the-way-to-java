@@ -53,18 +53,21 @@ public class MybatisSamplePlugin implements Interceptor {
         if (invocation.getTarget() instanceof StatementHandler) {
             // RoutingStatementHandler
             StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-            log.info("the statementHandler value is:{}", statementHandler.getClass().getName());
+            // log.info("the statementHandler value is:{}", statementHandler.getClass().getName());
             // BaseStatementHandler
-            Field delegate = findField(statementHandler, "delegate");
+            Field delegate = this.findField(statementHandler, "delegate");
             StatementHandler prepareStatement = (StatementHandler) delegate.get(statementHandler);
-            log.info("the prepareStatement value is:{}", prepareStatement.getClass().getName());
+            // log.info("the prepareStatement value is:{}", prepareStatement.getClass().getName());
 
-            Field boundSqlField = findField(prepareStatement, "boundSql");
+            Field boundSqlField = this.findField(prepareStatement, "boundSql");
             BoundSql boundSql = (BoundSql) boundSqlField.get(prepareStatement);
 
-            Field sqlField = findField(boundSql, "sql");
+            Field sqlField = this.findField(boundSql, "sql");
             String sql = (String) sqlField.get(boundSql);
-            log.info("the sql value is:{}", sql);
+            log.info("\n" +
+                            "-------------------------------------------------------------------------------\n{}" +
+                            "\n-------------------------------------------------------------------------------",
+                    sql.replaceAll("[\\t\\n\\r]", "").replaceAll("\\s+", " "));
         }
 
         return invocation.proceed();
