@@ -16,6 +16,7 @@
 package com.photowey.mybatis.in.action.engine;
 
 import com.photowey.mybatis.in.action.repository.EmployeeRepository;
+import com.photowey.mybatis.in.action.repository.OrganizationRepository;
 
 /**
  * {@code IRepositoryEngine}
@@ -27,4 +28,6 @@ import com.photowey.mybatis.in.action.repository.EmployeeRepository;
 public interface IRepositoryEngine extends IEngine {
 
     EmployeeRepository employeeRepository();
+
+    OrganizationRepository organizationRepository();
 }

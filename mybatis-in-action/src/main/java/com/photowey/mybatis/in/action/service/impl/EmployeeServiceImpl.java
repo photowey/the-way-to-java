@@ -17,10 +17,16 @@ package com.photowey.mybatis.in.action.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.photowey.mybatis.in.action.domain.entity.Employee;
+import com.photowey.mybatis.in.action.engine.IMybatisEngine;
 import com.photowey.mybatis.in.action.repository.EmployeeRepository;
 import com.photowey.mybatis.in.action.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 /**
  * {@code EmployeeServiceImpl}
@@ -33,5 +39,46 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeRepository, Employee> implements EmployeeService {
 
+    @Autowired
+    private IMybatisEngine mybatisEngine;
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void handleRequiredSave() {
+        Employee employee = this.populateEmployee();
+        this.mybatisEngine.repositoryEngine().employeeRepository().insert(employee);
+        if (1 != 2) {
+            throw new RuntimeException("test required rollback");
+        }
+
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NESTED)
+    public void handleNestedSave() {
+        Employee employee = this.populateEmployee();
+        this.mybatisEngine.repositoryEngine().employeeRepository().insert(employee);
+        if (1 != 2) {
+            throw new RuntimeException("test nested rollback");
+        }
+
+    }
+
+    private Employee populateEmployee() {
+        Employee employee = new Employee();
+        employee.setEmployeeNo("2021112527");
+        employee.setOrgId(2021112527L);
+        employee.setOrgName("宇宙漫游者-事务测试");
+        employee.setOrderNo(1024);
+        employee.setStatus(1);
+        employee.setRemark("我是备注-事务测试");
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setCreateBy(20211125278848L);
+        employee.setModifiedTime(LocalDateTime.now());
+        employee.setUpdateBy(20211125278848L);
+        employee.setDeleted(0);
+
+        return employee;
+    }
 }
 

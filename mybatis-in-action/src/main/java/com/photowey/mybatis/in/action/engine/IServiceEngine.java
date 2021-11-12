@@ -16,6 +16,8 @@
 package com.photowey.mybatis.in.action.engine;
 
 import com.photowey.mybatis.in.action.service.EmployeeService;
+import com.photowey.mybatis.in.action.service.OrganizationService;
+import com.photowey.mybatis.in.action.service.TransactionService;
 
 /**
  * {@code IServiceEngine}
@@ -27,4 +29,8 @@ import com.photowey.mybatis.in.action.service.EmployeeService;
 public interface IServiceEngine extends IEngine {
 
     EmployeeService employeeService();
+
+    OrganizationService organizationService();
+
+    TransactionService transactionService();
 }

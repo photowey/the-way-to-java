@@ -16,6 +16,8 @@
 package com.photowey.mybatis.in.action.engine;
 
 import com.photowey.mybatis.in.action.service.EmployeeService;
+import com.photowey.mybatis.in.action.service.OrganizationService;
+import com.photowey.mybatis.in.action.service.TransactionService;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +37,12 @@ public class ServiceEngine implements IServiceEngine {
     @Getter
     @Autowired
     private EmployeeService employeeService;
+
+    @Getter
+    @Autowired
+    private OrganizationService organizationService;
+
+    @Getter
+    @Autowired
+    private TransactionService transactionService;
 }

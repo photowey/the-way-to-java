@@ -27,4 +27,8 @@ import com.photowey.mybatis.in.action.domain.entity.Employee;
  */
 public interface EmployeeService extends IService<Employee> {
 
+    void handleRequiredSave();
+
+    void handleNestedSave();
+
 }

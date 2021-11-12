@@ -16,6 +16,7 @@
 package com.photowey.mybatis.in.action.engine;
 
 import com.photowey.mybatis.in.action.repository.EmployeeRepository;
+import com.photowey.mybatis.in.action.repository.OrganizationRepository;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +36,8 @@ public class RepositoryEngine implements IRepositoryEngine {
     @Getter
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Getter
+    @Autowired
+    private OrganizationRepository organizationRepository;
 }
