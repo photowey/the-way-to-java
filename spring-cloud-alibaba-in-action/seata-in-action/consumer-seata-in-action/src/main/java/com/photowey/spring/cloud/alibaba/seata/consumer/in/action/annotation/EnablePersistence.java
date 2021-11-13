@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.consumer.in.action;
+package com.photowey.spring.cloud.alibaba.seata.consumer.in.action.annotation;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+import com.photowey.spring.cloud.alibaba.seata.consumer.in.action.config.MybatisConfigure;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * {@code SeataConsumerApp}
+ * {@code EnablePersistence}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/13
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableConfigurationPropertiesExt
-public class SeataConsumerApp {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SeataConsumerApp.class, args);
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Import({MybatisConfigure.class})
+public @interface EnablePersistence {
 }

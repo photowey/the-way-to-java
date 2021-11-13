@@ -17,6 +17,7 @@ package com.photowey.spring.cloud.alibaba.seata.producer.in.action;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
 
 /**
  * {@code SeataProducerApp}
@@ -26,6 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 1.0.0
  */
 @SpringBootApplication
+@EnableConfigurationPropertiesExt
 public class SeataProducerApp {
 
     public static void main(String[] args) {

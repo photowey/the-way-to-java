@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.photowey.spring.cloud.alibaba.seata.consumer.in.action.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.photowey.spring.cloud.alibaba.seata.consumer.in.action.domain.entity.Organization;
+
 /**
- * {@code org.springframework.boot.context.properties}
- * 解决异常报错
- * Error creating bean with name 'nacosConfigurationPropertiesBinder':
- * Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException:
- * Failed to instantiate [com.alibaba.boot.nacos.config.binder.NacosBootConfigurationPropertiesBinder]:
- * Constructor threw exception; nested exception is java.lang.NoClassDefFoundError: org/springframework/boot/context/properties/ConfigurationBeanFactoryMetadata
+ * {@code OrganizationService} Service
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/13
  * @since 1.0.0
  */
-package org.springframework.boot.context.properties;
+public interface OrganizationService extends IService<Organization> {
+
+}

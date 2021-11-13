@@ -93,6 +93,17 @@
                         <exclude>**/*.jpg</exclude>
                         <exclude>**/*.sql</exclude>
                         <exclude>**/.mvn/**</exclude>
+                        <!--  nacos version conflict-->
+                        <exclude>**/ConfigurationBeanFactoryMetadata.java
+                        </exclude>
+                        <exclude>
+                            **/ConfigurationPropertiesBindingPostProcessorRegistrar.java
+                        </exclude>
+                        <exclude>**/EnableConfigurationPropertiesExt.java
+                        </exclude>
+                        <exclude>
+                            **/EnableConfigurationPropertiesImportSelector.java
+                        </exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

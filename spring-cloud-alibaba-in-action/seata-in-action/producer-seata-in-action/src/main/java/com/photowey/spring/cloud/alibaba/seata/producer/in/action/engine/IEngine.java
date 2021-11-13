@@ -13,24 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.consumer.in.action;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+package com.photowey.spring.cloud.alibaba.seata.producer.in.action.engine;
 
 /**
- * {@code SeataConsumerApp}
+ * {@code IEngine}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/13
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableConfigurationPropertiesExt
-public class SeataConsumerApp {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SeataConsumerApp.class, args);
-    }
+public interface IEngine {
 }

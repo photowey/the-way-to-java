@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.consumer.in.action;
+package com.photowey.spring.cloud.alibaba.seata.producer.in.action.engine;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+import com.photowey.spring.cloud.alibaba.seata.producer.in.action.repository.EmployeeRepository;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code SeataConsumerApp}
+ * {@code RepositoryEngine}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/13
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableConfigurationPropertiesExt
-public class SeataConsumerApp {
+@Component
+@Accessors(fluent = true)
+public class RepositoryEngine implements IRepositoryEngine {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SeataConsumerApp.class, args);
-    }
+    @Getter
+    @Autowired
+    private EmployeeRepository employeeRepository;
 }

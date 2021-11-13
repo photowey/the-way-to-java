@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.consumer.in.action;
+package com.photowey.spring.cloud.alibaba.seata.producer.in.action.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.photowey.spring.cloud.alibaba.seata.producer.in.action.domain.entity.Employee;
 
 /**
- * {@code SeataConsumerApp}
+ * {@code EmployeeService}
  *
  * @author photowey
- * @date 2021/11/08
+ * @date 2021/11/13
  * @since 1.0.0
  */
-@SpringBootApplication
-@EnableConfigurationPropertiesExt
-public class SeataConsumerApp {
+public interface EmployeeService extends IService<Employee> {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SeataConsumerApp.class, args);
-    }
 }
