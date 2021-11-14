@@ -7,7 +7,9 @@
 ## 1.`Module`
 
 ```shell
+├─common-in-action
 ├─data-filter-in-action
+├─event-bus-in-action
 ├─dubbo-in-action
 │  ├─consumer-dubbo-in-action
 │  ├─producer-dubbo-in-action

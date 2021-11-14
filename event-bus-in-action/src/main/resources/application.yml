@@ -1,0 +1,8 @@
+server:
+  port: 1234
+
+spring:
+  application:
+    name: "event-bus-in-action"
+  profiles:
+    active: dev
