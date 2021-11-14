@@ -116,6 +116,9 @@ public final class ObjectUtils {
 
     // =================================================================
 
+    /**
+     * copy from {@code org.apache.commons.lang3.StringUtils#isBlank(java.lang.CharSequence)}
+     */
     private static boolean isBlank(CharSequence cs) {
         int strLen = length(cs);
         if (strLen == 0) {
@@ -131,10 +134,16 @@ public final class ObjectUtils {
         }
     }
 
+    /**
+     * copy from {@code org.apache.commons.lang3.StringUtils#length(java.lang.CharSequence)}
+     */
     private static int length(CharSequence cs) {
         return cs == null ? 0 : cs.length();
     }
 
+    /**
+     * copy from {@code org.apache.commons.collections.CollectionUtils#sizeIsEmpty(java.lang.Object)}
+     */
     private static boolean sizeIsEmpty(Object object) {
         if (object instanceof Collection) {
             return ((Collection) object).isEmpty();
