@@ -1,0 +1,67 @@
+package com.photowey.spring.in.action.config;
+
+import com.photowey.spring.in.action.component.ComponentBean;
+import com.photowey.spring.in.action.component.ComponentBeanRef;
+import com.photowey.spring.in.action.component.ConfigurationBean;
+import com.photowey.spring.in.action.component.ConfigurationBeanRef;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+
+/**
+ * {@code ComponentConfigureTest}
+ *
+ * @author photowey
+ * @date 2021/11/15
+ * @since 1.0.0
+ */
+@SpringBootTest
+class ComponentConfigureTest {
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    void testComponentBean() {
+        ComponentBean componentBean = this.applicationContext.getBean(ComponentBean.class);
+        Assertions.assertNotNull(componentBean);
+        Assertions.assertEquals("Say hello from:ComponentBean", componentBean.sayHello());
+    }
+
+    @Test
+    void testComponentBeanRef() {
+        ComponentBeanRef componentBeanRef = this.applicationContext.getBean(ComponentBeanRef.class);
+        Assertions.assertNotNull(componentBeanRef);
+        Assertions.assertEquals("Say hello from:ComponentBeanRef", componentBeanRef.sayHello());
+
+        ComponentBean componentBean = this.applicationContext.getBean(ComponentBean.class);
+        Assertions.assertNotNull(componentBean);
+
+        // TODO  hashcode() 不一样
+        Assertions.assertFalse(componentBeanRef.getComponentBean().hashCode() == componentBean.hashCode());
+
+    }
+
+    @Test
+    void testConfigurationBean() {
+        ConfigurationBean configurationBean = this.applicationContext.getBean(ConfigurationBean.class);
+        Assertions.assertNotNull(configurationBean);
+        Assertions.assertEquals("Say hello from:ConfigurationBean", configurationBean.sayHello());
+    }
+
+    @Test
+    void testConfigurationBeanRef() {
+        ConfigurationBeanRef configurationBeanRef = this.applicationContext.getBean(ConfigurationBeanRef.class);
+        Assertions.assertNotNull(configurationBeanRef);
+        Assertions.assertEquals("Say hello from:ConfigurationBeanRef", configurationBeanRef.sayHello());
+
+        ConfigurationBean configurationBean = this.applicationContext.getBean(ConfigurationBean.class);
+        Assertions.assertNotNull(configurationBean);
+
+        // TODO hashcode() 一样 - 核心思想 - 走 CGLib代理
+        Assertions.assertEquals(configurationBeanRef.getConfigurationBean().hashCode(), configurationBean.hashCode());
+
+    }
+}
