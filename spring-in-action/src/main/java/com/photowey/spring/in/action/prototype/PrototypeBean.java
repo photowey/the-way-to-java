@@ -13,19 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.component;
+package com.photowey.spring.in.action.prototype;
+
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code ConfigurationBean}
+ * {@code PrototypeBean}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/17
  * @since 1.0.0
  */
-public class ConfigurationBean {
+@Getter
+@Component
+public class PrototypeBean {
 
-    public String sayHello() {
-        return "Say hello from:ConfigurationBean";
+    @Autowired
+    private PrototypeBeanRef prototypeBeanRef;
+    @Autowired
+    private PrototypeBeanProxyRef prototypeBeanProxyRef;
+
+    public int printHashCode() {
+        return this.prototypeBeanRef.printHashCode();
     }
 
+    public int printProxyHashCode() {
+        return this.prototypeBeanProxyRef.printHashCode();
+    }
 }

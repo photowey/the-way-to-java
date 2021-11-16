@@ -13,19 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.component;
+package com.photowey.spring.in.action.aop.service.impl;
+
+import com.photowey.spring.in.action.aop.service.AopService;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code ConfigurationBean}
+ * {@code AopServiceImpl}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/17
  * @since 1.0.0
  */
-public class ConfigurationBean {
+@Component
+public class AopServiceImpl implements AopService {
 
+    @Override
     public String sayHello() {
-        return "Say hello from:ConfigurationBean";
+        return "Say hello from:AopService";
     }
-
 }

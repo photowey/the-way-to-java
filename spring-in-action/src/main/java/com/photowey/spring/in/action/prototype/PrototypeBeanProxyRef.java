@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.component;
+package com.photowey.spring.in.action.prototype;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code ConfigurationBean}
+ * {@code PrototypeBeanRef}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/17
  * @since 1.0.0
  */
-public class ConfigurationBean {
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class PrototypeBeanProxyRef {
 
-    public String sayHello() {
-        return "Say hello from:ConfigurationBean";
+    public int printHashCode() {
+        return this.hashCode();
     }
 
 }

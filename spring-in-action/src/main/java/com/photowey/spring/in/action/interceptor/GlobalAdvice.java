@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.component;
+package com.photowey.spring.in.action.interceptor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.stereotype.Component;
 
 /**
- * {@code ConfigurationBean}
+ * {@code GlobalAdvice}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/16
  * @since 1.0.0
  */
-public class ConfigurationBean {
+@Slf4j
+@Component
+public class GlobalAdvice implements MethodInterceptor {
 
-    public String sayHello() {
-        return "Say hello from:ConfigurationBean";
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+
+        log.info("--- >>> com.photowey.spring.in.action.interceptor.GlobalAdvice.invoke <<< ---");
+
+        return invocation.proceed();
     }
-
 }

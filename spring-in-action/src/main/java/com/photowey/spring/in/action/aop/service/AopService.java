@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.component;
+package com.photowey.spring.in.action.aop.service;
 
 /**
- * {@code ConfigurationBean}
+ * {@code AopService}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/17
  * @since 1.0.0
  */
-public class ConfigurationBean {
+public interface AopService {
 
-    public String sayHello() {
-        return "Say hello from:ConfigurationBean";
-    }
-
+    String sayHello();
 }

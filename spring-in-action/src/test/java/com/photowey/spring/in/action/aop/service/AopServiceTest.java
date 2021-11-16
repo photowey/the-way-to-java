@@ -13,32 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.registry;
+package com.photowey.spring.in.action.aop.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 /**
- * {@code HelloBeanDefinitionRegistryPostProcessorTest}
+ * {@code AopServiceTest}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2021/11/17
  * @since 1.0.0
  */
 @SpringBootTest
-class HelloBeanDefinitionRegistryPostProcessorTest {
+class AopServiceTest {
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Test
-    void testBeanDefinitionRegistry() {
-        HelloBeanDefinition helloBeanDefinition = this.applicationContext.getBean(HelloBeanDefinition.class);
-        Assertions.assertNotNull(helloBeanDefinition);
-        Assertions.assertEquals("Say hello from:HelloBeanDefinition", helloBeanDefinition.sayHello());
+    void testAop() {
+        AopService aopService = this.applicationContext.getBean(AopService.class);
+        Assertions.assertNotNull(aopService);
+        Assertions.assertTrue(AopUtils.isCglibProxy(aopService));
+        Assertions.assertEquals("Say hello from:AopService", aopService.sayHello());
+
+        // --- >>> com.photowey.spring.in.action.interceptor.GlobalAdvice.invoke <<< ---
+        // --- >>> com.photowey.spring.in.action.aop.AspectAop#around::before <<< ---
+        // --- >>> com.photowey.spring.in.action.aop.AspectAop#around::after <<< ---
+
     }
 
 }

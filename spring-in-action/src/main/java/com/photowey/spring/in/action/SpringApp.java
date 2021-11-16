@@ -18,6 +18,7 @@ package com.photowey.spring.in.action;
 import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * {@code SpringApp}
@@ -28,6 +29,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableDynamicInjected
+@EnableAspectJAutoProxy
 public class SpringApp {
 
     public static void main(String[] args) {
