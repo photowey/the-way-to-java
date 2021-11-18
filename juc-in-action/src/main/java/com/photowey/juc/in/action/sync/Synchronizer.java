@@ -46,6 +46,7 @@ public class Synchronizer {
         }
 
         // ========================================= main
+        // synchronized 是一把 非公平锁
         synchronized (lock) {
             for (int i = 0; i < threadSize; i++) {
                 threads[i].start();
