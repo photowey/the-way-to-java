@@ -41,6 +41,7 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
+<!--        <module>benchmark-in-action</module>-->
     </modules>
 
     <dependencyManagement>
