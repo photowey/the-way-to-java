@@ -27,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Synchronizer {
 
+    /**
+     * synchronized 不可打断,可重入
+     */
     private static Object lock = new Object();
 
     public void doSync() throws InterruptedException {

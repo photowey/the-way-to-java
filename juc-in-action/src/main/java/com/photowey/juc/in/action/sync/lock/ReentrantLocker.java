@@ -17,6 +17,8 @@ package com.photowey.juc.in.action.sync.lock;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -61,7 +63,39 @@ public class ReentrantLocker {
      * -- --------------------------------
      */
 
+    /**
+     * 1.可打断.可重入
+     * 2.可以设置超时时间
+     * 3.可以设置公平锁
+     * 4.支持多个条件变量
+     * 5.支持读写锁
+     * <p>
+     * -- -------------------------------- 可打断
+     * // t1 线程
+     * lock.lockInterruptibly();
+     * 表示: 可被打断
+     * t1.interrupt();
+     * -- 打断之后是由一个异常去响应，也可以再异常中再次尝试获取锁.
+     * 唤醒-是一定获取锁--不一样。
+     * -- --------------------------------
+     * -- -------------------------------- 可超时
+     * tryLock() 超时获取锁,可以待定指定参数;
+     * -- 如果不带参数: 表示立即获取锁,获取不到直接返回;
+     * -- -- {@code java.util.concurrent.locks.Lock#tryLock()}
+     * -- 如果带参数:表示等待指定时间内,获取不到锁直接返回
+     * -- -- {@code java.util.concurrent.locks.Lock#tryLock(long, java.util.concurrent.TimeUnit)}
+     */
     private static Lock lock = new ReentrantLock();
+
+    /**
+     * 必须是 同一把锁 Condition()
+     */
+    private static Condition lockConditionA = lock.newCondition();
+    private static Condition lockConditionB = lock.newCondition();
+    private static Condition lockConditionC = lock.newCondition();
+
+    public boolean conditionA = false;
+    public boolean conditionB = false;
 
     public void doSync() throws InterruptedException {
         int threadSize = 10;
@@ -97,5 +131,218 @@ public class ReentrantLocker {
         }
 
         Thread.sleep(5_000);
+    }
+
+    public void reentry() {
+        lock.lock();
+        try {
+            log.info("execution the reentry1");
+            // 重入
+            this.reentry2();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void reentry2() {
+        lock.lock();
+        try {
+            log.info("execution the reentry2");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void interruptable() throws InterruptedException {
+        new Thread(() -> {
+            try {
+                lock.lock();
+                log.info("--- t2 获取到锁 ---");
+                TimeUnit.SECONDS.sleep(5);
+                log.info("--- t2 5s 之后,继续执行 ---");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }, "t2").start();
+
+        // 让 t2 先拿到锁
+        TimeUnit.SECONDS.sleep(1);
+
+        Thread t1 = new Thread(() -> {
+            try {
+                lock.lockInterruptibly();
+                log.info("--- t1 获取到锁 ---");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                log.info("--- t1 被打断了,没有获取到锁 ---");
+                return;
+            } finally {
+                lock.unlock();
+            }
+        }, "t1");
+
+        t1.start();
+
+        // 由于 t1 可以被打断,故 2s后打断t1 不在等待t2 释放锁
+        try {
+            TimeUnit.SECONDS.sleep(2);
+            log.info("--- main 2s 后打断 t1 ---");
+            t1.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void tryLock() throws InterruptedException {
+        Thread t1 = new Thread(() -> {
+            if (!lock.tryLock()) {
+                log.info("--- t1 获取不到锁,直接返回 ---");
+                return;
+            }
+            try {
+                log.info("--- t1 获取到锁 ---");
+            } finally {
+                lock.unlock();
+            }
+        }, "t1");
+
+        lock.lock();
+        log.info("--- main 获取到锁 ---");
+        t1.start();
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void tryLockTimeout(long timeout, TimeUnit timeUnit) throws InterruptedException {
+        Thread t1 = new Thread(() -> {
+            try {
+                if (!lock.tryLock(timeout, timeUnit)) {
+                    log.info("--- t1 获取不到锁,直接返回 ---");
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                log.info("--- t1 获取到锁 ---");
+            } finally {
+                lock.unlock();
+            }
+        }, "t1");
+
+        lock.lock();
+        log.info("--- main 获取到锁 ---");
+        t1.start();
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void lockCondition() {
+        new Thread(() -> {
+            try {
+                lock.lock();
+                while (!conditionA) {
+                    try {
+                        log.info("--- Jack --- the conditionA:false, do wait()");
+                        lockConditionA.await();
+                        log.info("--- Jack --- the conditionA:true, after wait()");
+                    } catch (InterruptedException e) {
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+        }, "Jack").start();
+
+        new Thread(() -> {
+            try {
+                lock.lock();
+                while (!conditionB) {
+                    try {
+                        log.info("--- Tom --- the conditionB:false, do wait()");
+                        lockConditionB.await();
+                        log.info("--- Tom --- the conditionB:true, after wait()");
+                    } catch (InterruptedException e) {
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+
+        }, "Tom").start();
+
+        try {
+            Thread.sleep(1_000);
+        } catch (InterruptedException e) {
+        }
+
+        new Thread(() -> {
+            lock.lock();
+            try {
+                conditionA = true;
+                log.info("--- Boss --- the conditionA:true");
+                lockConditionA.signalAll();
+                conditionB = true;
+                log.info("--- Boss --- the conditionB:true");
+                lockConditionB.signalAll();
+            } finally {
+                lock.unlock();
+            }
+        }, "Boss").start();
+    }
+
+    int monitor = 1;
+
+    /**
+     * 三个线程交替打印ABC {@code times} 次
+     *
+     * @param times 打印次数
+     */
+    public void alternate(int times) {
+        new Thread(() -> this.print("A", 1, 2, times), "A").start();
+        new Thread(() -> this.print("B", 2, 3, times), "B").start();
+        new Thread(() -> this.print("C", 3, 1, times), "C").start();
+    }
+
+    private void print(String content, int wait, int next, int times) {
+        for (int i = 0; i < times; i++) {
+            try {
+                lock.lock();
+                while (monitor != wait) {
+                    if (wait == 1) {
+                        lockConditionA.await();
+                    } else if (wait == 2) {
+                        lockConditionB.await();
+                    } else {
+                        lockConditionC.await();
+                    }
+                }
+
+                log.info(content);
+                monitor = next;
+
+                if (next == 1) {
+                    lockConditionA.signal();
+                } else if (next == 2) {
+                    lockConditionB.signal();
+                } else {
+                    lockConditionC.signal();
+                }
+            } catch (InterruptedException e) {
+                // Ignore
+            } finally {
+                lock.unlock();
+            }
+        }
     }
 }
