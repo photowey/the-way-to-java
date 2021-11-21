@@ -41,7 +41,7 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
-<!--        <module>benchmark-in-action</module>-->
+        <module>hashmap-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -50,6 +50,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -110,6 +116,10 @@
                         <exclude>
                             **/EnableConfigurationPropertiesImportSelector.java
                         </exclude>
+                        <exclude>**/Helpers.java</exclude>
+                        <exclude>**/JcMap.java</exclude>
+                        <exclude>**/JMap.java</exclude>
+                        <exclude>**/ThreadLocalRandomExt.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
