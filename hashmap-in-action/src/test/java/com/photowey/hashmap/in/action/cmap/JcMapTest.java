@@ -72,7 +72,7 @@ class JcMapTest {
      */
     @Test
     void testConcurrentHashMap() {
-        ConcurrentHashMap map = new ConcurrentHashMap<>(31);
+        ConcurrentHashMap map = new ConcurrentHashMap<>(32);
         String key = "key";
         String value = "value";
 

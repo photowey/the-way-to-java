@@ -99,19 +99,48 @@ public class JcMap<K, V> implements Serializable {
 
     private transient volatile long baseCount;
 
+    /**
+     * sizeCtl: 为0,代表数组未初始化, 且数组的初始容量为16
+     * sizeCtl: 为正数,如果数组未初始化,那么其记录的是数组的初始容量,如果数组已经初始化,那么其记录的是数组的扩容阈值
+     * sizeCtl: 为-1,表示数组正在进行初始化
+     * sizeCt: l小于0,并且不是-1,表示数组正在扩容, -(1+n),表示此时有n个线程正在共同完成数组的扩容操作
+     */
+
     private transient volatile int sizeCtl;
     private transient volatile int transferIndex;
     private transient volatile int cellsBusy;
 
     private transient volatile CounterCell[] counterCells;
 
+    /**
+     * 没有维护任何变量的操作,如果调用该方法,数组长度默认是16
+     */
     public JcMap() {
     }
 
+    /**
+     * 传递进来一个初始容量,ConcurrentHashMap会基于这个值计算一个比这个值大的2的幂次方数作为初始容量
+     */
     public JcMap(int initialCapacity) {
         this(initialCapacity, LOAD_FACTOR, 1);
     }
 
+    /**
+     * 基于一个Map集合,构建一个ConcurrentHashMap
+     * 初始容量为16
+     */
+    public JcMap(Map<? extends K, ? extends V> m) {
+        this.sizeCtl = DEFAULT_CAPACITY;
+        putAll(m);
+    }
+
+    public JcMap(int initialCapacity, float loadFactor) {
+        this(initialCapacity, loadFactor, 1);
+    }
+
+    /**
+     * 计算一个大于或者等于给定的容量值,该值是2的幂次方数作为初始容量
+     */
     public JcMap(int initialCapacity,
                  float loadFactor, int concurrencyLevel) {
         if (!(loadFactor > 0.0f) || initialCapacity < 0 || concurrencyLevel <= 0)
@@ -128,21 +157,39 @@ public class JcMap<K, V> implements Serializable {
         return putVal(key, value, false);
     }
 
+    public void putAll(Map<? extends K, ? extends V> m) {
+        tryPresize(m.size());
+        for (Map.Entry<? extends K, ? extends V> e : m.entrySet())
+            putVal(e.getKey(), e.getValue(), false);
+    }
+
+    public int size() {
+        long n = sumCount();
+        return ((n < 0L) ? 0 : (n > (long) Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) n);
+    }
+
     final V putVal(K key, V value, boolean onlyIfAbsent) {
+        // 如果有空键或者空值,直接抛异常
         if (key == null || value == null) throw new NullPointerException();
+        // 基于 key 计算 hash 值,并进行一定的扰动 -> 一定是一个正数
         int hash = spread(key.hashCode());
+        // 记录某个桶上元素的个数,如果超过8个,会可能会转成红黑树
         int binCount = 0;
         for (Node<K, V>[] tab = table; ; ) {
             Node<K, V> f;
             int n, i, fh;
             K fk;
             V fv;
+            // 如果数组还未初始化,先对数组进行初始化
             if (tab == null || (n = tab.length) == 0)
                 tab = initTable();
+                // 如果 hash 计算得到的桶位置没有元素,利用 cas 将元素添加
             else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+                // cas + 自旋(和外侧的for构成自旋循环),保证元素添加安全
                 if (casTabAt(tab, i, null, new Node<K, V>(hash, key, value)))
                     break;                   // no lock when adding to empty bin
             } else if ((fh = f.hash) == MOVED)
+                // 如果 hash 计算得到的桶位置元素的 hash值 为 {@code MOVED} ,证明正在扩容,那么协助扩容
                 tab = helpTransfer(tab, f);
             else if (onlyIfAbsent // check first node without acquiring lock
                     && fh == hash
@@ -150,16 +197,17 @@ public class JcMap<K, V> implements Serializable {
                     && (fv = f.val) != null)
                 return fv;
             else {
+                // hash 计算的桶位置元素不为空,且当前没有处于扩容操作,进行元素添加
                 V oldVal = null;
+                // 对当前桶进行加锁,保证线程安全,执行元素添加操作
                 synchronized (f) {
                     if (tabAt(tab, i) == f) {
+                        // 普通链表节点
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K, V> e = f; ; ++binCount) {
                                 K ek;
-                                if (e.hash == hash &&
-                                        ((ek = e.key) == key ||
-                                                (ek != null && key.equals(ek)))) {
+                                if (e.hash == hash && ((ek = e.key) == key || (ek != null && key.equals(ek)))) {
                                     oldVal = e.val;
                                     if (!onlyIfAbsent)
                                         e.val = value;
@@ -172,10 +220,10 @@ public class JcMap<K, V> implements Serializable {
                                 }
                             }
                         } else if (f instanceof TreeBin) {
+                            // 树节点,将元素添加到红黑树中
                             Node<K, V> p;
                             binCount = 2;
-                            if ((p = ((TreeBin<K, V>) f).putTreeVal(hash, key,
-                                    value)) != null) {
+                            if ((p = ((TreeBin<K, V>) f).putTreeVal(hash, key, value)) != null) {
                                 oldVal = p.val;
                                 if (!onlyIfAbsent)
                                     p.val = value;
@@ -185,6 +233,7 @@ public class JcMap<K, V> implements Serializable {
                     }
                 }
                 if (binCount != 0) {
+                    // 链表长度大于|等于8,将链表转成红黑树
                     if (binCount >= TREEIFY_THRESHOLD)
                         treeifyBin(tab, i);
                     if (oldVal != null)
@@ -193,6 +242,7 @@ public class JcMap<K, V> implements Serializable {
                 }
             }
         }
+        // 添加的是新元素,维护集合长度,并判断是否要进行扩容操作
         addCount(1L, binCount);
         return null;
     }
@@ -323,15 +373,23 @@ public class JcMap<K, V> implements Serializable {
     private final Node<K, V>[] initTable() {
         Node<K, V>[] tab;
         int sc;
+        // cas + 自旋,保证线程安全,对数组进行初始化操作
         while ((tab = table) == null || tab.length == 0) {
+            // 如果 sizeCtl 的值(-1)小于0,说明此时正在初始化, 让出cpu
             if ((sc = sizeCtl) < 0)
                 Thread.yield(); // lost initialization race; just spin
             else if (U.compareAndSetInt(this, SIZECTL, sc, -1)) {
+                // cas 修改 sizeCtl 的值为 -1,修改成功,进行数组初始化,失败,继续自旋
                 try {
                     if ((tab = table) == null || tab.length == 0) {
+                        // sizeCtl 为 0,取默认长度16,否则去 sizeCtl 的值
                         int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
+                        // 基于初始长度,构建数组对象
                         Node<K, V>[] nt = (Node<K, V>[]) new Node<?, ?>[n];
                         table = tab = nt;
+                        // 计算扩容阈值,并赋值给 sc
+                        // n - (n>>>2) == n - n/4 == 3n/4 == 0.75n
+                        // 秀儿呀
                         sc = n - (n >>> 2);
                     }
                 } finally {
@@ -363,38 +421,61 @@ public class JcMap<K, V> implements Serializable {
     private final void addCount(long x, int check) {
         CounterCell[] cs;
         long b, s;
-        if ((cs = counterCells) != null ||
-                !U.compareAndSetLong(this, BASECOUNT, b = baseCount, s = b + x)) {
+        // 当 CounterCell 数组不为空,则优先利用数组中的 CounterCell 记录数量
+        // 或者当 baseCount 的累加操作失败,会利用数组中的 CounterCell 记录数量
+        if ((cs = counterCells) != null || !U.compareAndSetLong(this, BASECOUNT, b = baseCount, s = b + x)) {
             CounterCell c;
             long v;
             int m;
+            // 标识是否有多线程竞争
             boolean uncontended = true;
-            if (cs == null || (m = cs.length - 1) < 0 ||
-                    (c = cs[ThreadLocalRandomExt.getProbe() & m]) == null ||
-                    !(uncontended =
-                            U.compareAndSetLong(c, CELLVALUE, v = c.value, v + x))) {
+            // 当 cs 数组为空
+            // 或者当 cs 长度为0
+            // 或者当前线程对应的 cs 数组桶位的元素为空
+            // 或者当前线程对应的 cs 数组桶位不为空,但是累加失败
+            if (cs == null
+                    || (m = cs.length - 1) < 0
+                    || (c = cs[ThreadLocalRandomExt.getProbe() & m]) == null
+                    || !(uncontended = U.compareAndSetLong(c, CELLVALUE, v = c.value, v + x))) {
+                // 以上任何一种情况成立,都会进入该方法,传入的 uncontended 是 false
                 fullAddCount(x, uncontended);
                 return;
             }
             if (check <= 1)
                 return;
+            // 计算元素个数
             s = sumCount();
         }
         if (check >= 0) {
             Node<K, V>[] tab, nt;
             int n, sc;
-            while (s >= (long) (sc = sizeCtl) && (tab = table) != null &&
-                    (n = tab.length) < MAXIMUM_CAPACITY) {
+            // 元素个数达到扩容阈值
+            // 并且数组不为空
+            // 并且数组长度小于限定的最大值
+            while (s >= (long) (sc = sizeCtl)
+                    && (tab = table) != null
+                    && (n = tab.length) < MAXIMUM_CAPACITY) {
+                // 这个是一个很大的正数
                 int rs = resizeStamp(n);
+                // sizeCtl 小于0,说明正在执行扩容,那么协助扩容
                 if (sc < 0) {
-                    if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                            sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
-                            transferIndex <= 0)
+                    // 扩容结束
+                    // 或者扩容线程数达到最大值
+                    // 或者扩容后的数组为null
+                    // 或者没有更多的桶位需要转移,结束操作
+                    if ((sc >>> RESIZE_STAMP_SHIFT) != rs
+                            || sc == rs + 1
+                            || sc == rs + MAX_RESIZERS
+                            || (nt = nextTable) == null
+                            || transferIndex <= 0)
                         break;
+                    // 扩容线程加1,成功后,进行协助扩容操作
                     if (U.compareAndSetInt(this, SIZECTL, sc, sc + 1))
+                        // 协助扩容, newTable 不为null
                         transfer(tab, nt);
-                } else if (U.compareAndSetInt(this, SIZECTL, sc,
-                        (rs << RESIZE_STAMP_SHIFT) + 2))
+                } else if (U.compareAndSetInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2))
+                    // 没有其他线程在进行扩容,达到扩容阈值后,给 sizeCtl 赋了一个很大的负数
+                    // 发起扩容, newTable 为 null
                     transfer(tab, null);
                 s = sumCount();
             }
@@ -403,8 +484,10 @@ public class JcMap<K, V> implements Serializable {
 
     final long sumCount() {
         CounterCell[] cs = counterCells;
+        // 获取 baseCount 的值
         long sum = baseCount;
         if (cs != null) {
+            // 遍历 CounterCell 数组,累加每一个 CounterCell 的 value 值
             for (CounterCell c : cs)
                 if (c != null)
                     sum += c.value;
@@ -412,54 +495,74 @@ public class JcMap<K, V> implements Serializable {
         return sum;
     }
 
+    /**
+     * 1.当 {@link CounterCell} 数组不为空,优先对 {@link CounterCell} 数组中的 {@link CounterCell} 的 {@code value} 累加
+     * 2.当 {@link CounterCell} 数组为空,会去创建 {@link CounterCell} 数组,默认长度为 2,并对数组中的 {@link CounterCell} 的  {@code value} 累加
+     * 3.当数组为空,并且此时有别的线程正在创建数组,那么尝试对 {@code baseCount}做累加,成功即返回,否则自旋
+     */
     private final void fullAddCount(long x, boolean wasUncontended) {
         int h;
+        // 获取当前线程的 hash 值
         if ((h = ThreadLocalRandomExt.getProbe()) == 0) {
             ThreadLocalRandomExt.localInit();      // force initialization
             h = ThreadLocalRandomExt.getProbe();
             wasUncontended = true;
         }
+        // 标识是否有冲突,如果最后一个桶不是 null,那么为 true
         boolean collide = false;                // True if last slot nonempty
         for (; ; ) {
             CounterCell[] cs;
             CounterCell c;
             int n;
             long v;
+            // 1.数组不为空,优先对数组中 CounterCell 的 value 累加
             if ((cs = counterCells) != null && (n = cs.length) > 0) {
+                // 线程对应的桶位为 null
                 if ((c = cs[(n - 1) & h]) == null) {
                     if (cellsBusy == 0) {            // Try to attach new Cell
+                        // 创建 CounterCell 对象
                         CounterCell r = new CounterCell(x); // Optimistic create
-                        if (cellsBusy == 0 &&
-                                U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
+                        // 利用 cas 修改 cellBusy 状态为1,成功则将刚才创建的 CounterCell 对象放入数组中
+                        if (cellsBusy == 0 && U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
                             boolean created = false;
                             try {               // Recheck under lock
                                 CounterCell[] rs;
                                 int m, j;
-                                if ((rs = counterCells) != null &&
-                                        (m = rs.length) > 0 &&
-                                        rs[j = (m - 1) & h] == null) {
+                                // 桶位为空, 将 CounterCell 对象放入数组
+                                if ((rs = counterCells) != null
+                                        && (m = rs.length) > 0
+                                        && rs[j = (m - 1) & h] == null) {
                                     rs[j] = r;
+                                    // 表示放入成功
                                     created = true;
                                 }
                             } finally {
                                 cellsBusy = 0;
                             }
+                            // 成功退出循环
                             if (created)
                                 break;
+                            // 桶位已经被别的线程放置了已给 CounterCell 对象,继续循环
                             continue;           // Slot is now non-empty
                         }
                     }
                     collide = false;
                 } else if (!wasUncontended)       // CAS already known to fail
+                    // 桶位不为空,重新计算线程 hash 值,然后继续循环
                     wasUncontended = true;      // Continue after rehash
                 else if (U.compareAndSetLong(c, CELLVALUE, v = c.value, v + x))
+                    // 重新计算了hash值后,对应的桶位依然不为空,对value累加
+                    // 成功则结束循环
+                    // 失败则继续下面判断
                     break;
                 else if (counterCells != cs || n >= NCPU)
+                    // 数组被别的线程改变了,或者数组长度超过了可用 cpu 大小,重新计算线程 hash 值,否则继续下一个判断
                     collide = false;            // At max size or stale
                 else if (!collide)
+                    // 当没有冲突,修改为有冲突,并重新计算线程 hash ,继续循环
                     collide = true;
-                else if (cellsBusy == 0 &&
-                        U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
+                else if (cellsBusy == 0 && U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
+                    // 如果 CounterCell 的数组长度没有超过 cpu 核数,对数组进行两倍扩容
                     try {
                         if (counterCells == cs) // Expand table unless stale
                             counterCells = Arrays.copyOf(cs, n << 1);
@@ -470,8 +573,10 @@ public class JcMap<K, V> implements Serializable {
                     continue;                   // Retry with expanded table
                 }
                 h = ThreadLocalRandomExt.advanceProbe(h);
-            } else if (cellsBusy == 0 && counterCells == cs &&
-                    U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
+            } else if (cellsBusy == 0
+                    && counterCells == cs
+                    && U.compareAndSetInt(this, CELLSBUSY, 0, 1)) {
+                // CounterCell 数组为空,并且没有线程在创建数组,修改标记,并创建数组
                 boolean init = false;
                 try {                           // Initialize table
                     if (counterCells == cs) {
@@ -486,6 +591,7 @@ public class JcMap<K, V> implements Serializable {
                 if (init)
                     break;
             } else if (U.compareAndSetLong(this, BASECOUNT, v = baseCount, v + x))
+                // 数组为空,并且有别的线程在创建数组,那么尝试对 baseCount 做累加,成功就退出循环,失败就继续循环
                 break;                          // Fall back on using base
         }
     }
@@ -498,14 +604,14 @@ public class JcMap<K, V> implements Serializable {
             int rs = resizeStamp(tab.length);
             while (nextTab == nextTable && table == tab &&
                     (sc = sizeCtl) < 0) {
-                if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                        sc == rs + MAX_RESIZERS || transferIndex <= 0)
+                if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 || sc == rs + MAX_RESIZERS || transferIndex <= 0)
                     break;
                 if (U.compareAndSetInt(this, SIZECTL, sc, sc + 1)) {
                     transfer(tab, nextTab);
                     break;
                 }
             }
+
             return nextTab;
         }
         return table;
@@ -571,10 +677,13 @@ public class JcMap<K, V> implements Serializable {
 
     private final void transfer(Node<K, V>[] tab, Node<K, V>[] nextTab) {
         int n = tab.length, stride;
+        // 如果是多 cpu ,那么每个线程划分任务,最小任务量是 16 个桶位的迁移
         if ((stride = (NCPU > 1) ? (n >>> 3) / NCPU : n) < MIN_TRANSFER_STRIDE)
             stride = MIN_TRANSFER_STRIDE; // subdivide range
+        // 如果是扩容线程,此时新数组为 null
         if (nextTab == null) {            // initiating
             try {
+                // 两倍扩容创建新数组
                 Node<K, V>[] nt = (Node<K, V>[]) new Node<?, ?>[n << 1];
                 nextTab = nt;
             } catch (Throwable ex) {      // try to cope with OOME
@@ -582,9 +691,12 @@ public class JcMap<K, V> implements Serializable {
                 return;
             }
             nextTable = nextTab;
+            // 记录线程开始迁移的桶位,从后往前迁移⭐⭐
             transferIndex = n;
         }
+        // 记录新数组的末尾
         int nextn = nextTab.length;
+        // 已经迁移的桶位,会用这个节点占位(这个节点的 hash 值为-1--MOVED)
         ForwardingNode<K, V> fwd = new ForwardingNode<K, V>(nextTab);
         boolean advance = true;
         boolean finishing = false; // to ensure sweep before committing nextTab
@@ -593,39 +705,53 @@ public class JcMap<K, V> implements Serializable {
             int fh;
             while (advance) {
                 int nextIndex, nextBound;
+                // i: 记录当前正在迁移桶位的索引值
+                // bound: 记录下一次任务迁移的开始桶位
+                // --i >= bound 成立表示当前线程分配的迁移任务还没有完成
                 if (--i >= bound || finishing)
                     advance = false;
                 else if ((nextIndex = transferIndex) <= 0) {
+                    // 没有元素需要迁移 -- 后续会去将扩容线程数减1,并判断扩容是否完成
                     i = -1;
                     advance = false;
-                } else if (U.compareAndSetInt
-                        (this, TRANSFERINDEX, nextIndex,
-                                nextBound = (nextIndex > stride ?
-                                        nextIndex - stride : 0))) {
+                } else if (U.compareAndSetInt(this,
+                        TRANSFERINDEX,
+                        nextIndex,
+                        nextBound = (nextIndex > stride ? nextIndex - stride : 0))) {
+                    // 计算下一次任务迁移的开始桶位,并将这个值赋值给transferIndex
                     bound = nextBound;
                     i = nextIndex - 1;
                     advance = false;
                 }
             }
+            // 如果没有更多的需要迁移的桶位,就进入该 if
             if (i < 0 || i >= n || i + n >= nextn) {
                 int sc;
                 if (finishing) {
                     nextTable = null;
                     table = nextTab;
+                    // 扩容结束后,保存新数组,并重新计算扩容阈值,赋值给 sizeCtl
+                    // (n << 1) - (n >>> 1) == 2n - n/2 == 1.5n == 2*0.75n
                     sizeCtl = (n << 1) - (n >>> 1);
                     return;
                 }
+                // 扩容任务线程数减1
                 if (U.compareAndSetInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
+                    // 判断当前所有扩容任务线程是否都执行完成
                     if ((sc - 2) != resizeStamp(n) << RESIZE_STAMP_SHIFT)
                         return;
+                    // 所有扩容线程都执行完,标识结束
                     finishing = advance = true;
                     i = n; // recheck before commit
                 }
             } else if ((f = tabAt(tab, i)) == null)
+                // 当前迁移的桶位没有元素,直接在该位置添加一个fwd节点
                 advance = casTabAt(tab, i, null, fwd);
             else if ((fh = f.hash) == MOVED)
+                // 当前节点已经被迁移
                 advance = true; // already processed
             else {
+                // 当前节点需要迁移,加锁迁移,保证多线程安全
                 synchronized (f) {
                     if (tabAt(tab, i) == f) {
                         Node<K, V> ln, hn;
@@ -666,8 +792,7 @@ public class JcMap<K, V> implements Serializable {
                             int lc = 0, hc = 0;
                             for (Node<K, V> e = t.first; e != null; e = e.next) {
                                 int h = e.hash;
-                                TreeNode<K, V> p = new TreeNode<K, V>
-                                        (h, e.key, e.val, null, null);
+                                TreeNode<K, V> p = new TreeNode<K, V>(h, e.key, e.val, null, null);
                                 if ((h & n) == 0) {
                                     if ((p.prev = loTail) == null)
                                         lo = p;
@@ -684,10 +809,8 @@ public class JcMap<K, V> implements Serializable {
                                     ++hc;
                                 }
                             }
-                            ln = (lc <= UNTREEIFY_THRESHOLD) ? untreeify(lo) :
-                                    (hc != 0) ? new TreeBin<K, V>(lo) : t;
-                            hn = (hc <= UNTREEIFY_THRESHOLD) ? untreeify(hi) :
-                                    (lc != 0) ? new TreeBin<K, V>(hi) : t;
+                            ln = (lc <= UNTREEIFY_THRESHOLD) ? untreeify(lo) : (hc != 0) ? new TreeBin<K, V>(lo) : t;
+                            hn = (hc <= UNTREEIFY_THRESHOLD) ? untreeify(hi) : (lc != 0) ? new TreeBin<K, V>(hi) : t;
                             setTabAt(nextTab, i, ln);
                             setTabAt(nextTab, i + n, hn);
                             setTabAt(tab, i, fwd);
