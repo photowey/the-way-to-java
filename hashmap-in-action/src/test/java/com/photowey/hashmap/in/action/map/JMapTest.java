@@ -75,7 +75,6 @@ class JMapTest {
         // threshold
         JMap<String, String> map = new JMap<>(64);
 
-        // 先填充56位
         for (int i = 0; i < 40; i++) {
             String source = String.valueOf((i + 1));
             map.put(source, source);
@@ -97,15 +96,73 @@ class JMapTest {
         map.put("BbAaCc", "BbAaCc");
         map.put("CCBBCc", "CCBBCc");
         map.put("BbAaDD", "BbAaDD");
+
         map.put("BbBBDD", "BbBBDD");
         map.put("CCAaCc", "CCAaCc");
         map.put("BbBBCc", "BbBBCc");
 
         map.put("CCAaDD", "CCAaDD");
-        log.info("the thread:t1 put the K-V:{}-{} succeed", "BB", "BB");
 
         try {
             Thread.sleep(1000_000);
+        } catch (Exception e) {
+        }
+    }
+
+
+    public static void main(String[] args) {
+        log.info("the map key hash:{}", hash("first") & 3);
+        log.info("the map key hash:{}", hash("second1") & 3);
+        log.info("the map key hash:{}", hash("CCBBDD") & 3);
+        log.info("the map key hash:{}", hash("BbAaCc") & 3);
+    }
+
+    static final int hash(Object key) {
+        int h;
+        // 充分利用高低位
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+    @Test
+    void testPrintMapKeyHash() {
+        // 构造特定索引
+        log.info("the map key:first hash:{}", hash("first") & 3); // the map key:first hash:2
+        log.info("the map key:second1 hash:{}", hash("second1") & 3); // the map key:second1 hash:0
+
+        // 构造 hash 碰撞
+        log.info("the map key:CCBBDD hash:{}", hash("CCBBDD") & 3); // the map key:CCBBDD hash:3
+        log.info("the map key:BbAaCc hash:{}", hash("BbAaCc") & 3); // the map key:BbAaCc hash:3
+    }
+
+    @Test
+    void testMultiThreadPut() {
+        // threshold
+        JMap<String, String> map = new JMap<>(4);
+
+        // {@link com.photowey.hashmap.in.action.map.JMapTest#testPrintMapKeyHash}
+        map.put("first", "first");
+        map.put("second1", "second");
+
+        // t1 的断点打在: tab[i] = newNode(hash, key, value, null);
+        Thread t1 = new Thread(() -> {
+            map.put("CCBBDD", "CCBBDD");
+        }, "t1");
+
+        // 通过断点 发现-> 多线程 - BbAaCc 将被覆盖
+        // ~/doc/mapoverride.jpg
+        Thread t2 = new Thread(() -> {
+            map.put("BbAaCc", "BbAaCc");
+        }, "t2");
+        t1.start();
+        try {
+            Thread.sleep(1_000);
+        } catch (Exception e) {
+        }
+        t2.start();
+        try {
+            t1.join();
+            t2.join();
+            Thread.sleep(1_000);
         } catch (Exception e) {
         }
     }
