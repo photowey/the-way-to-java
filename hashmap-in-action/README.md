@@ -56,7 +56,9 @@
 
 ![](.\doc\hashmap.jpg)
 
+> Resize()
 
+![](.\doc\resize.jpg)
 
 ### 4.2.`ConcurrentHashMap`
 

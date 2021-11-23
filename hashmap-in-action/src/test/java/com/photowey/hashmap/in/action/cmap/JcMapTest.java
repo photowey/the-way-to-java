@@ -218,6 +218,9 @@ class JcMapTest {
         // the collide pair is:AaCCBB-BBBbAa
         // the collide pair is:CCBBAa-BbAaBB
         // the collide pair is:CCAaBB-BbBBAa
+
+        // 64577
+        log.info("ABB".hashCode() + "---" + "AAa".hashCode());
     }
 
     /**

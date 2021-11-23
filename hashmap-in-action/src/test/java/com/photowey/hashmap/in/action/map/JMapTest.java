@@ -109,20 +109,6 @@ class JMapTest {
         }
     }
 
-
-    public static void main(String[] args) {
-        log.info("the map key hash:{}", hash("first") & 3);
-        log.info("the map key hash:{}", hash("second1") & 3);
-        log.info("the map key hash:{}", hash("CCBBDD") & 3);
-        log.info("the map key hash:{}", hash("BbAaCc") & 3);
-    }
-
-    static final int hash(Object key) {
-        int h;
-        // 充分利用高低位
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
-    }
-
     @Test
     void testPrintMapKeyHash() {
         // 构造特定索引
@@ -132,6 +118,13 @@ class JMapTest {
         // 构造 hash 碰撞
         log.info("the map key:CCBBDD hash:{}", hash("CCBBDD") & 3); // the map key:CCBBDD hash:3
         log.info("the map key:BbAaCc hash:{}", hash("BbAaCc") & 3); // the map key:BbAaCc hash:3
+
+        System.out.println(Integer.toBinaryString(10));
+        System.out.println(Integer.toBinaryString(18));
+        System.out.println(Integer.toBinaryString(2));
+        System.out.println(Integer.toBinaryString(26));
+        System.out.println(Integer.toBinaryString(34));
+        System.out.println(Integer.toBinaryString(42));
     }
 
     @Test
@@ -203,5 +196,10 @@ class JMapTest {
          *  the collide pair is:BbAaDD-CCBBCc-->hashCode==1982060832-1982060832
          *  the collide pair is:BbAaCc-CCBBDD-->hashCode==1982060832-1982060832
          */
+    }
+
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 }
