@@ -14,12 +14,6 @@
 
     <properties>
         <nacos.config.version>0.2.10</nacos.config.version>
-
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
-        <mybatis-typehandlers-jsr310.version>1.0.2
-        </mybatis-typehandlers-jsr310.version>
-        <jackson-datatype-jsr310.version>2.9.7</jackson-datatype-jsr310.version>
-        <druid.version>1.1.10</druid.version>
     </properties>
 
     <modules>
@@ -46,28 +40,6 @@
                 <groupId>com.photowey</groupId>
                 <artifactId>nacos-patch-in-action</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-typehandlers-jsr310</artifactId>
-                <version>${mybatis-typehandlers-jsr310.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-datatype-jsr310.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

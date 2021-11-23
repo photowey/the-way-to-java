@@ -2,17 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>seata-in-action</artifactId>
+        <artifactId>the-way-to-java</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>consumer-seata-in-action</artifactId>
-    <name>consumer-seata-in-action</name>
-    <description>Consumer-seata-in-action project for Spring Boot</description>
+    <artifactId>mysql-in-action</artifactId>
+    <name>mysql-in-action</name>
+    <description>Mysql-in-action project for Spring Boot</description>
 
     <properties>
     </properties>
@@ -34,24 +33,17 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba.boot</groupId>
-            <artifactId>nacos-config-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.boot</groupId>
-            <artifactId>nacos-discovery-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.photowey</groupId>
-            <artifactId>nacos-patch-in-action</artifactId>
-        </dependency>
-
-        <dependency>
+        <!--<dependency>
             <groupId>com.photowey</groupId>
             <artifactId>persistence-in-action-bom</artifactId>
-        </dependency>
+        </dependency>-->
+
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

@@ -1,0 +1,21 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "mongo-in-action"
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      host: ${local.config.mongo.host}
+      port: ${local.config.mongo.port}
+      database: ${spring.application.name}
+      username: ${local.config.mongo.username}
+      password: ${local.config.mongo.password}
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

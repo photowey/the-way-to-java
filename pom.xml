@@ -42,6 +42,11 @@
         <module>common-in-action</module>
         <module>juc-in-action</module>
         <module>hashmap-in-action</module>
+        <module>jvm-in-action</module>
+        <module>mysql-in-action</module>
+        <module>mongo-in-action</module>
+        <module>elasticsearch-in-action</module>
+        <module>persistence-in-action-bom</module>
     </modules>
 
     <dependencyManagement>
@@ -56,6 +61,17 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>common-in-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>persistence-in-action-bom</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
