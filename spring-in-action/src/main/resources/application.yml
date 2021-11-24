@@ -1,11 +1,27 @@
 server:
   port: 7923
+  tomcat:
+    uri-encoding: UTF-8
 
 spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
   application:
     name: "spring-in-action"
   profiles:
     active: dev
+
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2021-[photowey](https://github.com/photowey/the-way-to-java)
+  production: false
 
 logging:
   level:

@@ -15,6 +15,7 @@
     <description>Spring-in-action project for Spring Boot</description>
 
     <properties>
+        <tomcat-jasper.version>9.0.54</tomcat-jasper.version>
     </properties>
 
     <dependencies>
@@ -49,6 +50,20 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -56,7 +71,7 @@
             <dependency>
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-jasper</artifactId>
-                <version>9.0.54</version>
+                <version>${tomcat-jasper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
