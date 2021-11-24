@@ -65,3 +65,17 @@
 > 大致流程
 >
 > ...
+
+
+
+## 5.红黑树
+
+> 红黑树是一种自平衡的二叉搜索树,d也平衡二叉B树
+
+- <font style="color:red">节点</font>是 <font style="color:red">`RED`</font>或者 <font style="color:red">`BLACK`</font>
+- <font style="color:red">根节点</font>为 <font style="color:red">`BLACK`</font>
+- <font style="color:red">叶子节点</font>(外部节点,空节点)都是<font style="color:red"> `BLACK`</font>
+- <font style="color:red">`RED`</font> 节点的子节点都是 <font style="color:red">`BLACK`</font>
+  - <font style="color:red">`RED`</font> 节点的 `parent` 都是 <font style="color:red">`BLACK`</font>
+  - 从 <font style="color:red">根节点</font>  到 <font style="color:red">叶子节点</font>  的所有路径上不能有`2`个连续的<font style="color:red">`RED`</font>节点
+- 从<font style="color:red">任意节点</font> 到<font style="color:red"> 叶子节点</font>  的所有路径都包含相同数目的 <font style="color:red">`BLACK`</font>  节点
