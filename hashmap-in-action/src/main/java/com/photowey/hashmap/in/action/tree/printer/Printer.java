@@ -1,12 +1,12 @@
 package com.photowey.hashmap.in.action.tree.printer;
 
-public abstract class Printer {
+public abstract class Printer<E> {
     /**
      * 二叉树的基本信息
      */
-    protected IBinaryTree tree;
+    protected IPrintableTree<E> tree;
 
-    public Printer(IBinaryTree tree) {
+    public Printer(IPrintableTree<E> tree) {
         this.tree = tree;
     }
 
@@ -19,7 +19,7 @@ public abstract class Printer {
      * 打印后换行
      */
     public void println() {
-        print();
+        this.print();
         System.out.println();
     }
 
@@ -27,6 +27,6 @@ public abstract class Printer {
      * 打印
      */
     public void print() {
-        System.out.print(printString());
+        System.out.print(this.printString());
     }
 }

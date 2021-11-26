@@ -1,21 +1,13 @@
 package com.photowey.hashmap.in.action.tree.printer;
 
 /**
- * {@code IBinaryTree}
+ * {@code ITree}
  *
  * @author photowey
  * @date 2021/11/24
  * @since 1.0.0
  */
-public interface ITree {
-
-    Object root();
-
-    Object left(Object node);
-
-    Object right(Object node);
-
-    Object string(Object node);
+public interface ITree<E> {
 
     class Node<E> {
         /**
@@ -40,10 +32,15 @@ public interface ITree {
             this.parent = parent;
         }
 
+        @Override
+        public String toString() {
+            return element.toString();
+        }
+
         /**
          * 是否为叶子结点
          *
-         * @return
+         * @return {@code boolean}
          */
         public boolean isLeaf() {
             return left == null && right == null;
@@ -52,7 +49,7 @@ public interface ITree {
         /**
          * 是否有两个子节点
          *
-         * @return
+         * @return {@code boolean}
          */
         public boolean hasTwoChildren() {
             return left != null && right != null;
@@ -61,7 +58,7 @@ public interface ITree {
         /**
          * 是否为左节点
          *
-         * @return
+         * @return {@code boolean}
          */
         public boolean isLeftChild() {
             return parent != null && this == parent.left;
@@ -70,7 +67,7 @@ public interface ITree {
         /**
          * 是否为右节点
          *
-         * @return
+         * @return {@code boolean}
          */
         public boolean isRightChild() {
             return parent != null && this == parent.right;
@@ -79,7 +76,7 @@ public interface ITree {
         /**
          * 返回兄弟节点
          *
-         * @return
+         * @return {@code boolean}
          */
         public Node<E> sibling() {
             if (this.isLeftChild()) {

@@ -19,7 +19,7 @@ package com.photowey.hashmap.in.action.tree.printer;
  *
  * @author MJ Lee
  */
-public class InorderPrinter extends Printer {
+public class InorderPrinter<E> extends Printer<E> {
 
     private static String rightAppend;
     private static String leftAppend;
@@ -34,16 +34,16 @@ public class InorderPrinter extends Printer {
         lineAppend = "│" + Strings.blank(length);
     }
 
-    public InorderPrinter(IBinaryTree tree) {
+    public InorderPrinter(IPrintableTree<E> tree) {
         super(tree);
     }
 
     @Override
     public String printString() {
-        StringBuilder string = new StringBuilder(
-                printString(tree.root(), "", "", ""));
-        string.deleteCharAt(string.length() - 1);
-        return string.toString();
+        StringBuilder treeBody = new StringBuilder(this.printString(tree.root(), "", "", ""));
+        treeBody.deleteCharAt(treeBody.length() - 1);
+
+        return treeBody.toString();
     }
 
     /**
@@ -54,14 +54,10 @@ public class InorderPrinter extends Printer {
      * @param rightPrefix node整棵右子树的前缀字符串
      * @return
      */
-    private String printString(
-            Object node,
-            String nodePrefix,
-            String leftPrefix,
-            String rightPrefix) {
-        Object left = tree.left(node);
-        Object right = tree.right(node);
-        String string = tree.string(node).toString();
+    private String printString(ITree.Node<E> node, String nodePrefix, String leftPrefix, String rightPrefix) {
+        ITree.Node<E> left = tree.left(node);
+        ITree.Node<E> right = tree.right(node);
+        String string = tree.string(node);
 
         int length = string.length();
         if (length % 2 == 0) {
@@ -72,19 +68,14 @@ public class InorderPrinter extends Printer {
         String nodeString = "";
         if (right != null) {
             rightPrefix += Strings.blank(length);
-            nodeString += printString(right,
-                    rightPrefix + rightAppend,
-                    rightPrefix + lineAppend,
-                    rightPrefix + blankAppend);
+            nodeString += printString(right, rightPrefix + rightAppend, rightPrefix + lineAppend, rightPrefix + blankAppend);
         }
         nodeString += nodePrefix + string + "\n";
         if (left != null) {
             leftPrefix += Strings.blank(length);
-            nodeString += printString(left,
-                    leftPrefix + leftAppend,
-                    leftPrefix + blankAppend,
-                    leftPrefix + lineAppend);
+            nodeString += printString(left, leftPrefix + leftAppend, leftPrefix + blankAppend, leftPrefix + lineAppend);
         }
+
         return nodeString;
     }
 }

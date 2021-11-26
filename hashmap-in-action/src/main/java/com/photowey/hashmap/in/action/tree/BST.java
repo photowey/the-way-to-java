@@ -27,11 +27,11 @@ public class BST<E> extends BinaryTree<E> {
             return comparator.compare(e1, e2);
         }
         // 没有传入比较器,则要求元素本身必须实现Comparable接口
-        if (!(e1 instanceof Comparable)) {
-            throw new IllegalArgumentException("e1必须是Comparable类型");
+        if (e1 instanceof Comparable) {
+            return ((Comparable<E>) e1).compareTo(e2);
         }
 
-        return ((Comparable<E>) e1).compareTo(e2);
+        throw new IllegalArgumentException("e1必须是Comparable类型");
     }
 
     /**

@@ -37,7 +37,7 @@ class RBTreeTest {
         RBTree<Integer> rb = new RBTree<>();
         for (int i = 0; i < data.length; i++) {
             rb.add(data[i]);
-            System.out.println("[" + data[i] + "]");
+            System.out.println("+[" + data[i] + "]");
             BinaryTrees.println(rb);
             System.out.println("---------------------------------------");
         }

@@ -1,6 +1,6 @@
 package com.photowey.hashmap.in.action.tree;
 
-import com.photowey.hashmap.in.action.tree.printer.IBinaryTree;
+import com.photowey.hashmap.in.action.tree.printer.IPrintableTree;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +13,7 @@ import java.util.Queue;
  * @date 2021/11/24
  * @since 1.0.0
  */
-public class BinaryTree<E> implements IBinaryTree {
+public class BinaryTree<E> implements IPrintableTree<E> {
 
     /**
      * 节点个数量
@@ -197,7 +197,7 @@ public class BinaryTree<E> implements IBinaryTree {
     /**
      * 求树的高度(递归)
      */
-    public int height2() {
+    public int heightRecursion() {
         return height(root);
     }
 
@@ -270,22 +270,22 @@ public class BinaryTree<E> implements IBinaryTree {
     }
 
     @Override
-    public Object root() {
+    public Node<E> root() {
         return root;
     }
 
     @Override
-    public Object left(Object node) {
-        return ((Node<E>) node).left;
+    public Node<E> left(Node<E> node) {
+        return node.left;
     }
 
     @Override
-    public Object right(Object node) {
-        return ((Node<E>) node).right;
+    public Node<E> right(Node<E> node) {
+        return node.right;
     }
 
     @Override
-    public Object string(Object node) {
-        return node;
+    public String string(Node<E> node) {
+        return node.toString();
     }
 }

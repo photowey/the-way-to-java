@@ -128,7 +128,7 @@ public class AVLTree<E> extends BBST<E> {
     }
 
     /**
-     * AVL树的节点有其特性(height),与BinaryTree.java中的节点不同
+     * AVL树的节点有其特性(height),与 {@link BinaryTree} 中的节点不同
      */
     @Override
     protected Node<E> createNode(E element, Node<E> parent) {
@@ -137,11 +137,7 @@ public class AVLTree<E> extends BBST<E> {
 
     /**
      * 恢复平衡
-     * @param grand 高度最低的那个不平衡节点
-     */
-    /**
-     * 恢复平衡
-     * 利用“统一旋转”的代码
+     * 利用"统一旋转"的代码
      *
      * @param grand 高度最低的那个不平衡节点
      */
