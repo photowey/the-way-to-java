@@ -15,16 +15,12 @@
  */
 package com.photowey.spring.in.action;
 
+import com.photowey.print.in.action.printer.AppPrinter;
 import com.photowey.spring.in.action.dynamic.annotation.EnableDynamicInjected;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.env.ConfigurableEnvironment;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * {@code SpringApp}
@@ -36,43 +32,10 @@ import java.net.UnknownHostException;
 @Slf4j
 @SpringBootApplication
 @EnableDynamicInjected
-@EnableAspectJAutoProxy
 public class SpringApp {
-
-    private static final String SERVER_SSL_KEY = "server.ssl.key-store";
-    private static final String APPLICATION_NAME = "spring.application.name";
-    private static final String PROFILES_ACTIVE = "spring.profiles.active";
-    private static final String SERVER_PORT = "server.port";
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringApp.class, args);
-        print(applicationContext);
-    }
-
-    public static void print(ConfigurableApplicationContext applicationContext) {
-        ConfigurableEnvironment environment = applicationContext.getEnvironment();
-        try {
-            String protocol = "http";
-            String applicationName = environment.getProperty(APPLICATION_NAME);
-            if (null != environment.getProperty(SERVER_SSL_KEY)) {
-                protocol = "https";
-            }
-            log.info("\n----------------------------------------------------------\n\t" +
-                            "Bootstrap: the '{}' is Success!\n\t" +
-                            "Application: '{}' is running! Access URLs:\n\t" +
-                            "Local: \t\t{}://localhost:{}\n\t" +
-                            "External: \t{}://{}:{}\n\t" +
-                            "Swagger: \t{}://{}:{}/doc.html\n\t" +
-                            "Profile(s): {}\n----------------------------------------------------------",
-                    applicationName + " Context",
-                    applicationName,
-                    protocol, environment.getProperty(SERVER_PORT),
-                    protocol, InetAddress.getLocalHost().getHostAddress(), environment.getProperty(SERVER_PORT),
-                    protocol, InetAddress.getLocalHost().getHostAddress(), environment.getProperty(SERVER_PORT),
-                    environment.getProperty(PROFILES_ACTIVE)
-            );
-        } catch (UnknownHostException e) {
-            // Ignore
-        }
+        AppPrinter.print(applicationContext);
     }
 }

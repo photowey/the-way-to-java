@@ -26,7 +26,6 @@
         <guava.version>30.1.1-jre</guava.version>
 
         <knife4j-starter.version>3.0.2</knife4j-starter.version>
-        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
     </properties>
 
     <modules>
@@ -50,6 +49,8 @@
         <module>mongo-in-action</module>
         <module>elasticsearch-in-action</module>
         <module>persistence-in-action-bom</module>
+        <module>print-in-action</module>
+        <module>validator-in-action-bom</module>
     </modules>
 
     <dependencyManagement>
@@ -76,6 +77,16 @@
                 <artifactId>persistence-in-action-bom</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>print-in-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>validator-in-action-bom</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -83,13 +94,17 @@
                 <version>${knife4j-starter.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.hibernate.validator</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>dev</id>
+            <name>local</name>
+            <!-- win11 -->
+            <url>file:///D:/software/maven/nexus-maven/repo/repository</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
