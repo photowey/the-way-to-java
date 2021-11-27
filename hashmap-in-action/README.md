@@ -68,19 +68,7 @@
 
 
 
-## 5.红黑树
-
-> 红黑树是一种自平衡的二叉搜索树,d也平衡二叉B树
-
-- <font style="color:red">节点</font>是 <font style="color:red">`RED`</font>或者 <font style="color:red">`BLACK`</font>
-- <font style="color:red">根节点</font>为 <font style="color:red">`BLACK`</font>
-- <font style="color:red">叶子节点</font>(外部节点,空节点)都是<font style="color:red"> `BLACK`</font>
-- <font style="color:red">`RED`</font> 节点的子节点都是 <font style="color:red">`BLACK`</font>
-  - <font style="color:red">`RED`</font> 节点的 `parent` 都是 <font style="color:red">`BLACK`</font>
-  - 从 <font style="color:red">根节点</font>  到 <font style="color:red">叶子节点</font>  的所有路径上不能有`2`个连续的<font style="color:red">`RED`</font>节点
-- 从<font style="color:red">任意节点</font> 到<font style="color:red"> 叶子节点</font>  的所有路径都包含相同数目的 <font style="color:red">`BLACK`</font>  节点
-
-## 6.树
+## 5.树
 
 - 节点、根节点、父节点、子节点、兄弟节点
 - 一棵树可以没有任何一个节点，称为<font style="color:red">空树</font>
@@ -107,7 +95,7 @@
 - 森林
   - 由m(m>0)棵互不香蕉的树组成的集合
 
-### 6.1.二叉树(`Binary Tree`)
+### 5.1.二叉树(`Binary Tree`)
 
 - 特点
 
@@ -180,7 +168,7 @@
 
     - 
 
-### 6.2.平衡二叉搜索树(`BBST`)
+### 5.2.平衡二叉搜索树(`BBST`)
 
 > `Balanced Binary Search Tree`
 >
@@ -206,7 +194,7 @@
 
     - 
 
-#### 6.2.1.`AVL` 树
+#### 5.2.1.`AVL` 树
 
 - 平衡因子(`Balance Factor`) - 某节点的左右子树的高度差
 
@@ -218,7 +206,7 @@
 
 - 单旋
 
-  - `LL`-右旋转
+  - `LL`-右旋转-(单旋转)
 
     - ```json
       # n node
@@ -234,4 +222,50 @@
       
       ```
 
-    - 
+  - `RR`-左旋转-(单旋转)
+  
+    - ```json
+      # n node
+      # p parent
+      # g grandparent
+      ## ------------------
+      # g.right = p.left
+      # p.left = g
+      # 让 p 成为: 根节点
+      # 维护相应节点的 parent 属性
+      # 先后更新: g、p 的高度
+      ## ------------------
+      ```
+  
+- 双旋
+
+  - `LR-RR`-左旋转--`LL`-右旋转-(双旋转)
+  - `RL-LL`-右旋转--`RR`-左旋转-(双旋转)
+
+- 总结
+
+  - 添加
+    - 可能会导致<font style="color:blue">所有</font>的<font style="color:red">祖先节点</font>都失衡
+    - 只要让高度最低的失衡节点恢复平衡,整棵树就恢复平衡 (仅需O(1)次调整)
+  - 删除
+    - 可能会导致<font style="color:red">父节点</font>失衡
+    - 让<font style="color:red">父节点</font>恢复平衡后,可能会导致更高层的祖先节点失衡 (至多需要O(`logn`)次调整）
+  - 时间复杂度
+    - 搜索
+      - O(`logn`)
+    - 添加
+      - O(`logn`) 仅需要O(1)次旋转操作
+    - 删除
+      - O`(logn)` 最多需要O(`logn`)次旋转操作
+
+### 5.3.红黑树
+
+> 红黑树是一种自平衡的二叉搜索树,d也平衡二叉B树
+
+- <font style="color:red">节点</font>是 <font style="color:red">`RED`</font>或者 <font style="color:red">`BLACK`</font>
+- <font style="color:red">根节点</font>为 <font style="color:red">`BLACK`</font>
+- <font style="color:red">叶子节点</font>(外部节点,空节点)都是<font style="color:red"> `BLACK`</font>
+- <font style="color:red">`RED`</font> 节点的子节点都是 <font style="color:red">`BLACK`</font>
+  - <font style="color:red">`RED`</font> 节点的 `parent` 都是 <font style="color:red">`BLACK`</font>
+  - 从 <font style="color:red">根节点</font>  到 <font style="color:red">叶子节点</font>  的所有路径上不能有`2`个连续的<font style="color:red">`RED`</font>节点
+- 从<font style="color:red">任意节点</font> 到<font style="color:red"> 叶子节点</font>  的所有路径都包含相同数目的 <font style="color:red">`BLACK`</font>  节点
