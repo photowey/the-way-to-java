@@ -301,6 +301,33 @@ public class ReentrantLocker {
         }, "Boss").start();
     }
 
+    public void releaseLockProcess() {
+        Thread t1 = new Thread(() -> {
+            try {
+                lock.lock();
+                log.info("---------- t1 acquire lock ----------");
+            } finally {
+                lock.unlock();
+            }
+        }, "t1");
+
+        // 主线程 - 先拿到锁
+        lock.lock();
+        // t1 启动 - 进入队列
+        t1.start();
+        t1.interrupt();
+        try {
+            try {
+                Thread.sleep(2_000);
+            } catch (InterruptedException e) {
+            }
+        } finally {
+            // 释放锁 - 唤醒 t1 {@link java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt}
+            // {@link LockSupport.park(this)}
+            lock.unlock();
+        }
+    }
+
     int monitor = 1;
 
     /**

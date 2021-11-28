@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -121,6 +122,97 @@ public class ReentrantReadWriteLocker {
             }
 
         }, "write-2").start();
+    }
+
+    public void doReadWriteFullAction() throws InterruptedException {
+        // t1  最先拿到写(W)锁 然后睡眠了5s 之后才会叫醒别人
+        Thread t1 = new Thread(() -> {
+            writeLock.lock();
+            try {
+                log.info("---------- t1 acquire lock ----------");
+                TimeUnit.SECONDS.sleep(5);
+                log.info("---------- t1 after 5s ----------");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                log.info("---------- t1 release lock ----------");
+                writeLock.unlock();
+            }
+        }, "t1");
+
+        t1.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        // t1在睡眠的过程中 t2不能拿到 读写互斥,t2 一直阻塞
+        Thread t2 = new Thread(() -> {
+            try {
+                readLock.lock();
+                log.info("---------- t2 acquire lock ----------");
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            } finally {
+                log.info("---------- t2 release lock ----------");
+                readLock.unlock();
+            }
+        }, "t2");
+        t2.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        // t1在睡眠的过程中 t3不能拿到 读写互斥,t3 一直阻塞
+        // 当t1释放锁之后 t3和t2 能同时拿到锁,读读并发
+        Thread t3 = new Thread(() -> {
+            try {
+                readLock.lock();
+                log.info("---------- t3 acquire lock ----------");
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                log.info("---------- t3 release lock ----------");
+                readLock.unlock();
+            }
+        }, "t3");
+        t3.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        // 拿写锁-t1 睡眠的时候 t4 也阻塞,顺序应该 t2 t3 t4
+        Thread t4 = new Thread(() -> {
+            try {
+                writeLock.lock();
+                log.info("---------- t4 acquire lock ----------");
+                TimeUnit.SECONDS.sleep(10);
+                log.info("---------- t4 after sleep ----------");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                log.info("---------- t4 release lock ----------");
+                writeLock.unlock();
+            }
+        }, "t4");
+
+        t4.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        // t5 是读锁 他不会和t2 t3 一起执行
+        Thread t5 = new Thread(() -> {
+            try {
+                readLock.lock();
+                log.info("---------- t5 acquire lock ----------");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                log.info("---------- t5 release lock ----------");
+                readLock.unlock();
+            }
+        }, "t5");
+
+        t5.start();
     }
 
     private void action(int index) {

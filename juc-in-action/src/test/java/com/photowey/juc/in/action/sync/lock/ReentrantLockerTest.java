@@ -135,4 +135,16 @@ class ReentrantLockerTest {
         TimeUnit.SECONDS.sleep(3);
     }
 
+    /**
+     * 释放锁流程
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    void testReleaseLockProcess() throws InterruptedException {
+        ReentrantLocker reentrantLocker = new ReentrantLocker();
+
+        reentrantLocker.releaseLockProcess();
+        TimeUnit.SECONDS.sleep(10);
+    }
 }
