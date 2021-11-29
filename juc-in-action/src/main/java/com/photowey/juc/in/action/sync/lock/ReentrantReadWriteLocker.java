@@ -37,14 +37,37 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReentrantReadWriteLocker {
 
     /**
+     * 问题:
+     * 1.读写锁为什么不能升级?
+     * <pre>
+     *    lock.readLock.lock()  // t1  t2  t3 -- 均能拿到读锁
+     *          do something
+     *          // t1 拿不到锁-等待 t2和t3 释放; t2 拿不到锁-等待 t1和t3 释放;t3 拿不到锁-等待 t1和t2 释放;
+     *          // 死锁
+     *          lock.writeLock.lock()
+     *              do something
+     *          lock.writeLock.unlock()
+     *    lock.readLock.unlock()
+     * </pre>
+     * 2.读写锁为什么可以降级?
+     * <pre>
+     *    lock.writeLock.lock()  // t1  t2  t3 -- 只有 t1 能拿到写锁
+     *          do something
+     *          lock.readLock.lock() // t1 可以拿到读锁 - 降级
+     *              do something
+     *          lock.readLock.unlock()
+     *    lock.writeLock.unlock()
+     * </pre>
+     */
+    /**
      * 读读并发
      * 读写互斥
      * 写写互斥
      * {@link ReentrantReadWriteLock.ReadLock} 不支持 newCondition() -> {@code throw new UnsupportedOperationException()}
      */
-    private static ReadWriteLock lock = new ReentrantReadWriteLock();
-    private static Lock readLock = lock.readLock();
-    private static Lock writeLock = lock.writeLock();
+    private static final ReadWriteLock lock = new ReentrantReadWriteLock();
+    private static final Lock readLock = lock.readLock();
+    private static final Lock writeLock = lock.writeLock();
 
     public void doReadWrite() {
         new Thread(() -> {
