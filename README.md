@@ -7,7 +7,7 @@
 ## 1.`Module`
 
 ```shell
-├─benchmark-in-action
+├─benchmark-in-action    // Java synchronized 基准测试
 ├─common-in-action
 ├─data-filter-in-action
 ├─dubbo-in-action
@@ -21,6 +21,7 @@
 ├─jvm-bus-in-action
 ├─kafka-in-action
 ├─mongo-in-action
+├─multi-thread-benchmark-in-action    // Java multi-thread 基准测试
 ├─mybatis-in-action
 ├─mysql-in-action
 ├─netty-in-action

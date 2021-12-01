@@ -29,6 +29,7 @@
     </properties>
 
     <modules>
+<!--        <module>benchmark-in-action</module>-->
         <module>dubbo-in-action</module>
         <module>kafka-in-action</module>
         <module>mybatis-in-action</module>
@@ -43,10 +44,11 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
-<!--        <module>hashmap-in-action</module>-->
+        <module>hashmap-in-action</module>
         <module>jvm-in-action</module>
         <module>mysql-in-action</module>
         <module>mongo-in-action</module>
+        <!--        <module>multi-thread-benchmark-in-action</module>-->
         <module>elasticsearch-in-action</module>
         <module>persistence-in-action-bom</module>
         <module>print-in-action</module>
