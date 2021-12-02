@@ -45,9 +45,9 @@ public class TransactionServiceImpl implements TransactionService {
     public void transactionTestRequired() {
         try {
             // 1.成功
-            this.mybatisEngine.serviceEngine().employeeService().handleRequiredSave();
-            // 2.抛出异常
             this.mybatisEngine.serviceEngine().organizationService().handleRequiredSave();
+            // 2.抛出异常
+            this.mybatisEngine.serviceEngine().employeeService().handleRequiredSave();
 
             // 测试是否回滚?
             // 结果是: 全归滚
