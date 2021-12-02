@@ -1,0 +1,9 @@
+paradise:
+  config:
+    security:
+      user:
+        name: paradise
+        password: paradise
+    eureka:
+      hostname: localhost
+      port: 8761

@@ -1,0 +1,34 @@
+server:
+  port: ${paradise.config.eureka.port}
+
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    active: dev
+  security:
+    user:
+      roles:
+        - SUPERUSER
+      name: ${paradise.config.security.user.name}
+      password: ${paradise.config.security.user.password}
+
+eureka:
+  instance:
+    hostname: ${paradise.config.eureka.hostname}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${paradise.config.eureka.port}/eureka/
+  server:
+    enable-self-preservation: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

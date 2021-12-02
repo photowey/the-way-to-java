@@ -1,0 +1,23 @@
+server:
+  port: ${paradise.config.gateway.port}
+
+spring:
+  application:
+    name: gateway-server
+  profiles:
+    active: dev
+  security:
+    user:
+      roles:
+        - SUPERUSER
+      name: ${paradise.config.security.user.name}
+      password: ${paradise.config.security.user.password}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: ${paradise.config.eureka.hostname}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${paradise.config.eureka.port}/eureka/

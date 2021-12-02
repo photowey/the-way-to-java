@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson.version>1.2.78</fastjson.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
 
@@ -40,6 +40,7 @@
         <module>zookeeper-in-action</module>
         <module>spring-in-action</module>
         <module>spring-cloud-alibaba-in-action</module>
+        <module>spring-cloud-in-action</module>
         <module>data-filter-in-action</module>
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
