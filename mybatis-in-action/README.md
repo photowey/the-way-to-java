@@ -1,1 +1,46 @@
 # `Mybatis`
+## 1.`Design pattern`
+
+- `Buidler`
+  - `SqlSessionFactoryBuilder`
+  - `XMLMapperBuilder`
+  - `XMLStatementBuilder`
+  - ...
+- `Factory`
+  - `SqlSessionFactory`
+  - `ObjectFactory`
+  - `MapperProxyFactory`
+  - ...
+- `Signleton`
+  - `ErrorContext`
+  - `LogFactory`
+  - ...
+- `Proxy`
+  - `MapperProxy`
+  - `ConnectionLogger`
+  - ...
+- `Template`
+  - `BaseExecutor`
+    - `SimpleExecutor`
+  - ...
+  - `BaseTypeHandler`
+    - `IntegerTypeHandler`
+  - ...
+- `Adapter `
+  - `Log`
+  - `jdbc`
+  - `log4j`
+  - ...
+- `Decorator `
+  - `Cache`
+    - `LruCache`
+    - `LoggingCache`
+  - ...
+- `Iterator`
+  - `PropertyTokenizer`
+- `Composite`
+  - `SqlNode`
+    - `ChooseSqlNode`
+    - `TrimSqlNode`
+    - `IfSqlNode`
+  - ...
