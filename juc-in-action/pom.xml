@@ -16,6 +16,7 @@
 
     <properties>
         <jol-core.version>0.10</jol-core.version>
+        <disruptor.version>3.4.0</disruptor.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,11 @@
             <artifactId>jol-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -48,6 +54,12 @@
                 <groupId>org.openjdk.jol</groupId>
                 <artifactId>jol-core</artifactId>
                 <version>${jol-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
