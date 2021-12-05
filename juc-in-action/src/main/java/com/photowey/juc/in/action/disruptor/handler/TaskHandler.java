@@ -45,6 +45,7 @@ public class TaskHandler<T> implements WorkHandler<DataEvent<T>> {
         if (event != null) {
             AbstractDataTask<T> dataTask = taskFactory.create();
             dataTask.setData(event.getData());
+            dataTask.setOccur(event.getOccur());
             taskExecutor.execute(dataTask);
         }
     }

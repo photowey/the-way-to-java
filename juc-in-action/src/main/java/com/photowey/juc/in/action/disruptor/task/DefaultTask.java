@@ -43,5 +43,11 @@ public class DefaultTask extends AbstractDataTask<String> {
         List<String> dataList = new ArrayList<>();
         dataList.add(data);
         subscribers.forEach(subscriber -> subscriber.execute(dataList));
+        // TODO Support the TaskContext<T> in the future.
     }
+
+//    public class TaskContext<T> {
+//        private T data;
+//        private long occur;
+//    }
 }

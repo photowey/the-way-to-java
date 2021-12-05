@@ -28,4 +28,5 @@ import lombok.Data;
 public abstract class AbstractDataTask<T> implements Runnable {
 
     private T data;
+    private long occur;
 }
