@@ -17,6 +17,8 @@ package com.photowey.juc.in.action.disruptor.publisher;
 
 import com.photowey.juc.in.action.disruptor.manager.DisruptorProducerManager;
 import com.photowey.juc.in.action.disruptor.producer.Producer;
+import com.photowey.juc.in.action.disruptor.subscriber.TaskSubscriber;
+import com.photowey.juc.in.action.disruptor.task.factory.TaskFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 
 import java.time.LocalDateTime;
@@ -55,15 +57,21 @@ public class DefaultDisruptorPublisher implements DisruptorPublisher, SmartIniti
         });
     }
 
-    private <T> void checkDefaultDataType(T data) {
-        if (!(data instanceof String)) {
-            throw new IllegalArgumentException("Illegal default data type, must be java.lang.String.");
-        }
+    @Override
+    public <DT> void registerSubscriber(TaskSubscriber<DT> subscriber) {
+        TaskFactory<String> taskFactory = this.producerManager.getTaskFactory();
+        taskFactory.registerSubscriber((TaskSubscriber<String>) subscriber);
     }
 
     @Override
     public void close() {
         this.producerManager.getProducer().shutdown();
+    }
+
+    private <T> void checkDefaultDataType(T data) {
+        if (!(data instanceof String)) {
+            throw new IllegalArgumentException("Illegal default data type, must be java.lang.String.");
+        }
     }
 
     public long toTimeStamp(LocalDateTime occur) {

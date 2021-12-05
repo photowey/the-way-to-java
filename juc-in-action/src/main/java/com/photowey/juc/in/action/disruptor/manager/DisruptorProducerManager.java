@@ -22,9 +22,9 @@ import com.photowey.juc.in.action.disruptor.event.DataEvent;
 import com.photowey.juc.in.action.disruptor.event.DisruptorEventFactory;
 import com.photowey.juc.in.action.disruptor.handler.TaskHandler;
 import com.photowey.juc.in.action.disruptor.producer.DisruptorProducer;
-import com.photowey.juc.in.action.disruptor.producer.Producer;
 import com.photowey.juc.in.action.disruptor.task.factory.TaskFactory;
 import com.photowey.juc.in.action.disruptor.thread.DisruptorThreadFactory;
+import lombok.Getter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -47,8 +47,10 @@ public class DisruptorProducerManager<T> {
     private final Integer ringBufferSize;
     private final Integer taskHandlerSize;
 
+    @Getter
     private DisruptorProducer<T> producer;
 
+    @Getter
     private TaskFactory<T> taskFactory;
 
     private ExecutorService taskExecutor;
@@ -81,10 +83,6 @@ public class DisruptorProducerManager<T> {
         RingBuffer<DataEvent<T>> ringBuffer = disruptor.getRingBuffer();
 
         this.producer = new DisruptorProducer<>(ringBuffer, disruptor);
-    }
-
-    public Producer<T> getProducer() {
-        return this.producer;
     }
 
     private Disruptor<DataEvent<T>> populateDisruptor() {

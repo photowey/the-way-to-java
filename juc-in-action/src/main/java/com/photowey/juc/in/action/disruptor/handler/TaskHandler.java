@@ -31,12 +31,12 @@ import java.util.concurrent.ExecutorService;
  */
 public class TaskHandler<T> implements WorkHandler<DataEvent<T>> {
 
-    private final ExecutorService executor;
+    private final ExecutorService taskExecutor;
 
     private final TaskFactory<T> taskFactory;
 
-    public TaskHandler(final ExecutorService executor, final TaskFactory<T> taskFactory) {
-        this.executor = executor;
+    public TaskHandler(final ExecutorService taskExecutor, final TaskFactory<T> taskFactory) {
+        this.taskExecutor = taskExecutor;
         this.taskFactory = taskFactory;
     }
 
@@ -45,7 +45,7 @@ public class TaskHandler<T> implements WorkHandler<DataEvent<T>> {
         if (event != null) {
             AbstractDataTask<T> dataTask = taskFactory.create();
             dataTask.setData(event.getData());
-            executor.execute(dataTask);
+            taskExecutor.execute(dataTask);
         }
     }
 }

@@ -15,6 +15,8 @@
  */
 package com.photowey.juc.in.action.disruptor.publisher;
 
+import com.photowey.juc.in.action.disruptor.subscriber.TaskSubscriber;
+
 /**
  * {@code DisruptorPublisher}
  *
@@ -23,6 +25,16 @@ package com.photowey.juc.in.action.disruptor.publisher;
  * @since 1.0.0
  */
 public interface DisruptorPublisher extends Publisher {
+
+    /**
+     * Register {@link TaskSubscriber}
+     *
+     * @param subscriber The task subscriber.
+     * @param <DT>       The task-event data type.(DT == DATA TYPE)
+     */
+    default <DT> void registerSubscriber(final TaskSubscriber<DT> subscriber) {
+
+    }
 
     default void close() {
     }
