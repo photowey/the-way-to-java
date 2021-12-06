@@ -13,4 +13,11 @@
     <name>common-bus-in-action</name>
     <description>Common-in-action project for Spring Boot</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
