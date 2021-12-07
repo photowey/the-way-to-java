@@ -54,10 +54,12 @@ public class AppPrinter {
                             "Local: \t\t{}://localhost:{}\n\t" +
                             "External: \t{}://{}:{}\n\t" +
                             "Swagger: \t{}://{}:{}/doc.html\n\t" +
+                            "Actuator: \t{}://{}:{}/actuator/health\n\t" +
                             "Profile(s): {}\n----------------------------------------------------------",
                     app + " Context",
                     app,
                     protocol, port,
+                    protocol, host, port,
                     protocol, host, port,
                     protocol, host, port,
                     profileActive

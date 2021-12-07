@@ -16,6 +16,9 @@
 package com.photowey.spring.in.action.global;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +44,18 @@ import java.util.List;
  */
 @Slf4j
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler implements EnvironmentAware {
+
+    private Environment environment;
+
+    private static final String PROFILE_KEY = "spring.profiles.active";
+    private static final String PROFILE_DEV = "dev";
+    private static final UrlPathHelper HELPER = new UrlPathHelper();
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
@@ -57,7 +72,16 @@ public class GlobalExceptionHandler {
         } else if (exception instanceof MethodArgumentNotValidException) {
             this.handleValidException((MethodArgumentNotValidException) exception, messages);
         } else {
-            this.handleDefaultException(messages);
+            // env: dev
+            // env: ...
+            String profileActivated = this.environment.getProperty(PROFILE_KEY);
+            if (StringUtils.isNotBlank(profileActivated) && StringUtils.equals(profileActivated, PROFILE_DEV)) {
+                String lookupPath = HELPER.getLookupPathForRequest(request);
+                messages.add("path:" + lookupPath);
+                messages.add(exception.getMessage());
+            } else {
+                this.handleDefaultException(messages);
+            }
         }
         ExceptionModel exceptionModel = new ExceptionModel(HttpStatus.BAD_REQUEST.value(), 1010, String.join("#", messages));
 

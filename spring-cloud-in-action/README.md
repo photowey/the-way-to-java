@@ -1,15 +1,24 @@
-# Getting Started
+# Spring-cloud-in-action
 
-### Reference Documentation
-For further reference, please consider the following sections:
+## 1.组件
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.5.7/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.5.7/maven-plugin/reference/html/#build-image)
-* [Eureka Server](https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/#spring-cloud-eureka-server)
+### 1.1.服务发现组件
 
-### Guides
-The following guides illustrate how to use some features concretely:
+> ```http
+> http://dockone.io/article/78
+> # Eureka & Zoookeeper
+> ```
 
-* [Service Registration and Discovery with Eureka and Spring Cloud](https://spring.io/guides/gs/service-registration-and-discovery/)
+#### 1.1.1.`Eureka`
 
+- `Region`
+  - `us-east-1`
+- `Availability Zone`
+  - `us-east-1c`
+  - `us-east-1d`
+  - `us-east-1e`
+- `Component`
+  - `Eureka Server`
+  - `Eureka Client`
+
+### 1.2.负载均衡组件

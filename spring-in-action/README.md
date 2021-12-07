@@ -43,3 +43,39 @@
     - `Strategy`
     - `Template Method`
     - `Visitor`
+    
+## 2.`Actuator`
+
+2.1.`health`
+
+```http
+http://192.168.217.1:7923/actuator/health
+```
+
+
+
+2.2.`info`
+
+```http
+http://192.168.217.1:7923/actuator/info
+```
+
+```yml
+# Custom the /actuator/info endpoint
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
+```
+
+
+
+2.3.`beans`
+
+```http
+http://192.168.217.1:7923/actuator/beans
+```
+
