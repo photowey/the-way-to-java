@@ -1,0 +1,14 @@
+server:
+  port: 7924
+
+spring:
+  application:
+    name: "target-in-action"
+  profiles:
+    active: dev
+
+logging:
+  level:
+    root: error
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

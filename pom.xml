@@ -55,6 +55,7 @@
         <module>persistence-in-action-bom</module>
         <module>print-in-action</module>
         <module>validator-in-action-bom</module>
+        <module>java-agent-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -111,6 +112,7 @@
     </distributionManagement>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
