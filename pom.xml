@@ -56,6 +56,7 @@
         <module>print-in-action</module>
         <module>validator-in-action-bom</module>
         <module>java-agent-in-action</module>
+        <module>emqtt-in-action</module>
     </modules>
 
     <dependencyManagement>

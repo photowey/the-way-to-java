@@ -1,0 +1,30 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "mqtt-in-action"
+  profiles:
+    active: dev
+  mqtt:
+    protocol: tcp
+    host: 192.168.0.11
+    port: 1883
+    address: "${spring.mqtt.protocol}://${spring.mqtt.host}:${spring.mqtt.port}"
+    user-name: "admin"
+    password: "admin"
+
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2021-[photowey](https://github.com/photowey/the-way-to-java)
+  production: false
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

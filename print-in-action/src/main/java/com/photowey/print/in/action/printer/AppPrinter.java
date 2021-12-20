@@ -38,32 +38,53 @@ public class AppPrinter {
     private static final String SERVER_PORT = "server.port";
 
     public static void print(ConfigurableApplicationContext applicationContext) {
+        print(applicationContext, true);
+    }
+
+    public static void print(ConfigurableApplicationContext applicationContext, boolean swagger) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        String protocol = "http";
+        String app = environment.getProperty(APPLICATION_NAME);
+        String port = environment.getProperty(SERVER_PORT);
+        String profileActive = environment.getProperty(PROFILES_ACTIVE);
+        if (null != environment.getProperty(SERVER_SSL_KEY)) {
+            protocol = "https";
+        }
         try {
-            String protocol = "http";
-            String app = environment.getProperty(APPLICATION_NAME);
-            String port = environment.getProperty(SERVER_PORT);
-            String profileActive = environment.getProperty(PROFILES_ACTIVE);
             String host = InetAddress.getLocalHost().getHostAddress();
-            if (null != environment.getProperty(SERVER_SSL_KEY)) {
-                protocol = "https";
+            if (swagger) {
+                log.info("\n----------------------------------------------------------\n\t" +
+                                "Bootstrap: the '{}' is Success!\n\t" +
+                                "Application: '{}' is running! Access URLs:\n\t" +
+                                "Local: \t\t{}://localhost:{}\n\t" +
+                                "External: \t{}://{}:{}\n\t" +
+                                "Swagger: \t{}://{}:{}/doc.html\n\t" +
+                                "Actuator: \t{}://{}:{}/actuator/health\n\t" +
+                                "Profile(s): {}\n----------------------------------------------------------",
+                        app + " Context",
+                        app,
+                        protocol, port,
+                        protocol, host, port,
+                        protocol, host, port,
+                        protocol, host, port,
+                        profileActive
+                );
+            } else {
+                log.info("\n----------------------------------------------------------\n\t" +
+                                "Bootstrap: the '{}' is Success!\n\t" +
+                                "Application: '{}' is running! Access URLs:\n\t" +
+                                "Local: \t\t{}://localhost:{}\n\t" +
+                                "External: \t{}://{}:{}\n\t" +
+                                "Actuator: \t{}://{}:{}/actuator/health\n\t" +
+                                "Profile(s): {}\n----------------------------------------------------------",
+                        app + " Context",
+                        app,
+                        protocol, port,
+                        protocol, host, port,
+                        protocol, host, port,
+                        profileActive
+                );
             }
-            log.info("\n----------------------------------------------------------\n\t" +
-                            "Bootstrap: the '{}' is Success!\n\t" +
-                            "Application: '{}' is running! Access URLs:\n\t" +
-                            "Local: \t\t{}://localhost:{}\n\t" +
-                            "External: \t{}://{}:{}\n\t" +
-                            "Swagger: \t{}://{}:{}/doc.html\n\t" +
-                            "Actuator: \t{}://{}:{}/actuator/health\n\t" +
-                            "Profile(s): {}\n----------------------------------------------------------",
-                    app + " Context",
-                    app,
-                    protocol, port,
-                    protocol, host, port,
-                    protocol, host, port,
-                    protocol, host, port,
-                    profileActive
-            );
         } catch (UnknownHostException e) {
             // Ignore
         }
