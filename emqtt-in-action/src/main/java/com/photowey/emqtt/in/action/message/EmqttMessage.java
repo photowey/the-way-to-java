@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -42,7 +43,8 @@ public class EmqttMessage implements Serializable {
     private String topic;
     @NotBlank(message = "content: can't be null")
     private String content;
-    @Min(value = 1, message = "the qos min value:1")
+    @Min(value = 0, message = "the qos min value:o")
+    @Max(value = 2, message = "the qos max value:2")
     @NotNull(message = "qos: can't be null")
     private Integer qos = 1;
 }
