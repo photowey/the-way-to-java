@@ -57,6 +57,7 @@
         <module>validator-in-action-bom</module>
         <module>java-agent-in-action</module>
         <module>emqtt-in-action</module>
+        <module>mycat-in-action</module>
     </modules>
 
     <dependencyManagement>

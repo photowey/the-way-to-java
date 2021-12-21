@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.photowey.mybatis.in.action.repository.EmployeeRepository">
+
+    <!-- 自定义-返回数据映射-建议:手动映射 -->
+    <!-- 一个 resultMap 节点对应一个 ResultMap {@link org.apache.ibatis.mapping.ResultMap} 对象 -->
+    <resultMap id="findByIdResultMap"
+               type="com.photowey.mybatis.in.action.domain.model.EmployeeModel">
+        <!-- 一个子节点对应一个 ResultMapping {@link org.apache.ibatis.mapping.ResultMapping} 对象 -->
+        <id column="id" property="id"/>
+        <result column="employee_no" property="employeeNo"/>
+        <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- findById -->
+    <!-- 一个 select | update | insert | delete ... 节点对应一个 MappedStatement {@link org.apache.ibatis.mapping.MappedStatement} 对象 -->
+    <select id="findById" parameterType="java.lang.Long"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.id = #{id}
+    </select>
+
+    <!-- findByEmployeeNo$ -->
+    <!-- 通过工号查询-测试:$拼接 -->
+    <select id="findByEmployeeNo$" parameterType="java.lang.String"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.employee_no = ${employeeNo}
+    </select>
+
+    <!-- findAllByDynamicSQL -->
+    <!-- 动态查询: 带有 query 别名 -->
+    <select id="findAllByDynamicSQL"
+            parameterType="com.photowey.mybatis.in.action.query.EmployeeQuery"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="query.orgId != null and query.orgId != ''">
+                    AND e.org_id = #{query.orgId}
+                </if>
+                <if test="query.orgName != null and query.orgName != ''">
+                    AND e.org_name = #{query.orgName}
+                </if>
+                <if test="query.employeeNo != null and query.employeeNo != ''">
+                    AND e.employee_no = #{query.employeeNo}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!-- findAllByDynamicSQLMap -->
+    <!-- 动态查询: 不带 query 别名 -->
+    <select id="findAllByDynamicSQLMap" parameterType="java.util.Map"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="orgId != null and orgId != ''">
+                    AND e.org_id = #{orgId}
+                </if>
+                <if test="orgName != null and orgName != ''">
+                    AND e.org_name = #{orgName}
+                </if>
+                <if test="employeeNo != null and employeeNo != ''">
+                    AND e.employee_no = #{employeeNo}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!-- findAllByDynamicSQLMap -->
+    <!-- 动态查询: 不带 query 别名 - 执行-自定义分页插件的分页查询 -->
+    <select id="findPageByDynamicSQLMap" parameterType="java.util.Map"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e
+        <where>
+            <trim prefixOverrides="AND|OR">
+                <if test="orgId != null and orgId != ''">
+                    AND e.org_id = #{orgId}
+                </if>
+                <if test="orgName != null and orgName != ''">
+                    AND e.org_name = #{orgName}
+                </if>
+                <if test="employeeNo != null and employeeNo != ''">
+                    AND e.employee_no = #{employeeNo}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>
