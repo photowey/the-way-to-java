@@ -56,3 +56,193 @@
 ### 1.6.全局序列号(`Sequence`)
 
 > 数据切分后,原有的关系数据库中的主键约束在分布式条件下将无法使用,因此需要引入外部机制保证数据唯一性标识,这种保证全局性的数据唯一标识的机制就是全局序列号(`sequence`)
+
+
+
+## 2.配置
+
+### 2.1.`schema.xml`
+
+> `schema.xml` 作为 `MyCat ` 中重要的配置文件之一,管理着 `MyCat `的逻辑库、表、分片规则、`DataNode `以及 `DataSource`
+
+
+
+#### 2.1.1.`schema`标签
+
+| 属性名           | 值        | 数量限制 |
+| ---------------- | --------- | -------- |
+| `dataNode`       | `String`  | (0..1)   |
+| `checkSQLschema` | `Boolean` | (1)      |
+| `sqlMaxLimit`    | `Integer` | (1)      |
+
+- `dataNode`
+
+  - ```xml
+    <schema name="USERDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn2">
+        <!-- 配置需要分片的表 -->
+        <table name="t_user" dataNode="dn1"/>
+    </schema>
+    
+    <!-- 
+    那么现在 t_user 就绑定到 dn1 所配置的具体 database 上,
+    可以直接访问这个 database,没有配置的表则会走默认节点dn2
+    -->
+    ```
+
+  - 
+
+- `checkSQLschema`
+
+  - ```json
+    # 当该值设置为true 时,如果我们执行语句:
+    # select * from USERDB.t_user;
+    # 则 MyCat 会把语句修改为:
+    # select * from t_user;
+    # 即把表示 schema 的字符去掉,避免发送到后端数据库执行时报错.
+    
+    # 不过,即使设置该值为: true ,如果语句所带的是并非是 schema 指定的名字,
+    # 例如: select * from db1.t_user;
+    # 那么 MyCat 并不会删除 db1 这个字段,如果没有定义该库的话则会报错,所以在提供SQL语句的最好是不带这个字段.
+    ```
+
+  - 
+
+- `sqlMaxLimit`
+
+  - ```json
+    # 当该值设置为某个数值时.每条执行的 SQL 语句,如果没有加上 limit 语句,MyCat 也会自动的加上所对应的值.例如设置值为: 100,执行:
+    # select * from USERDB.t_user; 的效果为和执行
+    # select * from USERDB.t_user limit 100; 相同.
+    
+    # 不设置该值的话,MyCat 默认会把查询到的信息全部都展示出来,造成过多的输出.
+    # 所以,在正常使用中,还是建议加上一个值,用于减少过多的数据返回.
+    
+    # 当然 SQL 语句中也显式的指定 limit 的大小,不受该属性的约束.
+    ```
+
+  - 
+
+#### 2.1.2.`table` 标签
+
+> `table `标签定义了 `MyCat `中的逻辑表,所有需要拆分的表都需要在这个标签中定义
+
+| 属性名          | 值        | 数量限制 |
+| --------------- | --------- | -------- |
+| `name`          | `String`  | (1)      |
+| `dataNode`      | `String`  | (1..*)   |
+| `rule`          | `String`  | (0..1)   |
+| `ruleRequired`  | `Boolean` | (0..1)   |
+| `primaryKey`    | `String`  | (1)      |
+| `type`          | `String`  | (0..1)   |
+| `autoIncrement` | `Boolean` | (0..1)   |
+| `subTables`     | `String`  | (1)      |
+| `needAddLimit`  | `Boolean` | (0..1)   |
+
+- `name`
+
+  - ```json
+    # 定义逻辑表的表名,这个名字就如同我们在数据库中执行 create table 命令指定的名字一样,同个 schema 标签中定义的名字必须唯一.
+    ```
+
+  - 
+
+- `dataNode`
+
+  - ```json
+    # 定义这个逻辑表所属的 dataNode, 该属性的值需要和 dataNode 标签中 name 属性的值相互对应.
+    ```
+
+  - 
+
+- `rule`
+
+  - ```json
+    # 该属性用于指定逻辑表要使用的规则名字,规则名字在 rule.xml 中定义,必须与 tableRule 标签中 name 属性属性值一一对应.
+    ```
+
+  - 
+
+- `ruleRequired`
+
+  - ```json
+    # 该属性用于指定表是否绑定分片规则,如果配置为: true,但没有配置具体 rule 的话,程序会报错.
+    ```
+
+  - 
+
+- `primaryKey`
+
+  - ```json
+    # 该逻辑表对应真实表的主键.
+    # 例如:分片的规则是使用非主键进行分片的,那么在使用主键查询的时候,就会发送查询语句到所有配置的 DN 上,如果使用该属性配置真实表的主键.那么 MyCat 会缓存主键与具体 DN 的信息,那么再次使用非主键进行查询的时候就不会进行广播式的查询,就会直接发送语句给具体的 DN,但是尽管配置该属性,如果缓存并没有命中的话,还是会发送语句给具体的 DN,来获得数据.
+    ```
+
+  - 
+
+- `type`
+
+  - ```json
+    # 该属性定义了逻辑表的类型,目前逻辑表只有"全局表"和"普通表"两种类型.
+    # 全局表: global
+    # 普通表: 不指定该值为 globla 的所有表.
+    ```
+
+  - 
+
+- `autoIncrement`
+
+  - ```json
+    # MSQL 对非自增长主键,使用 last_insert_id() 是不会返回结果的,只会返回0.所以,只有定义了自增长主键的表才可以用 last_insert_id() 返回主键值.
+    
+    # MyCat 目前提供了自增长主键功能,但是如果对应的 MSQL 节点上数据表,没有定义 auto_increment,那么在 MyCat 层调用 last_insert_id() 也是不会返回结果的.
+    
+    # 由于 insert 操作的时候没有带入分片键,MyCat 会先取下这个表对应的全局序列,然后赋值给分片键.这样才能正常的插入到数据库中,最后使用last_insert_id() 才会返回插入的分片键值.如果要使用这个功能最好配合使用数据库模式的全局序列.
+    
+    # 使用 autoIncrement="true" 指定这个表有使用自增长主键,这样 MyCat 才会不抛出分片键找不到的异常.
+    
+    # 使用 autoIncrement="false" 来禁用这个功能,当然你也可以直接删除掉这个属性.
+    # 默认就是禁用的.
+    ```
+
+  - 
+
+- `subTables`
+
+  - ```json
+    # subTables="t_user$1-2,t_user3"
+    # dataNode 在分表条件下只能配置一个,分表条件下不支持各种条件的 join 语句
+    ```
+
+  - 
+
+- `needAddLimit`
+
+  - ```json
+    # 指定表是否需要自动的在每个语句后面加上 limit 限制
+    ```
+
+  - 
+
+
+
+#### 2.1.3.`childTable` 标签
+
+#### 2.1.4.`dataNode` 标签
+
+#### 2.1.5.`dataHost` 标签
+
+| 属性名      | 值        | 数量限制 |
+| ----------- | --------- | -------- |
+| `name`      | `String`  | (1)      |
+| `maxCon`    | `Integer` | (1)      |
+| `minCon`    | `Integer` | (1)      |
+| `balance`   | `Integer` | (1)      |
+| `writeType` | `Integer` | (1)      |
+| `dbType`    | `String`  | (1)      |
+| `dbDriver`  | `String`  | (1)      |
+
+
+
+### 2.2.`serverxml`
+
+### 2.3.`rule.xml`
