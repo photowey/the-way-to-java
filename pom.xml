@@ -30,7 +30,7 @@
     </properties>
 
     <modules>
-<!--        <module>benchmark-in-action</module>-->
+        <!--        <module>benchmark-in-action</module>-->
         <module>dubbo-in-action</module>
         <module>kafka-in-action</module>
         <module>mybatis-in-action</module>
@@ -58,6 +58,7 @@
         <module>java-agent-in-action</module>
         <module>emqtt-in-action</module>
         <module>mycat-in-action</module>
+        <module>sqlmap-in-action</module>
     </modules>
 
     <dependencyManagement>
