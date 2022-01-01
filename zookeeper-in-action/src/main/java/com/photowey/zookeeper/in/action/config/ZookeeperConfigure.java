@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.zookeeper.config.CuratorFrameworkFactoryBean;
+import org.springframework.integration.zookeeper.lock.ZookeeperLockRegistry;
 
 import java.io.IOException;
 
@@ -86,5 +88,17 @@ public class ZookeeperConfigure {
     @Bean
     public RetryPolicy exponentialBackoffRetry() {
         return new ExponentialBackoffRetry(this.zookeeperProperties.getBaseSleepTimeMs(), this.zookeeperProperties.getMaxRetries());
+    }
+
+    /* ******************************* Zookeeper Lock ************************* */
+
+    @Bean
+    public CuratorFrameworkFactoryBean curatorFrameworkFactoryBean() {
+        return new CuratorFrameworkFactoryBean(this.zookeeperProperties.getConnectString());
+    }
+
+    @Bean
+    public ZookeeperLockRegistry zookeeperLockRegistry(CuratorFramework curatorFramework) {
+        return new ZookeeperLockRegistry(curatorFramework, "/zookeeper-lock");
     }
 }
