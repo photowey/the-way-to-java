@@ -59,6 +59,7 @@
         <module>emqtt-in-action</module>
         <module>mycat-in-action</module>
         <module>sqlmap-in-action</module>
+        <module>shell-in-action</module>
     </modules>
 
     <dependencyManagement>
