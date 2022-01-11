@@ -60,6 +60,7 @@
         <module>mycat-in-action</module>
         <module>sqlmap-in-action</module>
         <module>shell-in-action</module>
+        <module>sqlite-in-action</module>
     </modules>
 
     <dependencyManagement>
