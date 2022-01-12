@@ -15,10 +15,24 @@
 # limitations under the License.
 #
 
-# 变量 显式赋值
-IP=192.168.1.6
-if ping -c 1 $IP &>/dev/null; then
-  echo "$IP is UP"
-else
-  echo "$IP is DOWN"
+# test.sh
+
+# 条件测试
+# - test 条件表达式
+# - [ 条件表达式 ]
+# - [[ 条件表达式 ]]
+
+## - 文件测试
+## - 数值比较
+## - 字符串比较
+
+back_dir=/var/mysql_backd
+#if ! test -d $back_dir; then
+#  mkdir -p $back_dir
+#fi
+
+if [ ! -d $back_dir ]; then
+  mkdir -p $back_dir
 fi
+
+echo "开始备份..."
