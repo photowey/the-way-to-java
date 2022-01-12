@@ -13,6 +13,29 @@ spring:
     name: "sqlite-in-action"
   profiles:
     active: dev
+  datasource:
+    url: "jdbc:sqlite:D:\\software\\sqlite\\db\\hello.sqlite.db"
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  typeAliasesPackage: com.photowey.sqlite.in.action.domain.entity
+  global-config:
+    db-config:
+      id-type: ID_WORKER
+      field-strategy: NOT_NULL
+      column-underline: true
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
 
 logging:
   level:

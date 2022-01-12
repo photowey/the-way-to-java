@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.photowey.sqlite.in.action.repository.StudentRepository">
+
+    <resultMap type="Student" id="studentMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <select id="findOne" parameterType="Long" resultMap="studentMap">
+
+        SELECT * FROM student WHERE id = #{id}
+
+    </select>
+
+</mapper>
