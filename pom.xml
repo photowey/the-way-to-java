@@ -66,6 +66,7 @@
         <module>sqlmap-in-action</module>
         <module>shell-in-action</module>
         <module>sqlite-in-action</module>
+        <module>knife4j-in-action</module>
     </modules>
 
     <dependencyManagement>
