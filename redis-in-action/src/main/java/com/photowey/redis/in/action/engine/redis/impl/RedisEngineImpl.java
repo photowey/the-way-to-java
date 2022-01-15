@@ -30,7 +30,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import static com.photowey.redis.in.action.config.redis.constant.RedisBeanNameConstants.REDIS_CUSTOM_TEMPLATE_BEAN_NAME;
+import static com.photowey.redis.in.action.constant.RedisBeanNameConstants.REDIS_CUSTOM_TEMPLATE_BEAN_NAME;
 
 /**
  * {@code RedisEngineImpl}

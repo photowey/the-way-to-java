@@ -1,0 +1,38 @@
+package com.photowey.oauth2.authentication.core.domain.dto;
+
+import com.photowey.oauth2.authentication.core.domain.entity.SystemPermission;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * {@code SystemRolePermissionDTO}
+ *
+ * @author photowey
+ * @date 2022/01/15
+ * @since 1.0.0
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SystemRolePermissionDTO implements Serializable {
+
+    private static final long serialVersionUID = 8110082136221709240L;
+
+    private Long permissionId;
+    private String permissionName;
+    private String url;
+    private List<SystemRoleDTO> roles;
+
+    public SystemRolePermissionDTO(SystemPermission permission, List<SystemRoleDTO> roles) {
+        this.permissionId = permission.getId();
+        this.permissionName = permission.getName();
+        this.url = permission.getUrl();
+        this.roles = roles;
+    }
+}

@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.11:8848
+  redis:
+    host: 192.168.0.11
+    password:
+    port: 6379
+    timeout: 15000
+    jedis:
+      pool:
+        max-active: 600
+        max-idle: 300
+        max-wait: 15000
+        min-idle: 10
+
+local:
+  config:
+    mysql:
+      host: "192.168.0.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "oauth2-authentication-server"

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.redis.in.action.config.redis;
+package com.photowey.oauth2.authentication.server.config;
 
-import com.photowey.redis.in.action.property.redis.JedisProperties;
-import com.photowey.redis.in.action.property.redis.RedisProperties;
+import com.photowey.oauth2.authentication.server.property.redis.JedisProperties;
+import com.photowey.oauth2.authentication.server.property.redis.RedisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,13 +30,13 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import static com.photowey.redis.in.action.constant.RedisBeanNameConstants.*;
+import static com.photowey.oauth2.authentication.core.constant.RedisBeanNameConstants.*;
 
 /**
  * {@code RedisConfigure}
@@ -149,8 +149,7 @@ public class RedisConfigure {
     @Bean(REDIS_VALUE_SERIALIZER_BEAN_NAME)
     @ConditionalOnMissingBean(name = REDIS_VALUE_SERIALIZER_BEAN_NAME)
     public RedisSerializer<Object> redisValueSerializer() {
-        // return new Jackson2JsonRedisSerializer<>(Object.class);
-
-        return new GenericJackson2JsonRedisSerializer();
+        // return new GenericJackson2JsonRedisSerializer();
+        return new Jackson2JsonRedisSerializer<>(Object.class);
     }
 }

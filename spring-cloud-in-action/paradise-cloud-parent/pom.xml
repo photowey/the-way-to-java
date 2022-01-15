@@ -20,9 +20,14 @@
     <modules>
         <module>eureka-server</module>
         <module>spring-cloud-gateway</module>
+        <module>oauth2-authentication-core</module>
+        <module>oauth2-authentication-server</module>
+        <module>oauth2-authentication-repository</module>
+        <module>oauth2-authentication-service</module>
     </modules>
 
     <properties>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
     </properties>
 
     <dependencies>
@@ -30,6 +35,27 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>oauth2-authentication-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>oauth2-authentication-repository</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>oauth2-authentication-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
