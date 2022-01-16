@@ -22,6 +22,8 @@
         <spring-cloud-security.version>2.2.5.RELEASE
         </spring-cloud-security.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+
+        <feign-core.version>10.12</feign-core.version>
     </properties>
 
     <modules>
@@ -58,6 +60,12 @@
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery
                 </artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${feign-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

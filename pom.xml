@@ -44,6 +44,7 @@
         <module>netty-in-action</module>
         <module>rabbitmq-in-action</module>
         <module>redis-in-action</module>
+        <module>redis-in-action-starter</module>
         <module>rocketmq-in-action</module>
         <module>zookeeper-in-action</module>
         <module>spring-in-action</module>
@@ -69,7 +70,6 @@
         <module>shell-in-action</module>
         <module>sqlite-in-action</module>
         <module>knife4j-in-action</module>
-
     </modules>
 
     <dependencyManagement>
@@ -118,6 +118,12 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>redis-in-action-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
         </dependencies>
