@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.core.model;
+package com.photowey.oauth2.authentication.jwt.model.token;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * {@code JwtModel}
+ * {@code InnerToken}
  *
  * @author photowey
  * @date 2022/01/15
  * @since 1.0.0
  */
 @Data
-public class JwtModel implements Serializable {
+public class InnerToken implements Serializable {
 
-    private static final long serialVersionUID = 2207193447086933002L;
-
-    protected String jti;
-    protected Long expiredIn;
-
+    private String pp;
+    private String ui;
+    private String un;
+    private String jti;
+    private Integer ei;
+    private String au;
 }

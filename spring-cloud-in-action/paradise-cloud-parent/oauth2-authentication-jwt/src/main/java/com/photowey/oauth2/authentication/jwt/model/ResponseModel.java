@@ -13,26 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.core.model.token;
+package com.photowey.oauth2.authentication.jwt.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * {@code InnerToken}
+ * {@code ResponseModel}
  *
  * @author photowey
  * @date 2022/01/15
  * @since 1.0.0
  */
 @Data
-public class InnerToken implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponseModel implements Serializable {
 
-    private String pp;
-    private String ui;
-    private String jti;
-    private Integer ei;
-    private List<String> au;
+    private static final long serialVersionUID = -2182374801594872295L;
+
+    private int status;
+    private String code;
+    private String message;
+    private Object data;
 }

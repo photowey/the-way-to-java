@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.core.constant;
+package com.photowey.oauth2.authentication.jwt.constant;
 
 /**
  * {@code TokenConstants}
@@ -36,19 +36,21 @@ public interface TokenConstants {
     String TOKEN_JTI = "jti";
     // expired in
     String TOKEN_EXPIRED = "ei";
-
-    String GATEWAY_TOKEN_NAME = "x-inner-oauth-token";
     // principal
     String TOKEN_PRINCIPAL = "pp";
     // authorities
     String TOKEN_AUTHORITIES = "au";
     String TOKEN_AUTHORITIES_FULL = "authorities";
 
+    String AUTH_USER_KEY = "com.photowey.oauth2.authentication.jwt.model.AuthUser";
+    // x-inner-oauth-token=xjwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    String GATEWAY_TOKEN_NAME = "x-inner-oauth-token";
+    String GATEWAY_TOKEN_PREFIX = "xjwt ";
+
     String AUTHORIZATION_SERVER_PUBLIC_KEY_FILENAME = "authorization-server.pub";
     String AUTHORIZATION_SERVER_TOKEN_KEY_ENDPOINT_URL = "/oauth/token_key";
 
     String JTI_KEY_PREFIX = "oauth2.black.list:";
-    String AUTH_USER_KEY = "com.photowey.oauth2.authentication.core.model.AuthUser";
     String OAUTH_PERMISSION_URLS = "oauth2.permission.urls";
 
     String OAUTH_METHOD_DELIMITER = ":";
