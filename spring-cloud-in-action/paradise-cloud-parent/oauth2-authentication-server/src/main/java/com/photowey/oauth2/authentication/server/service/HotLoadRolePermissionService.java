@@ -15,9 +15,9 @@
  */
 package com.photowey.oauth2.authentication.server.service;
 
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
 import com.photowey.oauth2.authentication.core.domain.dto.SystemRoleDTO;
 import com.photowey.oauth2.authentication.core.domain.dto.SystemRolePermissionDTO;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import com.photowey.oauth2.authentication.service.permission.SystemRolePermissionService;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;

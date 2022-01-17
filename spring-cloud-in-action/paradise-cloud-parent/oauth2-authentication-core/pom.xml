@@ -41,6 +41,10 @@
             <groupId>com.photowey</groupId>
             <artifactId>print-in-action</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>oauth2-authentication-jwt</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>

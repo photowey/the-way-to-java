@@ -16,7 +16,7 @@
 package com.photowey.spring.cloud.gateway.config.security;
 
 import com.alibaba.nacos.common.utils.CollectionUtils;
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

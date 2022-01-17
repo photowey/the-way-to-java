@@ -17,9 +17,9 @@ package com.photowey.spring.cloud.gateway.cors;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.common.utils.StringUtils;
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
-import com.photowey.oauth2.authentication.core.model.token.InnerToken;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
+import com.photowey.oauth2.authentication.jwt.model.token.InnerToken;
 import com.photowey.spring.cloud.gateway.constant.GatewayConstants;
 import com.photowey.spring.cloud.gateway.property.OAuth2GatewayProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -94,8 +94,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             }
             String userId = additionalInformation.get(TokenConstants.TOKEN_USER_ID).toString();
             InnerToken innerToken = this.populateInnerToken(accessToken, jti, userName, authorities, userId);
-            String innerTokenBase64 = Base64Utils.encodeToString(JSON.toJSONString(innerToken).getBytes(StandardCharsets.UTF_8));
-            // 网关重新颁发-新的token 到下游服务
+            String innerTokenBase64 = this.populatePassport(innerToken);
+            // 网关重新颁发-新的 inner-token 到下游服务
             ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(TokenConstants.GATEWAY_TOKEN_NAME, innerTokenBase64).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
 
@@ -109,6 +109,15 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 10;
+    }
+
+    private String populatePassport(InnerToken innerToken) {
+        String passport = JSON.toJSONString(innerToken);
+        // BASE64 后传递到服务-未加密
+        passport = Base64Utils.encodeToString(passport.getBytes(StandardCharsets.UTF_8));
+
+        // 网关认证后统一颁发新的: 内部: TOKEN
+        return TokenConstants.GATEWAY_TOKEN_PREFIX + passport;
     }
 
     private boolean checkUrls(List<String> urls, String path) {
@@ -135,6 +144,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private Mono<Void> invalidTokenMono(ServerWebExchange exchange) {
+        // TODO 后续-统一整理: 状态码和业务码
         return this.buildReturnMono(new ResponseModel(401, "4001", "无效的token", null), exchange);
     }
 
@@ -153,7 +163,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         innerToken.setPp(userName);
         innerToken.setUi(userId);
         innerToken.setJti(jti);
-        innerToken.setAu(authorities);
+        innerToken.setAu(String.join(",", authorities));
         innerToken.setEi(accessToken.getExpiresIn());
         return innerToken;
     }

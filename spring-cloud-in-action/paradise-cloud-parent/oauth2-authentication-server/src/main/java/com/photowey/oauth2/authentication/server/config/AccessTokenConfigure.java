@@ -16,8 +16,8 @@
 package com.photowey.oauth2.authentication.server.config;
 
 import com.alibaba.fastjson.JSON;
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
-import com.photowey.oauth2.authentication.core.model.SecurityUser;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +36,8 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
-import static com.photowey.oauth2.authentication.core.constant.TokenConstants.AUTHORIZATION_SERVER_PUBLIC_KEY_FILENAME;
-import static com.photowey.oauth2.authentication.core.constant.TokenConstants.AUTHORIZATION_SERVER_TOKEN_KEY_ENDPOINT_URL;
+import static com.photowey.oauth2.authentication.jwt.constant.TokenConstants.AUTHORIZATION_SERVER_PUBLIC_KEY_FILENAME;
+import static com.photowey.oauth2.authentication.jwt.constant.TokenConstants.AUTHORIZATION_SERVER_TOKEN_KEY_ENDPOINT_URL;
 
 /**
  * {@code AccessTokenConfigure}

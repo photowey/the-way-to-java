@@ -15,8 +15,8 @@
  */
 package com.photowey.oauth2.authentication.core.util;
 
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
-import com.photowey.oauth2.authentication.core.model.AuthUser;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.AuthUser;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

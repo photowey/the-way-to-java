@@ -16,7 +16,7 @@
 package com.photowey.spring.cloud.gateway.exception.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;

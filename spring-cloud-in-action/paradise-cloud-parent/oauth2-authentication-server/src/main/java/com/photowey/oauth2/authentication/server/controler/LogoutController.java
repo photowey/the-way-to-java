@@ -15,10 +15,10 @@
  */
 package com.photowey.oauth2.authentication.server.controler;
 
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
-import com.photowey.oauth2.authentication.core.model.AuthUser;
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
 import com.photowey.oauth2.authentication.core.util.OAuthUtils;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.AuthUser;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;

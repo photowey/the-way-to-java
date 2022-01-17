@@ -13,23 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.feign.interceptor.annotation;
+package com.photowey.redis.in.action.starter.property;
 
-import com.photowey.spring.cloud.feign.interceptor.config.RemoteFeignConfigure;
-import org.springframework.context.annotation.Import;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.lang.annotation.*;
+import java.io.Serializable;
 
 /**
- * {@code EnableRemoteFeignRequestInterceptor}
+ * {@code RedisProperties}
  *
  * @author photowey
- * @date 2022/01/16
+ * @date 2021/10/26
  * @since 1.0.0
  */
-@Documented
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Import(RemoteFeignConfigure.class)
-public @interface EnableRemoteFeignRequestInterceptor {
+@Data
+@ConfigurationProperties(prefix = "spring.redis.jedis.pool", ignoreUnknownFields = true)
+public class JedisProperties implements Serializable {
+
+    private static final long serialVersionUID = 4515226416928528689L;
+
+    private Integer maxTotal = 8;
+    private Integer maxIdle = 8;
+    private Long maxWait = -1L;
+    private Integer minIdle = 0;
 }

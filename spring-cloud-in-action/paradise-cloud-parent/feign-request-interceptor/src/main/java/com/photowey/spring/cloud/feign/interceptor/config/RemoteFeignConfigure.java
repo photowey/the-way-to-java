@@ -13,40 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.inner.token.config;
+package com.photowey.spring.cloud.feign.interceptor.config;
 
-import com.photowey.oauth2.inner.token.security.filter.AccessTokenFilter;
-import com.photowey.oauth2.inner.token.security.parser.AccessTokenParser;
-import com.photowey.oauth2.inner.token.security.resolver.AuthUserArgumentResolver;
+import com.photowey.spring.cloud.feign.interceptor.RemoteFeignRequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * {@code WebAuthConfigurer}
+ * {@code RemoteFeignConfigure}
  *
  * @author photowey
  * @date 2022/01/17
  * @since 1.0.0
  */
 @Configuration
-public class WebAuthConfigurer {
+public class RemoteFeignConfigure {
 
     @Bean
     @ConditionalOnMissingBean
-    public AccessTokenParser accessTokenParser() {
-        return new AccessTokenParser();
+    public RemoteFeignRequestInterceptor remoteFeignRequestInterceptor() {
+        return new RemoteFeignRequestInterceptor();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AccessTokenFilter accessTokenFilter() {
-        return new AccessTokenFilter(this.accessTokenParser());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public AuthUserArgumentResolver authUserArgumentResolver() {
-        return new AuthUserArgumentResolver();
-    }
 }

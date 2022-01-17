@@ -16,7 +16,7 @@
 package com.photowey.oauth2.authentication.server.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 

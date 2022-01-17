@@ -15,7 +15,7 @@
  */
 package com.photowey.oauth2.authentication.server.exception;
 
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
 import com.photowey.oauth2.authentication.server.handler.OAuthServerResponseHandler;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

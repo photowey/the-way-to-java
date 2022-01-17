@@ -15,7 +15,7 @@
  */
 package com.photowey.oauth2.authentication.server.exception;
 
-import com.photowey.oauth2.authentication.core.model.ResponseModel;
+import com.photowey.oauth2.authentication.jwt.model.ResponseModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;

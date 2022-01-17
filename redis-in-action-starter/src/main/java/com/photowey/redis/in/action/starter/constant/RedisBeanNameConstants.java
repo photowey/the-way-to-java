@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.feign.interceptor.annotation;
-
-import com.photowey.spring.cloud.feign.interceptor.config.RemoteFeignConfigure;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+package com.photowey.redis.in.action.starter.constant;
 
 /**
- * {@code EnableRemoteFeignRequestInterceptor}
+ * {@code RedisBeanNameConstants}
  *
  * @author photowey
- * @date 2022/01/16
+ * @date 2021/10/27
  * @since 1.0.0
  */
-@Documented
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Import(RemoteFeignConfigure.class)
-public @interface EnableRemoteFeignRequestInterceptor {
+public interface RedisBeanNameConstants {
+
+    String REDIS_CUSTOM_TEMPLATE_BEAN_NAME = "redisEngine";
+
+    String REDIS_KEY_SERIALIZER_BEAN_NAME = "redisKeySerializer";
+
+    String REDIS_VALUE_SERIALIZER_BEAN_NAME = "redisValueSerializer";
 }

@@ -15,11 +15,11 @@
  */
 package com.photowey.oauth2.authentication.service.permission;
 
-import com.photowey.oauth2.authentication.core.constant.TokenConstants;
 import com.photowey.oauth2.authentication.core.domain.entity.SystemUser;
 import com.photowey.oauth2.authentication.core.domain.entity.SystemUserRole;
-import com.photowey.oauth2.authentication.core.model.SecurityUser;
 import com.photowey.oauth2.authentication.core.util.OAuthUtils;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemRoleRepository;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemUserRepository;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemUserRoleRepository;
