@@ -184,6 +184,14 @@
                         <exclude>**/*.png</exclude>
                         <exclude>**/*.jpg</exclude>
                         <exclude>**/*.sql</exclude>
+                        <exclude>**/*.pub</exclude>
+                        <exclude>**/*.pri</exclude>
+                        <exclude>**/*.crt</exclude>
+                        <exclude>**/*.pem</exclude>
+                        <exclude>**/*.pfx</exclude>
+                        <exclude>**/*.p12</exclude>
+                        <exclude>**/*.jks</exclude>
+                        <exclude>**/*.txt</exclude>
                         <exclude>**/.mvn/**</exclude>
                         <!--  nacos version conflict-->
                         <exclude>**/ConfigurationBeanFactoryMetadata.java

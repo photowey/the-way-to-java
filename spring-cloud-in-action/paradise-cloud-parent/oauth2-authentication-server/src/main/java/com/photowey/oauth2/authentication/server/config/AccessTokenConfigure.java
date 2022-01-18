@@ -18,9 +18,16 @@ package com.photowey.oauth2.authentication.server.config;
 import com.alibaba.fastjson.JSON;
 import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
+import com.photowey.oauth2.authentication.server.enums.ConfigLocation;
+import com.photowey.oauth2.authentication.server.enums.ConfigType;
+import com.photowey.oauth2.authentication.server.property.oauth2.OAuth2JksProperties;
+import com.photowey.oauth2.authentication.server.util.JwtSecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -28,11 +35,15 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
@@ -47,36 +58,106 @@ import static com.photowey.oauth2.authentication.jwt.constant.TokenConstants.AUT
  * @since 1.0.0
  */
 @Configuration
-public class AccessTokenConfigure {
+public class AccessTokenConfigure implements EnvironmentAware {
 
     private final RestTemplate restTemplate;
+    private final OAuth2JksProperties jksProperties;
+    private Environment environment;
 
     @Value("${oauth.server.host:localhost")
     private String authServerHost;
     @Value("${oauth.server.port:${server.port}}")
     private Integer authServerPort;
 
-    public AccessTokenConfigure(RestTemplate restTemplate) {
+    public AccessTokenConfigure(RestTemplate restTemplate, OAuth2JksProperties jksProperties) {
         this.restTemplate = restTemplate;
+        this.jksProperties = jksProperties;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     @Bean
-
     public TokenStore tokenStore() {
         return new JwtTokenStore(this.jwtAccessTokenConverter());
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
     private JwtAccessTokenConverter jwtAccessTokenConverter() {
         final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenEnhancer();
-        jwtAccessTokenConverter.setVerifier(new org.springframework.security.jwt.crypto.sign.RsaVerifier(this.retrievePublicKey()));
+        this.populateAccessTokenKeyPair(jwtAccessTokenConverter);
+        //this.populateAccessTokenVerifier(jwtAccessTokenConverter);
+
         return jwtAccessTokenConverter;
     }
 
+    public KeyPair keyPair() {
+        ConfigLocation configLocation = this.jksProperties.getConfigLocation();
+        ConfigType configType = this.jksProperties.getConfigType();
+        if (ConfigLocation.CONFIG_CENTER.equals(configLocation)) {
+            return this.handleByConfigurer();
+        } else {
+            if (ConfigType.JKS.equals(configType)) {
+                return this.handleByJks();
+            } else {
+                return this.handleByTxt();
+            }
+        }
+    }
+
+    public KeyPair handleByConfigurer() {
+        PublicKey publicKey = JwtSecurityUtils.publicKeyFromConfigurer(this.jksProperties.getPublicKey());
+        PrivateKey privateKey = JwtSecurityUtils.privateKeyFromConfigurer(this.jksProperties.getPrivateKey());
+
+        return new KeyPair(publicKey, privateKey);
+    }
+
+    public KeyPair handleByJks() {
+        String keystore = jksProperties.getKeystore();
+        if (keystore.contains("%s")) {
+            keystore = String.format(keystore, this.determineProfilesActive());
+        }
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(keystore), jksProperties.getStorepass().toCharArray());
+
+        return keyStoreKeyFactory.getKeyPair(jksProperties.getAlias(), jksProperties.getKeypass().toCharArray());
+    }
+
+    public KeyPair handleByTxt() {
+        String publicKeyPath = this.jksProperties.getPublicKeyPath();
+        String privateKeyPath = this.jksProperties.getPrivateKeyPath();
+        if (publicKeyPath.contains("%s")) {
+            publicKeyPath = String.format(publicKeyPath, this.determineProfilesActive());
+        }
+        if (privateKeyPath.contains("%s")) {
+            privateKeyPath = String.format(privateKeyPath, this.determineProfilesActive());
+        }
+        PublicKey publicKey = JwtSecurityUtils.publicKey(publicKeyPath);
+        PrivateKey privateKey = JwtSecurityUtils.privateKey(privateKeyPath);
+
+        return new KeyPair(publicKey, privateKey);
+    }
+
+    public String determineProfilesActive() {
+        return this.environment.getProperty("spring.profiles.active");
+    }
+
+    private void populateAccessTokenKeyPair(JwtAccessTokenConverter jwtAccessTokenConverter) {
+        jwtAccessTokenConverter.setKeyPair(this.keyPair());
+    }
+
+    @Deprecated
+    private void populateAccessTokenVerifier(JwtAccessTokenConverter jwtAccessTokenConverter) {
+        jwtAccessTokenConverter.setVerifier(new org.springframework.security.jwt.crypto.sign.RsaVerifier(this.retrievePublicKey()));
+    }
+
+    @Deprecated
     private String retrievePublicKey() {
         final ClassPathResource classPathResource = new ClassPathResource(AUTHORIZATION_SERVER_PUBLIC_KEY_FILENAME);
         try (
@@ -90,12 +171,12 @@ public class AccessTokenConfigure {
         }
     }
 
-    public static class JwtAccessTokenEnhancer extends JwtAccessTokenConverter {
-
+    private static class JwtAccessTokenEnhancer extends JwtAccessTokenConverter {
         @Override
         public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
             SecurityUser securityUser = (SecurityUser) authentication.getUserAuthentication().getPrincipal();
             LinkedHashMap<String, Object> additionalInformation = new LinkedHashMap<>();
+            // TODO handle Additional
             additionalInformation.put(TokenConstants.TOKEN_USER_ID, securityUser.getUserId());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
 
