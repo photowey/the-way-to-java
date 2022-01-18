@@ -54,11 +54,15 @@ public final class ClassPathReader {
     }
 
     public static String joinRead(String path) {
+        return joinRead(path, "");
+    }
+
+    public static String joinRead(String path, CharSequence delimiter) {
         final ClassPathResource target = new ClassPathResource(path);
         try (
                 final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(target.getInputStream(), StandardCharsets.UTF_8))
         ) {
-            return bufferedReader.lines().collect(Collectors.joining(""));
+            return bufferedReader.lines().collect(Collectors.joining(delimiter));
         } catch (IOException e) {
             throw new SecurityException(e);
         }
