@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.gateway.cors;
+package com.photowey.spring.cloud.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.common.utils.StringUtils;

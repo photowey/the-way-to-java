@@ -24,6 +24,11 @@
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 
         <feign-core.version>10.12</feign-core.version>
+
+        <spring-security.oauth2-jose.version>5.6.1
+        </spring-security.oauth2-jose.version>
+
+        <swagger3.version>3.0.0</swagger3.version>
     </properties>
 
     <modules>
@@ -54,6 +59,11 @@
                 <artifactId>spring-cloud-starter-security</artifactId>
                 <version>${spring-cloud-security.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-jose</artifactId>
+                <version>${spring-security.oauth2-jose.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -66,6 +76,12 @@
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-core</artifactId>
                 <version>${feign-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-common</artifactId>
+                <version>${swagger3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

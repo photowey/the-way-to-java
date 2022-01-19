@@ -18,10 +18,10 @@ package com.photowey.oauth2.authentication.server.config;
 import com.alibaba.fastjson.JSON;
 import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
-import com.photowey.oauth2.authentication.server.enums.ConfigLocation;
-import com.photowey.oauth2.authentication.server.enums.ConfigType;
-import com.photowey.oauth2.authentication.server.property.oauth2.OAuth2JksProperties;
-import com.photowey.oauth2.authentication.server.util.JwtSecurityUtils;
+import com.photowey.oauth2.authentication.jwt.model.enums.ConfigLocation;
+import com.photowey.oauth2.authentication.jwt.model.enums.ConfigType;
+import com.photowey.oauth2.authentication.jwt.model.oauth2.OAuth2JksProperties;
+import com.photowey.oauth2.authentication.jwt.util.JwtSecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.EnvironmentAware;
@@ -93,7 +93,7 @@ public class AccessTokenConfigure implements EnvironmentAware {
     private JwtAccessTokenConverter jwtAccessTokenConverter() {
         final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenEnhancer();
         this.populateAccessTokenKeyPair(jwtAccessTokenConverter);
-        //this.populateAccessTokenVerifier(jwtAccessTokenConverter);
+        // this.populateAccessTokenVerifier(jwtAccessTokenConverter);
 
         return jwtAccessTokenConverter;
     }

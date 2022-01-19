@@ -27,6 +27,8 @@ public interface TokenConstants {
     String ROLE_PREFIX = "ROLE_";
     String ROLE_ROOT_CODE = "ROLE_ROOT";
 
+    String JWT_TOKEN_HEADER = "Authorization";
+
     // user id
     String TOKEN_USER_ID = "ui";
     // user name
@@ -40,7 +42,9 @@ public interface TokenConstants {
     String TOKEN_PRINCIPAL = "pp";
     // authorities
     String TOKEN_AUTHORITIES = "au";
+
     String TOKEN_AUTHORITIES_FULL = "authorities";
+    String AUTHORITY_CLAIM_NAME = TOKEN_AUTHORITIES_FULL;
 
     String AUTH_USER_KEY = "com.photowey.oauth2.authentication.jwt.model.AuthUser";
     // x-inner-oauth-token=xjwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c

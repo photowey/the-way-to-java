@@ -35,5 +35,7 @@ public class AuthUser extends JwtModel {
 
     private String userId;
     private String userName;
+    private Integer status;
+    private String clientId;
     private List<String> authorities;
 }

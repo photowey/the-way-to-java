@@ -45,6 +45,9 @@ public class RequestAuthenticationEntryPoint implements ServerAuthenticationEntr
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        response.getHeaders().set("Access-Control-Allow-Origin", "*");
+        response.getHeaders().set("Cache-Control", "no-cache");
+
         ResponseModel responseModel = new ResponseModel(401, "4001", "无效的token", null);
         DataBuffer buffer = response.bufferFactory().wrap(JSON.toJSONString(responseModel).getBytes(StandardCharsets.UTF_8));
 

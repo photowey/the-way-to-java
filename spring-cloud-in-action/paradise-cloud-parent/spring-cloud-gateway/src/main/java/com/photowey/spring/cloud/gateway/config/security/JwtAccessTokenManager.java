@@ -17,10 +17,12 @@ package com.photowey.spring.cloud.gateway.config.security;
 
 import com.alibaba.nacos.common.utils.CollectionUtils;
 import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.spring.cloud.gateway.property.OAuth2GatewayProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -49,19 +52,37 @@ import java.util.Objects;
 @Component
 public class JwtAccessTokenManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
+    private final OAuth2GatewayProperties gatewayProperties;
+
+    public JwtAccessTokenManager(RedisTemplate redisTemplate, OAuth2GatewayProperties gatewayProperties) {
+        this.redisTemplate = redisTemplate;
+        this.gatewayProperties = gatewayProperties;
+    }
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-        URI uri = authorizationContext.getExchange().getRequest().getURI();
+        PathMatcher pathMatcher = new AntPathMatcher();
+        ServerHttpRequest request = authorizationContext.getExchange().getRequest();
+        // 对应跨域的预检请求直接放行
+        if (request.getMethod() == HttpMethod.OPTIONS) {
+            return Mono.just(new AuthorizationDecision(true));
+        }
+        URI uri = request.getURI();
+        //白名单路径直接放行
+        List<String> ignoreUrls = this.gatewayProperties.getIgnoreUrls();
+        for (String ignoreUrl : ignoreUrls) {
+            if (pathMatcher.match(ignoreUrl, uri.getPath())) {
+                return Mono.just(new AuthorizationDecision(true));
+            }
+        }
+
         String method = authorizationContext.getExchange().getRequest().getMethodValue();
-        String restFulPath = method + TokenConstants.OAUTH_METHOD_DELIMITER + uri.getPath();
+        String combinePath = method + TokenConstants.OAUTH_METHOD_DELIMITER + uri.getPath();
         Map<String, List<String>> entries = this.redisTemplate.opsForHash().entries(TokenConstants.OAUTH_PERMISSION_URLS);
         List<String> authorities = new ArrayList<>();
         entries.forEach((path, roles) -> {
-            if (antPathMatcher.match(path, restFulPath)) {
+            if (pathMatcher.match(path, combinePath)) {
                 authorities.addAll(roles);
             }
         });

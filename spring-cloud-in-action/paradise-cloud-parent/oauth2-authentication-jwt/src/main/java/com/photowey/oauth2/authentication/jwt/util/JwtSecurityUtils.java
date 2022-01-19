@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.server.util;
+package com.photowey.oauth2.authentication.jwt.util;
 
 import java.security.KeyFactory;
 import java.security.KeyPair;

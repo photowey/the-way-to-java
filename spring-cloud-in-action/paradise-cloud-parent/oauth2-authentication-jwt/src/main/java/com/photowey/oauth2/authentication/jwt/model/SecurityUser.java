@@ -39,11 +39,12 @@ import java.util.Collection;
 public class SecurityUser implements UserDetails {
 
     private String userId;
-
     private String username;
-
     @JsonIgnore
     private String password;
+
+    private Integer status;
+    private String clientId;
 
     private Collection<? extends GrantedAuthority> authorities;
 

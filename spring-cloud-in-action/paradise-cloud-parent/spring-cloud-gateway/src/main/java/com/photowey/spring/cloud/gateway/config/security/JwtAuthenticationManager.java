@@ -34,8 +34,8 @@ import reactor.core.publisher.Mono;
  * @date 2022/01/16
  * @since 1.0.0
  */
-@Component
 @Slf4j
+@Component
 public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
 
     @Autowired

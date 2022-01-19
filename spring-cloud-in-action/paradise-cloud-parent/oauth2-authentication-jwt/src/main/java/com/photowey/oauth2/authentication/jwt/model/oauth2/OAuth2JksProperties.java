@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.server.property.oauth2;
+package com.photowey.oauth2.authentication.jwt.model.oauth2;
 
-import com.photowey.oauth2.authentication.server.enums.ConfigLocation;
-import com.photowey.oauth2.authentication.server.enums.ConfigType;
+import com.photowey.oauth2.authentication.jwt.model.enums.ConfigLocation;
+import com.photowey.oauth2.authentication.jwt.model.enums.ConfigType;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;

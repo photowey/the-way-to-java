@@ -15,10 +15,10 @@
  */
 package com.photowey.oauth2.authentication.server.config;
 
+import com.photowey.oauth2.authentication.jwt.model.oauth2.OAuth2JksProperties;
 import com.photowey.oauth2.authentication.server.exception.OAuthServerAuthenticationEntryPoint;
 import com.photowey.oauth2.authentication.server.exception.OAuthServerWebResponseExceptionTranslator;
 import com.photowey.oauth2.authentication.server.filter.OAuthServerClientCredentialsTokenEndpointFilter;
-import com.photowey.oauth2.authentication.server.property.oauth2.OAuth2JksProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

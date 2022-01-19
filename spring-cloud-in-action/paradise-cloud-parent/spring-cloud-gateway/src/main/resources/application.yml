@@ -12,6 +12,12 @@ spring:
         - SUPERUSER
       name: ${paradise.config.security.user.name}
       password: ${paradise.config.security.user.password}
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/rsa/publicKey # TODO 待完善
+      ignoreUrls:
+        - "/doc.html"
 
 eureka:
   instance:
