@@ -1,3 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.11:8848
+        username: nacos
+        password: nacos
+
 paradise:
   config:
     security:
@@ -5,7 +13,10 @@ paradise:
         name: paradise
         password: paradise
     eureka:
-      hostname: localhost
+      hostname: 192.168.1.11
       port: 8761
     gateway:
       port: 7777
+    auth:
+      host: 192.168.1.6
+      port: 9000

@@ -34,6 +34,7 @@ public class SystemPermission {
     private Long id;
     private String name;
     private String url;
+    private Integer status;
 
     @TableField("gmt_create")
     private LocalDateTime createTime;

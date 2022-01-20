@@ -6,6 +6,19 @@ spring:
     name: gateway-server
   profiles:
     active: dev
+  cloud:
+    gateway:
+      routes:
+        - id: oauth2-authentication-server
+          uri: lb://oauth2-authentication-server
+          predicates:
+            - Path=/authentication/**
+          filters:
+            - StripPrefix=1
+    discovery:
+      locator:
+        enabled: true
+        lower-case-service-id: true
   security:
     user:
       roles:
@@ -15,15 +28,29 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:9000/rsa/publicKey # TODO 待完善
+          jwk-set-uri: http://${paradise.config.auth.host}:${paradise.config.auth.host}/rsa/publicKey # TODO 待完善
       ignoreUrls:
         - "/doc.html"
+        - "/swagger-ui.html"
+        - "/swagger/**"
+        - "/swagger-resources/**"
+        - "/webjars/springfox-swagger-ui/**"
+        - "/**/v2/api-docs"
+        - "/**/*.js"
+        - "/**/*.css"
+        - "/**/*.png"
+        - "/**/*.ico"
+        - "/actuator/**"
+        - "/authentication/oauth/token"
+        - "/authentication/oauth/check_token"
+        - "/authentication/oauth/token_key"
+        - "/authentication/rsa/publicKey"
 
-eureka:
-  instance:
-    prefer-ip-address: true
-    hostname: ${paradise.config.eureka.hostname}
-    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
-  client:
-    service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${paradise.config.eureka.port}/eureka/
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#    hostname: ${paradise.config.eureka.hostname}
+#    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+#  client:
+#    service-url:
+#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${paradise.config.eureka.port}/eureka/

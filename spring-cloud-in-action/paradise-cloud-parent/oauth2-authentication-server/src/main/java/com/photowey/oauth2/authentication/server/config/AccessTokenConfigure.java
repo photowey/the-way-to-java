@@ -90,7 +90,8 @@ public class AccessTokenConfigure implements EnvironmentAware {
         return new RestTemplate();
     }
 
-    private JwtAccessTokenConverter jwtAccessTokenConverter() {
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
         final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenEnhancer();
         this.populateAccessTokenKeyPair(jwtAccessTokenConverter);
         // this.populateAccessTokenVerifier(jwtAccessTokenConverter);
@@ -98,6 +99,7 @@ public class AccessTokenConfigure implements EnvironmentAware {
         return jwtAccessTokenConverter;
     }
 
+    @Bean
     public KeyPair keyPair() {
         ConfigLocation configLocation = this.jksProperties.getConfigLocation();
         ConfigType configType = this.jksProperties.getConfigType();

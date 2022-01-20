@@ -19,6 +19,7 @@ import com.photowey.oauth2.authentication.jwt.model.oauth2.OAuth2JksProperties;
 import com.photowey.oauth2.authentication.server.exception.OAuthServerAuthenticationEntryPoint;
 import com.photowey.oauth2.authentication.server.exception.OAuthServerWebResponseExceptionTranslator;
 import com.photowey.oauth2.authentication.server.filter.OAuthServerClientCredentialsTokenEndpointFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -48,6 +50,7 @@ import javax.sql.DataSource;
  * @since 1.0.0
  */
 @Configuration
+@AllArgsConstructor
 @EnableAuthorizationServer
 @EnableConfigurationProperties(value = {OAuth2JksProperties.class})
 public class AuthorizationServerConfigure extends AuthorizationServerConfigurerAdapter {
@@ -59,31 +62,17 @@ public class AuthorizationServerConfigure extends AuthorizationServerConfigurerA
 
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
     private final OAuthServerAuthenticationEntryPoint authenticationEntryPoint;
-
-    public AuthorizationServerConfigure(
-            TokenStore tokenStore,
-            ClientDetailsService clientDetailsService,
-            AuthenticationManager authenticationManager,
-            DataSource dataSource,
-            JwtAccessTokenConverter jwtAccessTokenConverter,
-            OAuthServerAuthenticationEntryPoint authenticationEntryPoint) {
-        this.tokenStore = tokenStore;
-        this.clientDetailsService = clientDetailsService;
-        this.authenticationManager = authenticationManager;
-        this.dataSource = dataSource;
-        this.jwtAccessTokenConverter = jwtAccessTokenConverter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
+    private final OAuth2JksProperties oAuth2JksProperties;
 
     @Bean
     public AuthorizationServerTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setClientDetailsService(clientDetailsService);
-        tokenServices.setSupportRefreshToken(true);
         tokenServices.setTokenStore(tokenStore);
-        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 3);
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 3);
         tokenServices.setTokenEnhancer(jwtAccessTokenConverter);
+        tokenServices.setSupportRefreshToken(this.oAuth2JksProperties.isSupportRefreshToken());
+        tokenServices.setAccessTokenValiditySeconds(this.oAuth2JksProperties.getAccessTokenValiditySeconds());
+        tokenServices.setRefreshTokenValiditySeconds(this.oAuth2JksProperties.getRefreshTokenValiditySeconds());
 
         return tokenServices;
     }
@@ -93,6 +82,11 @@ public class AuthorizationServerConfigure extends AuthorizationServerConfigurerA
         return new JdbcAuthorizationCodeServices(dataSource);
     }
 
+    @Bean
+    public WebResponseExceptionTranslator webResponseExceptionTranslator() {
+        return new OAuthServerWebResponseExceptionTranslator();
+    }
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         OAuthServerClientCredentialsTokenEndpointFilter tokenEndpointFilter = new OAuthServerClientCredentialsTokenEndpointFilter(security);
@@ -100,7 +94,8 @@ public class AuthorizationServerConfigure extends AuthorizationServerConfigurerA
         security.addTokenEndpointAuthenticationFilter(tokenEndpointFilter);
         security.authenticationEntryPoint(authenticationEntryPoint)
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("permitAll()");
+                //.checkTokenAccess("permitAll()");
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override
@@ -110,8 +105,7 @@ public class AuthorizationServerConfigure extends AuthorizationServerConfigurerA
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-                .exceptionTranslator(new OAuthServerWebResponseExceptionTranslator())
+        endpoints.exceptionTranslator(this.webResponseExceptionTranslator())
                 .tokenServices(this.tokenServices())
                 .authorizationCodeServices(this.authorizationCodeServices())
                 .authenticationManager(authenticationManager)

@@ -19,6 +19,8 @@
 
     <properties>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
+        <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
+
         <spring-cloud-security.version>2.2.5.RELEASE
         </spring-cloud-security.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
@@ -45,6 +47,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

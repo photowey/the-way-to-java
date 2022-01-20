@@ -1,4 +1,4 @@
-package com.photowey.spring.cloud.gateway.controller;
+package com.photowey.oauth2.authentication.server.controller;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

@@ -75,6 +75,10 @@ public class OAuth2JksProperties implements Serializable, InitializingBean {
     private String publicKey;
     private String privateKey;
 
+    private boolean supportRefreshToken = true;
+    private int refreshTokenValiditySeconds = 60 * 60 * 24 * 3; // default 30 days.
+    private int accessTokenValiditySeconds = 60 * 60 * 2; // default 12 hours.
+
     @Override
     public void afterPropertiesSet() throws Exception {
         // 配置在配置中心
