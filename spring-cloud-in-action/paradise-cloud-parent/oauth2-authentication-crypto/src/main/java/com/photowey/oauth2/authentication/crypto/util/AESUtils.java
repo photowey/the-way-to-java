@@ -1,8 +1,5 @@
 package com.photowey.oauth2.authentication.crypto.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -18,8 +15,6 @@ import java.security.SecureRandom;
  * @since 1.0.0
  */
 public class AESUtils {
-
-    private static final Logger log = LoggerFactory.getLogger(AESUtils.class);
 
     private AESUtils() {
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
@@ -47,10 +42,8 @@ public class AESUtils {
 
             return Base64Utils.encrypt(byteAes);
         } catch (Exception e) {
-            log.error("do encrypt exception", e);
+            throw new SecurityException("handle aes encrypt exception");
         }
-
-        return null;
     }
 
     public static String decrypt(String encryptRules, String content) {
@@ -72,9 +65,7 @@ public class AESUtils {
 
             return new String(decodeByte, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            log.error("do decrypt exception", e);
+            throw new SecurityException("handle aes decrypt exception");
         }
-
-        return null;
     }
 }
