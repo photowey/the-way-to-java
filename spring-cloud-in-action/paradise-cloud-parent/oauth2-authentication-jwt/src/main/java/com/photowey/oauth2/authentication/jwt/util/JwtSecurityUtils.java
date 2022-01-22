@@ -15,6 +15,8 @@
  */
 package com.photowey.oauth2.authentication.jwt.util;
 
+import com.photowey.oauth2.authentication.crypto.util.Base64Utils;
+
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -64,6 +66,10 @@ public final class JwtSecurityUtils {
 
     public static PrivateKey privateKeyFromConfigurer(String privateKeyBase64Value) {
         try {
+            privateKeyBase64Value = privateKeyBase64Value
+                    .replace("-----BEGIN PUBLIC KEY-----", "")
+                    .replace("-----END PUBLIC KEY-----", "")
+                    .replaceAll("\\s", "");
             byte[] keyBytes = Base64Utils.decrypt(privateKeyBase64Value);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA);
@@ -81,6 +87,10 @@ public final class JwtSecurityUtils {
 
     public static PublicKey publicKeyFromConfigurer(String publicKeyBase64Value) {
         try {
+            publicKeyBase64Value = publicKeyBase64Value
+                    .replace("-----BEGIN PUBLIC KEY-----", "")
+                    .replace("-----END PUBLIC KEY-----", "")
+                    .replaceAll("\\s", "");
             byte[] keyBytes = Base64Utils.decrypt(publicKeyBase64Value);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA);

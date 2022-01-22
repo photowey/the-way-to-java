@@ -18,8 +18,10 @@ package com.photowey.oauth2.authentication.service.permission;
 import com.photowey.oauth2.authentication.core.domain.entity.SystemUser;
 import com.photowey.oauth2.authentication.core.domain.entity.SystemUserRole;
 import com.photowey.oauth2.authentication.core.util.OAuthUtils;
+import com.photowey.oauth2.authentication.crypto.util.AESUtils;
 import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
+import com.photowey.oauth2.authentication.jwt.util.PrincipalProxyUtils;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemRoleRepository;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemUserRepository;
 import com.photowey.oauth2.authentication.mybatis.repository.SystemUserRoleRepository;
@@ -57,9 +59,12 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SystemUser systemUser = this.userRepository.findByUserNameAndStatus(username, 1);
+
+        String originalPrincipal = PrincipalProxyUtils.determineOriginalPrincipal(username);
+
+        SystemUser systemUser = this.userRepository.findByUserNameAndStatus(originalPrincipal, 1);
         if (Objects.isNull(systemUser)) {
-            throw new UsernameNotFoundException(String.format("The username:%s not found,check Please!", username));
+            throw new UsernameNotFoundException(String.format("The username:%s not found,check Please!", originalPrincipal));
         }
         List<SystemUserRole> userRoles = this.userRoleRepository.findByUserId(systemUser.getId());
         List<String> roles = new ArrayList<>();
@@ -67,9 +72,17 @@ public class DomainUserDetailsService implements UserDetailsService {
             Optional.ofNullable(this.roleRepository.selectById(userRole.getRoleId())).ifPresent(systemRole -> roles.add(TokenConstants.ROLE_PREFIX + systemRole.getCode()));
         });
 
+        // id:A:Z:userId:A:Z:userName
+        String template = "%s%s%s%s%s";
+        String principal = String.format(template, systemUser.getId(), TokenConstants.PRINCIPAL_DELIMITER,
+                systemUser.getUserId(), TokenConstants.PRINCIPAL_DELIMITER, systemUser.getUserName());
+        String aesPrincipal = AESUtils.encrypt(TokenConstants.USER_NAME_AES_KEY, principal);
+
+        String proxyPrincipal = PrincipalProxyUtils.populateProxyPrincipal(aesPrincipal);
+
         return SecurityUser.builder()
                 .userId(systemUser.getUserId())
-                .username(systemUser.getUserName())
+                .username(proxyPrincipal)
                 .password(systemUser.getPassword())
                 .authorities(AuthorityUtils.createAuthorityList(OAuthUtils.toArray(roles, String.class)))
                 .build();

@@ -27,6 +27,7 @@
         <module>feign-request-interceptor</module>
         <module>oauth2-inner-token-parser</module>
         <module>oauth2-authentication-jwt</module>
+        <module>oauth2-authentication-crypto</module>
     </modules>
 
     <properties>
@@ -56,6 +57,11 @@
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>oauth2-authentication-jwt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>oauth2-authentication-crypto</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

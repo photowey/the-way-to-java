@@ -21,7 +21,9 @@ import com.photowey.oauth2.authentication.jwt.model.SecurityUser;
 import com.photowey.oauth2.authentication.jwt.model.enums.ConfigLocation;
 import com.photowey.oauth2.authentication.jwt.model.enums.ConfigType;
 import com.photowey.oauth2.authentication.jwt.model.oauth2.OAuth2JksProperties;
+import com.photowey.oauth2.authentication.jwt.model.principal.PrincipalModel;
 import com.photowey.oauth2.authentication.jwt.util.JwtSecurityUtils;
+import com.photowey.oauth2.authentication.jwt.util.OAuth2PrincipalUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.EnvironmentAware;
@@ -92,15 +94,30 @@ public class AccessTokenConfigure implements EnvironmentAware {
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenEnhancer();
-        this.populateAccessTokenKeyPair(jwtAccessTokenConverter);
-        // this.populateAccessTokenVerifier(jwtAccessTokenConverter);
+        final JwtAccessTokenConverter accessTokenEnhancer = new JwtAccessTokenEnhancer();
+        this.populateAccessTokenKeyPair(accessTokenEnhancer);
 
-        return jwtAccessTokenConverter;
+        // this.populateAccessTokenByKey(accessTokenEnhancer);
+        // this.populateAccessTokenVerifier(accessTokenEnhancer);
+
+        return accessTokenEnhancer;
     }
 
     @Bean
     public KeyPair keyPair() {
+        return this.populateKeyPair();
+    }
+
+    private void populateAccessTokenKeyPair(JwtAccessTokenConverter accessTokenConverter) {
+        accessTokenConverter.setKeyPair(this.keyPair());
+    }
+
+    private void populateAccessTokenByKey(JwtAccessTokenConverter accessTokenConverter) {
+        accessTokenConverter.setSigningKey(this.jksProperties.getPrivateKey());
+        accessTokenConverter.setVerifierKey(this.jksProperties.getPublicKey());
+    }
+
+    public KeyPair populateKeyPair() {
         ConfigLocation configLocation = this.jksProperties.getConfigLocation();
         ConfigType configType = this.jksProperties.getConfigType();
         if (ConfigLocation.CONFIG_CENTER.equals(configLocation)) {
@@ -150,10 +167,6 @@ public class AccessTokenConfigure implements EnvironmentAware {
         return this.environment.getProperty("spring.profiles.active");
     }
 
-    private void populateAccessTokenKeyPair(JwtAccessTokenConverter jwtAccessTokenConverter) {
-        jwtAccessTokenConverter.setKeyPair(this.keyPair());
-    }
-
     @Deprecated
     private void populateAccessTokenVerifier(JwtAccessTokenConverter jwtAccessTokenConverter) {
         jwtAccessTokenConverter.setVerifier(new org.springframework.security.jwt.crypto.sign.RsaVerifier(this.retrievePublicKey()));
@@ -174,15 +187,27 @@ public class AccessTokenConfigure implements EnvironmentAware {
     }
 
     private static class JwtAccessTokenEnhancer extends JwtAccessTokenConverter {
+
         @Override
         public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-            SecurityUser securityUser = (SecurityUser) authentication.getUserAuthentication().getPrincipal();
             LinkedHashMap<String, Object> additionalInformation = new LinkedHashMap<>();
-            // TODO handle Additional
-            additionalInformation.put(TokenConstants.TOKEN_USER_ID, securityUser.getUserId());
+            this.populateOAuthPrincipal(authentication, additionalInformation);
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
 
             return super.enhance(accessToken, authentication);
+        }
+
+        public void populateOAuthPrincipal(OAuth2Authentication authentication, LinkedHashMap<String, Object> additionalInformation) {
+            // TODO handle Additional
+            Object principal = authentication.getUserAuthentication().getPrincipal();
+            if (principal instanceof SecurityUser) {
+                SecurityUser securityUser = (SecurityUser) principal;
+                additionalInformation.put(TokenConstants.TOKEN_USER_ID, securityUser.getUserId());
+            } else {
+                PrincipalModel principalModel = OAuth2PrincipalUtils.obtainPrincipalModel(principal);
+                String userId = principalModel.getUserId();
+                additionalInformation.put(TokenConstants.TOKEN_USER_ID, userId);
+            }
         }
     }
 }

@@ -36,8 +36,8 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
+            <groupId>com.photowey</groupId>
+            <artifactId>oauth2-authentication-crypto</artifactId>
         </dependency>
     </dependencies>
 

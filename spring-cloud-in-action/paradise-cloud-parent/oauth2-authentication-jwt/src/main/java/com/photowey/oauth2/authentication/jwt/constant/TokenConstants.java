@@ -29,6 +29,11 @@ public interface TokenConstants {
 
     String JWT_TOKEN_HEADER = "Authorization";
 
+    String PRINCIPAL_DELIMITER = ":A:Z:";
+    String USER_NAME_PROXY_PREFIX = "proxy ";
+    String USER_NAME_NORMAL_PREFIX = "normal ";
+    String USER_NAME_AES_KEY = "walk ";
+
     // user id
     String TOKEN_USER_ID = "ui";
     // user name
