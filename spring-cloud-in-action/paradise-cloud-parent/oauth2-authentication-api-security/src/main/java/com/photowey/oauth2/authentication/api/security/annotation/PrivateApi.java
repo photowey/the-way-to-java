@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.model.principal;
+package com.photowey.oauth2.authentication.api.security.annotation;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
+import java.lang.annotation.*;
 
 /**
- * {@code PrincipalModel}
+ * {@code PrivateApi}
+ * 私有接口-只能是服务内部访问-外部拒绝(包括来自于网关和直接访问)
  *
  * @author photowey
- * @date 2022/01/22
+ * @date 2022/01/29
  * @since 1.0.0
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PrincipalModel implements Serializable {
+@Inherited
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+public @interface PrivateApi {
 
-    private static final long serialVersionUID = 3996060402527577481L;
-
-    private Long id;
-    private String userId;
-    private String userName;
+    /**
+     * 执定的 {@code service} 不能够访问 - 也就是:黑名单
+     *
+     * @return 指定的服务列表
+     */
+    String[] value() default {};
 }

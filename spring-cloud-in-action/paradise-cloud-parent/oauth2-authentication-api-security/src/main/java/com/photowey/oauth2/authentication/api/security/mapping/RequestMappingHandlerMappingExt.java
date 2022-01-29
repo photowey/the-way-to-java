@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.model.principal;
+package com.photowey.oauth2.authentication.api.security.mapping;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.io.Serializable;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * {@code PrincipalModel}
+ * {@code RequestMappingHandlerMappingExt}
  *
  * @author photowey
- * @date 2022/01/22
+ * @date 2022/01/29
  * @since 1.0.0
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PrincipalModel implements Serializable {
+public class RequestMappingHandlerMappingExt extends RequestMappingHandlerMapping {
 
-    private static final long serialVersionUID = 3996060402527577481L;
+    public HandlerMethod getHandlerExternal(HttpServletRequest request) {
+        try {
+            return super.getHandlerInternal(request);
+        } catch (Exception e) {
+            throw new RuntimeException("find handler-method exception");
+        }
 
-    private Long id;
-    private String userId;
-    private String userName;
+    }
 }

@@ -28,6 +28,7 @@
         <module>oauth2-inner-token-parser</module>
         <module>oauth2-authentication-jwt</module>
         <module>oauth2-authentication-crypto</module>
+        <module>oauth2-authentication-api-security</module>
     </modules>
 
     <properties>

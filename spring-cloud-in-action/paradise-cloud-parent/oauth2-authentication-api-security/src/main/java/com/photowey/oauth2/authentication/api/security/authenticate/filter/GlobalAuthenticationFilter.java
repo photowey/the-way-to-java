@@ -13,29 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.model.principal;
+package com.photowey.oauth2.authentication.api.security.authenticate.filter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.Serializable;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * {@code PrincipalModel}
+ * {@code GlobalAuthenticationFilter}
  *
  * @author photowey
- * @date 2022/01/22
+ * @date 2022/01/29
  * @since 1.0.0
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PrincipalModel implements Serializable {
+public class GlobalAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final long serialVersionUID = 3996060402527577481L;
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-    private Long id;
-    private String userId;
-    private String userName;
+    }
 }

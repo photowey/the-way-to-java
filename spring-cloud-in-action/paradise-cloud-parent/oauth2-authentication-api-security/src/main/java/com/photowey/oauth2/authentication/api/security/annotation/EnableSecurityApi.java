@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.model.principal;
+package com.photowey.oauth2.authentication.api.security.annotation;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.photowey.oauth2.authentication.api.security.config.SecurityApiAutoConfigure;
+import org.springframework.context.annotation.Import;
 
-import java.io.Serializable;
+import java.lang.annotation.*;
 
 /**
- * {@code PrincipalModel}
+ * {@code EnableSecurityApi}
  *
  * @author photowey
- * @date 2022/01/22
+ * @date 2022/01/29
  * @since 1.0.0
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PrincipalModel implements Serializable {
-
-    private static final long serialVersionUID = 3996060402527577481L;
-
-    private Long id;
-    private String userId;
-    private String userName;
+@Inherited
+@Documented
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Import(value = {SecurityApiAutoConfigure.class})
+public @interface EnableSecurityApi {
 }

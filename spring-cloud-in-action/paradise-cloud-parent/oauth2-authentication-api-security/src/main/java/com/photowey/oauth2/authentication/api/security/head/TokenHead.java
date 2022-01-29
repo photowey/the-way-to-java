@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.model.principal;
+package com.photowey.oauth2.authentication.api.security.head;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * {@code PrincipalModel}
+ * {@code TokenHead}
  *
  * @author photowey
- * @date 2022/01/22
+ * @date 2022/01/29
  * @since 1.0.0
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrincipalModel implements Serializable {
+public class TokenHead implements Serializable {
 
-    private static final long serialVersionUID = 3996060402527577481L;
+    private static final long serialVersionUID = -237601052794921570L;
 
-    private Long id;
-    private String userId;
-    private String userName;
+    private String nonceStr;
+    private Long timeStamp;
+    private String sign;
+    private String signType;
+    private String serviceName;
 }
