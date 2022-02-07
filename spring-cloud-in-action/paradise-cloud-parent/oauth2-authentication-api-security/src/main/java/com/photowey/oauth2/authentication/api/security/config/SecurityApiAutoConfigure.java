@@ -15,6 +15,14 @@
  */
 package com.photowey.oauth2.authentication.api.security.config;
 
+import com.photowey.oauth2.authentication.api.security.authenticate.filter.GlobalAuthenticationFilter;
+import com.photowey.oauth2.authentication.api.security.feign.FeignRequestInterceptor;
+import com.photowey.oauth2.authentication.api.security.interceptor.ServiceAuthorityInterceptor;
+import com.photowey.oauth2.authentication.api.security.manager.ServiceAuthorityManager;
+import com.photowey.oauth2.authentication.api.security.mapping.RequestMappingHandlerMappingExt;
+import com.photowey.oauth2.authentication.api.security.resolver.AuthUserArgumentResolver;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -26,4 +34,41 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class SecurityApiAutoConfigure {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceAuthorityManager serviceAuthorityManager() {
+        return new ServiceAuthorityManager();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RequestMappingHandlerMappingExt handlerMappingExt() {
+        return new RequestMappingHandlerMappingExt();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GlobalAuthenticationFilter authenticationFilter() {
+        return new GlobalAuthenticationFilter(this.handlerMappingExt(), this.serviceAuthorityManager());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthUserArgumentResolver securityUserArgumentResolver() {
+        return new AuthUserArgumentResolver();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FeignRequestInterceptor feignRequestInterceptor() {
+        return new FeignRequestInterceptor(this.serviceAuthorityManager());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ServiceAuthorityInterceptor serviceAuthorityInterceptor() {
+        return new ServiceAuthorityInterceptor(this.serviceAuthorityManager());
+    }
+
 }

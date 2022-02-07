@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>com.photowey</groupId>
-        <artifactId>the-way-to-java</artifactId>
+        <artifactId>paradise-cloud-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 

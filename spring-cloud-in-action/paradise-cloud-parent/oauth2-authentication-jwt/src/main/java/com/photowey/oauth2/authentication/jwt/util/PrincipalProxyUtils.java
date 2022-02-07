@@ -51,7 +51,7 @@ public final class PrincipalProxyUtils {
         if (principal.startsWith(TokenConstants.USER_NAME_NORMAL_PREFIX)
                 || principal.startsWith(TokenConstants.USER_NAME_PROXY_PREFIX)) {
             String parsePrincipal = parsePrincipal(TokenConstants.USER_NAME_PROXY_PREFIX, parsePrincipal(TokenConstants.USER_NAME_NORMAL_PREFIX, principal));
-            return AESUtils.decrypt(TokenConstants.USER_NAME_AES_KEY, parsePrincipal);
+            return AESUtils.decrypt(TokenConstants.INNER_TOKEN_AES_KEY, parsePrincipal);
         }
 
         return principal;

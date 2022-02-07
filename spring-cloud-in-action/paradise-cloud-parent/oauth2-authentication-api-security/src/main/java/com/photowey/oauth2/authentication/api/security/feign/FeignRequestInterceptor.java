@@ -15,6 +15,19 @@
  */
 package com.photowey.oauth2.authentication.api.security.feign;
 
+import com.alibaba.fastjson.JSON;
+import com.photowey.oauth2.authentication.api.security.manager.ServiceAuthorityManager;
+import com.photowey.oauth2.authentication.crypto.util.AESUtils;
+import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
+import com.photowey.oauth2.authentication.jwt.model.AuthUser;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * {@code FeignRequestInterceptor}
  *
@@ -22,5 +35,54 @@ package com.photowey.oauth2.authentication.api.security.feign;
  * @date 2022/01/29
  * @since 1.0.0
  */
-public class FeignRequestInterceptor {
+public class FeignRequestInterceptor implements RequestInterceptor {
+
+    private final ServiceAuthorityManager serviceAuthorityManager;
+
+    public FeignRequestInterceptor(ServiceAuthorityManager serviceAuthorityManager) {
+        this.serviceAuthorityManager = serviceAuthorityManager;
+    }
+
+    @Override
+    public void apply(RequestTemplate requestTemplate) {
+        String innerIssueTokenHeader = TokenConstants.INNER_TOKEN_HEADER;
+        if (requestTemplate.headers().containsKey(innerIssueTokenHeader)) {
+            return;
+        }
+        HttpServletRequest request = null;
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (null == attributes || null == (request = attributes.getRequest())) {
+            return;
+        }
+        String passport = request.getHeader(innerIssueTokenHeader);
+        if (StringUtils.isEmpty(passport)) {
+            // TODO 没有 header 但是有用户信息 - 可能是: {@code MOCK}
+            AuthUser authUser = (AuthUser) request.getAttribute(TokenConstants.AUTH_USER_KEY);
+            if (null != authUser) {
+                passport = this.populatePassport(authUser);
+            }
+        }
+
+        if (StringUtils.hasText(passport)) {
+            // TODO 没有-网关的请求头 = 但是有用户信息 - 可能是 {@code MOCK} 的用户信息
+            requestTemplate.header(TokenConstants.SERVICE_USER_HEADER, passport);
+        }
+
+        // 处理服务签名
+        this.handleServiceSign(requestTemplate);
+    }
+
+    private void handleServiceSign(RequestTemplate requestTemplate) {
+        String head = this.serviceAuthorityManager.sign();
+
+        requestTemplate.header(TokenConstants.INNER_TOKEN_HEADER, head);
+    }
+
+    private String populatePassport(AuthUser authUser) {
+        String passport = JSON.toJSONString(authUser);
+        passport = AESUtils.encrypt(TokenConstants.INNER_TOKEN_AES_KEY, passport);
+
+        return TokenConstants.SERVICE_USER_PREFIX + passport;
+    }
+
 }

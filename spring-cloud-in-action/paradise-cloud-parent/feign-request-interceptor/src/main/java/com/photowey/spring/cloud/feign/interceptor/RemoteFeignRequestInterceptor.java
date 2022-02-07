@@ -65,7 +65,7 @@ public class RemoteFeignRequestInterceptor implements RequestInterceptor {
     }
 
     public void applyPassport(RequestTemplate requestTemplate, HttpServletRequest request) {
-        String headerName = TokenConstants.GATEWAY_TOKEN_NAME;
+        String headerName = TokenConstants.INNER_TOKEN_HEADER;
         if (requestTemplate.headers().containsKey(headerName)) {
             return;
         }
@@ -91,7 +91,7 @@ public class RemoteFeignRequestInterceptor implements RequestInterceptor {
         passport = Base64Utils.encodeToString(passport.getBytes(StandardCharsets.UTF_8));
 
         // 采用网关认证后统一颁发的: 内部TOKEN
-        return TokenConstants.GATEWAY_TOKEN_PREFIX + passport;
+        return TokenConstants.GATEWAY_ISSUE_TOKEN_PREFIX + passport;
     }
 
     public static HttpServletRequest getRequest() {

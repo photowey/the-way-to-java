@@ -96,7 +96,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             InnerToken innerToken = this.populateInnerToken(accessToken, jti, userName, authorities, userId);
             String innerTokenBase64 = this.populatePassport(innerToken);
             // 网关重新颁发-新的 inner-token 到下游服务
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(TokenConstants.GATEWAY_TOKEN_NAME, innerTokenBase64).build();
+            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(TokenConstants.INNER_TOKEN_HEADER, innerTokenBase64).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
 
             return chain.filter(build);
@@ -117,7 +117,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         passport = Base64Utils.encodeToString(passport.getBytes(StandardCharsets.UTF_8));
 
         // 网关认证后统一颁发新的: 内部: TOKEN
-        return TokenConstants.GATEWAY_TOKEN_PREFIX + passport;
+        return TokenConstants.GATEWAY_ISSUE_TOKEN_PREFIX + passport;
     }
 
     private boolean checkUrls(List<String> urls, String path) {

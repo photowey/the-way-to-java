@@ -45,7 +45,7 @@ public class AccessTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader(TokenConstants.GATEWAY_TOKEN_NAME);
+        String accessToken = request.getHeader(TokenConstants.INNER_TOKEN_HEADER);
         if (StringUtils.hasText(accessToken)) {
             AuthUser authUser = this.accessTokenParser.parseAccessToken(accessToken);
             request.setAttribute(TokenConstants.AUTH_USER_KEY, authUser);

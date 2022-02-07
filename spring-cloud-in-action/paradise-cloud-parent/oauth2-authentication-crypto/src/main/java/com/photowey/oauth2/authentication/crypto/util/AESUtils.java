@@ -29,7 +29,7 @@ import java.security.SecureRandom;
  * @date 2022/01/22
  * @since 1.0.0
  */
-public class AESUtils {
+public final class AESUtils {
 
     private AESUtils() {
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");

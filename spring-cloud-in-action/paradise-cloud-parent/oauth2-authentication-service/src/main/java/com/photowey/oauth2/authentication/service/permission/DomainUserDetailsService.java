@@ -76,7 +76,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         String template = "%s%s%s%s%s";
         String principal = String.format(template, systemUser.getId(), TokenConstants.PRINCIPAL_DELIMITER,
                 systemUser.getUserId(), TokenConstants.PRINCIPAL_DELIMITER, systemUser.getUserName());
-        String aesPrincipal = AESUtils.encrypt(TokenConstants.USER_NAME_AES_KEY, principal);
+        String aesPrincipal = AESUtils.encrypt(TokenConstants.INNER_TOKEN_AES_KEY, principal);
 
         String proxyPrincipal = PrincipalProxyUtils.populateProxyPrincipal(aesPrincipal);
 
