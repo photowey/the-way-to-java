@@ -24,6 +24,10 @@ import com.photowey.oauth2.authentication.api.security.resolver.AuthUserArgument
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * {@code SecurityApiAutoConfigure}
@@ -33,7 +37,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0.0
  */
 @Configuration
-public class SecurityApiAutoConfigure {
+public class SecurityApiAutoConfigure implements WebMvcConfigurer {
 
     @Bean
     @ConditionalOnMissingBean
@@ -71,4 +75,8 @@ public class SecurityApiAutoConfigure {
         return new ServiceAuthorityInterceptor(this.serviceAuthorityManager());
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(this.securityUserArgumentResolver());
+    }
 }
