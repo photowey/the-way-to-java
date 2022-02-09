@@ -70,6 +70,7 @@
         <module>shell-in-action</module>
         <module>sqlite-in-action</module>
         <module>knife4j-in-action</module>
+        <module>rxtx-in-action</module>
     </modules>
 
     <dependencyManagement>

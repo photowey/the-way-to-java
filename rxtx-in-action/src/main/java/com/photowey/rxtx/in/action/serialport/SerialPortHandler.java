@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.constant;
+package com.photowey.rxtx.in.action.serialport;
 
 /**
- * {@code AuthConstant}
+ * {@code SerialPortHandler}
  *
  * @author photowey
- * @date 2022/02/07
+ * @date 2022/02/09
  * @since 1.0.0
  */
-public interface AuthConstant {
-
-    String APPLICATION_NAME = "spring.application.name";
+public class SerialPortHandler {
+    // TODO
 }

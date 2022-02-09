@@ -13,16 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.jwt.constant;
+package com.photowey.rxtx.in.action;
+
+import com.photowey.print.in.action.printer.AppPrinter;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * {@code AuthConstant}
+ * {@code RxtxApp}
  *
  * @author photowey
- * @date 2022/02/07
+ * @date 2022/02/09
  * @since 1.0.0
  */
-public interface AuthConstant {
+@SpringBootApplication
+public class RxtxApp {
 
-    String APPLICATION_NAME = "spring.application.name";
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(RxtxApp.class, args);
+        AppPrinter.print(applicationContext);
+    }
 }
