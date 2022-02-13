@@ -63,6 +63,7 @@
         <module>client-netty-in-action</module>
         <module>server-netty-in-action</module>
         <module>telnet-netty-in-action</module>
+        <module>websocket-netty-in-action</module>
     </modules>
 
 </project>

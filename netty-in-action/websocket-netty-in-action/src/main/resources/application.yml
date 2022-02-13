@@ -1,0 +1,17 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "websocket-netty-in-action"
+  profiles:
+    active: dev
+
+app:
+  netty:
+    port: ${local.config.netty.port}
+    path: ${local.config.netty.path}
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
