@@ -12,13 +12,19 @@ To launch your tests:
 ```
 
 To package your application:
+
 ```
 ./mvnw clean package
 ```
 
 To run your application:
+
 ```
 ./mvnw clean compile exec:java
+```
+
+```shell
+java -jar .\target\vertx-starter-fat.jar -Cluster -Djava.net.preferIPv4Stack=true -Dhttp.port=7777
 ```
 
 == Help

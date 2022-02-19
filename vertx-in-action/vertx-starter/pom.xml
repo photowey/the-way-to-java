@@ -8,6 +8,8 @@
     <artifactId>vertx-starter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <inceptionYear>2022</inceptionYear>
+
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,6 +18,8 @@
         <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
 
         <vertx.version>4.2.4</vertx.version>
         <junit-jupiter.version>5.7.0</junit-jupiter.version>
@@ -52,6 +56,10 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-infinispan</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.vertx</groupId>
@@ -71,6 +79,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -103,7 +112,8 @@
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                             <outputFile>
-                                ${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
+                                <!-- ${project.build.directory}/${project.artifactId}-${project.version}-fat.jar -->
+                                ${project.build.directory}/${project.artifactId}-fat.jar
                             </outputFile>
                         </configuration>
                     </execution>
@@ -123,6 +133,43 @@
                         <argument>run</argument>
                         <argument>${main.verticle}</argument>
                     </arguments>
+                </configuration>
+            </plugin>
+            <!-- license -->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>remove</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <header>
+                        com/mycila/maven/plugin/license/templates/APACHE-2.txt
+                    </header>
+                    <properties>
+                        <owner>photowey</owner>
+                        <email>photowey@gmail.com</email>
+                    </properties>
+                    <excludes>
+                        <exclude>.gitignore</exclude>
+                        <exclude>LICENSE</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.yml</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>**/*.xml</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
                 </configuration>
             </plugin>
         </plugins>
