@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 photowey (photowey@gmail.com)
+ * Copyright © 2022 photowey (photowey@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class MainVerticle extends AbstractVerticle {
-
 
     // @Override
     public void start0(Promise<Void> startPromise) throws Exception {

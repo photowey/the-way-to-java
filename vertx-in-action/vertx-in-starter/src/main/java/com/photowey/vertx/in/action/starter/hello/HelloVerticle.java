@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.starter.event;
+package com.photowey.vertx.in.action.starter.hello;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -27,7 +27,7 @@ import java.util.UUID;
  * @date 2022/02/19
  * @since 1.0.0
  */
-public class HelloEventVerticle extends AbstractVerticle {
+public class HelloVerticle extends AbstractVerticle {
 
     String verticleId = UUID.randomUUID().toString();
 

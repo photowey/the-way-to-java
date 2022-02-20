@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 photowey (photowey@gmail.com)
+ * Copyright © 2022 photowey (photowey@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.Tuple;
 
 /**
- * {@code App}
+ * {@code MysqlApp}
  *
  * @author photowey
  * @date 2022/02/20
  * @since 1.0.0
  */
-public class App {
+public class MysqlApp {
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();

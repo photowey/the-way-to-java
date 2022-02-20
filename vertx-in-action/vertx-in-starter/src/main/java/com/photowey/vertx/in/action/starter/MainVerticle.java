@@ -13,33 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.starter.event;
+package com.photowey.vertx.in.action.starter;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 
-import java.util.UUID;
-
-/**
- * {@code HelloEventVerticle}
- *
- * @author photowey
- * @date 2022/02/19
- * @since 1.0.0
- */
-public class HelloEventVerticle extends AbstractVerticle {
-
-    String verticleId = UUID.randomUUID().toString();
+public class MainVerticle extends AbstractVerticle {
 
     @Override
-    public void start(Promise<Void> startPromise) throws Exception {
-        vertx.eventBus().consumer("hello.vertx.addr", message -> {
-            message.reply("Hello from Vert.x!");
-        });
-
-        vertx.eventBus().consumer("hello.name.addr", message -> {
-            String name = (String) message.body();
-            message.reply(String.format("Hello %s from %s!", name, verticleId));
+    public void start(Promise<Void> startPromise) {
+        vertx.createHttpServer().requestHandler(req -> {
+            req.response()
+                .putHeader("content-type", "text/plain")
+                .end("Hello from Vert.x!");
+        }).listen(8888, http -> {
+            if (http.succeeded()) {
+                startPromise.complete();
+                System.out.println("HTTP server started on port 8888");
+            } else {
+                startPromise.fail(http.cause());
+            }
         });
     }
+
 }

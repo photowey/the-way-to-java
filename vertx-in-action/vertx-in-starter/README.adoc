@@ -7,6 +7,7 @@ This application was generated using http://start.vertx.io
 == Building
 
 To launch your tests:
+
 ```
 ./mvnw clean test
 ```
@@ -20,11 +21,17 @@ To package your application:
 To run your application:
 
 ```
-./mvnw clean compile exec:java
+./mvnw clean compile vertx:run
 ```
 
 ```
-java -jar .\target\vertx-starter-fat.jar -Cluster -Djava.net.preferIPv4Stack=true -Dhttp.port=7777
+java -jar .\target\vertx-in-starter-fat.jar -Cluster -Djava.net.preferIPv4Stack=true -Dhttp.port=7777
+```
+
+== Setup
+
+```
+mvn io.reactiverse:vertx-maven-plugin::setup
 ```
 
 == Help

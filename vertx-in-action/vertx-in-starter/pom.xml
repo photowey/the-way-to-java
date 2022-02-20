@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.photowey</groupId>
-    <artifactId>vertx-starter</artifactId>
+    <artifactId>vertx-in-starter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <inceptionYear>2022</inceptionYear>
@@ -13,28 +13,20 @@
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
 
+        <!-- vert.x properties -->
         <vertx.version>4.2.4</vertx.version>
-        <junit-jupiter.version>5.7.0</junit-jupiter.version>
 
-        <!-- vertx-maven-plugin -->
-        <!-- $  mvn clean compile vertx:run -->
-        <vertx.verticle>com.photowey.vertx.starter.MainVerticle</vertx.verticle>
-
-        <!-- $  mvn clean compile exec:java -->
-        <main.verticle>com.photowey.vertx.starter.MainVerticle</main.verticle>
-        <launcher.class>io.vertx.core.Launcher</launcher.class>
-
+        <vertx.verticle>com.photowey.vertx.in.action.starter.MainVerticle
+        </vertx.verticle>
         <!-- Maven plugins -->
         <vertx-maven-plugin.version>1.0.27</vertx-maven-plugin.version>
-
+        <!-- junit -->
+        <junit-jupiter.version>5.7.0</junit-jupiter.version>
         <lombok.version>1.18.22</lombok.version>
         <jackson.version>2.13.1</jackson.version>
     </properties>
@@ -42,20 +34,17 @@
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-infinispan</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-mysql-client</artifactId>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>io.vertx</groupId>
@@ -139,60 +128,6 @@
                     <redeploy>true</redeploy>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <release>${java.version}</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Main-Class>${launcher.class}
-                                        </Main-Class>
-                                        <Main-Verticle>${main.verticle}
-                                        </Main-Verticle>
-                                    </manifestEntries>
-                                </transformer>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                            </transformers>
-                            <outputFile>
-                                <!-- ${project.build.directory}/${project.artifactId}-${project.version}-fat.jar -->
-                                ${project.build.directory}/${project.artifactId}-fat.jar
-                            </outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin.version}</version>
-                <configuration>
-                    <mainClass>io.vertx.core.Launcher</mainClass>
-                    <arguments>
-                        <argument>run</argument>
-                        <argument>${main.verticle}</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
             <!-- license -->
             <plugin>
                 <groupId>com.mycila</groupId>
@@ -232,6 +167,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
