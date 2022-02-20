@@ -1,0 +1,95 @@
+local:
+  config:
+    mysql:
+      host: "192.168.0.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "mybatis-in-action"
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        # autoconfig & trace No mapping
+        # include: [health,info,beans,env,configprops,mappings,metrics]
+        include: "*"
+
+# Custom the /actuator/info endpoint
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
+  evn:
+    active: ${spring.profiles.active}
+
+spring:
+  datasource:
+    platform: "mysql"
+    type: "com.alibaba.druid.pool.DruidDataSource"
+    druid:
+      # 配置初始化大小、最小、最大
+      initial-size: 5
+      minIdle: 10
+      max-active: 20
+      # 配置获取连接等待超时的时间(单位：毫秒)
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测,检测需要关闭的空闲连接,单位是毫秒
+      time-between-eviction-runs-millis: 2000
+      # 配置一个连接在池中最小生存的时间,单位是毫秒
+      min-evictable-idle-time-millis: 600000
+      max-evictable-idle-time-millis: 900000
+      # 用来测试连接是否可用的 SQL 语句,默认值每种数据库都不相同,这是mysql
+      validationQuery: select 1
+      # 应用向连接池申请连接,并且 testOnBorrow 为 false 时,连接池将会判断连接是否处于空闲状态,如果是,则验证这条连接是否可用
+      testWhileIdle: true
+      # 如果为 true,默认是 false,应用向连接池申请连接时,连接池会判断这条连接是否是可用的
+      testOnBorrow: false
+      # 如果为 true(默认false),当应用使用完连接,连接池回收连接的时候会判断该连接是否还可用
+      testOnReturn: false
+      # 是否缓存 preparedStatement,也就是 PSCache。PSCache 对支持游标的数据库性能提升巨大,比如说 oracle
+      poolPreparedStatements: true
+      # 要启用 PSCache,必须配置大于0,当大于0时, poolPreparedStatements 自动触发修改为 true,
+      # 在 Druid 中,不会存在 Oracle 下 PSCache 占用内存过多的问题,
+      # 可以把这个数值配置大一些,比如说100
+      maxOpenPreparedStatements: 20
+      # 连接池中的 minIdle 数量以内的连接,空闲时间超过 minEvictableIdleTimeMillis,则会执行 keepAlive 操作
+      keepAlive: true
+      aop-patterns: "com.springboot.template.dao.*"
+      filters: stat,wall,log4j2
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        slf4j:
+          enabled: true
+          statement-log-error-enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" # 排除一些不必要的url
+        session-stat-enable: true
+        session-stat-max-count: 1000
+      stat-view-servlet:
+        enabled: true
+        # /druid/index.html
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: root
+        login-password: root
+        allow: "127.0.0.1"
+        deny: "192.168.0.11"

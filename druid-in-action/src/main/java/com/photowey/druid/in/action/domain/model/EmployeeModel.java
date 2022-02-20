@@ -13,34 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.spring.boot.core.model;
+package com.photowey.druid.in.action.domain.model;
 
-import io.netty.handler.codec.http.HttpMethod;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * {@code HandlerMapping}
+ * {@code EmployeeModel}
  *
  * @author photowey
- * @date 2022/02/17
+ * @date 2021/11/07
  * @since 1.0.0
  */
 @Data
-public class HandlerMapping implements Serializable {
+public class EmployeeModel implements Serializable {
+
+    private static final long serialVersionUID = 9026337029048321211L;
 
     /**
-     * 请求路径
+     * 主键标识
      */
-    private String path;
+    private Long id;
     /**
-     * {@code HttpMethod}
+     * 工号
      */
-    private String method = HttpMethod.GET.name();
+    private String employeeNo;
     /**
-     * 对应 Spring 里的 {@code beanName}
+     * 隶属机构标识
      */
-    private List<String> handlers;
+    private Long orgId;
+    /**
+     * 隶属机构名称
+     */
+    private String orgName;
+    /**
+     * 序号
+     */
+    private Integer orderNo;
+    /**
+     * 状态
+     */
+    private Integer status;
+    /**
+     * 备注
+     */
+    private String remark;
 }

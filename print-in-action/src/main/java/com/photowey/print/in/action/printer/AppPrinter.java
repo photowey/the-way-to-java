@@ -16,11 +16,13 @@
 package com.photowey.print.in.action.printer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.function.Consumer;
 
 /**
  * {@code AppPrinter}
@@ -42,6 +44,11 @@ public class AppPrinter {
     }
 
     public static void print(ConfigurableApplicationContext applicationContext, boolean swagger) {
+        print(applicationContext, swagger, (log) -> {
+        });
+    }
+
+    public static void print(ConfigurableApplicationContext applicationContext, boolean swagger, Consumer<Logger> callback) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String protocol = "http";
         String app = environment.getProperty(APPLICATION_NAME);
@@ -87,6 +94,10 @@ public class AppPrinter {
             }
         } catch (UnknownHostException e) {
             // Ignore
+        }
+
+        if (null != callback) {
+            callback.accept(log);
         }
     }
 

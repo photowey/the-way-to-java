@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.spring.boot.autoconfigure.annotation;
+package com.photowey.druid.in.action.repository;
 
-import java.lang.annotation.*;
+import com.photowey.druid.in.action.domain.model.EmployeeModel;
+import org.apache.ibatis.annotations.Param;
 
 /**
- * {@code BlockingHandler}
- * 标记一个 {@link io.vertx.core.Handler<io.vertx.ext.web.RoutingContext>} 是一个 {@code BlockingHandler}
+ * {@code EmployeeRepository}
  *
  * @author photowey
- * @date 2022/02/17
+ * @date 2021/11/02
  * @since 1.0.0
  */
-@Inherited
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface BlockingHandler {
+public interface EmployeeRepository {
+
+    EmployeeModel findById(@Param("id") Long id);
+
 }

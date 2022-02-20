@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.starter.domain.entity;
+package com.photowey.druid.in.action.domain.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +30,11 @@ import java.time.LocalDateTime;
  * @date 2021/11/02
  * @since 1.0.0
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Alias("Employee")
 public class Employee {
 
     /**

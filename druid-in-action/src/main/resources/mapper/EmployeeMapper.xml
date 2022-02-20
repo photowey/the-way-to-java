@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.photowey.druid.in.action.repository.EmployeeRepository">
+
+    <!-- 自定义-返回数据映射-建议:手动映射 -->
+    <!-- 一个 resultMap 节点对应一个 ResultMap {@link org.apache.ibatis.mapping.ResultMap} 对象 -->
+    <resultMap id="findByIdResultMap"
+               type="com.photowey.druid.in.action.domain.model.EmployeeModel">
+        <!-- 一个子节点对应一个 ResultMapping {@link org.apache.ibatis.mapping.ResultMapping} 对象 -->
+        <id column="id" property="id"/>
+        <result column="employee_no" property="employeeNo"/>
+        <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- findById -->
+    <!-- 一个 select | update | insert | delete ... 节点对应一个 MappedStatement {@link org.apache.ibatis.mapping.MappedStatement} 对象 -->
+    <select id="findById" parameterType="java.lang.Long"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.id = #{id}
+    </select>
+
+</mapper>

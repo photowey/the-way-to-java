@@ -54,7 +54,7 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
-        <module>hashmap-in-action</module>
+<!--        <module>hashmap-in-action</module>-->
         <module>jvm-in-action</module>
         <module>mysql-in-action</module>
         <module>mongo-in-action</module>
@@ -71,6 +71,7 @@
         <module>sqlite-in-action</module>
         <module>knife4j-in-action</module>
         <module>rxtx-in-action</module>
+        <module>druid-in-action</module>
     </modules>
 
     <dependencyManagement>
