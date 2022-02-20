@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.vertx.in.action.starter.html;
+package com.photowey.vertx.in.action.starter.polyglot;
 
 import com.photowey.vertx.in.action.starter.domain.config.HttpConfig;
-import com.photowey.vertx.in.action.starter.hello.HelloVerticle;
+import com.photowey.vertx.in.action.starter.hello.GreetingVerticle;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.config.ConfigRetrieverOptions;
 import io.vertx.config.ConfigStoreOptions;
@@ -26,56 +26,34 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.StaticHandler;
 
 /**
- * {@code StaticApp}
+ * {@code PolyglotApp}
  *
  * @author photowey
  * @date 2022/02/20
  * @since 1.0.0
  */
-public class StaticApp {
+public class PolyglotApp {
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        vertx.exceptionHandler(Throwable::printStackTrace).deployVerticle(new StaticVerticle());
+        vertx.exceptionHandler(Throwable::printStackTrace).deployVerticle(new PolyglotVerticle());
     }
 
-    public static class StaticVerticle extends AbstractVerticle {
+    public static class PolyglotVerticle extends AbstractVerticle {
 
         @Override
         public void start(Promise<Void> startPromise) throws Exception {
-            vertx.deployVerticle(new HelloVerticle());
+            vertx.deployVerticle(new GreetingVerticle());
+            vertx.deployVerticle("Name.groovy");
 
             Router router = Router.router(vertx);
-
-            this.handleAuth(router);
 
             router.get("/api/v1/hello").handler(this::helloVertxHandler);
             router.get("/api/v1/hello/:name").handler(this::helloNameHandler);
 
-            // router.route().handler(StaticHandler.create("webapp").setIndexPage("index.html"));
-            router.route().handler(StaticHandler.create("webapp"));
-
             this.doConfig(startPromise, router);
-
-            // $ curl -H "Authentication: SuperMan" http://localhost:8888/api/v1/hello
-            // $ curl http://localhost:8888/api/v1/hello
-            // $ curl -H "Authentication: SuperMan" http://localhost:8888
-        }
-
-        private void handleAuth(Router router) {
-            router.route().handler(ctx -> {
-                String authToken = ctx.request().getHeader("Authentication");
-                System.out.println("\n------------------------------------the authToken is:" + authToken);
-                if (isNotNullOrEmpty(authToken) && "SuperMan".contentEquals(authToken)) {
-                    ctx.next();
-                } else {
-                    System.out.println("\n------------------------------------the authToken is: UNAUTHORIZED");
-                    ctx.response().setStatusCode(401).setStatusMessage("UNAUTHORIZED").end();
-                }
-            });
         }
 
         private void doConfig(Promise<Void> startPromise, Router router) {
@@ -122,13 +100,6 @@ public class StaticApp {
                 ctx.request().response().end((String) reply.result().body());
             });
         }
-
-        public static boolean isNullOrEmpty(String source) {
-            return source == null || source.isEmpty();
-        }
-
-        public static boolean isNotNullOrEmpty(String source) {
-            return !isNullOrEmpty(source);
-        }
     }
+
 }

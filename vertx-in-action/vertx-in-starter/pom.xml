@@ -19,7 +19,7 @@
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
 
         <!-- vert.x properties -->
-        <vertx.version>4.2.4</vertx.version>
+        <vertx.version>4.2.5</vertx.version>
 
         <vertx.verticle>com.photowey.vertx.in.action.starter.MainVerticle
         </vertx.verticle>
@@ -44,7 +44,10 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-lang-groovy</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.vertx</groupId>
