@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -32,6 +33,8 @@ import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,15 @@ public class GlobalExceptionHandler implements EnvironmentAware {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ExceptionModel> processSystemException(
             Exception exception, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        this.handleCharset(response);
+
         return this.handleSystemException(exception, request, response);
+    }
+
+    public void handleCharset(HttpServletResponse response) {
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 
     private ResponseEntity<ExceptionModel> handleSystemException(
@@ -70,7 +81,9 @@ public class GlobalExceptionHandler implements EnvironmentAware {
         if (exception instanceof MissingServletRequestParameterException) {
             this.handleParameterException((MissingServletRequestParameterException) exception, messages);
         } else if (exception instanceof MethodArgumentNotValidException) {
-            this.handleValidException((MethodArgumentNotValidException) exception, messages);
+            this.handleArgumentException((MethodArgumentNotValidException) exception, messages);
+        } else if (exception instanceof ValidationException) {
+            this.handleValidException((ValidationException) exception, messages);
         } else {
             // env: dev
             // env: ...
@@ -92,10 +105,17 @@ public class GlobalExceptionHandler implements EnvironmentAware {
         messages.add("系统未能正确处理请求,请稍后重试~");
     }
 
-    private void handleValidException(MethodArgumentNotValidException exception, List<String> messages) {
+    private void handleArgumentException(MethodArgumentNotValidException exception, List<String> messages) {
         BindingResult bindingResult = exception.getBindingResult();
         for (FieldError error : bindingResult.getFieldErrors()) {
             messages.add(error.getDefaultMessage());
+        }
+    }
+
+    private void handleValidException(ValidationException exception, List<String> messages) {
+        String message = null != exception.getCause() ? exception.getCause().getMessage() : "";
+        if (StringUtils.isNotBlank(message)) {
+            messages.add(message);
         }
     }
 
