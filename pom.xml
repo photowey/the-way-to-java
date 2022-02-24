@@ -72,6 +72,8 @@
         <module>knife4j-in-action</module>
         <module>rxtx-in-action</module>
         <module>druid-in-action</module>
+        <module>custom-validator-in-action</module>
+        <module>custom-validator-in-action-example</module>
     </modules>
 
     <dependencyManagement>
@@ -113,6 +115,12 @@
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>validator-in-action-bom</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>custom-validator-in-action</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
