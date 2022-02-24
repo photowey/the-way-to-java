@@ -1,0 +1,40 @@
+server:
+  port: 7923
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: ${local.config.app.name}
+  profiles:
+    active: dev
+
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Apache License 2.0 | Copyright  2021-[photowey](https://wiki.hicoofinal.com/spaces/viewspace.action?key=~photowey)
+  production: false
+
+#uphicoo:
+#  platform:
+#    knife4j:
+#      app:
+#        name: "${spring.application.name}"
+#        author: "photowey"
+#        email: "photowey@uphicoo.com"
+#      api:
+#        group: "${spring.application.name}"
+#        title: "${spring.application.name} API doc"
+#        description: "# ${spring.application.name} project RESTful APIs"
+#        controllers: ["com.uphicoo.uphicoo.in.action.api", "com.uphicoo.uphicoo.in.action.controller"]
+#        termsOfServiceUrl: "https://wiki.hicoofinal.com/"
+#        version: "1.0.0"
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
