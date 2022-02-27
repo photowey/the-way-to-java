@@ -112,4 +112,20 @@ public class GlobalSecurityException extends RuntimeException {
         this.status = 500;
         this.code = 500;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 }
