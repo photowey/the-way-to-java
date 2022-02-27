@@ -44,13 +44,13 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
+            <groupId>com.photowey</groupId>
+            <artifactId>oauth2-authentication-jwt</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.photowey</groupId>
-            <artifactId>oauth2-authentication-jwt</artifactId>
+            <artifactId>oauth2-authentication-exception</artifactId>
         </dependency>
 
         <dependency>

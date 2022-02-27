@@ -23,6 +23,7 @@ import com.photowey.oauth2.authentication.api.security.head.TokenHeadWrapper;
 import com.photowey.oauth2.authentication.api.security.manager.ServiceAuthorityManager;
 import com.photowey.oauth2.authentication.api.security.mapping.RequestMappingHandlerMappingExt;
 import com.photowey.oauth2.authentication.crypto.util.AESUtils;
+import com.photowey.oauth2.authentication.exception.GlobalSecurityException;
 import com.photowey.oauth2.authentication.jwt.constant.TokenConstants;
 import com.photowey.oauth2.authentication.jwt.model.AuthUser;
 import org.springframework.util.CollectionUtils;
@@ -64,6 +65,7 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(authorizationHeader)) {
             // TODO 401 - 服务-永不接受来自于外界的请求
             //  只能来自于-网关和服务
+            throw new GlobalSecurityException(401, "UnAuthorization");
         }
 
         HandlerMethod handlerInternal = this.handlerMappingExt.getHandlerExternal(request);
@@ -80,22 +82,28 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
                 List<String> allowList = Arrays.asList(annotation.value());
                 if (!CollectionUtils.isEmpty(allowList)) {
                     // 解析 token
-                    TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(principal);
+                    String signHeader = request.getHeader(TokenConstants.INNER_SIGN_HEADER);
+                    TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(signHeader);
                     if (headWrapper.isAuthenticated()) {
                         TokenHead tokenHead = headWrapper.getTokenHead();
                         String serviceName = tokenHead.getServiceName();
                         if (!allowList.contains(serviceName)) {
                             // TODO 没有在 PublicApi.value() 的 白名单中
                             // TODO 401
+                            throw new GlobalSecurityException(401, "UnAuthorization");
                         }
+                        handleToken = this.handleNormalApi(request, principal);
                     } else {
                         // TODO 验签失败 401
+                        throw new GlobalSecurityException(401, "UnAuthorization");
                     }
+                } else {
+                    handleToken = this.handleNormalApi(request, principal);
                 }
-            } else {
+            } else if (principal.startsWith(TokenConstants.GATEWAY_ISSUE_TOKEN_PREFIX)) {
                 // TODO 处理 AuthUser 如果需要
+                handleToken = this.handleNormalApi(request, principal);
             }
-            filterChain.doFilter(request, response);
         } else {
             if (method.isAnnotationPresent(PrivateApi.class)) {
                 PrivateApi annotation = method.getAnnotation(PrivateApi.class);
@@ -104,12 +112,12 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 handleToken = this.handleNormalApi(request, principal);
             }
-            try {
-                filterChain.doFilter(request, response);
-            } finally {
-                if (handleToken) {
-                    request.removeAttribute(TokenConstants.AUTH_USER_KEY);
-                }
+        }
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            if (handleToken) {
+                request.removeAttribute(TokenConstants.AUTH_USER_KEY);
             }
         }
     }
@@ -120,20 +128,25 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
             // 解析用户
             AuthUser authUser = this.populateAuthUser(principal);
             request.setAttribute(TokenConstants.AUTH_USER_KEY, authUser);
-            return true;
         } else {
             // TODO 校验内部 token
-            TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(principal);
+            String signHeader = request.getHeader(TokenConstants.INNER_SIGN_HEADER);
+            TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(signHeader);
             if (headWrapper.isAuthenticated()) {
                 if (this.parseMockPrincipal(request)) {
                     return true;
                 }
+
+                // 解析用户
+                AuthUser authUser = this.populateAuthUser(principal);
+                request.setAttribute(TokenConstants.AUTH_USER_KEY, authUser);
             } else {
                 // TODO 验签失败 401
+                throw new GlobalSecurityException(401, "UnAuthorization");
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -148,18 +161,24 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
         if (principal.startsWith(TokenConstants.GATEWAY_ISSUE_TOKEN_PREFIX)) {
             // TODO 401
             // TODO 私有API 只能来自于服务调用 - 不能是网关
+            throw new GlobalSecurityException(401, "UnAuthorization");
         } else {
             // TODO 验证内部服务调用请求头
-            TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(principal);
+            String signHeader = request.getHeader(TokenConstants.INNER_SIGN_HEADER);
+            TokenHeadWrapper headWrapper = this.serviceAuthorityManager.verify(signHeader);
             if (headWrapper.isAuthenticated()) {
                 if (this.parseMockPrincipal(request)) {
                     return true;
                 }
+
+                // 解析正常的 用户信息
+                return this.handleNormalApi(request, principal);
             } else {
                 TokenHead tokenHead = headWrapper.getTokenHead();
                 String serviceName = tokenHead.getServiceName();
                 if (!CollectionUtils.isEmpty(blackList) && blackList.contains(serviceName)) {
                     // TODO 401
+                    throw new GlobalSecurityException(401, "UnAuthorization");
                 } else {
                     if (this.parseMockPrincipal(request)) {
                         return true;
@@ -194,6 +213,7 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
         // 不管是 网关还是服务调用  必须有该请求头
         if (StringUtils.isEmpty(principal)) {
             // TODO 401
+            throw new GlobalSecurityException(401, "UnAuthorization");
         }
 
         return principal;
@@ -208,7 +228,7 @@ public class GlobalAuthenticationFilter extends OncePerRequestFilter {
 
     private AuthUser parsePassport(String passport) {
         String passportDecrypt = AESUtils.encrypt(TokenConstants.INNER_TOKEN_AES_KEY, passport);
-        String jsonPrincipal = passportDecrypt.replaceAll(TokenConstants.SERVICE_USER_PREFIX, "");
+        String jsonPrincipal = passportDecrypt.replaceAll(TokenConstants.USER_NAME_NOCK_PREFIX, "");
         return JSON.parseObject(jsonPrincipal, AuthUser.class);
     }
 }

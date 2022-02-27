@@ -28,6 +28,7 @@
         <module>oauth2-inner-token-parser</module>
         <module>oauth2-authentication-jwt</module>
         <module>oauth2-authentication-crypto</module>
+        <module>oauth2-authentication-exception</module>
         <module>oauth2-authentication-api-security</module>
     </modules>
 
@@ -63,6 +64,11 @@
             <dependency>
                 <groupId>com.photowey</groupId>
                 <artifactId>oauth2-authentication-crypto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>oauth2-authentication-exception</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

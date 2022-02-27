@@ -43,6 +43,14 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         this.serviceAuthorityManager = serviceAuthorityManager;
     }
 
+    /**
+     * 子类根据-实际情况决定是否需要进行-重写
+     */
+    public String handleProxyPassportIfNecessary(String passport) {
+
+        return passport;
+    }
+
     @Override
     public void apply(RequestTemplate requestTemplate) {
         String innerIssueTokenHeader = TokenConstants.INNER_TOKEN_HEADER;
@@ -59,13 +67,14 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             // TODO 没有 header 但是有用户信息 - 可能是: {@code MOCK}
             AuthUser authUser = (AuthUser) request.getAttribute(TokenConstants.AUTH_USER_KEY);
             if (null != authUser) {
-                passport = this.populatePassport(authUser);
+                String mockPassport = this.populateMockPassport(authUser);
+                // TODO 没有-网关的请求头 = 但是有用户信息 - 可能是 {@code MOCK} 的用户信息
+                requestTemplate.header(TokenConstants.SERVICE_USER_HEADER, mockPassport);
             }
-        }
-
-        if (StringUtils.hasText(passport)) {
-            // TODO 没有-网关的请求头 = 但是有用户信息 - 可能是 {@code MOCK} 的用户信息
-            requestTemplate.header(TokenConstants.SERVICE_USER_HEADER, passport);
+        } else {
+            // 路由到下游
+            String proxyPassport = this.handleProxyPassportIfNecessary(passport);
+            requestTemplate.header(TokenConstants.INNER_TOKEN_HEADER, proxyPassport);
         }
 
         // 处理服务签名
@@ -75,14 +84,14 @@ public class FeignRequestInterceptor implements RequestInterceptor {
     private void handleServiceSign(RequestTemplate requestTemplate) {
         String head = this.serviceAuthorityManager.sign();
 
-        requestTemplate.header(TokenConstants.INNER_TOKEN_HEADER, head);
+        requestTemplate.header(TokenConstants.INNER_SIGN_HEADER, head);
     }
 
-    private String populatePassport(AuthUser authUser) {
+    private String populateMockPassport(AuthUser authUser) {
         String passport = JSON.toJSONString(authUser);
         passport = AESUtils.encrypt(TokenConstants.INNER_TOKEN_AES_KEY, passport);
 
-        return TokenConstants.SERVICE_USER_PREFIX + passport;
+        return TokenConstants.USER_NAME_NOCK_PREFIX + passport;
     }
 
 }

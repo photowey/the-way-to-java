@@ -28,6 +28,8 @@ public interface TokenConstants {
     String ROLE_ROOT_CODE = "ROLE_ROOT";
 
     String JWT_TOKEN_HEADER = "Authorization";
+    String GATEWAY_SYMBOL_HEADER = "Gateway";
+    String GATEWAY_SYMBOL_HEADER_VALUE = "gateway ";
 
     String PRINCIPAL_DELIMITER = ":A:Z:";
     String USER_NAME_PROXY_PREFIX = "proxy ";
@@ -55,10 +57,10 @@ public interface TokenConstants {
     String INNER_TOKEN_AES_KEY = "8u!loPKd@Mdd#%IOhN";
     // x-inner-token=xjwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     String INNER_TOKEN_HEADER = "x-inner-token";
+    String INNER_SIGN_HEADER = "x-sign-token";
     String GATEWAY_ISSUE_TOKEN_PREFIX = "gateway ";
     String SERVICE_ISSUE_TOKEN_PREFIX = USER_NAME_PROXY_PREFIX;
     String SERVICE_USER_HEADER = "x-inner-user";
-    String SERVICE_USER_PREFIX = "xuser ";
 
     String AUTHORIZATION_SERVER_PUBLIC_KEY_FILENAME = "authorization-server.pub";
     String AUTHORIZATION_SERVER_TOKEN_KEY_ENDPOINT_URL = "/oauth/token_key";

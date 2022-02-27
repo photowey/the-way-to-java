@@ -47,6 +47,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * {@code GlobalAuthenticationFilter}
@@ -96,7 +97,13 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             InnerToken innerToken = this.populateInnerToken(accessToken, jti, userName, authorities, userId);
             String innerTokenBase64 = this.populatePassport(innerToken);
             // 网关重新颁发-新的 inner-token 到下游服务
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(TokenConstants.INNER_TOKEN_HEADER, innerTokenBase64).build();
+            ServerHttpRequest tokenRequest = exchange.getRequest().mutate()
+                    .header(TokenConstants.INNER_TOKEN_HEADER, innerTokenBase64)
+                    // 移除 {@code Authorization} 请求头 - 后端服务不接受任何 带有: {@code Authorization} 请求头的请求
+                    .header(TokenConstants.JWT_TOKEN_HEADER, "")
+                    // 标记该请求 来自于网关
+                    .header(TokenConstants.GATEWAY_SYMBOL_HEADER, TokenConstants.GATEWAY_SYMBOL_HEADER_VALUE + this.uuid())
+                    .build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
 
             return chain.filter(build);
@@ -166,5 +173,9 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         innerToken.setAu(String.join(",", authorities));
         innerToken.setEi(accessToken.getExpiresIn());
         return innerToken;
+    }
+
+    private String uuid() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }
