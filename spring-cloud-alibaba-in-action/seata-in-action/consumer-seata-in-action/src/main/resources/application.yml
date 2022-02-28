@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: "consumer-seata-in-action"
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
   profiles:
     active: dev
   datasource:
@@ -11,6 +15,10 @@ spring:
     url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&characterEncoding=UTF-8"
     username: ${local.config.mysql.username}
     password: ${local.config.mysql.password}
+
+ribbon:
+  nacos:
+    enabled: false
 
 mybatis-plus:
   configuration:

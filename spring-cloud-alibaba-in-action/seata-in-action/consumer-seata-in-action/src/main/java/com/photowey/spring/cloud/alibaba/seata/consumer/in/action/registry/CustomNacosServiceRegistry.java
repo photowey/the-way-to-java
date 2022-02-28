@@ -15,6 +15,7 @@
  */
 package com.photowey.spring.cloud.alibaba.seata.consumer.in.action.registry;
 
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistryAutoConfiguration;
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
@@ -24,15 +25,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * {@code NacosServiceRegistry}
+ * {@code CustomNacosServiceRegistry}
+ * The old Name {@code NacosServiceRegistry}conflicted with {@link NacosServiceRegistryAutoConfiguration#nacosServiceRegistry(com.alibaba.cloud.nacos.NacosDiscoveryProperties)}
  *
  * @author photowey
  * @date 2021/11/14
  * @since 1.0.0
  */
 @Slf4j
-@Component
-public class NacosServiceRegistry implements SmartInitializingSingleton {
+// @Component
+public class CustomNacosServiceRegistry implements SmartInitializingSingleton {
 
     @NacosInjected
     private NamingService namingService;

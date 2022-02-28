@@ -15,9 +15,13 @@
  */
 package com.photowey.spring.cloud.alibaba.seata.consumer.in.action;
 
+import com.photowey.print.in.action.printer.AppPrinter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * {@code SeataConsumerApp}
@@ -26,11 +30,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @date 2021/11/08
  * @since 1.0.0
  */
+@EnableFeignClients
 @SpringBootApplication
+@EnableDiscoveryClient
 @EnableConfigurationPropertiesExt
 public class SeataConsumerApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(SeataConsumerApp.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(SeataConsumerApp.class, args);
+        AppPrinter.print(applicationContext, false);
     }
 }

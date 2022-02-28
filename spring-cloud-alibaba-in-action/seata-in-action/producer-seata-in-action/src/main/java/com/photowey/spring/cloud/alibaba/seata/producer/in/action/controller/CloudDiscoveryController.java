@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.consumer.in.action.controller;
+package com.photowey.spring.cloud.alibaba.seata.producer.in.action.controller;
 
-import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +30,12 @@ import java.util.List;
  * {@code DiscoveryController}
  *
  * @author photowey
- * @date 2021/11/13
+ * @date 2022/03/01
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/discovery")
-public class DiscoveryController {
-
-    @NacosInjected
-    private NamingService namingService;
+@RequestMapping("/cloud/discovery")
+public class CloudDiscoveryController {
 
     /**
      * GET :/service/instances
@@ -49,11 +44,10 @@ public class DiscoveryController {
      * @param serviceName 服务名称
      * @return {@link List<Instance>}
      * @throws NacosException
-     * @see * http://localhost:7923/discovery/service/instances?serviceName=consumer-seata-in-action
+     * @see * http://localhost:9762/cloud/discovery/service/instances?serviceName=producer-seata-in-action
      */
     @GetMapping("/service/instances")
-    public ResponseEntity<List<Instance>> serviceInstances(@RequestParam("serviceName") String serviceName) throws NacosException {
-        List<Instance> instances = this.namingService.getAllInstances(serviceName);
-        return new ResponseEntity<>(instances, HttpStatus.OK);
+    public ResponseEntity<String> producerServiceInstances(@RequestParam("serviceName") String serviceName) throws NacosException {
+        return new ResponseEntity<>(String.format("say Hello to %s from: producer-seata-in-action", serviceName), HttpStatus.OK);
     }
 }

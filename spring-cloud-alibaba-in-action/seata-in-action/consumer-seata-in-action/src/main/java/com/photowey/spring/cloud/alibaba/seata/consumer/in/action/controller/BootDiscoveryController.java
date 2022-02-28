@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.cloud.alibaba.seata.producer.in.action.controller;
+package com.photowey.spring.cloud.alibaba.seata.consumer.in.action.controller;
 
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import com.photowey.spring.cloud.alibaba.seata.consumer.in.action.feign.ProducerFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -35,12 +36,15 @@ import java.util.List;
  * @date 2021/11/13
  * @since 1.0.0
  */
-@RestController
+//@RestController
 @RequestMapping("/discovery")
-public class DiscoveryController {
+public class BootDiscoveryController {
 
     @NacosInjected
     private NamingService namingService;
+
+    @Autowired
+    private ProducerFeignClient producerFeignClient;
 
     /**
      * GET :/service/instances
@@ -49,7 +53,7 @@ public class DiscoveryController {
      * @param serviceName 服务名称
      * @return {@link List<Instance>}
      * @throws NacosException
-     * @see * http://localhost:9762/discovery/service/instances?serviceName=producer-seata-in-action
+     * @see * http://localhost:7923/discovery/service/instances?serviceName=consumer-seata-in-action
      */
     @GetMapping("/service/instances")
     public ResponseEntity<List<Instance>> serviceInstances(@RequestParam("serviceName") String serviceName) throws NacosException {
