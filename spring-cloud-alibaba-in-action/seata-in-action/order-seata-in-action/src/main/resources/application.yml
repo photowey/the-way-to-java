@@ -1,0 +1,73 @@
+server:
+  port: 7928
+
+spring:
+  application:
+    name: "order-seata-in-action"
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&characterEncoding=UTF-8"
+    username: ${local.config.mysql.username}
+    password: ${local.config.mysql.password}
+
+ribbon:
+  nacos:
+    enabled: false
+
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+    jdbc-type-for-null: 'null'
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      id-type: id_worker
+      table-prefix: sys_
+      capital-mode: true
+    db-column-underline: true
+    field-strategy: 2
+    refresh-mapper: true
+  check-config-location: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.photowey.spring.cloud.alibaba.seata.consumer.in.action.domain.entity
+
+nacos:
+  discovery:
+    server-addr: "${local.config.nacos.host}:${local.config.nacos.port}"
+  config:
+    auto-refresh: true
+    bootstrap:
+      enable: true
+    config-long-poll-timeout: 46000
+    config-retry-time: 2333
+    data-id: ${spring.application.name}
+    enable-remote-sync-config: true
+    group: DEFAULT_GROUP
+    max-retry: 10
+    password: nacos
+    username: nacos
+    remote-first: true
+    server-addr: "${local.config.nacos.host}:${local.config.nacos.port}"
+    type: yaml
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

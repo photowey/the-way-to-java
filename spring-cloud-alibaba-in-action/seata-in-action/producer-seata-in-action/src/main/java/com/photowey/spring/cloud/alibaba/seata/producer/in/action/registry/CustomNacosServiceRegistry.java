@@ -15,6 +15,7 @@
  */
 package com.photowey.spring.cloud.alibaba.seata.producer.in.action.registry;
 
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistryAutoConfiguration;
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;

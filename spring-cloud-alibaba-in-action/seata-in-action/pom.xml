@@ -22,6 +22,9 @@
     <modules>
         <module>producer-seata-in-action</module>
         <module>consumer-seata-in-action</module>
+        <module>storage-seata-in-action</module>
+        <module>account-seata-in-action</module>
+        <module>order-seata-in-action</module>
     </modules>
 
 </project>
