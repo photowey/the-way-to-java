@@ -15,7 +15,8 @@
     <properties>
         <nacos.config.version>0.2.10</nacos.config.version>
         <spring-cloud.version>2020.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2020.0.RC1</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <seata.version>1.4.2</seata.version>
     </properties>
 
     <modules>
@@ -42,6 +43,12 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.version}</version>
             </dependency>
 
             <dependency>

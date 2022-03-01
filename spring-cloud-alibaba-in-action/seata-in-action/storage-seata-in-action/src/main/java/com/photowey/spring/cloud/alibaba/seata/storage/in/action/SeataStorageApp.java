@@ -16,10 +16,12 @@
 package com.photowey.spring.cloud.alibaba.seata.storage.in.action;
 
 import com.photowey.print.in.action.printer.AppPrinter;
+import com.photowey.spring.cloud.alibaba.seata.in.action.mysql.support.annotation.EnableMybatisAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
@@ -29,9 +31,10 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2022/03/01
  * @since 1.0.0
  */
-@SpringBootApplication
+@EnableFeignClients
 @EnableDiscoveryClient
-@EnableConfigurationPropertiesExt
+@EnableMybatisAutoConfigure
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class SeataStorageApp {
 
     public static void main(String[] args) {

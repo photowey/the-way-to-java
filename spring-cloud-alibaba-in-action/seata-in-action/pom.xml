@@ -25,6 +25,23 @@
         <module>storage-seata-in-action</module>
         <module>account-seata-in-action</module>
         <module>order-seata-in-action</module>
+        <module>seata-in-action-mysql-support</module>
+        <module>seata-in-action-bom</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>seata-in-action-mysql-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>seata-in-action-bom</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

@@ -1,0 +1,3 @@
+﻿# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.photowey.spring.cloud.alibaba.seata.in.action.mysql.support.config.MyBatisConfig

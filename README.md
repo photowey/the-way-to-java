@@ -45,12 +45,20 @@
 │  ├─nacos-in-action
 │  ├─nacos-patch-in-action
 │  └─seata-in-action
+│      ├─account-seata-in-action
 │      ├─consumer-seata-in-action
+│      └─order-seata-in-action
 │      └─producer-seata-in-action
+│      └─seata-in-action-bom
+│      └─seata-in-action-mysql-support
+│      └─storage-seata-in-action
 ├─spring-in-action
 ├─sqlite-in-action    // SQLite
 ├─validator-in-action-bom        //  validator  
 ├─vertx-in-action    // Vert.x
+│  ├─spring-boot-starter-vertx
+│  ├─vertx-in-starter
+│  ├─vertx-starter
 └─zookeeper-in-action
 ```
 

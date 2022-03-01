@@ -7,7 +7,7 @@ local:
       port: 3307
       username: "root"
       password: "root"
-      database: "storage-seata-in-action"
+      database: "seata-storage"
     nacos:
       host: "127.0.0.1"
       port: 8848

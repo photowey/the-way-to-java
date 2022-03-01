@@ -220,6 +220,10 @@
                         <exclude>**/JMap.java</exclude>
                         <exclude>**/ThreadLocalRandomExt.java</exclude>
                         <exclude>**/tree/**/*.java</exclude>
+                        <exclude>
+                            **/com/photowey/spring/cloud/alibaba/seata/**/*.java
+                        </exclude>
+                        <exclude>**/doc/script/**/*.*</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

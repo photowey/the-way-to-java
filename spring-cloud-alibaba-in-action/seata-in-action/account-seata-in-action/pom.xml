@@ -34,29 +34,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery
-            </artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.photowey</groupId>
+            <artifactId>seata-in-action-bom</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.photowey</groupId>
-            <artifactId>nacos-patch-in-action</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.photowey</groupId>
-            <artifactId>persistence-in-action-bom</artifactId>
+            <artifactId>seata-in-action-mysql-support</artifactId>
         </dependency>
 
         <dependency>
