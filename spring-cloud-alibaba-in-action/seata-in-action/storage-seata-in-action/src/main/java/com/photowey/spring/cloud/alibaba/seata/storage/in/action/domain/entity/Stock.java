@@ -15,6 +15,8 @@
  */
 package com.photowey.spring.cloud.alibaba.seata.storage.in.action.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -34,6 +36,7 @@ import lombok.experimental.Accessors;
 @TableName("stock_tbl")
 public class Stock {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     private String commodityCode;
     private Long count;

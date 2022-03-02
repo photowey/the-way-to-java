@@ -48,7 +48,8 @@ public class StockService {
     @Transactional(rollbackFor = Exception.class)
     public void deduct(String commodityCode, int count) {
         if (commodityCode.equals("product-2")) {
-            throw new RuntimeException("异常:模拟业务异常:stock branch exception");
+            // do nothing
+            // throw new RuntimeException("异常:模拟业务异常:stock branch exception");
         }
 
         QueryWrapper<Stock> wrapper = new QueryWrapper<>();

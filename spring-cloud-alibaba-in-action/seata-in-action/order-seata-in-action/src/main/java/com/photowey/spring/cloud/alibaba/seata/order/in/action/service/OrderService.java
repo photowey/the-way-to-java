@@ -53,14 +53,36 @@ public class OrderService {
      * @param commodityCode
      * @param count
      */
-    @GlobalTransactional
     @Transactional(rollbackFor = Exception.class)
     public void placeOrder(String userId, String commodityCode, Integer count) {
         BigDecimal orderMoney = new BigDecimal(count).multiply(new BigDecimal(5));
-        Order order = new Order().setUserId(userId).setCommodityCode(commodityCode).setCount(count).setMoney(
-                orderMoney);
-        orderDAO.insert(order);
+        Order order = new Order().setUserId(userId).setCommodityCode(commodityCode).setCount(count).setMoney(orderMoney);
+        // 为了方便测试-扣减库存在先(远程调用)
+        // deduct 成功 - order 异常
         stockFeignClient.deduct(commodityCode, count);
+        orderDAO.insert(order);
+        if (commodityCode.equals("product-2")) {
+            throw new RuntimeException("异常:模拟业务异常:order branch exception");
+        }
+    }
+
+    /**
+     * 采用-seata 全局事务
+     *
+     * @param userId
+     * @param commodityCode
+     * @param count
+     * @author photowey
+     */
+    @GlobalTransactional
+    public void globalPlaceOrder(String userId, String commodityCode, Integer count) {
+        BigDecimal orderMoney = new BigDecimal(count).multiply(new BigDecimal(5));
+        Order order = new Order().setUserId(userId).setCommodityCode(commodityCode).setCount(count).setMoney(orderMoney);
+        stockFeignClient.deduct(commodityCode, count);
+        orderDAO.insert(order);
+        if (commodityCode.equals("product-2")) {
+            throw new RuntimeException("异常:模拟业务异常:order branch exception");
+        }
 
     }
 

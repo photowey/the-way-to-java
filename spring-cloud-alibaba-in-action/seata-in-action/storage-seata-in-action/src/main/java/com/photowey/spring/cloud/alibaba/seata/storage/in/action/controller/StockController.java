@@ -16,6 +16,7 @@
 package com.photowey.spring.cloud.alibaba.seata.storage.in.action.controller;
 
 import com.photowey.spring.cloud.alibaba.seata.storage.in.action.service.StockService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class StockController {
      * @param count         数量
      * @return
      */
-    @RequestMapping(path = "/deduct")
+    @GetMapping(path = "/deduct")
     public Boolean deduct(String commodityCode, Integer count) {
         stockService.deduct(commodityCode, count);
         return true;
