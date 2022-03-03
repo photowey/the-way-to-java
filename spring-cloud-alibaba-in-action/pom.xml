@@ -23,6 +23,7 @@
         <module>nacos-in-action</module>
         <module>nacos-patch-in-action</module>
         <module>seata-in-action</module>
+        <module>sentinel-in-action</module>
     </modules>
 
     <dependencyManagement>

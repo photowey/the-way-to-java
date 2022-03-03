@@ -1,0 +1,15 @@
+local:
+  config:
+    mysql:
+      host: "192.168.0.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "mybatis-in-action"
+    nacos:
+      host: "127.0.0.1"
+      port: 8848
+    sentinel:
+      host: "127.0.0.1"
+      port: 8719
+      dashboard: ${local.config.sentinel.host}:8888
