@@ -74,6 +74,7 @@
         <module>druid-in-action</module>
         <module>custom-validator-in-action</module>
         <module>custom-validator-in-action-example</module>
+        <module>design-pattern-in-action</module>
     </modules>
 
     <dependencyManagement>
