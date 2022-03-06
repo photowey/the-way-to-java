@@ -21,7 +21,7 @@ import java.security.cert.X509Certificate;
 /**
  * {@code TrustAnyTrustManager}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/02/28
  * @since 1.0.0
  */

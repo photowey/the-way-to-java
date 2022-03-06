@@ -22,7 +22,7 @@ import okhttp3.MediaType;
 /**
  * {@code OkHttpRequestExecutor}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/02/28
  * @since 1.0.0
  */

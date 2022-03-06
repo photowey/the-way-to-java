@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * {@code RequestParameters}
  * 请求参数
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/02/28
  * @since 1.0.0
  */

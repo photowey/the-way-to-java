@@ -17,7 +17,7 @@
  * {@code com.photowey.http.in.action.candidate.okhttp}
  * okhttp 请求执行器
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/03/01
  * @since 1.0.0
  */

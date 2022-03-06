@@ -17,7 +17,7 @@
  * {@code com.photowey.http.in.action.property}
  * http 属性配置类
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/03/01
  * @since 1.0.0
  */

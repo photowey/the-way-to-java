@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * {@code OkHttpRequestExecutorImpl}
  * {@code OkHttp} {@link RequestExecutor}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/02/28
  * @since 1.0.0
  */

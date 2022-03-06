@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * {@code PlatformHttpAutoConfigure}
  * 平台-{@code http} 自动配置
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/02/28
  * @since 1.0.0
  */
