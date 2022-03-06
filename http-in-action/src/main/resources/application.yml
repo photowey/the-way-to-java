@@ -1,0 +1,10 @@
+# config example.
+# request:
+#   http:
+#     okHttp:
+#       enabled: true
+#       connectTimeout: 5
+#       readTimeout: 30
+#       writeTimeout: 30
+#       maxIdleConnections: 200
+#       keepAliveDuration: 300
