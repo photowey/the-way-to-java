@@ -54,7 +54,7 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
-        <module>hashmap-in-action</module>
+<!--        <module>hashmap-in-action</module>-->
         <module>jvm-in-action</module>
         <module>mysql-in-action</module>
         <module>mongo-in-action</module>
