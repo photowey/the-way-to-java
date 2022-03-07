@@ -76,6 +76,7 @@
         <module>custom-validator-in-action-example</module>
         <module>design-pattern-in-action</module>
         <module>http-in-action</module>
+        <module>crypto-in-action</module>
     </modules>
 
     <dependencyManagement>
