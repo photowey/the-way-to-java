@@ -13,35 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.nio;
+package com.photowey.study.netty.in.action.zerocopy;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.net.InetSocketAddress;
 import java.nio.channels.FileChannel;
+import java.nio.channels.SocketChannel;
 
 /**
- * {@code FileChannelTransferFrom}
+ * {@code ZCIOClient}
  *
  * @author photowey
  * @date 2022/03/12
  * @since 1.0.0
  */
-public class FileChannelTransferFrom {
+public class ZCIOClient {
 
-    public void transferFrom() {
-        try (FileInputStream input = new FileInputStream("doc/lp-one-more-light.jpg");
-             FileOutputStream output = new FileOutputStream("doc/lp-one-more-light-read-write.jpg");) {
+    public static void main(String[] args) {
 
+        try (SocketChannel socketChannel = SocketChannel.open()) {
+            socketChannel.connect(new InetSocketAddress("127.0.0.1", 7923));
+
+            FileInputStream input = new FileInputStream(new File("D:\\common-files\\txt\\JavaNIO.pdf"));
             FileChannel inputChannel = input.getChannel();
-            FileChannel outputChannel = output.getChannel();
-
-            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-
+            long startTime = System.currentTimeMillis();
+            // FIXME BigFile
+            long transferCount = inputChannel.transferTo(0, inputChannel.size(), socketChannel);
+            System.out.println("total bytes =" + transferCount + " use time:" + (System.currentTimeMillis() - startTime));
             inputChannel.close();
-            outputChannel.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

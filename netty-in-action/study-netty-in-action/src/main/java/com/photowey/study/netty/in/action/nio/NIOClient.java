@@ -15,12 +15,9 @@
  */
 package com.photowey.study.netty.in.action.nio;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 
 /**
  * {@code NIOClient}
@@ -30,6 +27,11 @@ import java.nio.charset.StandardCharsets;
  * @since 1.0.0
  */
 public class NIOClient {
+
+    public static void main(String[] args) {
+        NIOClient client = new NIOClient();
+        client.start();
+    }
 
     public void start() {
         try {
@@ -43,20 +45,14 @@ public class NIOClient {
             // 连接-服务器
             if (!socketChannel.connect(inetSocketAddress)) {
                 while (!socketChannel.finishConnect()) {
-                    System.out.println("连接需要时间，客户端不会阻塞...");
+                    System.out.println("no blocking...");
                 }
             }
 
             String hello = "Say hello from photowey~";
-            ByteBuffer byteBuffer = ByteBuffer.wrap(hello.getBytes(StandardCharsets.UTF_8));
+            ByteBuffer byteBuffer = ByteBuffer.wrap(hello.getBytes());
             socketChannel.write(byteBuffer);
-
-            while (true) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                String words = reader.readLine();
-                ByteBuffer buffer = ByteBuffer.wrap(words.getBytes(StandardCharsets.UTF_8));
-                socketChannel.write(buffer);
-            }
+            System.in.read();
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,8 +24,21 @@ package com.photowey.study.netty.in.action.nio;
  */
 public class NIOApp {
 
-    public static void main(String[] args) {
-        NIOClient client = new NIOClient();
-        client.start();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(() -> {
+            NIOServer server = new NIOServer();
+            server.start();
+            System.out.println("-----------------server");
+        });
+
+        Thread t2 = new Thread(() -> {
+            NIOClient client = new NIOClient();
+            client.start();
+            System.out.println("-----------------client");
+        });
+
+        t1.start();
+        Thread.sleep(1_000);
+        t2.start();
     }
 }

@@ -15,21 +15,24 @@
  */
 package com.photowey.study.netty.in.action.nio;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * {@code FileChannelReaderTest}
+ * {@code MappedByteBufferHandlerTest}
  *
  * @author photowey
  * @date 2022/03/12
  * @since 1.0.0
  */
-class FileChannelReaderTest {
+class MappedByteBufferHandlerTest {
 
     @Test
-    void testRead() {
-        FileChannelReader reader = new FileChannelReader();
-        reader.read();
+    void testMapped() {
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> {
+            MappedByteBufferHandler bufferHandler = new MappedByteBufferHandler();
+            bufferHandler.mapped();
+        });
     }
 
 }

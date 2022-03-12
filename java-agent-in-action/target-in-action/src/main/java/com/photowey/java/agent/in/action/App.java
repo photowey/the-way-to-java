@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.nio;
+package com.photowey.java.agent.in.action;
 
-import org.junit.jupiter.api.Test;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * {@code FileChannelReaderTest}
+ * {@code App}
  *
  * @author photowey
  * @date 2022/03/12
  * @since 1.0.0
  */
-class FileChannelReaderTest {
-
-    @Test
-    void testRead() {
-        FileChannelReader reader = new FileChannelReader();
-        reader.read();
+@SpringBootApplication
+public class App {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
     }
-
 }
