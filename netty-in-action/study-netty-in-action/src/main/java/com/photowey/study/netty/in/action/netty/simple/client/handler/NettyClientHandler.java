@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.server.handler;
+package com.photowey.study.netty.in.action.netty.simple.client.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -23,29 +23,29 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code NettyServerHandler}
+ * {@code NettyClientHandler}
  *
  * @author photowey
  * @date 2022/03/13
  * @since 1.0.0
  */
 @Slf4j
-public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+public class NettyClientHandler extends ChannelInboundHandlerAdapter {
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello, server: (>^ω^<)喵", CharsetUtil.UTF_8));
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf = (ByteBuf) msg;
-        log.info("the remote client:[{}] request message is:[{}]", ctx.channel().remoteAddress(), buf.toString(CharsetUtil.UTF_8));
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Hello, 世界~", CharsetUtil.UTF_8));
+        log.info("the remote server:[{}] response message is:{}", ctx.channel().remoteAddress(), buf.toString(CharsetUtil.UTF_8));
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("channel read exception", cause);
+        log.error("handle remote server message exception", cause);
         ctx.close();
     }
 }

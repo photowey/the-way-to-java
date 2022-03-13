@@ -13,51 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.client;
+package com.photowey.study.netty.in.action.netty.http.server;
 
-import com.photowey.study.netty.in.action.netty.client.initializer.NettyClientInitializer;
-import io.netty.bootstrap.Bootstrap;
+import com.photowey.study.netty.in.action.netty.http.server.initializer.NettyHttpServerInitializer;
+import com.photowey.study.netty.in.action.netty.simple.server.lisenter.ChannelFutureListenerImpl;
+import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code NettyClient}
+ * {@code NettyHttpServer}
  *
  * @author photowey
  * @date 2022/03/13
  * @since 1.0.0
  */
 @Slf4j
-public class NettyClient {
+public class NettyHttpServer {
 
     public static void main(String[] args) {
         start();
     }
 
     public static void start() {
+
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
-            Bootstrap bootstrap = new Bootstrap();
-            bootstrap.group(workerGroup)
-                    .channel(NioSocketChannel.class)
-                    .handler(new NettyClientInitializer());
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new NettyHttpServerInitializer());
 
-            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6888).sync();
+            ChannelFuture channelFuture = bootstrap.bind(8888).sync();
+            channelFuture.addListener(new ChannelFutureListenerImpl());
 
+            // listener close channel
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
-            log.error("start the netty client exception", e);
+            log.error("start the netty server exception", e);
             throw new RuntimeException(e);
         } finally {
-            shutdownGracefully(workerGroup);
+            shutdownGracefully(bossGroup, workerGroup);
         }
     }
 
-    private static void shutdownGracefully(EventLoopGroup workerGroup) {
+    private static void shutdownGracefully(EventLoopGroup bossGroup, EventLoopGroup workerGroup) {
+        bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
 

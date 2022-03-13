@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.server.lisenter;
+package com.photowey.study.netty.in.action.netty.http.server.initializer;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import lombok.extern.slf4j.Slf4j;
+import com.photowey.study.netty.in.action.netty.http.server.handler.NettyHttpServerHandler;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
- * {@code ChannelFutureListenerImpl}
+ * {@code NettyHttpServerInitializer}
  *
  * @author photowey
  * @date 2022/03/13
  * @since 1.0.0
  */
-@Slf4j
-public class ChannelFutureListenerImpl implements ChannelFutureListener {
+public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
-    public void operationComplete(ChannelFuture channelFuture) throws Exception {
-        if (channelFuture.isSuccess()) {
-            log.info("listener the port successfully...");
-        } else {
-            log.error("listener the port failed...");
-        }
+    protected void initChannel(SocketChannel socketChannel) throws Exception {
+        socketChannel.pipeline()
+                .addLast("SimpleHttpServerCodec", new HttpServerCodec())
+                .addLast("SimpleNettyHttpServerHandler", new NettyHttpServerHandler());
     }
 }

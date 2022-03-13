@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.client.initializer;
+package com.photowey.study.netty.in.action.netty.simple.client.initializer;
 
-import com.photowey.study.netty.in.action.netty.client.handler.NettyClientHandler;
-import io.netty.channel.Channel;
+import com.photowey.study.netty.in.action.netty.simple.client.handler.NettyClientHandler;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.socket.SocketChannel;
 
 /**
  * {@code NettyClientInitializer}
@@ -26,10 +26,10 @@ import io.netty.channel.ChannelInitializer;
  * @date 2022/03/13
  * @since 1.0.0
  */
-public class NettyClientInitializer extends ChannelInitializer {
+public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
-    protected void initChannel(Channel channel) throws Exception {
+    protected void initChannel(SocketChannel channel) throws Exception {
         channel.pipeline().addLast(new NettyClientHandler());
     }
 }

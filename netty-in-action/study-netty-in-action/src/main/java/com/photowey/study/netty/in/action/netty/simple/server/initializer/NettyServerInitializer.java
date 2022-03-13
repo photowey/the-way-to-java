@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.server.initializer;
+package com.photowey.study.netty.in.action.netty.simple.server.initializer;
 
-import com.photowey.study.netty.in.action.netty.server.handler.NettyServerHandler;
+import com.photowey.study.netty.in.action.netty.simple.server.handler.NettyServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 

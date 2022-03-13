@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.study.netty.in.action.netty.server;
+package com.photowey.study.netty.in.action.netty.simple.server;
 
-import com.photowey.study.netty.in.action.netty.server.initializer.NettyServerInitializer;
-import com.photowey.study.netty.in.action.netty.server.lisenter.ChannelFutureListenerImpl;
+import com.photowey.study.netty.in.action.netty.simple.server.initializer.NettyServerInitializer;
+import com.photowey.study.netty.in.action.netty.simple.server.lisenter.ChannelFutureListenerImpl;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
