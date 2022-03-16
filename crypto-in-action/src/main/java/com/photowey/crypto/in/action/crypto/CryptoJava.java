@@ -185,6 +185,7 @@ public final class CryptoJava {
     }
 
     public static final class RSA implements Serializable {
+
         /**
          * 加密算法RSA
          */
@@ -193,7 +194,8 @@ public final class CryptoJava {
         /**
          * 签名算法
          */
-        private static final String SIGNATURE_ALGORITHM = "MD5withRSA";
+        public static final String SIGNATURE_MD5_WITH_RSA_ALGORITHM = "MD5withRSA";
+        public static final String SIGNATURE_SHA256_WITH_RSA_ALGORITHM = "SHA256withRSA";
 
         /**
          * 获取公钥的 key
@@ -223,43 +225,114 @@ public final class CryptoJava {
             throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
         }
 
+        public static class MD5 implements Serializable {
+
+            public static String sign(String data, String privateKey) throws Exception {
+                return sign(data.getBytes(StandardCharsets.UTF_8), privateKey);
+            }
+
+            public static String sign(byte[] data, String privateKey) throws Exception {
+                return RSA.sign(data, privateKey);
+            }
+
+            public static boolean verify(String data, String publicKey, String sign) throws Exception {
+                return verify(data.getBytes(StandardCharsets.UTF_8), publicKey, sign);
+            }
+
+            public static boolean verify(byte[] data, String publicKey, String sign) throws Exception {
+                return RSA.verify(data, publicKey, sign);
+            }
+        }
+
+        public static class SHA256 implements Serializable {
+
+            public static String sign(String data, String privateKey) throws Exception {
+                return sign(data.getBytes(StandardCharsets.UTF_8), privateKey);
+            }
+
+            public static String sign(byte[] data, String privateKey) throws Exception {
+                return RSA.sign(data, privateKey, SIGNATURE_SHA256_WITH_RSA_ALGORITHM);
+            }
+
+            public static boolean verify(String data, String publicKey, String sign) throws Exception {
+                return verify(data.getBytes(StandardCharsets.UTF_8), publicKey, sign);
+            }
+
+            public static boolean verify(byte[] data, String publicKey, String sign) throws Exception {
+                return RSA.verify(data, publicKey, sign, SIGNATURE_SHA256_WITH_RSA_ALGORITHM);
+            }
+        }
+
         // --------------------------------------------------------- gen key pair
 
-        public static RsaPair keyPair() throws Exception {
+        public static KeyPair keyPair() throws SecurityException {
             return keyPair(KEY_SIZE);
         }
 
-        public static RsaPair keyPair(int keySize) throws Exception {
-            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
-            keyPairGen.initialize(keySize);
-            KeyPair keyPair = keyPairGen.generateKeyPair();
-            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-            RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        public static KeyPair keyPair(int keySize) throws SecurityException {
+            try {
+                KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
+                keyPairGen.initialize(keySize);
+                KeyPair keyPair = keyPairGen.generateKeyPair();
+                RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+                RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
-            return new RsaPair(publicKey, privateKey);
+                return new KeyPair(publicKey, privateKey);
+            } catch (Exception e) {
+                throw new SecurityException(e);
+            }
+
         }
 
         // --------------------------------------------------------- gen key context
 
-        public static Map<String, Key> keyPairContext() throws Exception {
+        public static Map<String, Key> keyPairContext() throws SecurityException {
             return keyPairContext(KEY_SIZE);
         }
 
-        public static Map<String, Key> keyPairContext(int keySize) throws Exception {
-            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
-            keyPairGen.initialize(keySize);
-            KeyPair keyPair = keyPairGen.generateKeyPair();
-            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-            RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-            Map<String, Key> keyContext = new HashMap<>(4);
-            keyContext.put(PUBLIC_KEY, publicKey);
-            keyContext.put(PRIVATE_KEY, privateKey);
+        public static Map<String, Key> keyPairContext(int keySize) throws SecurityException {
+            try {
+                KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
+                keyPairGen.initialize(keySize);
+                KeyPair keyPair = keyPairGen.generateKeyPair();
+                RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+                RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+                Map<String, Key> keyContext = new HashMap<>(4);
+                keyContext.put(PUBLIC_KEY, publicKey);
+                keyContext.put(PRIVATE_KEY, privateKey);
 
-            return keyContext;
+                return keyContext;
+            } catch (Exception e) {
+                throw new SecurityException(e);
+            }
         }
 
         // --------------------------------------------------------- encrypt
 
+        /**
+         * 公钥加密
+         *
+         * @param data      明文的字节数据
+         * @param publicKey 公钥-{@code Base64}字符串
+         * @return 加密-密文
+         * @throws Exception
+         */
+        public static String encrypt(String data, String publicKey) throws Exception {
+            PublicKey publicK = publicKeyFromString(publicKey);
+            KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+            byte[] encryptedData = encrypt(data.getBytes(StandardCharsets.UTF_8), keyFactory, publicK);
+
+            return Base64Utils.encrypt(encryptedData);
+        }
+
+        /**
+         * 公钥解密
+         *
+         * @param data      明文的字节数据
+         * @param publicKey 公钥-{@code Base64}字符串
+         * @return 加密-字节数据
+         * @throws Exception
+         */
         public static byte[] encryptByPublicKey(byte[] data, String publicKey) throws Exception {
             PublicKey publicK = publicKeyFromString(publicKey);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
@@ -286,6 +359,30 @@ public final class CryptoJava {
 
         // --------------------------------------------------------- decrypt
 
+        /**
+         * 私钥解密
+         *
+         * @param encryptedData 公钥解密的 {@code Base64} 字节数据
+         * @param privateKey    私钥
+         * @return 原文-字符串
+         * @throws Exception
+         */
+        public static String decrypt(String encryptedData, String privateKey) throws Exception {
+            PrivateKey privateK = privateKeyFromString(privateKey);
+            KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+            byte[] decryptedData = decrypt(Base64Utils.decrypt(encryptedData), keyFactory, privateK);
+
+            return new String(decryptedData, StandardCharsets.UTF_8);
+        }
+
+        /**
+         * 私钥解密
+         *
+         * @param encryptedData 公钥解密的 {@code Base64} 字节数据
+         * @param privateKey    私钥
+         * @return 原文-字节数据
+         * @throws Exception
+         */
         public static byte[] decryptByPrivateKey(byte[] encryptedData, String privateKey) throws Exception {
             PrivateKey privateK = privateKeyFromString(privateKey);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
@@ -317,8 +414,12 @@ public final class CryptoJava {
         // --------------------------------------------------------- sign
 
         public static String sign(byte[] data, String privateKey) throws Exception {
+            return sign(data, privateKey, SIGNATURE_MD5_WITH_RSA_ALGORITHM);
+        }
+
+        public static String sign(byte[] data, String privateKey, String algorithm) throws Exception {
             PrivateKey privateK = privateKeyFromString(privateKey);
-            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+            Signature signature = Signature.getInstance(algorithm);
             signature.initSign(privateK);
             signature.update(data);
 
@@ -327,21 +428,29 @@ public final class CryptoJava {
 
         public static boolean verify(byte[] data, String publicKey, String sign) throws Exception {
             PublicKey publicK = publicKeyFromString(publicKey);
-            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+            Signature signature = Signature.getInstance(SIGNATURE_MD5_WITH_RSA_ALGORITHM);
+            signature.initVerify(publicK);
+            signature.update(data);
+
+            return verify(data, publicKey, sign, SIGNATURE_MD5_WITH_RSA_ALGORITHM);
+        }
+
+        public static boolean verify(byte[] data, String publicKey, String sign, String algorithm) throws Exception {
+            PublicKey publicK = publicKeyFromString(publicKey);
+            Signature signature = Signature.getInstance(algorithm);
             signature.initVerify(publicK);
             signature.update(data);
 
             return signature.verify(Base64Utils.decrypt(sign));
         }
 
-        // --------------------------------------------------------- encrypt
+        // ---------------------------------------------------------
 
-        private static byte[] encrypt(byte[] data, KeyFactory keyFactory, Key key) throws Exception {
-            Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            int dataLength = data.length;
-            byte[] encryptedData = new byte[128];
+        private static byte[] encrypt(byte[] data, KeyFactory keyFactory, Key key) throws SecurityException {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+                int dataLength = data.length;
                 int offSet = 0;
                 byte[] cache = new byte[128];
                 int i = 0;
@@ -355,20 +464,17 @@ public final class CryptoJava {
                     i++;
                     offSet = i * MAX_ENCRYPT_BLOCK;
                 }
-                encryptedData = out.toByteArray();
+                return out.toByteArray();
+            } catch (Exception e) {
+                throw new SecurityException(e);
             }
-
-            return encryptedData;
         }
 
-        // --------------------------------------------------------- decrypt
-
-        private static byte[] decrypt(byte[] encryptedData, KeyFactory keyFactory, Key key) throws Exception {
-            Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            int dataLength = encryptedData.length;
-            byte[] decryptedData = new byte[128];
+        private static byte[] decrypt(byte[] encryptedData, KeyFactory keyFactory, Key key) throws SecurityException {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+                cipher.init(Cipher.DECRYPT_MODE, key);
+                int dataLength = encryptedData.length;
                 int offSet = 0;
                 byte[] cache = new byte[128];
                 int i = 0;
@@ -382,10 +488,10 @@ public final class CryptoJava {
                     i++;
                     offSet = i * MAX_DECRYPT_BLOCK;
                 }
-                decryptedData = out.toByteArray();
+                return out.toByteArray();
+            } catch (Exception e) {
+                throw new SecurityException(e);
             }
-
-            return decryptedData;
         }
 
         // --------------------------------------------------------- key
@@ -422,10 +528,10 @@ public final class CryptoJava {
 
         // --------------------------------------------------------- key pair
 
-        public static String privateKey(RsaPair rsaPair) throws Exception {
-            Key key = rsaPair.getPrivateKey();
+        public static String privateKey(RsaPair keyPair) throws NullPointerException {
+            Key key = keyPair.getPrivateKey();
             if (null == key) {
-                key = rsaPair.privateKey();
+                key = keyPair.privateKey();
             }
 
             if (null == key) {
@@ -435,10 +541,10 @@ public final class CryptoJava {
             return Base64Utils.encrypt(key.getEncoded());
         }
 
-        public static String publicKey(RsaPair rsaPair) throws Exception {
-            Key key = rsaPair.getPublicKey();
+        public static String publicKey(RsaPair keyPair) throws NullPointerException {
+            Key key = keyPair.getPublicKey();
             if (null == key) {
-                key = rsaPair.publicKey();
+                key = keyPair.publicKey();
             }
             if (null == key) {
                 throw new NullPointerException("can't retrieve the public key instance");
@@ -446,7 +552,6 @@ public final class CryptoJava {
 
             return Base64Utils.encrypt(key.getEncoded());
         }
-
     }
 
     private static String bytesToHex(byte[] bytes) {

@@ -25,11 +25,13 @@ import java.util.Map;
 /**
  * {@code KeyPair}
  * 密钥对
+ * 由于 {@link KeyPair} 容易个 {@link java.security.KeyPair} 引起误解, 故采用 {@link RsaPair} 替换
  *
  * @author photowey
  * @date 2022/03/03
  * @since 1.0.0
  */
+@Deprecated
 public class KeyPair implements Serializable {
 
     private static final long serialVersionUID = -3679107437235147567L;

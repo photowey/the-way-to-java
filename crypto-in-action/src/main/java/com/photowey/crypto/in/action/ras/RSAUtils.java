@@ -16,15 +16,14 @@
 package com.photowey.crypto.in.action.ras;
 
 import com.photowey.crypto.in.action.base64.Base64Utils;
-import com.photowey.crypto.in.action.reader.ClassPathReader;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,19 +78,19 @@ public final class RSAUtils {
 
     // --------------------------------------------------------- gen key pair
 
-    public static java.security.KeyPair keyPair() throws SecurityException {
+    public static RsaPair keyPair() throws SecurityException {
         return keyPair(KEY_SIZE);
     }
 
-    public static java.security.KeyPair keyPair(int keySize) throws SecurityException {
+    public static RsaPair keyPair(int keySize) throws SecurityException {
         try {
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
             keyPairGen.initialize(keySize);
-            java.security.KeyPair keyPair = keyPairGen.generateKeyPair();
+            KeyPair keyPair = keyPairGen.generateKeyPair();
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
-            return new java.security.KeyPair(publicKey, privateKey);
+            return new RsaPair(publicKey, privateKey);
         } catch (Exception e) {
             throw new SecurityException(e);
         }
@@ -108,7 +107,7 @@ public final class RSAUtils {
         try {
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA_ALGORITHM);
             keyPairGen.initialize(keySize);
-            java.security.KeyPair keyPair = keyPairGen.generateKeyPair();
+            KeyPair keyPair = keyPairGen.generateKeyPair();
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
             Map<String, Key> keyContext = new HashMap<>(4);
@@ -299,40 +298,20 @@ public final class RSAUtils {
     // --------------------------------------------------------- key
 
     public static PrivateKey privateKey(String privateKeyPath) {
-        String privateKeyBase64Value = ClassPathReader.joinRead(privateKeyPath);
-
-        return privateKeyFromString(privateKeyBase64Value);
+        return CryptoRsaReader.privateKey(privateKeyPath);
     }
 
     public static PrivateKey privateKeyFromString(String privateKeyBase64Value) {
-        try {
-            byte[] keyBytes = Base64Utils.decrypt(privateKeyBase64Value);
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-            KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-            return keyFactory.generatePrivate(keySpec);
-        } catch (Exception e) {
-            throw new SecurityException("load the private key exception", e);
-        }
+        return CryptoRsaReader.privateKeyFromString(privateKeyBase64Value);
     }
 
     public static PublicKey publicKey(String publicKeyPath) {
-        String publicKeyBase64Value = ClassPathReader.joinRead(publicKeyPath);
-
-        return publicKeyFromString(publicKeyBase64Value);
+        return CryptoRsaReader.publicKey(publicKeyPath);
     }
 
     public static PublicKey publicKeyFromString(String publicKeyBase64Value) {
-        try {
-            byte[] keyBytes = Base64Utils.decrypt(publicKeyBase64Value);
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
-            KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-
-            return keyFactory.generatePublic(keySpec);
-        } catch (Exception e) {
-            throw new SecurityException("load the public key exception", e);
-        }
+        return CryptoRsaReader.publicKeyFromString(publicKeyBase64Value);
     }
-
     // --------------------------------------------------------- key context
 
     public static <T extends Key> String privateKey(Map<String, T> keyContext) throws Exception {
@@ -349,7 +328,7 @@ public final class RSAUtils {
 
     // --------------------------------------------------------- key pair
 
-    public static String privateKey(KeyPair keyPair) throws NullPointerException {
+    public static String privateKey(RsaPair keyPair) throws NullPointerException {
         Key key = keyPair.getPrivateKey();
         if (null == key) {
             key = keyPair.privateKey();
@@ -362,7 +341,7 @@ public final class RSAUtils {
         return Base64Utils.encrypt(key.getEncoded());
     }
 
-    public static String publicKey(KeyPair keyPair) throws NullPointerException {
+    public static String publicKey(RsaPair keyPair) throws NullPointerException {
         Key key = keyPair.getPublicKey();
         if (null == key) {
             key = keyPair.publicKey();
