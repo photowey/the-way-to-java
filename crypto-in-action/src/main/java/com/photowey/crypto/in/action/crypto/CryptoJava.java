@@ -16,6 +16,7 @@
 package com.photowey.crypto.in.action.crypto;
 
 import com.photowey.crypto.in.action.base64.Base64Utils;
+import com.photowey.crypto.in.action.hash.Hash;
 import com.photowey.crypto.in.action.ras.CryptoRsaReader;
 import com.photowey.crypto.in.action.ras.RsaPair;
 
@@ -35,6 +36,8 @@ import java.util.Map;
 
 /**
  * {@code CryptoJava}
+ * {@code Crypto} {@code Java} 语言部分实现
+ * 类结构设计思想来源于 前端 {@code CryptoJS} {@see * https://cryptojs.gitbook.io/docs/}
  *
  * @author weichangjun
  * @date 2022/03/15
@@ -551,6 +554,46 @@ public final class CryptoJava {
             }
 
             return Base64Utils.encrypt(key.getEncoded());
+        }
+    }
+
+    public static final class HASH implements Serializable {
+
+        public static final class MD5 implements Serializable {
+
+            private static final String ALGORITHM_MD5 = "MD5";
+
+            public static String md5(String data) {
+                return hash(ALGORITHM_MD5, data);
+            }
+        }
+
+        public static final class SHA implements Serializable {
+
+            private static final String ALGORITHM_SHA1 = "SHA-1";
+            private static final String ALGORITHM_SHA256 = "SHA-256";
+            private static final String ALGORITHM_SHA384 = "SHA-384";
+            private static final String ALGORITHM_SHA512 = "SHA-512";
+
+            public static String sha1(String data) {
+                return hash(ALGORITHM_SHA1, data);
+            }
+
+            public static String sha256(String data) {
+                return hash(ALGORITHM_SHA256, data);
+            }
+
+            public static String sha384(String data) {
+                return hash(ALGORITHM_SHA384, data);
+            }
+
+            public static String sha512(String data) {
+                return hash(ALGORITHM_SHA512, data);
+            }
+        }
+
+        public static String hash(String algorithm, String content) {
+            return Hash.hash(algorithm, content);
         }
     }
 
