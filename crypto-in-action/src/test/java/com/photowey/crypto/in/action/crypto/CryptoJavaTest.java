@@ -124,4 +124,38 @@ class CryptoJavaTest {
         Assertions.assertTrue(match);
     }
 
+    @Test
+    void testCryptoHashMD5() throws Exception {
+        String CONTENT = "我是密文？";
+        String md5 = CryptoJava.HASH.MD5.md5(CONTENT);
+        Assertions.assertEquals("8cca8a39ab835eb404e27d54508218d4", md5);
+    }
+
+    @Test
+    void testCryptoHashSha1() throws Exception {
+        String CONTENT = "我是密文？";
+        String sha1 = CryptoJava.HASH.SHA.sha1(CONTENT);
+        Assertions.assertEquals("5b472351cd914f010b21e6ccb87bd6ce63d949b4", sha1);
+    }
+
+    @Test
+    void testCryptoHashSha256() throws Exception {
+        String publicKey = ClassPathReader.joinRead("key/public-key.txt");
+        String sha256 = CryptoJava.HASH.SHA.sha256(publicKey);
+        Assertions.assertEquals("3ef6c6a28baacb8d8e37318ed81d211bc189dbffa942d76574a7cff678b9bcc7", sha256);
+    }
+
+    @Test
+    void testCryptoHashSha384() throws Exception {
+        String CONTENT = "我是密文？";
+        String sha384 = CryptoJava.HASH.SHA.sha384(CONTENT);
+        Assertions.assertEquals("eda292f6009cbf4b18b31e31b017509f72853d4663acc523a21e915d0188dfb89f16d257b96d66d20a5b43843b280cd1", sha384);
+    }
+
+    @Test
+    void testCryptoHashSha512() throws Exception {
+        String CONTENT = "我是密文？";
+        String sha512 = CryptoJava.HASH.SHA.sha512(CONTENT);
+        Assertions.assertEquals("7210d5023d5ede3223a0220599e5615d0b88c2338fdaff5917392656833bf5b35325356f21dda195e5408d9a0acdb52b765ef3d0d6eb053c0ef51b85fcbff404", sha512);
+    }
 }
