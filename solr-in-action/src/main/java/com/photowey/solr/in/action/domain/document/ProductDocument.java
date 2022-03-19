@@ -30,10 +30,12 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @Data
-@SolrDocument(collection = "core-products")
-public class ProductDocument implements Serializable {
+@SolrDocument(collection = ProductDocument.SOLR_CORE_PRODUCTS_NAME)
+public class ProductDocument implements Serializable, SolrSearchableDocument {
 
     private static final long serialVersionUID = -2527219966149219594L;
+
+    public static final String SOLR_CORE_PRODUCTS_NAME = "core-products";
 
     @Id
     @Field("id")
@@ -53,4 +55,9 @@ public class ProductDocument implements Serializable {
 
     @Field("prod_picture")
     private String picture;
+
+    @Override
+    public String coreName() {
+        return SOLR_CORE_PRODUCTS_NAME;
+    }
 }

@@ -53,4 +53,20 @@ class ProductSolrServiceTest {
         Assertions.assertEquals(0, updateResponse.getStatus());
     }
 
+    @Test
+    void testSave2() {
+        ProductDocument product = new ProductDocument();
+        product.setId("1484377100172371010");
+        product.setProductName("魅族手机");
+        product.setCatalogName("手机");
+        product.setPrice(new BigDecimal("4070").doubleValue());
+        product.setDescription("魅族手机18x");
+        product.setPicture("picture/M00/00/00/wKgAC2I1ssaAAOhHAAhmyQQPGXM280.jpg");
+
+        UpdateResponse updateResponse = this.productSolrService.save(product);
+
+        Assertions.assertNotNull(updateResponse);
+        Assertions.assertEquals(0, updateResponse.getStatus());
+    }
+
 }

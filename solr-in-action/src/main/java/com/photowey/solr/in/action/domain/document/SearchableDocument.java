@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.solr.in.action.service;
-
-import com.photowey.solr.in.action.domain.document.SolrSearchableDocument;
-import org.apache.solr.client.solrj.response.UpdateResponse;
+package com.photowey.solr.in.action.domain.document;
 
 /**
- * {@code ProductSolrService}
+ * {@code SearchableDocument}
  *
  * @author photowey
- * @date 2022/03/19
+ * @date 2022/03/20
  * @since 1.0.0
  */
-public interface ProductSolrService {
-
-    <T extends SolrSearchableDocument> UpdateResponse save(T document);
-
-
+public interface SearchableDocument {
 }

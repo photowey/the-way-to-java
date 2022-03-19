@@ -15,7 +15,7 @@
  */
 package com.photowey.solr.in.action.service.impl;
 
-import com.photowey.solr.in.action.domain.document.ProductDocument;
+import com.photowey.solr.in.action.domain.document.SolrSearchableDocument;
 import com.photowey.solr.in.action.service.ProductSolrService;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +39,7 @@ public class ProductSolrServiceImpl implements ProductSolrService {
     private SolrTemplate solrTemplate;
 
     @Override
-    public UpdateResponse save(ProductDocument document) {
-        return this.solrTemplate.saveBean("core-products", document, Duration.of(3, ChronoUnit.SECONDS));
+    public <T extends SolrSearchableDocument> UpdateResponse save(T document) {
+        return this.solrTemplate.saveBean(document.coreName(), document, Duration.of(3, ChronoUnit.SECONDS));
     }
-
 }
