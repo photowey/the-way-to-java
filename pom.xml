@@ -77,6 +77,7 @@
         <module>design-pattern-in-action</module>
         <module>http-in-action</module>
         <module>crypto-in-action</module>
+        <module>solr-in-action</module>
     </modules>
 
     <dependencyManagement>

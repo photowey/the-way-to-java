@@ -1,0 +1,11 @@
+local:
+  config:
+    mysql:
+      host: "192.168.0.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "solr"
+    solr:
+      host: "http://192.168.0.11:8983/solr"
+      core: "core-products"
