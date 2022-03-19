@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.solr.in.action.solr;
+package com.photowey.solr.in.action.solr.repository;
 
-import com.photowey.solr.in.action.domain.entity.ProductDocument;
+import com.photowey.solr.in.action.domain.document.ProductDocument;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,26 +37,23 @@ class ProductSolrRepositoryTest {
     @Autowired
     private ProductSolrRepository productSolrRepository;
 
-    // FIXME
-
     @Test
     public void testSave() {
         ProductDocument product = new ProductDocument();
-        product.setId("1494377100172378113");
-        product.setProductName("华为手机");
+        product.setId("1336605944028684290");
+        product.setProductName("小米手机");
         product.setCatalogName("手机");
         product.setPrice(new BigDecimal("8848").doubleValue());
-        product.setDescription("华为手机Nova7");
+        product.setDescription("小米手机12");
         product.setPicture("picture/M00/00/00/wKgAC2I1ssaAAOhHAAhmyQQPGXM280.jpg");
 
-        ProductDocument save = this.productSolrRepository.save(product);
-        System.out.println(save);
+        ProductDocument document = this.productSolrRepository.save(product);
+        Assertions.assertNotNull(document);
     }
 
     @Test
     public void testFindById() {
         Optional<ProductDocument> documentOptional = this.productSolrRepository.findById("1494377100172378113");
         documentOptional.ifPresent(System.out::println);
-
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.solr.in.action.domain.entity;
+package com.photowey.solr.in.action.domain.document;
 
 import lombok.Data;
 import org.apache.solr.client.solrj.beans.Field;

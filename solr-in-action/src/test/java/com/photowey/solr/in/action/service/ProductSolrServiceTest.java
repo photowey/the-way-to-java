@@ -15,8 +15,9 @@
  */
 package com.photowey.solr.in.action.service;
 
-import com.photowey.solr.in.action.domain.entity.ProductDocument;
+import com.photowey.solr.in.action.domain.document.ProductDocument;
 import org.apache.solr.client.solrj.response.UpdateResponse;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,8 +49,8 @@ class ProductSolrServiceTest {
 
         UpdateResponse updateResponse = this.productSolrService.save(product);
 
-        System.out.println(updateResponse);
-
+        Assertions.assertNotNull(updateResponse);
+        Assertions.assertEquals(0, updateResponse.getStatus());
     }
 
 }

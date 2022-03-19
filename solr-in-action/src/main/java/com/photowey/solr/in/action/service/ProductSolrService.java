@@ -15,7 +15,7 @@
  */
 package com.photowey.solr.in.action.service;
 
-import com.photowey.solr.in.action.domain.entity.ProductDocument;
+import com.photowey.solr.in.action.domain.document.ProductDocument;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 
 /**
@@ -27,7 +27,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
  */
 public interface ProductSolrService {
 
-    UpdateResponse save(ProductDocument entity);
+    UpdateResponse save(ProductDocument document);
 
 
 }

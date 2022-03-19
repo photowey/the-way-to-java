@@ -17,8 +17,12 @@ package com.photowey.solr.in.action;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
 @SpringBootApplication
+@EnableSolrRepositories(basePackages = "com.photowey.solr.in.action.solr.repository")
+@EntityScan(basePackages = "com.photowey.solr.in.action.domain.document")
 public class App {
 
     public static void main(String[] args) {
