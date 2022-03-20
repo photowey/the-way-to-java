@@ -23,4 +23,10 @@ package com.photowey.solr.in.action.domain.document;
  * @since 1.0.0
  */
 public interface SearchableDocument {
+    /**
+     * 获取主键标识
+     *
+     * @return 主键标识
+     */
+    String getId();
 }

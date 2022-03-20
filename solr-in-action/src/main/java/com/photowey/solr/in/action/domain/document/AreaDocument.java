@@ -39,7 +39,8 @@ public class AreaDocument implements Serializable, SolrSearchableDocument {
 
     @Id
     @Field("id")
-    private Integer id;
+    private String id;
+
     @Field("pid")
     private Integer pid;
     @Field("short_name")

@@ -46,7 +46,6 @@ class AreaRepositoryTest {
     void testHanyupinyin() {
         String word = "勐腊县";
         String pinYin = PinyinUtils.toPinYin(word, "_");
-        System.out.println(pinYin);
         Assertions.assertEquals("meng_la_xian", pinYin);
     }
 
