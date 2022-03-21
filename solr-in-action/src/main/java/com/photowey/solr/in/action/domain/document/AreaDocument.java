@@ -64,6 +64,9 @@ public class AreaDocument implements Serializable, SolrSearchableDocument {
     @Field("latitude")
     private String latitude;
 
+    @Field("geography_location")
+    private String geographyLocation;
+
     @Override
     public String coreName() {
         return SOLR_CORE_AREA_NAME;
