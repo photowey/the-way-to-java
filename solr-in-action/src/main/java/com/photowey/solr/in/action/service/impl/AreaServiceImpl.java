@@ -20,6 +20,7 @@ import com.photowey.solr.in.action.domain.document.AreaDocument;
 import com.photowey.solr.in.action.domain.location.GeographyCoordinate;
 import com.photowey.solr.in.action.service.AreaService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.data.solr.core.RequestMethod;
@@ -76,6 +77,9 @@ public class AreaServiceImpl implements AreaService {
         FilterQuery filterQuery = new SimpleFilterQuery(new Criteria("geography_location").near(this.toPoint(coordinate), this.toDistance(coordinate)));
         query.addFilterQuery(filterQuery);
         query.addFilterQuery(new SimpleFilterQuery(new Criteria("level").greaterThan(1)));
+
+        query.addSort(Sort.by(Sort.Direction.DESC, "level"));
+        query.addSort(Sort.by(Sort.Direction.ASC, "id"));
 
         ScoredPage<AreaDocument> documents = this.solrTemplate.queryForPage(
                 AreaDocument.SOLR_CORE_AREA_NAME, query, AreaDocument.class, RequestMethod.GET);
