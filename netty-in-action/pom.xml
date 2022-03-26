@@ -18,6 +18,8 @@
         <netty.version>4.1.74.Final</netty.version>
         <tablesaw.version>0.38.1</tablesaw.version>
         <commons-cli.version>1.4</commons-cli.version>
+
+        <protobuf-java.version>3.19.4</protobuf-java.version>
     </properties>
 
     <dependencies>
@@ -55,6 +57,12 @@
                 <groupId>tech.tablesaw</groupId>
                 <artifactId>tablesaw-core</artifactId>
                 <version>${tablesaw.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf-java.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

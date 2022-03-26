@@ -208,7 +208,9 @@
                         <exclude>**/*.txt</exclude>
                         <exclude>**/*.dll</exclude>
                         <exclude>**/.mvn/**</exclude>
-                        <!--  nacos version conflict-->
+                        <!-- Protobuf-->
+                        <exclude>**/*Protobuf.java</exclude>
+                        <!-- nacos version conflict-->
                         <exclude>**/ConfigurationBeanFactoryMetadata.java
                         </exclude>
                         <exclude>

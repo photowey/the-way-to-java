@@ -1,0 +1,11 @@
+syntax = "proto3";
+option java_outer_classname = "StudentProtobuf";
+option java_package = "com.photowey.study.netty.in.action.netty.codec.proto";
+
+message Student {
+  // 1: 表示 属性序号
+  int32 id = 1;
+  string name = 2;
+}
+
+// protoc --java_out=. Student.proto

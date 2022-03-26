@@ -1,0 +1,34 @@
+syntax = "proto3";
+option optimize_for = SPEED;
+option java_package = "com.photowey.study.netty.in.action.netty.codec.proto";
+option java_outer_classname = "ProtobufMessageProtobuf";
+
+message ProtobufMessage {
+
+  // 定义数据类型
+  enum DataType {
+    // 在 {@code proto3} 要求 {@code enum} 的编号从 0 开始
+    STUDENT = 0;
+    WORKER = 1;
+  }
+
+  // 标识传递的数据类型
+  DataType dataType = 1;
+
+  // 表示每次枚举类型最多只能出现其中的一个
+  oneof dataBody {
+    Student student = 2;
+    Worker worker = 3;
+  }
+}
+
+message Student {
+  // 1: 表示 属性序号
+  int32 id = 1;
+  string name = 2;
+}
+
+message Worker {
+  string name = 1;
+  int32 age = 2;
+}

@@ -24,13 +24,13 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
- * {@code NettyWebSocketServerInitializer}
+ * {@code NettyWebSocketInitializer}
  *
  * @author photowey
  * @date 2022/03/26
  * @since 1.0.0
  */
-public class NettyWebSocketServerInitializer extends ChannelInitializer<SocketChannel> {
+public class NettyWebSocketInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {

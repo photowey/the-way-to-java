@@ -58,15 +58,23 @@ public class NettyTelnetServer implements TelnetServer {
 
     @Override
     public void run() throws InterruptedException {
-        serverBootstrap = new ServerBootstrap();
-        serverBootstrap.option(ChannelOption.SO_BACKLOG, 1024);
-        serverBootstrap
-                .group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.INFO))
-                .childHandler(new NettyTelnetInitializer());
+        try {
+            this.serverBootstrap = new ServerBootstrap();
+            this.serverBootstrap.option(ChannelOption.SO_BACKLOG, 1024);
+            this.serverBootstrap
+                    .group(this.bossGroup, this.workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new NettyTelnetInitializer());
 
-        channel = serverBootstrap.bind(port).sync().channel();
+            this.channel = serverBootstrap.bind(port).sync().channel();
+            this.channel.closeFuture().sync();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            this.shutdown();
+        }
+
     }
 
     @Override
