@@ -226,6 +226,8 @@
                         <exclude>**/JMap.java</exclude>
                         <exclude>**/ThreadLocalRandomExt.java</exclude>
                         <exclude>**/tree/**/*.java</exclude>
+                        <!--  netty example source code -->
+                        <exclude>**/netty/example/**/*.java</exclude>
                         <exclude>
                             **/com/photowey/spring/cloud/alibaba/seata/**/*.java
                         </exclude>
