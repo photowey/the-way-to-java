@@ -31,6 +31,46 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
  */
 public final class EchoServer {
 
+    /**
+     * 流程
+     * 1.接收连接
+     * 2.创建一个新的 {@link io.netty.channel.socket.nio.NioSocketChannel}
+     * 3.注册到一个 {@code worker} {@link io.netty.channel.nio.NioEventLoop}
+     * 4.注册 {@code selector Read} 事件
+     */
+
+    /**
+     * {@link ChannelPipeline}
+     *
+     * {@link SocketChannel} 和 {@link ChannelPipeline} 一一对应
+     * {@link ChannelPipeline} 内部有多个 {@link ChannelHandlerContext}
+     * -- -------------------------------------------------------------------------------
+     * // io.netty.channel.AbstractChannel#newChannelPipeline()
+     * pipeline = newChannelPipeline();
+     * -- -------------------------------------------------------------------------------
+     *
+     */
+
+    /**
+     * {@link ChannelHandlerContext}
+     * {@link ChannelHandlerContext} 是对 {@link ChannelHandler} 的封装
+     * {@link ChannelHandlerContext#fireChannelRead(Object)}
+     */
+
+    /**
+     * {@link ChannelHandler}
+     * 处理 {@code I/O} 事件 或者 拦截 I/O 事件, 并将其转发非下一个处理程序 {@link ChannelHandler}
+     * <p>
+     * {@link ChannelHandler} 的 事件处理 分为:
+     * 1.入站 {@link ChannelInboundHandler}
+     * 2.出站 {@link ChannelOutboundHandler}
+     * <p>
+     * {@link ChannelInboundHandler#channelActive(ChannelHandlerContext)}
+     * -- 用于 {@link Channel} 处于活动状态时被调用
+     * {@link ChannelInboundHandler#channelRead(ChannelHandlerContext, Object)} }
+     * -- 当从 {@link Channel} 中 读取数据时被调用
+     */
+
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
 
