@@ -21,12 +21,11 @@ xxl:
       addresses: "http://${local.config.xxljob.host}:${local.config.xxljob.port}/xxl-job-admin"
     executor:
       address: "${xxl.job.executor.ip}:${xxl.job.executor.port}"
-      appname: "${local.config.spring.name}"
+      app-name: "${local.config.spring.name}"
       ip: "192.168.217.1"
-      logpath: "logs/jobs/handler"
-      logretentiondays: 30
+      log-path: "logs/jobs/handler"
+      log-retention-days: 30
       port: 9999
-
 
 knife4j:
   enable: true

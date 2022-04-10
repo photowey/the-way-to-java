@@ -1,8 +1,9 @@
 package com.photowey.xxl.job.in.action.config;
 
+import com.photowey.xxl.job.in.action.property.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,45 +16,21 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
+@EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobConfigure {
 
-    @Value("${xxl.job.admin.addresses}")
-    private String adminAddresses;
-
-    @Value("${xxl.job.accessToken}")
-    private String accessToken;
-
-    @Value("${xxl.job.executor.appname}")
-    private String appname;
-
-    @Value("${xxl.job.executor.address}")
-    private String address;
-
-    @Value("${xxl.job.executor.ip}")
-    private String ip;
-
-    @Value("${xxl.job.executor.port}")
-    private int port;
-
-    @Value("${xxl.job.executor.logpath}")
-    private String logPath;
-
-    @Value("${xxl.job.executor.logretentiondays}")
-    private int logRetentionDays;
-
-
     @Bean
-    public XxlJobSpringExecutor xxlJobExecutor() {
+    public XxlJobSpringExecutor xxlJobExecutor(XxlJobProperties props) {
         log.info("--- >>> xxl-job config init... <<< ---");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
-        xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
-        xxlJobSpringExecutor.setAppname(appname);
-        xxlJobSpringExecutor.setAddress(address);
-        xxlJobSpringExecutor.setIp(ip);
-        xxlJobSpringExecutor.setPort(port);
-        xxlJobSpringExecutor.setAccessToken(accessToken);
-        xxlJobSpringExecutor.setLogPath(logPath);
-        xxlJobSpringExecutor.setLogRetentionDays(logRetentionDays);
+        xxlJobSpringExecutor.setAdminAddresses(props.getAdmin().getAddresses());
+        xxlJobSpringExecutor.setAppname(props.getExecutor().getAppName());
+        xxlJobSpringExecutor.setAddress(props.getExecutor().getAddress());
+        xxlJobSpringExecutor.setIp(props.getExecutor().getIp());
+        xxlJobSpringExecutor.setPort(props.getExecutor().getPort());
+        xxlJobSpringExecutor.setAccessToken(props.getAccessToken());
+        xxlJobSpringExecutor.setLogPath(props.getExecutor().getLogPath());
+        xxlJobSpringExecutor.setLogRetentionDays(props.getExecutor().getLogRetentionDays());
 
         return xxlJobSpringExecutor;
     }
