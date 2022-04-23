@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.xxl.job.in.action.controller;
+package com.photowey.elasticjob.in.action.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
@@ -40,6 +40,6 @@ public class HelloController {
      */
     @GetMapping("/greeting")
     public ResponseEntity<String> sayHello(@RequestParam("name") String name) {
-        return new ResponseEntity<>(String.format("Say hello to %s,this is xxl-job-in-action simple-controller~", name), HttpStatus.OK);
+        return new ResponseEntity<>(String.format("Say hello to %s,this is elasticjob-in-action simple-controller~", name), HttpStatus.OK);
     }
 }

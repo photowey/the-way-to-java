@@ -81,6 +81,7 @@
         <module>crypto-in-action</module>
         <module>solr-in-action</module>
         <module>xxl-job-in-action</module>
+        <module>elasticjob-in-action</module>
     </modules>
 
     <dependencyManagement>
