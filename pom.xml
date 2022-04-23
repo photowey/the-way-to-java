@@ -82,6 +82,7 @@
         <module>solr-in-action</module>
         <module>xxl-job-in-action</module>
         <module>elasticjob-in-action</module>
+        <module>fastjson2-in-action</module>
     </modules>
 
     <dependencyManagement>
