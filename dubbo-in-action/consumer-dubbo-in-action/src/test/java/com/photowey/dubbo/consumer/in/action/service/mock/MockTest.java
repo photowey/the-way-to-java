@@ -47,7 +47,7 @@ public class MockTest {
     @Test
     void testStub() {
         // Failed to invoke the method doMock in the service com.photowey.dubbo.api.in.action.service.mock.MockService.
-        // Tried 3 times of the providers [192.168.137.1:20880] (1/1) from the registry 192.168.0.11:2182
+        // Tried 3 times of the providers [192.168.137.1:20880] (1/1) from the registry 192.168.1.11:2182
         // on the consumer 192.168.137.1 using the dubbo version 2.6.9. Last error is: Invoke remote method timeout.
         // method: doMock, provider: dubbo://192.168.137.1:20880/com.photowey.dubbo.api.in.action.service.mock.MockService?
         // anyhost=true&application=consumer-dubbo-in-action&bean.name=ServiceBean:com.photowey.dubbo.api.in.action.service.mock.MockService&

@@ -2,11 +2,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.0.11:8848
+        server-addr: 192.168.1.11:8848
         username: nacos
         password: nacos
   redis:
-    host: 192.168.0.11
+    host: 192.168.1.11
     password:
     port: 6379
     timeout: 15000
@@ -20,7 +20,7 @@ spring:
 local:
   config:
     mysql:
-      host: "192.168.0.11"
+      host: "192.168.1.11"
       port: 3307
       username: "root"
       password: "root"

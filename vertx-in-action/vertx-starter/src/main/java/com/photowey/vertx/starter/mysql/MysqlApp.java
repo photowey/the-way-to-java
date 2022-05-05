@@ -65,7 +65,7 @@ public class MysqlApp {
         public void start(Promise<Void> startPromise) throws Exception {
 
             MySQLConnectOptions connectOptions = new MySQLConnectOptions();
-            connectOptions.setHost("192.168.0.11").setPort(3307).setUser("root").setPassword("root").setDatabase("vertx-in-action")
+            connectOptions.setHost("192.168.1.11").setPort(3307).setUser("root").setPassword("root").setDatabase("vertx-in-action")
                 .setCharset("utf8mb4").setUseAffectedRows(true);
 
             PoolOptions poolOptions = new PoolOptions();

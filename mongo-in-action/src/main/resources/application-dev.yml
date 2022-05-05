@@ -1,7 +1,7 @@
 local:
   config:
     mongo:
-      host: 192.168.0.11
+      host: 192.168.1.11
       port: 27017
       username: root
       password: root

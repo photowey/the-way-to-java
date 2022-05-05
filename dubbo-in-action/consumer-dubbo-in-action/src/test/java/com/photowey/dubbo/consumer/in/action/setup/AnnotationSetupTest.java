@@ -68,7 +68,7 @@ class AnnotationSetupTest {
         applicationConfig.setOwner("world");
 
         RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setAddress("zookeeper://192.168.0.11:2182");
+        registryConfig.setAddress("zookeeper://192.168.1.11:2182");
 
         ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setConsumer(consumerConfig);

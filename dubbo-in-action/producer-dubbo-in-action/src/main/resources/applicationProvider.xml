@@ -12,7 +12,7 @@
     <!-- provider 全局配置 -->
     <dubbo:provider timeout="5000"/>
 
-    <dubbo:registry address="zookeeper://192.168.0.11:2182" check="false"/>
+    <dubbo:registry address="zookeeper://192.168.1.11:2182" check="false"/>
     <!-- 如果协议是 dubbo,这个就是 netty 服务端绑定的端口,默认: 20880 -->
     <dubbo:protocol name="dubbo" port="29527"/>
 

@@ -36,6 +36,9 @@
 
         <knife4j-starter.version>3.0.2</knife4j-starter.version>
         <xxl-job.version>2.3.0</xxl-job.version>
+
+        <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
+        <mysql.version>8.0.13</mysql.version>
     </properties>
 
     <modules>
@@ -83,6 +86,7 @@
         <module>xxl-job-in-action</module>
         <module>elasticjob-in-action</module>
         <module>fastjson2-in-action</module>
+        <module>bean-searcher-in-action</module>
     </modules>
 
     <dependencyManagement>

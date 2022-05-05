@@ -12,7 +12,7 @@
     <!-- consumer 全局配置 -->
     <dubbo:consumer timeout="5000"/>
 
-    <dubbo:registry address="zookeeper://192.168.0.11:2182" check="false"/>
+    <dubbo:registry address="zookeeper://192.168.1.11:2182" check="false"/>
     <dubbo:protocol name="dubbo" port="29527"/>
 
     <bean id="consumerService"

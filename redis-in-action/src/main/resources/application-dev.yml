@@ -1,6 +1,6 @@
 local:
   config:
     redis:
-      host: 192.168.0.11
+      host: 192.168.1.11
       port: 6379
       password: ""

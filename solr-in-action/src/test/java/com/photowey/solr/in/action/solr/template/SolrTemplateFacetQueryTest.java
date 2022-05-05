@@ -48,8 +48,8 @@ class SolrTemplateFacetQueryTest {
     @Test
     void testProductJsonFacetQuery() {
 
-        // http://192.168.0.11:8983/solr/core-areas/select?q=merger_name:中国*&facet=on&facet.field=first&facet.mincount=1
-        // http://192.168.0.11:8983/solr/core-areas/select?q=merger_name%3A%E4%B8%AD%E5%9B%BD*&facet=true&facet.mincount=1&facet.limit=10&facet.field=first&wt=javabin&version=2
+        // http://192.168.1.11:8983/solr/core-areas/select?q=merger_name:中国*&facet=on&facet.field=first&facet.mincount=1
+        // http://192.168.1.11:8983/solr/core-areas/select?q=merger_name%3A%E4%B8%AD%E5%9B%BD*&facet=true&facet.mincount=1&facet.limit=10&facet.field=first&wt=javabin&version=2
 
         // 没有好的测试数据模型 - 勉强构造
         FacetQuery facetQuery = new SimpleFacetQuery(new Criteria("merger_name").startsWith("中国"));
