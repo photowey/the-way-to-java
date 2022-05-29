@@ -50,7 +50,10 @@ public class NettyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSo
      */
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        // 16-8-8-16-8
+        // 005056fffec00001-00003fb4-00000001-32c19d1cf90364eb-6ad466ad
         log.info("handler add::asLongText:[{}]", ctx.channel().id().asLongText());
+        // 6ad466ad
         log.info("handler add::asShortText:[{}]", ctx.channel().id().asShortText());
     }
 
