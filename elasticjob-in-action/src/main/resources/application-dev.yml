@@ -2,9 +2,17 @@ local:
   config:
     spring:
       name: "elastic-job-in-action"
-    xxljob:
-      host: "localhost"
-      port: 4070
+
+elasticjob:
+  jobs:
+    hello-job:
+      cron: 0/5 * * * * ?
+      elastic-job-class: com.photowey.elasticjob.in.action.service.jobs.HelloJob
+      sharding-total-count: 1
+  reg-center:
+    namespace: photoweyjobs
+    server-lists: 192.168.1.11:2182
+
 
 management:
   endpoint:
