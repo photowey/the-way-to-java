@@ -68,7 +68,8 @@ public class RedisConfigure {
 
     @Bean("redisPool")
     @ConditionalOnMissingBean
-    @ConditionalOnExpression("#{null != environment['spring.redis.password'] && !''.equals(environment['spring.redis.password'])}")
+//    @ConditionalOnExpression("#{null != environment['spring.redis.password'] && !''.equals(environment['spring.redis.password'])}")
+    @ConditionalOnExpression("#{T(org.springframework.util.StringUtils).hasText(environment['spring.redis.password'])==true}")
     public JedisPool passwordRedisPool() {
         JedisPoolConfig jedisPoolConfig = this.jedisPoolConfig();
 
@@ -78,7 +79,7 @@ public class RedisConfigure {
 
     @Bean("redisPool")
     @ConditionalOnMissingBean
-    @ConditionalOnExpression("#{null == environment['spring.redis.password'] || ''.equals(environment['spring.redis.password'])}")
+    @ConditionalOnExpression("#{T(org.springframework.util.StringUtils).hasText(environment['spring.redis.password'])==false}")
     public JedisPool redisPool() {
         JedisPoolConfig jedisPoolConfig = this.jedisPoolConfig();
 
