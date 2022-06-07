@@ -1,0 +1,52 @@
+server:
+  port: 9527
+
+# @see https://juejin.cn/post/7102345601798373407
+spring:
+  application:
+    name: "shardingsphere-in-action"
+  profiles:
+    active: dev
+  shardingsphere:
+    mode:
+      type: memory
+    datasource:
+      names: m1
+      m1:
+        type: "com.zaxxer.hikari.HikariDataSource"
+        driver-class-name: "com.mysql.cj.jdbc.Driver"
+        url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&useSSL=false&autoReconnect=true&characterEncoding=UTF-8"
+        username: ${local.config.mysql.username}
+        password: ${local.config.mysql.password}
+    rules:
+      sharding:
+        tables:
+          user:
+            actual-data-nodes: m1.user_$->{0..1}
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: user_inline
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE
+        sharding-algorithms:
+          user_inline:
+            type: inline
+            props:
+              algorithm-expression: user_$->{id % 2}
+    props:
+      sql-show: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.phptowey.shardingsphere.in.action.domain
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

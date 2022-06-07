@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: "mi'ni-in-action"
+    name: "minio-in-action"
   profiles:
     active: dev
 

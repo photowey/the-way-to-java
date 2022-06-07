@@ -90,6 +90,7 @@
         <module>brpc-java-in-action</module>
         <module>minio-in-action</module>
         <module>fastdfs-in-action</module>
+        <module>shardingsphere-in-action</module>
     </modules>
 
     <dependencyManagement>
