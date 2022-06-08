@@ -25,8 +25,15 @@ info:
 local:
   config:
     mysql:
-      host: "192.168.1.11"
-      port: 3307
-      username: "root"
-      password: "root"
-      database: "shardingsphere-in-action"
+      ds0:
+        host: "192.168.1.11"
+        port: 3307
+        username: "root"
+        password: "root"
+        database: "shardingsphere-in-action"
+      ds1:
+        host: "192.168.1.11"
+        port: 3308
+        username: "root"
+        password: "root"
+        database: "shardingsphere-in-action"

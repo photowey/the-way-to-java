@@ -11,35 +11,56 @@ spring:
     mode:
       type: memory
     datasource:
-      names: m1
-      m1:
+      names: write-ds-0,write-ds-0-read-0
+      write-ds-0:
         type: "com.zaxxer.hikari.HikariDataSource"
         driver-class-name: "com.mysql.cj.jdbc.Driver"
-        url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&useSSL=false&autoReconnect=true&characterEncoding=UTF-8"
-        username: ${local.config.mysql.username}
-        password: ${local.config.mysql.password}
+        url: "jdbc:mysql://${local.config.mysql.ds0.host}:${local.config.mysql.ds0.port}/${local.config.mysql.ds0.database}?useUnicode=true&useSSL=false&autoReconnect=true&characterEncoding=UTF-8"
+        username: ${local.config.mysql.ds0.username}
+        password: ${local.config.mysql.ds0.password}
+      write-ds-0-read-0:
+        type: "com.zaxxer.hikari.HikariDataSource"
+        driver-class-name: "com.mysql.cj.jdbc.Driver"
+        url: "jdbc:mysql://${local.config.mysql.ds1.host}:${local.config.mysql.ds1.port}/${local.config.mysql.ds1.database}?useUnicode=true&useSSL=false&autoReconnect=true&characterEncoding=UTF-8"
+        username: ${local.config.mysql.ds1.username}
+        password: ${local.config.mysql.ds1.password}
+    props:
+      kernel-executor-size: 10
+      sql-show: true
     rules:
+      readwrite-splitting:
+        data-sources:
+          ds-0:
+            load-balancer-name: random
+            props:
+              read-data-source-names: write-ds-0-read-0
+              write-data-source-name: write-ds-0
+            type: Static
+        load-balancers:
+          random:
+            type: RANDOM
       sharding:
+        binding-tables:
+          - user
+        sharding-algorithms:
+          userTableShardingAlgorithm:
+            type: INLINE
+            props:
+              algorithm-expression: user_$->{id % 2}
         tables:
           user:
-            actual-data-nodes: m1.user_$->{0..1}
+            #actual-data-nodes: ds$->{0..1}.user_$->{0..1}
+            actual-data-nodes: ds-0.user_$->{0..1}
             table-strategy:
               standard:
+                sharding-algorithm-name: userTableShardingAlgorithm
                 sharding-column: id
-                sharding-algorithm-name: user_inline
             key-generate-strategy:
               column: id
               key-generator-name: snowflake
         key-generators:
           snowflake:
             type: SNOWFLAKE
-        sharding-algorithms:
-          user_inline:
-            type: inline
-            props:
-              algorithm-expression: user_$->{id % 2}
-    props:
-      sql-show: true
 
 mybatis-plus:
   configuration:

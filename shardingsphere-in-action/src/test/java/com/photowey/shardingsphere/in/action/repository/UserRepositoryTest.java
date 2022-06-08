@@ -72,6 +72,16 @@ class UserRepositoryTest {
         Assertions.assertEquals(100, selectPage.getSize());
     }
 
+    @Test
+    void testReadWriteSplitting() {
+        // 手动更新从库数据 -> 女->男
+        // UpDATE `user_1` u SET u.gender = '男' WHERE u.id=1534172972074434561
+        User user = this.userRepository.selectOne(Wrappers.<User>lambdaQuery().eq(User::getId, 1534172972074434561L));
+        Assertions.assertNotNull(user);
+        Assertions.assertEquals("男", user.getGender());
+        Assertions.assertEquals("自由与爱之声", user.getData());
+    }
+
     // 刺猬 《幻象波普星》《我们飞向太空》
     private static final String[] DIST = new String[]{
             "走出魂梦",
