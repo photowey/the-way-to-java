@@ -15,39 +15,42 @@
  */
 package com.photowey.minio.in.action.config;
 
-import com.photowey.minio.in.action.property.MinIOProperties;
+import com.photowey.minio.in.action.property.MinioProperties;
+import com.photowey.minio.in.action.template.MinioTemplate;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code MinIOAutoConfigurer}
+ * {@code MinioAutoConfigurer}
  *
  * @author photowey
  * @date 2022/06/06
  * @since 1.0.0
  */
 @Configuration
-@EnableConfigurationProperties(MinIOProperties.class)
-public class MinIOAutoConfigurer {
+@EnableConfigurationProperties(MinioProperties.class)
+public class MinioAutoConfigurer {
 
     @Autowired
-    private MinIOProperties properties;
+    private MinioProperties properties;
 
     /**
-     * MinioClient
+     * {@link      * @return {@link MinioClient}}
      * <p>
      * {@literal @}ConditionalOnExpression("#{'true'.equals(environment['spring.minio.sync.enabled'])}")
      *
      * @return {@link MinioClient}
      */
     @Bean
-    @ConditionalOnExpression("${spring.minio.sync.enabled:true}")
+    @ConditionalOnMissingBean
+    @ConditionalOnExpression("${spring.minio.sync.enabled:true}") // ?
     public MinioClient minioClient() {
         MinioClient.Builder builder = MinioClient.builder()
                 .endpoint(properties.getEndpoint())
@@ -58,16 +61,16 @@ public class MinIOAutoConfigurer {
         }
 
         return builder.build();
-
     }
 
     /**
-     * MinioAsyncClient
+     * {@link MinioAsyncClient}
      *
      * @return {@link MinioAsyncClient}
      * {@literal @}ConditionalOnExpression("#{'true'.equals(environment['spring.minio.async.enabled'])}")
      */
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnExpression("${spring.minio.async.enabled:false}")
     public MinioAsyncClient minioAsyncClient() {
         MinioAsyncClient.Builder builder = MinioAsyncClient.builder()
@@ -79,6 +82,18 @@ public class MinIOAutoConfigurer {
         }
 
         return builder.build();
+    }
+
+    /**
+     * {@link MinioTemplate}
+     *
+     * @param minioClient {@link MinioClient}
+     * @return {@link MinioTemplate}
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioTemplate minioTemplate(MinioClient minioClient) {
+        return new MinioTemplate(minioClient);
     }
 
 }

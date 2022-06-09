@@ -21,7 +21,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code MinIOProperties}
+ * {@code MinioProperties}
  *
  * @author photowey
  * @date 2022/06/06
@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
  */
 @Data
 @ConfigurationProperties(prefix = "spring.minio", ignoreUnknownFields = true)
-public class MinIOProperties implements InitializingBean {
+public class MinioProperties implements InitializingBean {
 
     private String endpoint;
     private String region;
