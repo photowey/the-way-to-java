@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.photowey.photowey-idea-plugin</id>
-    <name>Easy Http Client</name>
-    <vendor email="929592332@qq.com" url=" https://github.com/photowey/">photowey</vendor>
+    <id>com.photowey.mapper-scan-idea-plugin</id>
+    <name>Idea MapperScan</name>
+    <vendor email="929592332@qq.com" url=" https://github.com/photowey/">wangXin</vendor>
     
     <description><![CDATA[
       <a href=" https://github.com/photowey/the-way-to-java">GitHub</a>
@@ -27,7 +27,7 @@
     
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <spring.customLocalComponentsDiscoverer implementation="com.photowey.model.SpringMapperScanBeansProvider"/>
+        <spring.customLocalComponentsDiscoverer implementation="com.photowey.idea.plugin.in.action.spring.model.SpringMapperScanBeansProvider"/>
     </extensions>
     
     <actions>

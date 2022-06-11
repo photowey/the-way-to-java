@@ -1,1 +1,1 @@
-rootProject.name = "photowey-idea-plugin"
+rootProject.name = "mapper-scan-idea-plugin"

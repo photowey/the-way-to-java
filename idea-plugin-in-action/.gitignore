@@ -22,6 +22,7 @@
 
 ### gradle ###
 **/*.gradle
+**/gradle
 
 ### NetBeans ###
 /nbproject/private/

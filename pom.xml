@@ -223,7 +223,8 @@
                         com/mycila/maven/plugin/license/templates/APACHE-2.txt
                     </header>
                     <properties>
-                        <owner>photowey</owner>
+                        <!-- <owner>photowey</owner>-->
+                        <owner>the original author or authors</owner>
                         <email>photowey@gmail.com</email>
                     </properties>
                     <excludes>
