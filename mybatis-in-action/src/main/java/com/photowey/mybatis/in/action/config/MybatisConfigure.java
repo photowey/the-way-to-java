@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 photowey (photowey@gmail.com)
+ * Copyright © 2021 the original author or authors (photowey@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.photowey.mybatis.in.action.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.photowey.mybatis.in.action.mybatis.dynamic.annotation.EnableDynamicSql;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
