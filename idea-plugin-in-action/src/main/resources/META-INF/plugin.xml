@@ -1,0 +1,36 @@
+<idea-plugin>
+    <id>com.photowey.photowey-idea-plugin</id>
+    <name>Easy Http Client</name>
+    <vendor email="929592332@qq.com" url=" https://github.com/photowey/">photowey</vendor>
+    
+    <description><![CDATA[
+      <a href=" https://github.com/photowey/the-way-to-java">GitHub</a>
+      <p>idea plugin learning.</p>
+      <ul>
+        <li>Idea plugin init.</li>
+      </ul>
+    ]]></description>
+    
+    <!--  <change-notes><![CDATA[-->
+    <!--         <li>1.0.0 - easy-http-client plugin init.</li>-->
+    <!--    ]]>-->
+    <!--  </change-notes>-->
+    
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.spring</depends>
+    <depends>com.intellij.spring.boot</depends>
+    <depends>com.intellij.spring.mvc</depends>
+    <depends>com.jetbrains.restClient</depends>
+    
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <spring.customLocalComponentsDiscoverer implementation="com.photowey.model.SpringMapperScanBeansProvider"/>
+    </extensions>
+    
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>

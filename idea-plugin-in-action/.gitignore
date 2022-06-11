@@ -1,0 +1,33 @@
+**/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+#该文件是私密文件，不应该提交到git项目上
+#**/http-client.private.env.json
+#**/rest-client.private.env.json
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+**/*.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+
+### gradle ###
+**/*.gradle
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/render-farm-service/.rebel.xml**
