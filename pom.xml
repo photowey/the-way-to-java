@@ -91,6 +91,7 @@
         <module>minio-in-action</module>
         <module>fastdfs-in-action</module>
         <module>shardingsphere-in-action</module>
+        <module>mycat2-in-action</module>
     </modules>
 
     <dependencyManagement>

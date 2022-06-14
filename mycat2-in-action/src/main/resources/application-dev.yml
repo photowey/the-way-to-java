@@ -1,7 +1,5 @@
 local:
   config:
-    spring:
-      name: "mycat-in-action"
     mysql:
       host: "192.168.1.11"
       port: 8066
@@ -22,7 +20,7 @@ management:
         # include: [health,info,beans,env,configprops,mappings,metrics]
         include: "*"
 
-# Custom the /actuator/info endpoint
+# custom the /actuator/info endpoint
 info:
   app:
     name: @project.artifactId@
