@@ -15,8 +15,10 @@
  */
 package com.photowey.mycat2.in.action;
 
+import com.photowey.print.in.action.printer.AppPrinter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * {@code Mycat2App}
@@ -29,7 +31,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Mycat2App {
 
     public static void main(String[] args) {
-        SpringApplication.run(Mycat2App.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(Mycat2App.class, args);
+        AppPrinter.print(applicationContext, false);
     }
 
 }
