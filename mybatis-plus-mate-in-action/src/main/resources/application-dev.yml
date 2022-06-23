@@ -2,7 +2,7 @@ local:
   config:
     mysql:
       host: "192.168.1.11"
-      port: 8066
+      port: 3307
       username: "root"
       password: "root"
       database: "mybatis-mate-in-action"
