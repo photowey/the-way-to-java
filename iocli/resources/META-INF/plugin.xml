@@ -1,0 +1,45 @@
+<idea-plugin>
+    <id>com.photowey.iocli.ide.plugin.id</id>
+    <name>Iocli</name>
+    <version>1.0</version>
+    <vendor email="photowey@gmail.com" url="https://github.com/photowey">
+        photowey
+    </vendor>
+
+    <description><![CDATA[
+        A IDE plugin of ioc-golang project.<br>
+        <em>iocli plugin</em>
+        ]]></description>
+
+    <change-notes><![CDATA[
+        v1.0.0.<br>
+        <em>init IDE plugin project</em>
+        ]]>
+  </change-notes>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="ioc.golang.new"
+                class="com.photowey.iocli.ide.plugin.action.NewIOC"
+                text="NewIOC"
+                description="Initialize an ioc-golang template project">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default"
+                               first-keystroke="shift ctrl alt N"/>
+        </action>
+    </actions>
+
+</idea-plugin>
