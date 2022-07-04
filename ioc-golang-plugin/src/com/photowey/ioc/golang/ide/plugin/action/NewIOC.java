@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.photowey.iocli.ide.plugin.action;
+package com.photowey.ioc.golang.ide.plugin.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

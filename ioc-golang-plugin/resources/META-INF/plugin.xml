@@ -7,8 +7,8 @@
     </vendor>
 
     <description><![CDATA[
-        A IDE plugin of ioc-golang project.<br>
-        <em>iocli plugin</em>
+        An IDE plugin of ioc-golang project.<br>
+        <em>ioc-golang ide plugin</em>
         ]]></description>
 
     <change-notes><![CDATA[
@@ -33,7 +33,7 @@
     <actions>
         <!-- Add your actions here -->
         <action id="ioc.golang.new"
-                class="com.photowey.iocli.ide.plugin.action.NewIOC"
+                class="com.photowey.ioc.golang.ide.plugin.action.NewIOC"
                 text="NewIOC"
                 description="Initialize an ioc-golang template project">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
