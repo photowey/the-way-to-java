@@ -93,6 +93,7 @@
         <module>shardingsphere-in-action</module>
         <module>mycat2-in-action</module>
         <module>mybatis-plus-mate-in-action</module>
+        <module>sonarqube-in-action</module>
     </modules>
 
     <dependencyManagement>
