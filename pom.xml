@@ -94,6 +94,7 @@
         <module>mycat2-in-action</module>
         <module>mybatis-plus-mate-in-action</module>
         <module>sonarqube-in-action</module>
+        <module>bloom-filter-in-action</module>
     </modules>
 
     <dependencyManagement>
