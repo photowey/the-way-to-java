@@ -16,11 +16,11 @@ public class BloomFilterConfigure {
 
     @Bean
     public BloomFilterHolder bloomFilterHolder() {
-        return new BloomFilterHolder(10_000_000, 0.01D);
+        return new BloomFilterHolder(100_000_000, 0.01D);
     }
 
     @Bean
     public BloomFilterHolder bloomFilterHolderr() {
-        return new BloomFilterHolder(10_000_000, 0.001D);
+        return new BloomFilterHolder(100_000_000, 0.001D);
     }
 }
