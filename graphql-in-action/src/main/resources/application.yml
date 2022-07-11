@@ -1,0 +1,22 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: "graphql-in-action"
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:h2:file:./data/graphql
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    defer-datasource-initialization: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

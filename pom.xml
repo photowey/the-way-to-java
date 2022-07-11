@@ -95,6 +95,7 @@
         <module>mybatis-plus-mate-in-action</module>
         <module>sonarqube-in-action</module>
         <module>bloom-filter-in-action</module>
+        <module>graphql-in-action</module>
     </modules>
 
     <dependencyManagement>
