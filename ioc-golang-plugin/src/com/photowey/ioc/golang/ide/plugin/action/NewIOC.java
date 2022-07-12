@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2021 photowey (photowey@gmail.com)
+ * Copyright © 2021 the original author or authors (photowey@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.photowey.ioc.golang.ide.plugin.action;
 
 import com.intellij.openapi.actionSystem.AnAction;

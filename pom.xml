@@ -96,6 +96,7 @@
         <module>sonarqube-in-action</module>
         <module>bloom-filter-in-action</module>
         <module>graphql-in-action</module>
+        <module>postgresql-in-action</module>
     </modules>
 
     <dependencyManagement>

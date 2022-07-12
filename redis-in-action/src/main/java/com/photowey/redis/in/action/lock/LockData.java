@@ -39,11 +39,13 @@ public class LockData<T> implements Delayed {
         this.data = data;
     }
 
+    @Override
     public long getDelay(TimeUnit unit) {
         long delta = unit.convert(this.expect - System.currentTimeMillis(), unit);
         return delta;
     }
 
+    @Override
     public int compareTo(Delayed delayed) {
         long delta = (this.getDelay(TimeUnit.MILLISECONDS) - delayed.getDelay(TimeUnit.MILLISECONDS));
         return delta == 0 ? 0 : delta < 0 ? -1 : 1;

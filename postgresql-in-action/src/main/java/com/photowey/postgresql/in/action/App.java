@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.bloom.filter.in.action;
+package com.photowey.postgresql.in.action;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.photowey.print.in.action.printer.AppPrinter;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * {@code AppTests}
+ * {@code App}
  *
  * @author photowey
- * @date 2022/07/11
+ * @date 2022/07/12
  * @since 1.0.0
  */
-@SpringBootTest
-class AppTests {
+@SpringBootApplication
+public class App {
 
-    @Test
-    void contextLoad() {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
+        AppPrinter.print(applicationContext, false);
     }
 
 }

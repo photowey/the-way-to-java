@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.bloom.filter.in.action;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.photowey.redis.in.action.limit;
 
 /**
- * {@code AppTests}
+ * {@code LusScriptConstants}
  *
  * @author photowey
- * @date 2022/07/11
+ * @date 2022/07/12
  * @since 1.0.0
  */
-@SpringBootTest
-class AppTests {
+public interface LusScriptConstants {
 
-    @Test
-    void contextLoad() {
-    }
+    String LIMIT_LUA_SCRIPT = "local counter\n" +
+            "counter = redis.call('get', KEYS[1])\n" +
+            "if counter and tonumber(counter) > tonumber(ARGV[1]) then\n" +
+            "    return counter;\n" +
+            "end\n" +
+            "counter = redis.call('incr', KEYS[1])\n" +
+            "if tonumber(counter) == 1 then\n" +
+            "    redis.call('expire', KEYS[1], ARGV[2])\n" +
+            "end\n" +
+            "return counter;\n";
 
 }

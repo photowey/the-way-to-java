@@ -13,23 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.bloom.filter.in.action;
+package com.photowey.redis.in.action.limit;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * {@code AppTests}
+ * {@code LimitHandlerTest}
  *
  * @author photowey
- * @date 2022/07/11
+ * @date 2022/07/12
  * @since 1.0.0
  */
 @SpringBootTest
-class AppTests {
+class LimitHandlerTest {
+
+    @Autowired
+    private LimitHandler limitHandler;
 
     @Test
-    void contextLoad() {
+    void testLimit() {
+        Long limit = this.limitHandler.limit("limit:test:hello:request:9527", 10, 60);
+        Assertions.assertEquals(1L, limit);
     }
 
 }
