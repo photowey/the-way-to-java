@@ -1,7 +1,9 @@
 package com.photowey.graphql.in.action;
 
+import com.photowey.print.in.action.printer.AppPrinter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * {@code App}
@@ -14,9 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-        // ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
-         // AppPrinter.print(applicationContext, false);
+         ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
+          AppPrinter.print(applicationContext, false);
     }
 
 }
