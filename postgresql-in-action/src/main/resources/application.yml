@@ -6,7 +6,14 @@ spring:
     name: "postgresql-in-action"
   profiles:
     active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://${local.config.postgres.host}:${local.config.postgres.port}/${local.config.postgres.database}?TimeZone=Asia/Shanghai"
+    username: postgres
+    password: postgres
 
 logging:
+  level:
+    com.photowey.postgresql.in.action.repository: debug
   pattern:
     console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

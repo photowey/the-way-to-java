@@ -1,6 +1,6 @@
 local:
   config:
-    redis:
+    postgres:
       host: 192.168.1.11
-      port: 6379
-      password: ""
+      port: 5432
+      database: "students"
