@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber
+'
+'Alice -> Bob: Authentication Request
+'Bob --> Alice: Authentication Response
+'
+'Alice -> Bob: Another authentication Request
+'Alice <-- Bob: another authentication Response
+
+' @see https://juejin.cn/post/7121325592368119838
+' PlantUML demo
+
+title Sequence Diagram of User login
+actor User as user
+
+participant "gateway" as gateway
+participant "user-core" as userCore
+database "MySQL" as mysql
+database "Redis" as redis
+
+autonumber
+user-> gateway:login request，param：username，password
+activate gateway
+gateway-> userCore:forward the login request
+activate userCore
+userCore-> userCore :check the login param
+userCore-> mysql:query user info from mysql by username
+activate mysql
+mysql-> userCore:response with username and password
+deactivate mysql
+userCore->userCore:compare the requested password with the DB's password
+userCore-> userCore: generate an unique token
+userCore--> redis: save the token to redis
+userCore-> gateway: response with the token
+deactivate userCore
+gateway-> user: login success with the token
+deactivate gateway
+@enduml
