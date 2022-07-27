@@ -48,6 +48,9 @@
             <outputDirectory>/lib</outputDirectory>
             <!--  if necessary -->
             <scope>system</scope>
+            <excludes>
+                <exclude>${project.groupId}:${project.artifactId}</exclude>
+            </excludes>
         </dependencySet>
     </dependencySets>
 
