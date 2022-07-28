@@ -30,6 +30,7 @@
         <module>oauth2-authentication-crypto</module>
         <module>oauth2-authentication-exception</module>
         <module>oauth2-authentication-api-security</module>
+        <module>oauth2-authentication-minigram</module>
     </modules>
 
     <properties>
