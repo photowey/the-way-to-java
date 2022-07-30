@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.oauth2.authentication.minigram.service;
-
-import com.photowey.oauth2.authentication.minigram.request.MinigramRequest;
-import org.springframework.security.core.userdetails.UserDetails;
+package com.photowey.oauth2.authentication.minigram.filter;
 
 /**
- * {@code MinigramUserDetailsService}
+ * {@code MinigramSessionKeyCache}
  *
  * @author photowey
- * @date 2022/07/28
+ * @date 2022/07/30
  * @since 1.0.0
  */
-public interface MinigramUserDetailsService {
+public interface MinigramSessionKeyCache {
 
-    UserDetails register(MinigramRequest request);
+    void set(String cacheKey, String sessionKey);
 
-    UserDetails loadByOpenId(String clientId, String openId);
+    String get(String cacheKey);
 
 }
