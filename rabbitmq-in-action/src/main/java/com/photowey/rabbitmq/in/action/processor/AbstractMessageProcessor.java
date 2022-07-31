@@ -16,7 +16,7 @@
 package com.photowey.rabbitmq.in.action.processor;
 
 import com.photowey.rabbitmq.in.action.domain.MessageBody;
-import com.photowey.rabbitmq.in.action.enums.RabbitmqAckEnum;
+import com.photowey.rabbitmq.in.action.enums.RabbitMQAckEnum;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -35,39 +35,34 @@ import java.util.function.Function;
 public abstract class AbstractMessageProcessor implements MessageProcessor {
 
     @Override
-    public <T extends MessageBody> void doProcess(
-            T messageBody,
+    public <T extends MessageBody> void handleBodyMessage(
+            T message,
             String queue,
             long deliveryTag, Channel channel,
             Function<T, Boolean> function) throws IOException {
 
-        RabbitmqAckEnum rabbitmqAck = RabbitmqAckEnum.ACCEPT;
+        RabbitMQAckEnum ack = RabbitMQAckEnum.ACCEPT;
         try {
-            Boolean exchangeOrderBroadcastNotice = function.apply(messageBody);
-            if (exchangeOrderBroadcastNotice) {
-                rabbitmqAck = RabbitmqAckEnum.ACCEPT;
-            } else {
-                // TODO 可以重试 - 理论上永远不会返回 FALSE - 仅仅作为 MQ 处理的例子
-                rabbitmqAck = RabbitmqAckEnum.RETRY;
+            if (!function.apply(message)) {
+                ack = RabbitMQAckEnum.REJECT;
             }
         } catch (Exception e) {
-            String body = messageBody.toJSONString();
+            ack = RabbitMQAckEnum.RETRY;
+            String body = message.toJSONString();
             if (StringUtils.hasText(body)) {
-                log.error("handle the queue:[{}] message,exception,info is:{}", queue, body);
+                log.error("handle the queue:[{}] message exception, message is: {}", queue, body);
             }
-            rabbitmqAck = RabbitmqAckEnum.RETRY;
         } finally {
-            // TODO 保证 100% 投递与处理
-            switch (rabbitmqAck) {
+            switch (ack) {
                 case ACCEPT:
                     channel.basicAck(deliveryTag, false);
                     break;
                 case RETRY:
-                    // void basicNack(long deliveryTag, boolean multiple, boolean requeue)
                     channel.basicNack(deliveryTag, false, true);
                     break;
                 case REJECT:
-                    channel.basicNack(deliveryTag, false, false);
+                    // channel.basicNack(deliveryTag, false, false);
+                    channel.basicReject(deliveryTag, false);
                     break;
                 default:
                     break;

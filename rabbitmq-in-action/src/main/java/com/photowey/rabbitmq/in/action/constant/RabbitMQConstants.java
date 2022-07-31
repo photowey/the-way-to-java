@@ -13,31 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.rabbitmq.in.action.service;
+package com.photowey.rabbitmq.in.action.constant;
 
 /**
- * {@code IRabbitMqService}
+ * {@code RabbitMQConstants}
  *
  * @author photowey
  * @date 2022/05/29
  * @since 1.0.0
  */
-public interface IRabbitMqService {
+public interface RabbitMQConstants {
 
     /**
-     * 发送消息到指定队列
-     *
-     * @param queue   队列名称
-     * @param message 队列消息
+     * 默认交换机名称
      */
-    void toQueue(String queue, Object message);
+    String DEFAULT_EXCHANGE = "rabbitmq.default.exchange";
+    /**
+     * 延时队列交换机
+     */
+    String DEFAULT_DELAYED_EXCHANGE = "rabbitmq.default.delayed.exchange";
 
     /**
-     * 发送消息到指定队列
-     *
-     * @param queue     队列名称
-     * @param message   队列消息
-     * @param exchanger 交换机名称
+     * 默认队列
      */
-    void toQueue(String exchanger, String queue, Object message);
+    String DEFAULT_QUEUE = "rabbitmq.default.queue";
+
+    /**
+     * 默认延迟队列
+     */
+    String DEFAULT_DELAYED_QUEUE = "rabbitmq.default.delayed.queue";
+
 }

@@ -15,9 +15,9 @@
  */
 package com.photowey.rabbitmq.in.action.service.impl;
 
-import com.photowey.rabbitmq.in.action.constant.RabbitMqConstants;
-import com.photowey.rabbitmq.in.action.domain.RabbitMqPayload;
-import com.photowey.rabbitmq.in.action.service.AbstractRabbitMqAdapter;
+import com.photowey.rabbitmq.in.action.constant.RabbitMQConstants;
+import com.photowey.rabbitmq.in.action.domain.RabbitMQPayload;
+import com.photowey.rabbitmq.in.action.service.AbstractRabbitMQAdapter;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -25,44 +25,44 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@code RabbitMqServiceImpl}
+ * {@code RabbitMQServiceImpl}
  *
  * @author photowey
  * @date 2022/05/29
  * @since 1.0.0
  */
-public class RabbitMqServiceImpl extends AbstractRabbitMqAdapter {
+public class RabbitMQServiceImpl extends AbstractRabbitMQAdapter {
 
-    public RabbitMqServiceImpl(RabbitTemplate rabbitTemplate) {
+    public RabbitMQServiceImpl(RabbitTemplate rabbitTemplate) {
         super(rabbitTemplate);
     }
 
     /**
      * 发送消息到指定队列
      *
-     * @param queue   队列名称
-     * @param message 队列消息
+     * @param routingKey 队列名称
+     * @param message    队列消息
      */
     @Override
-    public void toQueue(String queue, Object message) {
+    public void toQueue(String routingKey, Object message) {
         // 标记消息
         String messageId = this.uuid();
         CorrelationData correlationId = new CorrelationData(messageId);
-        this.rabbitTemplate.convertAndSend(RabbitMqConstants.DEFAULT_EXCHANGE, queue, message, correlationId);
+        this.rabbitTemplate.convertAndSend(RabbitMQConstants.DEFAULT_EXCHANGE, routingKey, message, correlationId);
     }
 
     /**
      * 发送消息到指定队列
      *
-     * @param queue     队列名称
-     * @param message   队列消息
-     * @param exchanger 交换机名称
+     * @param routingKey 队列名称
+     * @param message    队列消息
+     * @param exchange   交换机名称
      */
     @Override
-    public void toQueue(String exchanger, String queue, Object message) {
+    public void toQueue(String exchange, String routingKey, Object message) {
         String messageId = this.uuid();
         CorrelationData correlationId = new CorrelationData(messageId);
-        this.rabbitTemplate.convertAndSend(exchanger, queue, message, correlationId);
+        this.rabbitTemplate.convertAndSend(exchange, routingKey, message, correlationId);
     }
 
     /**
@@ -71,9 +71,9 @@ public class RabbitMqServiceImpl extends AbstractRabbitMqAdapter {
      * @param rabbitMqPayload 消息数据传输对象
      */
     @Override
-    public <T> void toDelayedQueue(RabbitMqPayload<T> rabbitMqPayload) {
+    public <T> void toDelayedQueue(RabbitMQPayload<T> rabbitMqPayload) {
         TimeUnit timeUnit = rabbitMqPayload.getTimeUnit();
-        this.rabbitTemplate.convertAndSend(rabbitMqPayload.getExchange(), rabbitMqPayload.getQueueName(), rabbitMqPayload.getData(), (message) -> {
+        this.rabbitTemplate.convertAndSend(rabbitMqPayload.getDelayedExchange(), rabbitMqPayload.getDelayedQueue(), rabbitMqPayload.getData(), (message) -> {
             message.getMessageProperties().setHeader(DELAYED_HEADER, timeUnit.toMillis(rabbitMqPayload.getDelayedTime()));
             return message;
         });

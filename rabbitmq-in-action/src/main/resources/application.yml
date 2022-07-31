@@ -1,0 +1,22 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "rabbitmq-in-action"
+  profiles:
+    active: dev
+  rabbitmq:
+    host: ${local.config.rabbitmq.host}
+    port: ${local.config.rabbitmq.port}
+    username: ${local.config.rabbitmq.username}
+    password: ${local.config.rabbitmq.password}
+    virtual-host: ${local.config.rabbitmq.vhosts}
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

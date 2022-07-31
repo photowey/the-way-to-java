@@ -13,34 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.rabbitmq.in.action.constant;
+package com.photowey.rabbitmq.in.action.enums;
 
 /**
- * {@code RabbitMqConstants}
+ * {@code RabbitMQAckEnum}
  *
  * @author photowey
  * @date 2022/05/29
  * @since 1.0.0
  */
-public interface RabbitMqConstants {
-
+public enum RabbitMQAckEnum {
     /**
-     * 默认交换机名称
+     * 接收消息
      */
-    String DEFAULT_EXCHANGE = "rabbitmq_default_exchange";
+    ACCEPT,
     /**
-     * 延时队列交换机
+     * 可重试-重新打回队列
      */
-    String DELAYED_EXCHANGE = "rabbitmq_default_delayed_exchange";
-
+    RETRY,
     /**
-     * 默认队列
+     * 拒绝重试-直接丢弃
      */
-    String DEFAULT_QUEUE = "rabbitmq_default_queue";
-
-    /**
-     * 默认延迟队列
-     */
-    String DEFAULT_DELAYED_QUEUE = "rabbitmq_default_delayed_queue";
-
+    REJECT;
 }

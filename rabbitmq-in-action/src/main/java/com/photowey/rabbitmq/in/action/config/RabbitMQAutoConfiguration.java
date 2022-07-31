@@ -16,8 +16,8 @@
 package com.photowey.rabbitmq.in.action.config;
 
 import com.photowey.rabbitmq.in.action.factory.RabbitListenerContainerFactory;
-import com.photowey.rabbitmq.in.action.service.IRabbitMqService;
-import com.photowey.rabbitmq.in.action.service.impl.RabbitMqServiceImpl;
+import com.photowey.rabbitmq.in.action.service.IRabbitMQService;
+import com.photowey.rabbitmq.in.action.service.impl.RabbitMQServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 /**
- * {@code RabbitMqAutoConfiguration}
+ * {@code RabbitMQAutoConfiguration}
  *
  * @author photowey
  * @date 2022/05/29
@@ -38,7 +38,7 @@ import org.springframework.context.annotation.Scope;
  */
 @Slf4j
 @Configuration
-public class RabbitMqAutoConfiguration {
+public class RabbitMQAutoConfiguration {
 
     public static final String MESSAGE_CONTAINER_FACTORY_NAME = "rabbitmqMessageContainer";
 
@@ -66,26 +66,39 @@ public class RabbitMqAutoConfiguration {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(RabbitListenerContainerFactory.jackson2JsonMessageConverter());
-        template.setConfirmCallback((CorrelationData correlationData, boolean confirm, String messageStr) -> {
-            log.info("the message callback,the CorrelationData is:{},confirm is:{},message is:{}", correlationData, confirm, messageStr);
-            if (confirm) {
-                log.info("----------------------sent the message success-------------------------");
+        template.setConfirmCallback((CorrelationData correlationData, boolean ack, String cause) -> {
+            log.info("the message callback,the CorrelationData is:{},confirm is:{},message is:{}", correlationData, ack, cause);
+            String messageId = null != correlationData ? correlationData.getId() : "";
+            if (ack) {
+                log.info("sent the message success, id:[{}]", messageId);
             } else {
-                log.info("----------------------sent the message failure-------------------------");
+                if (null != correlationData && null != correlationData.getReturned() && null != correlationData.getReturned().getMessage()) {
+                    log.error("sent the message failure, id:[{}],message:[{}], cause: [{}]", messageId, correlationData.getReturned().getMessage().toString(), cause);
+                } else {
+                    log.error("sent the message failure, id:[{}] cause: [{}]", messageId, cause);
+                }
             }
+        });
+        template.setReturnsCallback((returned) -> {
+            String message = returned.getMessage().toString();
+            int replyCode = returned.getReplyCode();
+            String replyText = returned.getReplyText();
+            String exchange = returned.getExchange();
+            String routingKey = returned.getRoutingKey();
+            log.error("message returned, message:[{}],replyCode:[{}],replyCode:[{}],exchange:[{}],routingKey:[{}]", message, replyCode, replyText, exchange, routingKey);
         });
 
         return template;
     }
 
     /**
-     * IRabbitMqService
+     * IRabbitMQService
      *
-     * @return {@link IRabbitMqService}
+     * @return {@link IRabbitMQService}
      */
     @Bean
-    @ConditionalOnMissingBean(IRabbitMqService.class)
-    public IRabbitMqService rabbitMqService(ConnectionFactory connectionFactory) {
-        return new RabbitMqServiceImpl(this.rabbitTemplate(connectionFactory));
+    @ConditionalOnMissingBean(IRabbitMQService.class)
+    public IRabbitMQService rabbitMqService(ConnectionFactory connectionFactory) {
+        return new RabbitMQServiceImpl(this.rabbitTemplate(connectionFactory));
     }
 }

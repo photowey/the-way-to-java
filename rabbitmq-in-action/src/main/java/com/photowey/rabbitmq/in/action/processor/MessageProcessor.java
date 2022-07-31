@@ -30,7 +30,7 @@ import java.util.function.Function;
  */
 public interface MessageProcessor {
 
-    <T extends MessageBody> void doProcess(
+    <T extends MessageBody> void handleBodyMessage(
             T messageBody,
             String queue,
             long deliveryTag, Channel channel,

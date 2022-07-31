@@ -15,7 +15,7 @@
  */
 package com.photowey.rabbitmq.in.action.domain;
 
-import com.photowey.rabbitmq.in.action.constant.RabbitMqConstants;
+import com.photowey.rabbitmq.in.action.constant.RabbitMQConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@code RabbitMqPayload}
+ * {@code RabbitMQPayload}
  *
  * @author photowey
  * @date 2022/05/29
@@ -35,28 +35,18 @@ import java.util.concurrent.TimeUnit;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RabbitMqPayload<T> implements Serializable {
+public class RabbitMQPayload<T> implements Serializable {
 
     private static final long serialVersionUID = 3890285964805460810L;
 
-    /**
-     * 默认的交换机
-     */
-    private String exchange = RabbitMqConstants.DEFAULT_EXCHANGE;
-    /**
-     * 默认的队列
-     */
-    private String queueName = RabbitMqConstants.DEFAULT_QUEUE;
-    /**
-     * 消息体
-     */
+    private String exchange = RabbitMQConstants.DEFAULT_EXCHANGE;
+    private String delayedExchange = RabbitMQConstants.DEFAULT_DELAYED_EXCHANGE;
+
+    private String routingKey = RabbitMQConstants.DEFAULT_QUEUE;
+    private String delayedQueue = RabbitMQConstants.DEFAULT_DELAYED_QUEUE;
+
     private T data;
-    /**
-     * 延时时间,默认300000
-     */
+
     private long delayedTime = 300000;
-    /**
-     * 时间单位
-     */
     private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 }

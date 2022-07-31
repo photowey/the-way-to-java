@@ -15,22 +15,29 @@
  */
 package com.photowey.rabbitmq.in.action.service;
 
-import com.photowey.rabbitmq.in.action.domain.RabbitMqPayload;
-
 /**
- * {@code IRabbitMqDelayedService}
+ * {@code IRabbitMQService}
  *
  * @author photowey
  * @date 2022/05/29
  * @since 1.0.0
  */
-public interface IRabbitMqDelayedService extends IRabbitMqService {
-
+public interface IRabbitMQService {
 
     /**
-     * 发送延时消息到指定队列
+     * 发送消息到指定队列
      *
-     * @param rabbitMqPayload 消息数据传输对象
+     * @param routingKey 队列名称
+     * @param message    队列消息
      */
-    <T> void toDelayedQueue(RabbitMqPayload<T> rabbitMqPayload);
+    void toQueue(String routingKey, Object message);
+
+    /**
+     * 发送消息到指定队列
+     *
+     * @param routingKey 队列名称
+     * @param message    队列消息
+     * @param exchange   交换机名称
+     */
+    void toQueue(String exchange, String routingKey, Object message);
 }

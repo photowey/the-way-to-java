@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.rabbitmq.in.action.enums;
+package com.photowey.rabbitmq.in.action.service;
+
+import com.photowey.rabbitmq.in.action.domain.RabbitMQPayload;
 
 /**
- * {@code RabbitmqAckEnum}
+ * {@code IRabbitMQDelayedService}
  *
  * @author photowey
  * @date 2022/05/29
  * @since 1.0.0
  */
-public enum RabbitmqAckEnum {
+public interface IRabbitMQDelayedService extends IRabbitMQService {
+
+
     /**
-     * 接收消息
+     * 发送延时消息到指定队列
+     *
+     * @param rabbitMqPayload 消息数据传输对象
      */
-    ACCEPT,
-    /**
-     * 可重试-重新打回队列
-     */
-    RETRY,
-    /**
-     * 拒绝重试-直接丢弃
-     */
-    REJECT;
+    <T> void toDelayedQueue(RabbitMQPayload<T> rabbitMqPayload);
 }
