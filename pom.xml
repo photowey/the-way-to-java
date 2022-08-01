@@ -98,6 +98,7 @@
         <module>graphql-in-action</module>
         <module>postgresql-in-action</module>
         <module>assembly-in-action</module>
+        <module>arthas-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -279,6 +280,7 @@
                             **/com/photowey/spring/cloud/alibaba/seata/**/*.java
                         </exclude>
                         <exclude>**/doc/script/**/*.*</exclude>
+                        <exclude>**/MathGame.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
