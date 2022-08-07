@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
+/**
+ * {@code AppTests}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+@SpringBootTest
+class AppTests {
 
-    public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
+    @Test
+    void contextLoad() {
+
     }
 
 }

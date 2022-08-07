@@ -13,18 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue.listener;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+import com.photowey.jvm.delayed.queue.event.DelayedEvent;
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
+/**
+ * {@code DelayedQueueListener}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+public interface DelayedQueueListener<E extends DelayedEvent> {
 
-    public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
-    }
+    /**
+     * 获取 {@code Event 类型}
+     * 本来: 通过反射也可以实现, 推荐还是采用显式指定较好
+     *
+     * @return {@link Class<E>}
+     */
+    Class<E> getEvent();
 
+    /**
+     * 处理时间
+     *
+     * @param event {@link DelayedEvent} 自己感兴趣的事件
+     */
+    void onEvent(E event);
 }

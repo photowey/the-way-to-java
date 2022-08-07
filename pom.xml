@@ -99,6 +99,7 @@
         <module>postgresql-in-action</module>
         <module>assembly-in-action</module>
         <module>arthas-in-action</module>
+        <module>delayed-queue-in-action</module>
     </modules>
 
     <dependencyManagement>

@@ -13,18 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+import com.photowey.print.in.action.printer.AppPrinter;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
+/**
+ * {@code App}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+@SpringBootApplication
+public class App {
 
     public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
+        AppPrinter.print(applicationContext, false);
     }
 
 }

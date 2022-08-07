@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue.handler;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+/**
+ * {@code DelayedQueueHandler}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+public interface DelayedQueueHandler {
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
-
-    public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
-    }
+    void handleEvent();
 
 }

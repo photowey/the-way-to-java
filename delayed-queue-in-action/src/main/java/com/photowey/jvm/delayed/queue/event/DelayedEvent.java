@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue.event;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+import java.util.concurrent.Delayed;
+import java.util.function.Function;
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
+/**
+ * {@code DelayedEvent}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+public interface DelayedEvent<D> extends Delayed {
 
-    public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
-    }
+    String getEventId();
+
+    String getEventType();
+
+    Long getRunAt();
+
+    Object getData();
+
+    D transfer(Function<Object, D> function);
 
 }

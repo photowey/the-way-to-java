@@ -1,0 +1,55 @@
+/*
+ * Copyright © 2021 the original author or authors (photowey@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.photowey.jvm.delayed.queue.registry;
+
+import com.photowey.jvm.delayed.queue.event.DelayedEvent;
+import com.photowey.jvm.delayed.queue.listener.DelayedQueueListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * {@code DelayedQueueListenerRegistry}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+public class DelayedQueueListenerRegistry {
+
+    private static final ConcurrentHashMap<Class<DelayedEvent>, List<DelayedQueueListener<DelayedEvent>>> LISTENER_MAP = new ConcurrentHashMap<>();
+
+    public void registerListener(DelayedQueueListener<DelayedEvent> delayedListener) {
+        List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = LISTENER_MAP.get(delayedListener.getEvent());
+        if (null == delayedQueueListeners) {
+            synchronized (LISTENER_MAP) {
+                if (null == delayedQueueListeners) {
+                    delayedQueueListeners = new ArrayList<>();
+                    delayedQueueListeners.add(delayedListener);
+                    LISTENER_MAP.put(delayedListener.getEvent(), delayedQueueListeners);
+                }
+            }
+        } else {
+            delayedQueueListeners.add(delayedListener);
+        }
+    }
+
+    public List<DelayedQueueListener<DelayedEvent>> getDelayedQueueListeners(DelayedEvent delayedEvent) {
+        return LISTENER_MAP.get(delayedEvent.getClass());
+    }
+
+}

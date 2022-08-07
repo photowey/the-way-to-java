@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mybatis.in.action;
+package com.photowey.jvm.delayed.queue.event;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.mybatis.in.action.annotation.EnablePersistence;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@EnablePersistence
-// @SpringBootApplication
-public class Mybatis {
+import java.io.Serializable;
 
-    public static void main(String[] args) {
-        // SpringApplication.run(Mybatis.class, args);
-        System.out.println(IdWorker.getId());
-    }
+/**
+ * {@code EventData}
+ *
+ * @author photowey
+ * @date 2022/08/07
+ * @since 1.0.0
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class EventData implements Serializable {
 
+    private static final long serialVersionUID = 7672892876551367632L;
+
+    private Long id;
+    private String name;
+    private Integer age;
 }
