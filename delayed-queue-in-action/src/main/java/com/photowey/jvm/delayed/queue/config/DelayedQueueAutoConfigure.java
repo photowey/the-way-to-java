@@ -112,6 +112,11 @@ public class DelayedQueueAutoConfigure implements BeanFactoryAware, SmartInitial
         delayedTaskExecutor.setQueueCapacity(1 << 10);
         delayedTaskExecutor.setThreadNamePrefix("delayed" + "-");
         delayedTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
+        // 核心线程在规定时间内会被回收
+        delayedTaskExecutor.setAllowCoreThreadTimeOut(true);
+        // 等待所有任务结束后再关闭线程池
+        delayedTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        delayedTaskExecutor.initialize();
 
         return delayedTaskExecutor;
     }
