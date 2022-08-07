@@ -17,6 +17,7 @@ package com.photowey.jvm.delayed.queue.registry;
 
 import com.photowey.jvm.delayed.queue.event.DelayedEvent;
 import com.photowey.jvm.delayed.queue.listener.DelayedQueueListener;
+import org.springframework.beans.factory.DisposableBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2022/08/07
  * @since 1.0.0
  */
-public class DelayedQueueListenerRegistry {
+public class DelayedQueueListenerRegistry implements DisposableBean {
 
-    private static final ConcurrentHashMap<Class<DelayedEvent>, List<DelayedQueueListener<DelayedEvent>>> LISTENER_MAP = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Class<DelayedEvent>, List<DelayedQueueListener<DelayedEvent>>> LISTENER_MAP = new ConcurrentHashMap<>();
 
     public void registerListener(DelayedQueueListener<DelayedEvent> delayedListener) {
         List<DelayedQueueListener<DelayedEvent>> delayedQueueListeners = LISTENER_MAP.get(delayedListener.getEvent());
@@ -52,4 +53,9 @@ public class DelayedQueueListenerRegistry {
         return LISTENER_MAP.get(delayedEvent.getClass());
     }
 
+    @Override
+    public void destroy() throws Exception {
+        LISTENER_MAP.clear();
+        LISTENER_MAP = null;
+    }
 }
