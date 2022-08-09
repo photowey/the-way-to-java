@@ -37,4 +37,8 @@ public interface DelayedEvent<D> extends Delayed {
 
     D transfer(Function<Object, D> function);
 
+    default D transferd() {
+        return (D) this.getData();
+    }
+
 }

@@ -47,6 +47,7 @@ public class PubSubQueueSubscriber extends JedisPubSub implements IPubSubRedisQu
         this.applicationContext = applicationContext;
     }
 
+    @Override
     public void subscribe(String... channels) {
         try (Jedis jedis = this.redisEngine.jedisEngine().jedis()) {
             jedis.subscribe(this, channels);

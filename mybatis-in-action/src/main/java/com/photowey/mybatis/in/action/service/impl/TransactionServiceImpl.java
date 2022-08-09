@@ -55,8 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
             // org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
 
             // 最外层事务已经被标记为: rollback-only 所以即使在--处理最外层业务时有try-catch 也会回滚
-        } catch (Exception e) {
-            // Ignore
+        } catch (Exception ignored) {
         }
     }
 
@@ -74,8 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
             // 结果是: 部分归滚
             // organizationService().handleNestedSave() -> org.springframework.jdbc.datasource.DataSourceTransactionManager.doCommit
             // employeeService.handleNestedSave() -> 回滚
-        } catch (Exception e) {
-            // Ignore
+        } catch (Exception ignored) {
         }
 
     }

@@ -36,7 +36,7 @@ public class ComponentConfigure {
     }
 
     @Bean
-    public ComponentBeanRef componentBeanRef() {
-        return new ComponentBeanRef(this.componentBean());
+    public ComponentBeanRef componentBeanRef(ComponentBean componentBean) {
+        return new ComponentBeanRef(componentBean);
     }
 }
