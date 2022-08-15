@@ -174,4 +174,10 @@ class ArrayBlockingQueueTest {
         log.info("poll 4:{}", poll4);
         // 利用 poll 来从队列中取出元素,若队列中元素不足时,会返回 null。
     }
+
+    @Test
+    void testInteger() {
+        System.out.println(0x80000000);
+        System.out.println(0x7fffffff);
+    }
 }

@@ -35,6 +35,15 @@ public interface DelayedEvent<D> extends Delayed {
 
     Object getData();
 
+    /**
+     * 入队的次数
+     * 当重新入对的次数超过某一个阈值之后,就应该人为干预了。
+     * 这个时候,就不太建议还要继续入队了, 这样可以有效避免在极端情况下资源的浪费
+     *
+     * @return 入队次数
+     */
+    Integer getEnqueueTimes();
+
     D transfer(Function<Object, D> function);
 
     default D transferd() {

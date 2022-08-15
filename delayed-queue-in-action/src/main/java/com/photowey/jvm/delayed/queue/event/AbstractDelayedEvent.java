@@ -47,6 +47,7 @@ public abstract class AbstractDelayedEvent<D> implements Serializable, DelayedEv
      */
     protected Long runAt;
     protected Object data;
+    protected Integer enqueueTimes;
 
     @Override
     public long getDelay(TimeUnit timeUnit) {
