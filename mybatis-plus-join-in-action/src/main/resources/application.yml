@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.11:3307/mybatis-plus-join?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&ssl=false&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    type: com.mysql.cj.jdbc.MysqlDataSource
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
