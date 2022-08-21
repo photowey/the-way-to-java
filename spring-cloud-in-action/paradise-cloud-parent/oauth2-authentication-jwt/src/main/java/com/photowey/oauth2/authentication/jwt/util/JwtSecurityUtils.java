@@ -33,13 +33,13 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public final class JwtSecurityUtils {
 
-    protected static final String CIPHER_ALGORITHM = "AES/ECB/PKCS7Padding";
-    protected static final String SHA_WITH_RSA = "SHA1withRSA";
-    protected static final String RSA = "RSA";
-    protected static final String X_509 = "X.509";
-    protected static final String AES = "AES";
-    protected static final String PROVIDER_BC = "BC";
-    protected static final String JKS = "JKS";
+    private static final String CIPHER_ALGORITHM = "AES/ECB/PKCS7Padding";
+    private static final String SHA_WITH_RSA = "SHA1withRSA";
+    private static final String RSA = "RSA";
+    private static final String X_509 = "X.509";
+    private static final String AES = "AES";
+    private static final String PROVIDER_BC = "BC";
+    private static final String JKS = "JKS";
 
     private JwtSecurityUtils() {
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");

@@ -101,6 +101,7 @@
         <module>arthas-in-action</module>
         <module>delayed-queue-in-action</module>
         <module>mybatis-plus-join-in-action</module>
+        <module>spring-security-oauth2</module>
     </modules>
 
     <dependencyManagement>

@@ -130,8 +130,9 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     private boolean checkUrls(List<String> urls, String path) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String url : urls) {
-            if (pathMatcher.match(url, path))
+            if (pathMatcher.match(url, path)) {
                 return true;
+            }
         }
 
         return false;
