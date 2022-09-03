@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.security.oauth2.oidc.server.config;
+package com.photowey.spring.security.oauth2.pkce.server.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.photowey.spring.security.oauth2.oidc.server.reader.ClasspathReader;
+import com.photowey.spring.security.oauth2.pkce.server.reader.ClasspathReader;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,13 +31,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
@@ -51,17 +50,17 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import java.util.UUID;
-
 /**
- * {@code AuthorizationServerConfigurer}
+ * {@code AuthorizationServerConfigure}
  *
  * @author photowey
- * @date 2022/08/21
+ * @date 2022/09/03
  * @since 1.0.0
  */
 @Configuration
-public class AuthorizationServerConfigurer {
+public class AuthorizationServerConfigure {
+
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     @Autowired
     private ClasspathReader classpathReader;
@@ -72,22 +71,21 @@ public class AuthorizationServerConfigurer {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
+        // @formatter:off
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
                 new OAuth2AuthorizationServerConfigurer<>();
+        authorizationServerConfigurer.authorizationEndpoint(authorizationEndpointConfigurer ->
+                authorizationEndpointConfigurer.consentPage(CUSTOM_CONSENT_PAGE_URI));
 
-        // Oidc
-        authorizationServerConfigurer.oidc(oidcConfigurer -> oidcConfigurer.clientRegistrationEndpoint(Customizer.withDefaults()));
         RequestMatcher authorizationServerEndpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
-        // @formatter:off
-        http
-                .requestMatcher(authorizationServerEndpointsMatcher)
-            .authorizeRequests()
-                .anyRequest().authenticated()
-            .and()
-                .csrf(csrf -> csrf.ignoringRequestMatchers(authorizationServerEndpointsMatcher))
+        http.requestMatcher(authorizationServerEndpointsMatcher)
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(authorizationServerEndpointsMatcher))
                 .formLogin()
-            .and()
+                .and()
                 .apply(authorizationServerConfigurer);
         // @formatter:on
 
@@ -95,15 +93,13 @@ public class AuthorizationServerConfigurer {
     }
 
     @Bean
-    @SneakyThrows
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-
         // only@test begin
         final String id = "9527";
         RegisteredClient registeredClient = registeredClientRepository.findById(id);
         if (registeredClient == null) {
-            registeredClient = this.createRegisteredClient(id);
+            registeredClient = this.createJwtRegisteredClient(id);
             registeredClientRepository.save(registeredClient);
         }
         // only@test end
@@ -111,27 +107,28 @@ public class AuthorizationServerConfigurer {
         return registeredClientRepository;
     }
 
-    private RegisteredClient createRegisteredClient(final String id) {
-        return RegisteredClient
-                .withId(UUID.randomUUID().toString())
-                .id(id)
+    private RegisteredClient createJwtRegisteredClient(final String id) {
+        return RegisteredClient.withId(id)
                 .clientId("photowey")
-                .clientSecret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("photowey"))
                 .clientName("photowey")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.PRIVATE_KEY_JWT)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .redirectUri("http://127.0.0.1:8081/login/oauth2/code/photowey")
                 .redirectUri("http://127.0.0.1:8081/authorized")
-                .redirectUri("http://127.0.0.1:8081/hello/oidc")
+                .redirectUri("http://127.0.0.1:8081/hello/pkce")
                 .redirectUri("https://github.com/photowey")
                 .scope(OidcScopes.OPENID)
                 .scope("message.read")
                 .scope("userinfo")
                 .scope("message.write")
                 .tokenSettings(TokenSettings.builder().build())
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .clientSettings(ClientSettings.builder()
+                        .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS256)
+                        .requireProofKey(true)
+                        .jwkSetUrl("http://localhost:8081/oauth2/jwks")
+                        .build())
                 .build();
     }
 
@@ -158,6 +155,7 @@ public class AuthorizationServerConfigurer {
 
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
+
 
     @Bean
     public ProviderSettings providerSettings(@Value("${server.port}") Integer port) {

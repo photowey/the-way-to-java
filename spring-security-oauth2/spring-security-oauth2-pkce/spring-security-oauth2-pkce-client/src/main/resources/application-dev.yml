@@ -1,0 +1,15 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          photowey:
+            client-id: photowey
+            #redirect-uri: "http://127.0.0.1:${server.port}/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://127.0.0.1:${server.port}/hello/pkce"
+            authorization-grant-type: authorization_code
+            client-authentication-method: private_key_jwt
+            scope: message.read,message.write,userinfo
+        provider:
+          photowey:
+            issuer-uri: http://localhost:9000

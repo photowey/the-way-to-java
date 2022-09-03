@@ -5,7 +5,7 @@
 > 生成 jks
 
 ```shell
-$ keytool -genkey -alias jose  -keyalg RSA \
+$ keytool -genkey -alias jose -keyalg RSA \
 -storetype PKCS12 -keysize 2048 -validity 365 \
 -keystore jose.jks -storepass photowey \
 -dname "CN=(W), OU=(Hi), O=(Hicoo), L=(CQ), ST=(CQ), C=(CN)"
@@ -25,6 +25,12 @@ $ keytool -genkey -alias jose  -keyalg RSA \
 #CN=W, OU=Hi, O=Hicoo, L=CQ, ST=CQ, C=CN是否正确?
 ```
 
+```shell
+$ keytool -genkey -alias client -keyalg RSA \
+-storetype PKCS12 -keysize 2048 -validity 365 \
+-keystore client.jks -storepass photowey \
+-dname "CN=(W), OU=(Hi), O=(Hicoo), L=(CQ), ST=(CQ), C=(CN)"
+```
 
 
 > 导出证书
