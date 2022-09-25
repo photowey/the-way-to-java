@@ -10,11 +10,11 @@ spring:
         registration:
           photowey:
             client-id: photowey
-            #redirect-uri: "http://127.0.0.1:${server.port}/login/oauth2/code/{registrationId}"
-            redirect-uri: "${local.config.uaa.issuer}/oauth2/userinfo"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            #redirect-uri: "http://127.0.0.1:8081/hello/privatekey"
             authorization-grant-type: authorization_code
             client-authentication-method: private_key_jwt
-            scope: userinfo
+            scope: userinfo,openid
         provider:
           photowey:
             issuer-uri: ${local.config.uaa.issuer}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.security.oauth2.pkce.server.endpoint;
+package com.photowey.spring.security.oauth2.privatekey.server.endpoint;
 
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
@@ -34,17 +34,17 @@ import java.util.stream.Collectors;
  * {@code AuthorizationConsentController}
  *
  * @author photowey
- * @date 2022/01/13
+ * @date 2022/09/25
  * @since 1.0.0
  */
 @Controller
-public class AuthorizationConsentController {
+public class AuthorizationConsentEndpoint {
 
     private final RegisteredClientRepository registeredClientRepository;
     private final OAuth2AuthorizationConsentService authorizationConsentService;
 
-    public AuthorizationConsentController(RegisteredClientRepository registeredClientRepository,
-                                          OAuth2AuthorizationConsentService authorizationConsentService) {
+    public AuthorizationConsentEndpoint(RegisteredClientRepository registeredClientRepository,
+                                        OAuth2AuthorizationConsentService authorizationConsentService) {
         this.registeredClientRepository = registeredClientRepository;
         this.authorizationConsentService = authorizationConsentService;
     }
