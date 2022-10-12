@@ -31,20 +31,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * {@code AuthorizationConsentController}
+ * {@code AuthorizationConsentEndpoint}
  *
  * @author photowey
  * @date 2022/01/13
  * @since 1.0.0
  */
 @Controller
-public class AuthorizationConsentController {
+public class AuthorizationConsentEndpoint {
 
     private final RegisteredClientRepository registeredClientRepository;
     private final OAuth2AuthorizationConsentService authorizationConsentService;
 
-    public AuthorizationConsentController(RegisteredClientRepository registeredClientRepository,
-                                          OAuth2AuthorizationConsentService authorizationConsentService) {
+    public AuthorizationConsentEndpoint(RegisteredClientRepository registeredClientRepository,
+                                        OAuth2AuthorizationConsentService authorizationConsentService) {
         this.registeredClientRepository = registeredClientRepository;
         this.authorizationConsentService = authorizationConsentService;
     }

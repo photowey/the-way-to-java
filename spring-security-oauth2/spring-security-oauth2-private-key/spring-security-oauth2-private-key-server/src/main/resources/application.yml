@@ -1,0 +1,14 @@
+server:
+  port: 4070
+
+spring:
+  application:
+    name: privatekey-server
+  profiles:
+    active: dev
+
+logging:
+  level:
+    org.springframework.web: trace
+    org.springframework.security: debug
+    org.springframework.security.oauth2: debug

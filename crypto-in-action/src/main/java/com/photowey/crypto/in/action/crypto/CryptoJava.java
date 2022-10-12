@@ -19,6 +19,7 @@ import com.photowey.crypto.in.action.base64.Base64Utils;
 import com.photowey.crypto.in.action.hash.Hash;
 import com.photowey.crypto.in.action.ras.CryptoRsaReader;
 import com.photowey.crypto.in.action.ras.RsaPair;
+import com.photowey.crypto.in.action.sm4.SM4Utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -594,6 +595,52 @@ public final class CryptoJava {
 
         public static String hash(String algorithm, String content) {
             return Hash.hash(algorithm, content);
+        }
+    }
+
+    public static final class SM2 implements Serializable {
+
+        private SM2() {
+            throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        }
+    }
+
+    public static final class SM4 implements Serializable {
+
+        private SM4() {
+            throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        }
+
+        public static byte[] generateKey() throws Exception {
+            return SM4Utils.generateKey();
+        }
+
+        public static byte[] generateKey(int keySize) throws Exception {
+            return SM4Utils.generateKey(keySize);
+        }
+
+        public static String encryptEcb(String keyHex, String data) throws Exception {
+            return SM4Utils.encryptEcb(keyHex, data);
+        }
+
+        public static String encryptEcbb(String keyHex, String data) throws Exception {
+            return SM4Utils.encryptEcbb(keyHex, data);
+        }
+
+        public static String decryptEcb(String keyHex, String cipherHex) throws Exception {
+            return SM4Utils.decryptEcb(keyHex, cipherHex);
+        }
+
+        public static String decryptEcbb(String keyHex, String cipherBase64) throws Exception {
+            return SM4Utils.decryptEcbb(keyHex, cipherBase64);
+        }
+
+        public static boolean verifyEcb(String keyHex, String cipherHex, String data) throws Exception {
+            return SM4Utils.verifyEcb(keyHex, cipherHex, data);
+        }
+
+        public static boolean verifyEcbb(String keyHex, String cipherHex, String data) throws Exception {
+            return SM4Utils.verifyEcbb(keyHex, cipherHex, data);
         }
     }
 
