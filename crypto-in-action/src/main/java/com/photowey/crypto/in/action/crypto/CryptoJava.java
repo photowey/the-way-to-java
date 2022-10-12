@@ -619,28 +619,66 @@ public final class CryptoJava {
             return SM4Utils.generateKey(keySize);
         }
 
-        public static String encryptEcb(String keyHex, String data) throws Exception {
-            return SM4Utils.encryptEcb(keyHex, data);
+        public static final class ECB implements Serializable {
+
+            private ECB() {
+                throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+            }
+
+            public static String encryptEcb(String keyHex, String data) throws Exception {
+                return SM4Utils.encryptEcb(keyHex, data);
+            }
+
+            public static String encryptEcbb(String keyHex, String data) throws Exception {
+                return SM4Utils.encryptEcbb(keyHex, data);
+            }
+
+            public static String decryptEcb(String keyHex, String cipherHex) throws Exception {
+                return SM4Utils.decryptEcb(keyHex, cipherHex);
+            }
+
+            public static String decryptEcbb(String keyHex, String cipherBase64) throws Exception {
+                return SM4Utils.decryptEcbb(keyHex, cipherBase64);
+            }
+
+            public static boolean verifyEcb(String keyHex, String cipherHex, String data) throws Exception {
+                return SM4Utils.verifyEcb(keyHex, cipherHex, data);
+            }
+
+            public static boolean verifyEcbb(String keyHex, String cipherHex, String data) throws Exception {
+                return SM4Utils.verifyEcbb(keyHex, cipherHex, data);
+            }
         }
 
-        public static String encryptEcbb(String keyHex, String data) throws Exception {
-            return SM4Utils.encryptEcbb(keyHex, data);
-        }
+        public static final class CBC implements Serializable {
 
-        public static String decryptEcb(String keyHex, String cipherHex) throws Exception {
-            return SM4Utils.decryptEcb(keyHex, cipherHex);
-        }
+            private CBC() {
+                throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+            }
 
-        public static String decryptEcbb(String keyHex, String cipherBase64) throws Exception {
-            return SM4Utils.decryptEcbb(keyHex, cipherBase64);
-        }
+            public static String encryptCbc(String keyHex, String data) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
 
-        public static boolean verifyEcb(String keyHex, String cipherHex, String data) throws Exception {
-            return SM4Utils.verifyEcb(keyHex, cipherHex, data);
-        }
+            public static String encryptCbcb(String keyHex, String data) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
 
-        public static boolean verifyEcbb(String keyHex, String cipherHex, String data) throws Exception {
-            return SM4Utils.verifyEcbb(keyHex, cipherHex, data);
+            public static String decryptCbc(String keyHex, String cipherHex) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
+
+            public static String decryptCbcb(String keyHex, String cipherBase64) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
+
+            public static boolean verifyCbc(String keyHex, String cipherHex, String data) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
+
+            public static boolean verifyCbcb(String keyHex, String cipherHex, String data) throws Exception {
+                throw new UnsupportedOperationException("UnSupported now");
+            }
         }
     }
 
