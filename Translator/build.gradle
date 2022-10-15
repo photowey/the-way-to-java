@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.intellij' version '1.9.0'
+    id 'java'
+}
+
+group 'com.phoyowey'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    implementation 'com.alibaba.fastjson2:fastjson2:2.0.15'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding("UTF-8")
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version = '2021.3.2'
+}
+
+patchPluginXml {
+    changeNotes = """
+      v1.0.0<br>
+      <em>1.release plugin</em>
+      """
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,40 @@
+<idea-plugin>
+    <id>com.photowey.Translator</id>
+    <name>Translator</name>
+    <vendor email="photowey@github.com" url="https://www.github.com/photowey">
+        photowey.github
+    </vendor>
+
+    <description><![CDATA[
+    <h1>Translator<h1><br>
+    <p>This is a translation plugin, the translation plugin is based on Baidu Translator API and provides the ability to translate in IDE<p><br>
+    ]]></description>
+
+    <!--
+        please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+        on how to target different products
+    -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.photowey.translator.extension.TranslatorSettingConfigure"
+                id="com.photowey.translator.extension.TranslatorSettingConfigure"
+                displayName="Translator"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="translator"
+                class="com.photowey.translator.action.TranslatorAction"
+                description="Translate" text="Translate">
+            <!-- 绑定快捷键，此处也可以选择不绑定 -->
+            <keyboard-shortcut first-keystroke="control shift alt 9"
+                               keymap="$default"/>
+            <!-- 添加到鼠标右键菜单中 -->
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
