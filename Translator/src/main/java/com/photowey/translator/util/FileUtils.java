@@ -1,5 +1,7 @@
 package com.photowey.translator.util;
 
+import com.photowey.translator.constant.TranslatorConstants;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -33,8 +35,7 @@ public final class FileUtils {
                 }
                 channel.force(true);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -42,7 +43,7 @@ public final class FileUtils {
         try {
             Path dp = Paths.get(dir);
             Path fp = Paths.get(dp.toString(), file);
-            return String.join("", Files.readAllLines(fp));
+            return String.join(TranslatorConstants.STRING_EMPTY, Files.readAllLines(fp));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

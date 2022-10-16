@@ -1,6 +1,8 @@
 package com.photowey.translator.home;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * {@code HomeData}
@@ -12,6 +14,7 @@ import java.io.Serializable;
 public class HomeData {
 
     private Config config = new Config();
+    private Cache cache = new Cache();
 
     public HomeData() {
     }
@@ -164,11 +167,40 @@ public class HomeData {
         }
     }
 
+    public static class Cache implements Serializable {
+
+        private Map<String, String> translateCache = new LinkedHashMap<>(1 << 4);
+
+        public Map<String, String> getTranslateCache() {
+            return translateCache;
+        }
+
+        public void setTranslateCache(Map<String, String> translateCache) {
+            this.translateCache = translateCache;
+        }
+
+        public void put(String query, String cache) {
+            this.translateCache.put(query, cache);
+        }
+
+        public String get(String query) {
+            return this.translateCache.get(query);
+        }
+    }
+
     public Config getConfig() {
         return config;
     }
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    public Cache getCache() {
+        return cache;
+    }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
     }
 }

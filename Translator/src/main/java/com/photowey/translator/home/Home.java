@@ -33,6 +33,17 @@ public class Home {
         initConfig(appId, appSecret);
     }
 
+    public static HomeData localHomeData() {
+        Pathx pathx = useHome();
+        String config = FileUtils.readJson(pathx.getUserHome(), pathx.getUserFile());
+        if (StringUtils.isBlank(config)) {
+            return null;
+        }
+        HomeData homeData = JSON.parseObject(config, HomeData.class);
+
+        return homeData;
+    }
+
     private static void initConfig(String appId, String appSecret) {
         HomeData.Config.Baidu baidu = new HomeData.Config.Baidu(appId, appSecret);
         HomeData homeData = new HomeData(new HomeData.Config(baidu));
@@ -63,22 +74,17 @@ public class Home {
         File file = new File(pathx.getUserFilePath());
         if (file.exists()) {
             try {
-                if (StringUtils.isNotBlank(translatorSettings.getAppId()) &&
-                        StringUtils.isNotBlank(translatorSettings.getAppSecret())) {
+                if (StringUtils.isNotBlank(translatorSettings.getAppId()) && StringUtils.isNotBlank(translatorSettings.getAppSecret())) {
                     return;
                 }
                 String config = FileUtils.readJson(pathx.getUserHome(), pathx.getUserFile());
                 if (StringUtils.isNotBlank(config)) {
                     HomeData homeData = JSON.parseObject(config, HomeData.class);
                     if (StringUtils.isBlank(translatorProperties.getAppId())) {
-                        translatorProperties.setAppId(
-                                CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, homeData.getConfig().getBaidu().getAppId())
-                        );
+                        translatorProperties.setAppId(CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, homeData.getConfig().getBaidu().getAppId()));
                     }
                     if (StringUtils.isBlank(translatorProperties.getAppSecret())) {
-                        translatorProperties.setAppSecret(
-                                CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, homeData.getConfig().getBaidu().getAppSecret())
-                        );
+                        translatorProperties.setAppSecret(CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, homeData.getConfig().getBaidu().getAppSecret()));
                     }
                 }
             } catch (Exception ignored) {

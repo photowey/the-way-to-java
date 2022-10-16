@@ -10,6 +10,8 @@ import com.intellij.openapi.editor.Editor;
 import com.photowey.translator.App;
 import com.photowey.translator.extension.TranslatorCache;
 import com.photowey.translator.handler.TranslateHandler;
+import com.photowey.translator.home.Home;
+import com.photowey.translator.home.HomeData;
 import com.photowey.translator.property.TranslatorProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -44,27 +46,38 @@ public class TranslatorAction extends AnAction {
             return;
         }
         Editor editor = event.getData(CommonDataKeys.EDITOR);
-        String text = Objects.requireNonNull(editor).getSelectionModel().getSelectedText();
+        String query = Objects.requireNonNull(editor).getSelectionModel().getSelectedText();
         TranslatorCache translatorCache = TranslatorCache.getInstance(Objects.requireNonNull(event.getProject()));
+
         Map<String, String> translateCache = translatorCache.getTranslateCache();
 
-        String translateResult = text;
-        if (translateCache.containsKey(text)) {
-            translateResult = translateCache.get(text);
+        String cacheKey = this.populateCacheKey(query);
+
+        String translateResult = query;
+        if (translateCache.containsKey(query)) {
+            translateResult = translateCache.get(cacheKey);
         } else {
-            if (StringUtils.isBlank(text)) {
+            if (StringUtils.isBlank(query)) {
                 Notification notification = new Notification(
                         "Translator",
                         "Translate Warnning",
-                        "Please select translate text",
+                        "Please select translate query",
                         NotificationType.WARNING
                 );
                 Notifications.Bus.notify(notification, event.getProject());
                 return;
             }
-            TranslateHandler translateHandler = App.getConfigure().getTranslateHandler();
-            translateResult = translateHandler.handleTranslate(text, "auto", "zh");
-            translateCache.put(text, translateResult);
+
+            HomeData homeData = Home.localHomeData();
+            HomeData.Cache cache = homeData.getCache();
+
+            translateResult = cache.get(cacheKey);
+            if (StringUtils.isBlank(translateResult)) {
+                TranslateHandler translateHandler = App.getConfigure().getTranslateHandler();
+                translateResult = translateHandler.handleTranslate(query, "auto", "zh");
+                translateCache.put(cacheKey, translateResult);
+                cache.put(cacheKey, translateResult);
+            }
         }
 
         Notification notification = new Notification(
@@ -74,5 +87,11 @@ public class TranslatorAction extends AnAction {
                 NotificationType.INFORMATION
         );
         Notifications.Bus.notify(notification, event.getProject());
+    }
+
+    private String populateCacheKey(String query) {
+        String key = query + "." + "zh";
+
+        return key;
     }
 }

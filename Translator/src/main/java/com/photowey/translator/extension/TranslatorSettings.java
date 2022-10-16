@@ -37,9 +37,9 @@ public class TranslatorSettings implements PersistentStateComponent<TranslatorSe
     }
 
     @Override
-    public void loadState(@NotNull TranslatorSettings translatorSettings) {
-        this.appId = CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, translatorSettings.getAppId());
-        this.appSecret = CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, translatorSettings.getAppSecret());
+    public void loadState(@NotNull TranslatorSettings state) {
+        this.appId = CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, state.getAppId());
+        this.appSecret = CryptoJava.AES.PKCS5Padding.decrypt(TranslatorConstants.TRANSLATOR_CONFIG_AES_KEY, state.getAppSecret());
     }
 
     public String getAppId() {
