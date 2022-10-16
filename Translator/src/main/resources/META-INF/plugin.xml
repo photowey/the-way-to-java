@@ -20,9 +20,15 @@
         <!-- Add your extensions here -->
         <applicationConfigurable
                 parentId="tools"
-                instance="com.photowey.translator.extension.TranslatorSettingConfigure"
-                id="com.photowey.translator.extension.TranslatorSettingConfigure"
+                instance="com.photowey.translator.extension.TranslatorSettingsConfigure"
+                id="com.photowey.translator.extension.TranslatorSettingsConfigure"
                 displayName="Translator"/>
+
+        <applicationService
+                serviceImplementation="com.photowey.translator.extension.TranslatorSettings"/>
+
+        <projectService
+                serviceImplementation="com.photowey.translator.extension.TranslatorCache"/>
     </extensions>
 
     <actions>

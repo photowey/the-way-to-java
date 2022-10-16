@@ -1,11 +1,12 @@
 package com.photowey.translator.util;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 /**
  * {@code FileUtils}
@@ -37,27 +38,11 @@ public final class FileUtils {
         }
     }
 
-    public static String readYaml(final String yamlFile) {
+    public static String readJson(final String dir, String file) {
         try {
-            return Files.readAllLines(Paths.get(ClassLoader.getSystemResource(yamlFile).toURI()))
-                    .stream().filter(each -> !each.startsWith("#")).map(each -> each + System.lineSeparator()).collect(Collectors.joining());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static String readProperties(final String propertiesFile) {
-        try {
-            return Files.readAllLines(Paths.get(ClassLoader.getSystemResource(propertiesFile).toURI()))
-                    .stream().filter(each -> !each.startsWith("#")).map(each -> each + System.lineSeparator()).collect(Collectors.joining());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static String readJson(final String jsonFile) {
-        try {
-            return String.join("", Files.readAllLines(Paths.get(ClassLoader.getSystemResource(jsonFile).toURI())));
+            Path dp = Paths.get(dir);
+            Path fp = Paths.get(dp.toString(), file);
+            return String.join("", Files.readAllLines(fp));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

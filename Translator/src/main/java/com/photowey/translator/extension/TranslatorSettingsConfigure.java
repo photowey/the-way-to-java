@@ -17,13 +17,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 /**
- * {@code TranslatorSettingConfigure}
+ * {@code TranslatorSettingsConfigure}
  *
  * @author photowey
  * @date 2022/10/15
  * @since 1.0.0
  */
-public class TranslatorSettingConfigure implements Configurable {
+public class TranslatorSettingsConfigure implements Configurable {
 
     private final JComponent component;
     private final JTextField appId;
@@ -31,7 +31,7 @@ public class TranslatorSettingConfigure implements Configurable {
     private final static String appIdHint = "Input translator app appId";
     private final static String appSecretHint = "Input translator app appSecret";
 
-    public TranslatorSettingConfigure() {
+    public TranslatorSettingsConfigure() {
         Home.check();
 
         this.component = new JPanel();
@@ -77,6 +77,10 @@ public class TranslatorSettingConfigure implements Configurable {
         TranslatorProperties translatorProperties = App.getConfigure().getTranslatorProperties();
         translatorProperties.setAppId(appId.getText());
         translatorProperties.setAppSecret(appSecret.getText());
+
+        TranslatorSettings translatorSettings = TranslatorSettings.getInstance();
+        translatorSettings.setAppId(appId.getText());
+        translatorSettings.setAppSecret(appSecret.getText());
 
         Home.init(translatorProperties.getAppId(), translatorProperties.getAppSecret());
     }

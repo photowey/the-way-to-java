@@ -13,6 +13,10 @@ public interface TranslatorConstants {
 
     String STRING_EMPTY = "";
 
+    String USER_HOME = "user.home";
+    String TRANSLATOR_HOME = ".translator";
+    String TRANSLATOR_FILE = "translator.json";
+
     String TRANSLATOR_CONFIG_AES_KEY = Hash.MD5.md5("com.photowey.translator.config.key");
 
 }
