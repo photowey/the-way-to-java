@@ -36,6 +36,7 @@
 
         <knife4j-starter.version>3.0.2</knife4j-starter.version>
         <xxl-job.version>2.3.0</xxl-job.version>
+        <ulid.version>5.0.2</ulid.version>
 
         <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
         <mysql.version>8.0.13</mysql.version>
@@ -102,6 +103,7 @@
         <module>delayed-queue-in-action</module>
         <module>mybatis-plus-join-in-action</module>
         <module>spring-security-oauth2</module>
+        <module>ulid-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -170,6 +172,11 @@
                 <version>${xxl-job.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.f4b6a3</groupId>
+                <artifactId>ulid-creator</artifactId>
+                <version>${ulid.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
