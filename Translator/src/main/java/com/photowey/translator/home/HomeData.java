@@ -175,10 +175,6 @@ public class HomeData {
             return translateCache;
         }
 
-        public void setTranslateCache(Map<String, String> translateCache) {
-            this.translateCache = translateCache;
-        }
-
         public void put(String query, String cache) {
             this.translateCache.put(query, cache);
         }
