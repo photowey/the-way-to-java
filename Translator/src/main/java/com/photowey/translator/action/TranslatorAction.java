@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.NlsContexts;
 import com.photowey.translator.App;
 import com.photowey.translator.extension.TranslatorCache;
 import com.photowey.translator.handler.TranslateHandler;
@@ -36,13 +37,7 @@ public class TranslatorAction extends AnAction {
         String appSecret = translatorProperties.getAppSecret();
 
         if (StringUtils.isBlank(appId) || StringUtils.isBlank(appSecret)) {
-            Notification notification = new Notification(
-                    "Translator",
-                    "Translate Error",
-                    "Please set appId,appSecret first",
-                    NotificationType.ERROR
-            );
-            Notifications.Bus.notify(notification, event.getProject());
+            this.busNotifyError("Translator", "Translate Error", "Please set appId,appSecret first", event);
             return;
         }
         Editor editor = event.getData(CommonDataKeys.EDITOR);
@@ -58,18 +53,12 @@ public class TranslatorAction extends AnAction {
             translateResult = translateCache.get(cacheKey);
         } else {
             if (StringUtils.isBlank(query)) {
-                Notification notification = new Notification(
-                        "Translator",
-                        "Translate Warnning",
-                        "Please select translate query",
-                        NotificationType.WARNING
-                );
-                Notifications.Bus.notify(notification, event.getProject());
+                this.busNotifyWarning("Translator", "Translate Warnning", "Please select translate query", event);
                 return;
             }
 
             HomeData homeData = Home.localHomeData();
-            HomeData.Cache cache = homeData.getCache();
+            HomeData.Cache cache = Objects.requireNonNull(homeData).getCache();
 
             translateResult = cache.get(cacheKey);
             if (StringUtils.isBlank(translateResult)) {
@@ -80,13 +69,7 @@ public class TranslatorAction extends AnAction {
             }
         }
 
-        Notification notification = new Notification(
-                "Translator",
-                "Translate Result",
-                translateResult,
-                NotificationType.INFORMATION
-        );
-        Notifications.Bus.notify(notification, event.getProject());
+        this.busNotifyInfo("Translator", "Translate Result", translateResult, event);
     }
 
     private String populateCacheKey(String query) {
@@ -94,4 +77,39 @@ public class TranslatorAction extends AnAction {
 
         return key;
     }
+
+    // @formatter:off
+    private void busNotifyInfo(
+            @NotNull String groupId,
+            @NotNull @NlsContexts.NotificationTitle String title,
+            @NotNull @NlsContexts.NotificationContent String content,
+            @NotNull AnActionEvent event) {
+        this.busNotify(groupId, title, content, NotificationType.INFORMATION, event);
+    }
+
+    private void busNotifyWarning(
+            @NotNull String groupId,
+            @NotNull @NlsContexts.NotificationTitle String title,
+            @NotNull @NlsContexts.NotificationContent String content,
+            @NotNull AnActionEvent event) {
+        this.busNotify(groupId, title, content, NotificationType.WARNING, event);
+    }
+
+    private void busNotifyError(
+            @NotNull String groupId,
+            @NotNull @NlsContexts.NotificationTitle String title,
+            @NotNull @NlsContexts.NotificationContent String content,
+            @NotNull AnActionEvent event) {
+        this.busNotify(groupId, title, content, NotificationType.ERROR, event);
+    }
+
+    private void busNotify(
+            @NotNull String groupId,
+            @NotNull @NlsContexts.NotificationTitle String title,
+            @NotNull @NlsContexts.NotificationContent String content,
+            @NotNull NotificationType type, @NotNull AnActionEvent event) {
+        Notification notification = new Notification(groupId, title, content, type);
+        Notifications.Bus.notify(notification, event.getProject());
+    }
+    // @formatter:on
 }
