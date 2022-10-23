@@ -109,6 +109,7 @@
         <module>ulid-in-action</module>
         <module>json-path-in-action</module>
         <module>auto-pipeline-in-action</module>
+        <module>quartz-in-action</module>
     </modules>
 
     <dependencyManagement>
