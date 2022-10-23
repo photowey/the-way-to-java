@@ -39,6 +39,7 @@
         <xxl-job.version>2.3.0</xxl-job.version>
         <ulid.version>5.0.2</ulid.version>
         <jsonpath.version>2.7.0</jsonpath.version>
+        <auto-pipeline.version>0.2.0</auto-pipeline.version>
 
         <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
         <mysql.version>8.0.13</mysql.version>
@@ -107,6 +108,7 @@
         <module>spring-security-oauth2</module>
         <module>ulid-in-action</module>
         <module>json-path-in-action</module>
+        <module>auto-pipeline-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -191,6 +193,12 @@
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.foldright.auto-pipeline</groupId>
+                <artifactId>auto-pipeline-processor</artifactId>
+                <version>${auto-pipeline.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
