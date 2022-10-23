@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.auto.pipeilne.in.action.config.handler;
+package com.photowey.auto.pipeline.in.action.config.handler;
 
 
-import com.photowey.auto.pipeilne.in.action.config.pipeline.ConfigSourceHandler;
-import com.photowey.auto.pipeilne.in.action.config.pipeline.ConfigSourceHandlerContext;
+import com.photowey.auto.pipeline.in.action.config.pipeline.ConfigSourceHandler;
+import com.photowey.auto.pipeline.in.action.config.pipeline.ConfigSourceHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;

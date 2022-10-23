@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.auto.pipeilne.in.action;
+package com.photowey.auto.pipeline.in.action.throttler.config;
 
-import com.photowey.print.in.action.printer.AppPrinter;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import com.photowey.auto.pipeline.in.action.throttler.mode.ThrottlerMode;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * {@code App}
+ * {@code ThrottlerModeConfiguration}
  *
  * @author photowey
  * @date 2022/10/23
  * @since 1.0.0
  */
-@SpringBootApplication
-public class App {
+@Configuration
+public class ThrottlerModeConfiguration {
 
-    public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
-        AppPrinter.print(applicationContext, false);
+    public ThrottlerMode getThrottlerMode(String appKey, String throttleTag) {
+        return null;
     }
-
 }

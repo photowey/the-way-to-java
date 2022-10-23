@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.auto.pipeilne.in.action.config;
-
-import com.foldright.auto.pipeline.AutoPipeline;
+package com.photowey.auto.pipeline.in.action.throttler.constant;
 
 /**
- * {@code ConfigSource}
+ * {@code SendSwitch}
  *
  * @author photowey
  * @date 2022/10/23
  * @since 1.0.0
  */
-@AutoPipeline
-public interface ConfigSource {
-    String get(String key);
+public interface SendSwitch {
+    boolean THROTTLER_ONLY_WATCH = true;
+    boolean ENABLE_API_THROTTLER = true;
+    String THROTTLER_MERGE_STRATEGY = "";
 }
