@@ -17,17 +17,21 @@ package com.photowey.json.path.in.action.jsonpath;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.*;
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * {@code JsonpathTest}
@@ -56,6 +60,154 @@ class JsonpathTest {
         Book book = JsonPath.using(conf).parse(JSON_DOCUMENT).read("$.store.book[0]", Book.class);
 
         log.info("book info: \n{}", JSON.toJSONString(book, JSONWriter.Feature.PrettyFormat));
+    }
+
+    @Test
+    void testJsonPathList() {
+        List<String> authors = JsonPath.read(JSON_DOCUMENT, "$.store.book[*].author");
+        System.out.println(authors);
+    }
+
+    @Test
+    void testJsonProvider() {
+        Object document = Configuration.defaultConfiguration().jsonProvider().parse(JSON_DOCUMENT);
+
+        String author0 = JsonPath.read(document, "$.store.book[0].author");
+        String author1 = JsonPath.read(document, "$.store.book[1].author");
+
+        System.out.println(author0);
+        System.out.println(author1);
+    }
+
+    @Test
+    void testJsonExpression() {
+        ReadContext ctx = JsonPath.parse(JSON_DOCUMENT);
+
+        List<String> authorsOfBooksWithISBN = ctx.read("$.store.book[?(@.isbn)].author");
+
+        System.out.println(authorsOfBooksWithISBN);
+
+        Configuration configuration = Configuration.defaultConfiguration();
+        List<Map<String, Object>> expensiveBooks = JsonPath
+                .using(configuration)
+                .parse(JSON_DOCUMENT)
+                .read("$.store.book[?(@.price > 10)]", List.class);
+
+        System.out.println(expensiveBooks);
+    }
+
+    @Test
+    void testCastException() {
+        // Works fine
+        String author = JsonPath.parse(JSON_DOCUMENT).read("$.store.book[0].author");
+        System.out.println(author);
+
+        // Will throw an java.lang.ClassCastException
+        Assertions.assertThrows(ClassCastException.class, () -> {
+            List<String> list = JsonPath.parse(JSON_DOCUMENT).read("$.store.book[0].author");
+            System.out.println(list);
+        });
+    }
+
+    @Test
+    void testParseDate() {
+        String json = "{\"date_as_long\" : 1411455611975}";
+        Date date = JsonPath.parse(json).read("$['date_as_long']", Date.class);
+
+        System.out.println(date);
+    }
+
+    /**
+     * <pre>
+     * {
+     * 	"author":"Nigel Rees",
+     * 	"category":"reference",
+     * 	"price":8.95,
+     * 	"title":"Sayings of the Century"
+     * }
+     * </pre>
+     */
+    @Test
+    void testParsePojo() {
+        Configuration configuration = this.jacksonJsonProvider();
+        Book book = JsonPath.using(configuration).parse(JSON_DOCUMENT).read("$.store.book[0]", Book.class);
+
+        System.out.println(JSON.toJSONString(book, JSONWriter.Feature.PrettyFormat));
+    }
+
+    @Test
+    void testTypeRef() {
+        Configuration configuration = this.jacksonJsonProvider();
+        TypeRef<List<String>> typeRef = new TypeRef<List<String>>() {
+        };
+        List<String> titles = JsonPath.using(configuration).parse(JSON_DOCUMENT).read("$.store.book[*].title", typeRef);
+
+        System.out.println(titles);
+    }
+
+    @Test
+    void testInlinePredicate() {
+        Configuration configuration = this.jacksonJsonProvider();
+        List<Map<String, Object>> books = JsonPath.using(configuration).parse(JSON_DOCUMENT).read("$.store.book[?(@.price < 10)]");
+
+        System.out.println(JSON.toJSONString(books, JSONWriter.Feature.PrettyFormat));
+    }
+
+    @Test
+    void testFilterPredicate() {
+        Filter cheapFictionFilter = Filter.filter(
+                Criteria.where("category").is("fiction").and("price").lte(10D)
+        );
+
+        List<Map<String, Object>> books = JsonPath.parse(JSON_DOCUMENT).read("$.store.book[?]", cheapFictionFilter);
+
+        System.out.println(JSON.toJSONString(books, JSONWriter.Feature.PrettyFormat));
+
+        Filter fooOrBar = Filter.filter(
+                Criteria.where("foo").exists(true)).or(Criteria.where("bar").exists(true)
+        );
+        Filter fooAndBar = Filter.filter(
+                Criteria.where("foo").exists(true)).and(Criteria.where("bar").exists(true)
+        );
+    }
+
+    @Test
+    void testCustomPredicate() {
+
+        Predicate booksWithISBN = new Predicate() {
+            @Override
+            public boolean apply(PredicateContext ctx) {
+                return ctx.item(Map.class).containsKey("isbn");
+            }
+        };
+
+        List<Map<String, Object>> books = JsonPath.parse(JSON_DOCUMENT).read("$.store.book[?]", (ctx) -> {
+            return ctx.item(Map.class).containsKey("isbn");
+        });
+
+        System.out.println(JSON.toJSONString(books, JSONWriter.Feature.PrettyFormat));
+    }
+
+    @Test
+    void testPathList() {
+        Configuration conf = Configuration.builder().options(Option.AS_PATH_LIST).build();
+        List<String> pathList = JsonPath.using(conf).parse(JSON_DOCUMENT).read("$..author");
+
+        assertThat(pathList).containsExactly(
+                "$['store']['book'][0]['author']",
+                "$['store']['book'][1]['author']",
+                "$['store']['book'][2]['author']",
+                "$['store']['book'][3]['author']"
+        );
+    }
+
+    private Configuration jacksonJsonProvider() {
+        Configuration configuration = Configuration.builder()
+                .jsonProvider(new JacksonJsonProvider())
+                .mappingProvider(new JacksonMappingProvider())
+                .build();
+
+        return configuration;
     }
 
     @Data
