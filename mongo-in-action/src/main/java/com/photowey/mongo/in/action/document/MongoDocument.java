@@ -31,6 +31,8 @@ public interface MongoDocument {
      */
     void setId(String id);
 
+    String getId();
+
     /**
      * 获取业务标识
      *

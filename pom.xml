@@ -40,6 +40,8 @@
         <ulid.version>5.0.2</ulid.version>
         <jsonpath.version>2.7.0</jsonpath.version>
         <auto-pipeline.version>0.2.0</auto-pipeline.version>
+        
+        <nanoid.version>2.0.0</nanoid.version>
 
         <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
         <mysql.version>8.0.13</mysql.version>
@@ -201,6 +203,12 @@
                 <artifactId>auto-pipeline-processor</artifactId>
                 <version>${auto-pipeline.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.aventrix.jnanoid</groupId>
+                <artifactId>jnanoid</artifactId>
+                <version>${nanoid.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -315,6 +323,7 @@
                         </exclude>
                         <exclude>**/doc/script/**/*.*</exclude>
                         <exclude>**/MathGame.java</exclude>
+                        <exclude>**/shared/Sequence.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

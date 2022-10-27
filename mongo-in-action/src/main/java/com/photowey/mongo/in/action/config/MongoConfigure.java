@@ -15,6 +15,7 @@
  */
 package com.photowey.mongo.in.action.config;
 
+import com.photowey.mongo.in.action.event.config.PlatformMongoAutoConfigure;
 import com.photowey.mongo.in.action.generator.IKeyGenerator;
 import com.photowey.mongo.in.action.generator.KeyGenerator;
 import org.springframework.context.annotation.Bean;
@@ -37,11 +38,13 @@ public class MongoConfigure {
      *
      * @param factory {@link MongoDatabaseFactory}
      * @return {@link MongoTransactionManager}
+     *
+     * @see {@link PlatformMongoAutoConfigure#mongoTransactionManager(org.springframework.data.mongodb.MongoDatabaseFactory)}
      */
-    @Bean
+    /*@Bean
     public MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory factory) {
         return new MongoTransactionManager(factory);
-    }
+    }*/
 
     /**
      * {@link IKeyGenerator}
