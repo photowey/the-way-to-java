@@ -15,6 +15,10 @@
  */
 package com.photowey.mongo.in.action.event.config;
 
+import com.mongodb.ReadConcern;
+import com.mongodb.ReadPreference;
+import com.mongodb.TransactionOptions;
+import com.mongodb.WriteConcern;
 import com.photowey.mongo.in.action.event.generator.KeyGenerator;
 import com.photowey.mongo.in.action.event.generator.MongoKeyGenerator;
 import com.photowey.mongo.in.action.event.listener.AnnotationMongoOperationEventListener;
@@ -27,6 +31,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.data.mongodb.core.convert.*;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 /**
  * {@code PlatformMongoAutoConfigure}
@@ -52,7 +58,29 @@ public class PlatformMongoAutoConfigure {
     @Bean(MONGO_TRANSACTION_MANAGER_BEAN_NAME)
     @ConditionalOnMissingBean(MongoTransactionManager.class)
     public MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory factory) {
-        return new MongoTransactionManager(factory);
+        TransactionOptions txnOptions = TransactionOptions.builder()
+                .readPreference(ReadPreference.primary())
+                .readConcern(ReadConcern.MAJORITY)
+                .writeConcern(WriteConcern.MAJORITY)
+                .build();
+
+        return new MongoTransactionManager(factory, txnOptions);
+    }
+
+    // @Bean
+    public MappingMongoConverter mappingMongoConverter(
+            MongoDatabaseFactory mongoDatabaseFactory,
+            MongoMappingContext context,
+            MongoCustomConversions conversions) {
+
+        DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDatabaseFactory);
+        MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(dbRefResolver, context);
+        mappingMongoConverter.setCustomConversions(conversions);
+
+        // 去掉 _class
+        mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
+
+        return mappingMongoConverter;
     }
 
     /**
