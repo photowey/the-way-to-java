@@ -51,7 +51,7 @@ public class Book implements Serializable, MongoDocument {
      * 业务标识
      * 可以将业务标识自动转换为主键标识
      */
-    private String bizId;
+    private String businessId;
     /**
      * 价格
      */

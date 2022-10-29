@@ -34,7 +34,7 @@ public abstract class AbstractMongoTest {
     protected Book populateBook(String nextId, int price) {
         Book book = new Book();
         book.setId(nextId);
-        book.setBizId(nextId);
+        book.setBusinessId(nextId);
         book.setPrice(price);
         book.setName("《双城记》");
         book.setInfo(INFO);

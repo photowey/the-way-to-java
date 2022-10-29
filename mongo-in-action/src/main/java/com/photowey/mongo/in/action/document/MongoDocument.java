@@ -38,7 +38,7 @@ public interface MongoDocument {
      *
      * @return 业务标识 {@code bizId}
      */
-    default String getBizId() {
+    default String getBusinessId() {
         return "";
     }
 }
