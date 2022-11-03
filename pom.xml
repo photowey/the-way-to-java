@@ -112,6 +112,7 @@
         <module>json-path-in-action</module>
         <module>auto-pipeline-in-action</module>
         <module>quartz-in-action</module>
+        <module>datastruct-in-action</module>
     </modules>
 
     <dependencyManagement>

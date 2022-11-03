@@ -47,6 +47,12 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 public class PlatformMongoAutoConfigure {
 
     private static final String MONGO_TRANSACTION_MANAGER_BEAN_NAME = "org.springframework.data.mongodb.MongoTransactionManager";
+    private static final String MONGO_TYPE_MAPPER_BEAN_NAME = "org.springframework.data.mongodb.core.convert.MongoTypeMapper";
+
+    @Bean(MONGO_TYPE_MAPPER_BEAN_NAME)
+    public MongoTypeMapper mongoTypeMapper() {
+        return new DefaultMongoTypeMapper(null);
+    }
 
     /**
      * {@code MongoDB} 事务管理器
@@ -67,21 +73,41 @@ public class PlatformMongoAutoConfigure {
         return new MongoTransactionManager(factory, txnOptions);
     }
 
+    /**
+     * 自定义 {@link MappingMongoConverter}
+     * 为了 去掉 {@code Spring-Data} 为我们添加的 {@code _class} 属性
+     * <p>
+     * {@code _class} 是为了帮助文档能够映射到 {@code POJO} 子类
+     * ->
+     * 为了节省空间, 我们现在将其删除掉
+     * -> 为了不至于转换出错,所以在数据模型设计的时候,尽量不要出现有子类集成的场景
+     *
+     * @param mongoDatabaseFactory {@link MongoDatabaseFactory}
+     * @param context              {@link MongoMappingContext}
+     * @param conversions          {@link MongoCustomConversions}
+     * @param mongoTypeMapper      {@link MongoTypeMapper}
+     * @return {@link MongoConverter}
+     * @see {@code MongoDatabaseFactoryDependentConfiguration#mappingMongoConverter()}
+     */
     // @Bean
-    public MappingMongoConverter mappingMongoConverter(
+    // @Primary
+    public MongoConverter simpleMappingMongoConverter(
             MongoDatabaseFactory mongoDatabaseFactory,
             MongoMappingContext context,
-            MongoCustomConversions conversions) {
+            MongoCustomConversions conversions,
+            MongoTypeMapper mongoTypeMapper) {
 
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDatabaseFactory);
-        MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(dbRefResolver, context);
-        mappingMongoConverter.setCustomConversions(conversions);
+        
+        MappingMongoConverter mmc = new MappingMongoConverter(dbRefResolver, context);
+        mmc.setCustomConversions(conversions);
 
         // 去掉 _class
-        mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        mmc.setTypeMapper(mongoTypeMapper);
 
-        return mappingMongoConverter;
+        return mmc;
     }
+
 
     /**
      * {@code MongoDB} 事件监听
