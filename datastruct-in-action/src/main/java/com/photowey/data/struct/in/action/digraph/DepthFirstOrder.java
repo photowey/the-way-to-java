@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2021 the original author or authors (photowey@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.photowey.data.struct.in.action.digraph;
 
 import java.util.Stack;
@@ -10,7 +25,7 @@ import java.util.Stack;
  * @since 1.0.0
  */
 public class DepthFirstOrder {
-    
+
     // 索引代表顶点,值表示当前顶点是否已经被搜索
     private boolean[] marked;
     // 使用栈,存储顶点序列
