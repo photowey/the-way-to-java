@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.knife4j.in.action.config;
+package com.photowey.spring.in.action.provider;
 
-import com.photowey.knife4j.in.action.properties.Knife4jStarterProperties;
-import com.photowey.swagger.provider.ext.annotation.EnableSwaggerProviderExt;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * {@code Knife4jAutoConfigure}
+ * {@code SwaggerHandlerProvider}
  *
  * @author photowey
- * @date 2022/01/14
+ * @date 2022/11/11
  * @since 1.0.0
  */
-@Configuration
-@EnableSwaggerProviderExt
-@EnableConfigurationProperties(value = {Knife4jStarterProperties.class})
-public class Knife4jAutoConfigure {
+public interface SwaggerHandlerProvider extends BeanPostProcessor {
 }

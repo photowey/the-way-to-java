@@ -15,6 +15,8 @@
  */
 package com.photowey.spring.in.action.config;
 
+import com.photowey.spring.in.action.provider.SwaggerHandlerProvider;
+import com.photowey.spring.in.action.provider.SwaggerHandlerProviderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -34,6 +36,27 @@ import java.util.List;
  */
 @Configuration
 public class SwaggerWebResourceConfigure implements WebMvcConfigurer {
+
+    /**
+     * 解决高版本 {@code Spring Boot} {@code Swagger} 启动空指针问题
+     *
+     * <pre>
+     * org.springframework.context.ApplicationContextException: Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
+     * 	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:181)
+     * ...
+     * Caused by: java.lang.NullPointerException: null
+     * 	at springfox.documentation.spring.web.WebMvcPatternsRequestConditionWrapper.getPatterns(WebMvcPatternsRequestConditionWrapper.java:56)
+     * 	at springfox.documentation.RequestHandler.sortedPaths(RequestHandler.java:113)
+     * 	...
+     * 	... 15 common frames omitted
+     * </pre>
+     *
+     * @return {@link SwaggerHandlerProvider}
+     */
+    @Bean
+    public static SwaggerHandlerProvider swaggerHandlerProvider() {
+        return new SwaggerHandlerProviderImpl();
+    }
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {

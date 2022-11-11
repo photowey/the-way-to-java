@@ -18,7 +18,6 @@ package com.photowey.spring.in.action.circular;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -39,10 +38,10 @@ public class CircularBeanD implements Serializable, SmartInitializingSingleton {
 
     private String name = "I'm CircularBeanD~";
 
-    @Autowired
+    //@Autowired
     private CircularBeanA circularBeanA;
 
-    @Autowired
+    //@Autowired
     private FactoryBeanC factoryBeanC;
 
     @Override

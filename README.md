@@ -3,6 +3,11 @@
 > The `Java` engineering practice.
 
 
+> Upgrade the spring-boot version to `2.7.3`,
+> and need to pay attention to the configuration items of Swagger and `spring.mvc`.
+>
+> @see `spring-in-action`
+>
 
 ## 1.`Module`
 
