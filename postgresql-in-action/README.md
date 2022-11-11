@@ -290,6 +290,670 @@ FROM pg_database;
 
 
 
+### 5.2.时间函数
+
+> - `AGE(timestamp,timestamp)`
+>   - `AGE(timestamp)` -- 当前时间作为-第一个参数
+> - `CURRENT_DATE`
+>   - 当前日期的值
+> - `CURRENT_TIME`
+>   - 返回带时区的当前时间
+> - `CURRENT_TIMESTAMP`
+>   - 带有时区的当前日期和时间，即事务开始的时间
+> - `DATE_PART`
+> - `LOCALTIME`
+> - `LOCALTIMESTAMP`
+>   - 不带时区
+> - `EXTRACT`
+> - `TO_DATE`
+>   - 指定格式将字符串转换为有效日期
+> - `TO_TIMESTAMP`
+>   - 指定格式将字符串转换为时间戳
+> - `NOW`
+>   - 返回类型是带时区的 `timestamp`
+> - `DATE_TRUNC`
+
+```sql
+SELECT current_date, AGE(timestamp '2000-01-01')
+```
+
+```sql
+SELECT CURRENT_DATE;
+```
+
+```sql
+SELECT CURRENT_TIME(6);
+
+-- precisio n参数指定返回的小数秒精度。
+-- 如果你不传入 precision 参数，结果将包括完全可用的精度。
+```
+
+
+
+```sql
+SELECT CURRENT_TIMESTAMP(2);
+-- 2022-11-11 13:04:13.96 +00:00
+```
+
+
+
+```sql
+CREATE TABLE rank(
+    rank_id serial PRIMARY KEY,
+    rank_name varchar(255) NOT NULL,
+    create_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+
+
+`DATE_PART`
+
+```sql
+-- century
+SELECT DATE_PART('century',TIMESTAMP '2022-11-11');
+
+-- year
+SELECT DATE_PART('year',TIMESTAMP '2022-11-11');
+
+-- quarter
+SELECT DATE_PART('quarter',TIMESTAMP '2022-11-11');
+
+-- month
+SELECT DATE_PART('month',TIMESTAMP '2022-11-11');
+
+-- week
+SELECT DATE_PART('week',TIMESTAMP '2022-11-11');
+
+-- day
+SELECT DATE_PART('day',TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT DATE_PART('hour',TIMESTAMP '2022-11-11 11:11:11') h,
+       DATE_PART('minute',TIMESTAMP '2022-11-11 11:11:11') m,
+       DATE_PART('second',TIMESTAMP '2022-11-11 11:11:11') s;
+       
+SELECT DATE_PART('dow',TIMESTAMP '2022-11-11 11:11:11') dow,
+       DATE_PART('doy',TIMESTAMP '2022-11-11 11:11:11') doy;
+```
+
+
+
+`EXTRACT`
+
+```sql
+SELECT EXTRACT(YEAR FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(QUARTER FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(MONTH FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(DAY FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(CENTURY FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(DOW FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(DOY FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(HOUR FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(MINUTE FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(SECOND FROM TIMESTAMP '2022-11-11 11:11:11');
+
+SELECT EXTRACT(YEAR FROM INTERVAL '6 years 5 months 4 days 3 hours 2 minutes 1 second' );
+```
+
+
+
+`TO_DATE`
+
+```sql
+SELECT TO_DATE('20221111','YYYYMMDD');
+
+-- YYYY: 四位数格式的年份
+-- MM: 两位数格式的月份
+-- DD:两位数格式的天
+```
+
+
+
+`TO_TIMESTAMP`
+
+```sql
+SELECT TO_TIMESTAMP('2022-11-11 11:11:11', 'YYYY-MM-DD HH:MI:SS');
+```
+
+
+
+```sql
+SELECT TO_TIMESTAMP('2022     Oct','YYYY MON');
+
+-- ERROR
+SELECT TO_TIMESTAMP('2022     Oct','FXYYYY MON');
+
+SELECT 
+    TO_TIMESTAMP('2022-13-32 48:6:66', 'YYYY-MM-DD HH24:MI:SS');
+```
+
+
+
+`DATE_TRUNC`
+
+```sql
+SELECT DATE_TRUNC('hour', TIMESTAMP '2022-11-11 11:11:11');
+SELECT DATE_TRUNC('minute', TIMESTAMP '2022-11-11 11:11:11');
+```
+
+
+
+### 5.3.特殊函数
+
+```sql
+CREATE TABLE pro_rank
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    team CHAR(4)     NOT NULL,
+    line VARCHAR(20) NOT NULL,
+    rank INT         NOT NULL
+);
+
+INSERT INTO pro_rank(name, team, line, rank)
+VALUES ('369', 'JDG', 'Top', 3699),
+       ('Kanavi', 'JDG', 'Jug', 3700),
+       ('Yagao', 'JDG', 'Mid', 3666),
+       ('Hope', 'JDG', 'Adc', 2222),
+       ('Missing', 'JDG', 'Sup', 3333),
+       ('Bin', 'BLG', 'Top', 3500),
+       ('Ning', 'NULL', 'Jug', 0),
+       ('Cream', 'OMG', 'Mid', 2200),
+       ('Light', 'LNG', 'Adc', 2500),
+       ('Hang', 'WBG', 'Sup', -2000);
+```
+
+```sql
+SELECT id,
+       name,
+       rank,
+       DENSE_RANK() OVER (
+           ORDER BY rank DESC
+           ) pro_rank
+FROM pro_rank;
+
+SELECT name,
+       team,
+       rank,
+       CUME_DIST() OVER (
+           PARTITION BY team
+           ORDER BY rank
+           )
+FROM pro_rank;
+
+SELECT name,
+       team,
+       rank,
+       CUME_DIST() OVER (
+           ORDER BY rank
+           )
+FROM pro_rank
+WHERE team = 'JDG';
+
+SELECT id,
+       name,
+       team,
+       rank,
+       DENSE_RANK() OVER (
+           PARTITION BY team
+           ORDER BY rank DESC
+           ) pro_rank
+FROM pro_rank;
+
+
+WITH cte AS (SELECT id,
+                    name,
+                    team,
+                    rank,
+                    DENSE_RANK() OVER (
+                        PARTITION BY team
+                        ORDER BY rank DESC
+                        ) pro_rank
+             FROM pro_rank)
+SELECT id,
+       name,
+       rank
+FROM cte
+WHERE pro_rank = 1;
+
+SELECT id,
+       name,
+       team,
+       rank,
+       FIRST_VALUE(name)
+       OVER (
+           ORDER BY rank
+           ) lowest_pro
+FROM pro_rank;
+
+SELECT id,
+       name,
+       team,
+       rank,
+       FIRST_VALUE(name)
+       OVER (
+           PARTITION BY team
+           ORDER BY rank
+           RANGE BETWEEN
+               UNBOUNDED PRECEDING AND
+               UNBOUNDED FOLLOWING
+           ) team_lowest_pro
+FROM pro_rank;
+
+WITH cte AS (SELECT team,
+                    SUM(rank) rankx
+             FROM pro_rank
+             GROUP BY team)
+SELECT team,
+       rankx,
+       LAG(rankx, 1) OVER (
+           ORDER BY team
+           ) team_pro_rank
+FROM cte;
+
+
+WITH cte AS (SELECT team,
+                    SUM(rank) rankall
+             FROM pro_rank
+             GROUP BY team),
+     cte2 AS (SELECT team,
+                     rankall,
+                     LAG(rankall, 1) OVER (
+                         ORDER BY team
+                         ) team_pro_teams
+              FROM cte)
+SELECT team,
+       rankall,
+       team_pro_teams,
+       (team_pro_teams - rankall) variance
+FROM cte2;
+
+
+SELECT id,
+       name,
+       rank,
+       LAST_VALUE(name)
+       OVER (
+           ORDER BY rank
+           RANGE BETWEEN
+               UNBOUNDED PRECEDING AND
+               UNBOUNDED FOLLOWING
+           ) highest_rank
+FROM pro_rank;
+
+SELECT id,
+       name,
+       team,
+       rank,
+       LAST_VALUE(name)
+       OVER (
+           PARTITION BY team
+           ORDER BY rank
+           RANGE BETWEEN
+               UNBOUNDED PRECEDING AND
+               UNBOUNDED FOLLOWING
+           ) highest_rank
+FROM pro_rank;
+
+```
+
+
+
+
+
+## 6.`Schema`
+
+### 6.1.创建 `schema`
+
+```sql
+CREATE SCHEMA [IF NOT EXISTS] schema_name;
+-- CREATE ROLE xx LOGIN PASSWORD 'pwd';
+-- CREATE SCHEMA AUTHORIZATION xx;
+
+CREATE SCHEMA [IF NOT EXISTS] schema_name AUTHORIZATION username;
+-- CREATE SCHEMA IF NOT EXISTS xx AUTHORIZATION yyy;
+```
+
+
+
+当前数据库中的所有 `schema`
+
+```sql
+SELECT *
+FROM pg_catalog.pg_namespace
+ORDER BY nspname;
+```
+
+
+
+### 6.2.修改 `schema`
+
+> `ALTER SCHEMA` 语句允许我们更改 `schema` 的定义
+
+```sql
+ALTER SCHEMA schema_name RENAME TO new_name;
+-- 执行此语句，我们必须是schema的所有者，并且必须具有CREATE数据库特权。
+
+ALTER SCHEMA schema_name 
+OWNER TO { new_owner | CURRENT_USER | SESSION_USER};
+```
+
+
+
+查询用户创建的 `schema` 的语句
+
+```sql
+SELECT *
+FROM pg_catalog.pg_namespace
+WHERE nspacl is NULL
+  AND nspname NOT LIKE 'pg_%'
+ORDER BY nspname;
+```
+
+
+
+### 6.3.删除 `schema`
+
+> `DROP SCHEMA` 移除一个 `SCHEMA` 以及数据库中的所有对象
+
+```sql
+DROP SCHEMA [IF EXISTS] schema_name [ CASCADE | RESTRICT ];
+
+DROP SCHEMA [IF EXISTS] schema_name1 [,schema_name2,...] [CASCADE | RESTRICT];
+```
+
+
+
+## 7.角色 `ROLE`
+
+### 7.1.创建 `ROLE`
+
+```sql
+CREATE ROLE role_name;
+-- 创建角色时，该角色在数据库服务器(或集群)中的所有数据库中都有效。
+-- CREATE ROLE name WITH option;
+---- WITH 关键字是可选的。
+---- option 可以是一个或多个属性，包括SUPER,CREATEDB,CREATEROLE等等。
+
+-- SELECT rolname FROM pg_roles;
+---- 以 pg_ 前缀开头的角色，是系统的角色。
+```
+
+#### 创建用户
+
+```sql
+CREATE ROLE hello LOGIN  PASSWORD 'hello';
+```
+
+#### 创建超级用户
+
+```sql
+CREATE ROLE super_user
+SUPERUSER 
+LOGIN 
+PASSWORD 'super_user';
+
+-- 创建超级用户角色
+---- 超级用户可以获取数据库中的所有访问限制，因此我们应仅在需要时创建此角色。
+---- 必须是超级用户才能创建另一个超级用户角色。
+```
+
+#### 数据库创建特权
+
+```sql
+CREATE ROLE dba 
+CREATEDB 
+LOGIN 
+PASSWORD 'dba';
+
+-- 创建具有数据库创建特权的角色，请使用CREATEDB属性。
+```
+
+#### 有效期的角色
+
+```sql
+CREATE ROLE dev WITH
+LOGIN
+PASSWORD 'dev'
+VALID UNTIL '2023-01-01';
+
+-- 创建具有有效期的角色
+```
+
+
+
+```sql
+CREATE ROLE api
+LOGIN
+PASSWORD 'api123'
+CONNECTION LIMIT 1000;
+```
+
+
+
+### 7.2.`GRANT`
+
+```sql
+GRANT privilege_list | ALL 
+ON  table_name
+TO  role_name;
+
+-- 指定 privilege_list (权限列表：可以是SELECT,INSERT,UPDATE,DELETE,TRUNCATE等等)。
+-- 使用 ALL 向角色授予表的所有操作权限。
+
+-- ON 关键字后指定表名。
+-- TO 关键字后指定要向其授予权限的角色名。
+```
+
+
+
+```sql
+GRANT ALL
+    ON ALL TABLES
+    IN SCHEMA "public"
+    TO abcd;
+
+-- 向角色授予schema中所有表的所有权限
+```
+
+
+
+```sql
+-- 只读角色
+GRANT SELECT
+    ON ALL TABLES
+    IN SCHEMA "public"
+    TO only_reader;
+```
+
+
+
+### 7.3.`REVOKE`
+
+> `REVOKE` 语句撤销先前从角色授予的数据库对象权限。
+
+```sql
+REVOKE privilege_list | ALL
+ON TABLE table_name | ALL TABLES IN SCHEMA schema_name
+FROM role_name;
+
+-- ON 关键字后指定表。
+---- 可以使用ALL TABLES指定从schema中的所有表撤销指定的权限。
+-- FROM 关键字后指定要从中撤销权限的角色的名称。
+```
+
+
+
+### 7.4.角色组
+
+#### 7.4.1.创建角色组
+
+```sql
+CREATE ROLE group_role_name;
+```
+
+
+
+#### 7.4.2.将角色添加到角色组
+
+```sql
+GRANT group_role to user_role;
+```
+
+
+
+#### 7.4.3.从角色组中删除用户角色
+
+```sql
+REVOKE group_role FROM user_role;
+```
+
+
+
+#### 7.4.4.修改角色
+
+```sql
+ALTER ROLE role_name [WITH] option;
+
+-- SUPERUSER | NOSUPERUSER – 是否是SUPERUSER 。
+-- CREATEDB | NOCREATEDB – 是否允许角色创建新数据库。
+-- CREATEROLE | NOCREATEROLE – 是否允许角色创建或更改角色。
+-- -- INHERIT | NOINHERIT – 是否确定要继承其所属角色组的角色权限。
+-- LOGIN | NOLOGIN – 允许角色登录。
+-- REPLICATION | NOREPLICATION – 确定该角色是否为复制角色。
+-- BYPASSRLS | NOBYPASSRLS – 确定角色是否通过行级安全 (RLS) 策略。
+-- CONNECTION LIMIT limit – 指定角色可以建立的并发连接数，-1表示无限制。
+-- PASSWORD 'password' | PASSWORD NULL – 角色的密码。
+-- VALID UNTIL 'timestamp' – 设置角色密码的有效期。
+
+-- 超级管理员可以为任何角色更改这些属性中的任何一个。
+-- 仅针对非超级用户和无复制角色：角色具有CREATEROLE权限可以更改这些属性中的任何一个。
+-- 角色只能更改自己的密码
+```
+
+
+
+#### 7.4.5. 重命名角色
+
+```sql
+ALTER ROLE role_name ALTER TO new_name;
+```
+
+
+
+#### 7.4.6.更改角色配置变量默认值
+
+```sql
+ALTER ROLE role_name | CURRENT_USER | SESSION_USER | ALL
+[IN DATABASE database_name]
+SET configuration_param = { value | DEFAULT }
+
+-- 超级管理员可以更改任何角色的默认值。
+-- 角色拥有CREATEROLE权限可以设置非超级用户角色的默认值。
+-- 普通角色只能为自己设置默认值
+```
+
+
+
+### 7.5.删除角色
+
+> `DROP ROLE`
+
+```sql
+DROP ROLE [IF EXISTS] target_role;
+```
+
+
+
+## 8.备份
+
+> 使用 `pg_dump` 和 `pg_dumpall` 命令备份数据库
+
+
+
+### 8.1.单个数据库
+
+```sql
+pg_dump -U username -W -F t database_name > /path/to/xxx.tar
+
+-- -F : 指定可以为以下之一的输出文件格式:
+---- c: 自定义格式的存档文件格式
+---- d: 目录格式存档
+---- t: tar
+---- p: 纯文本 SQL 脚本文件.
+```
+
+
+
+### 8.2.所有数据库
+
+```sql
+pg_dumpall -U postgres > /path/to/xxx.tar
+
+-- 只想备份角色
+pg_dumpall --roles-only > /path/to/xxx.sql
+
+-- 只想备份表空间
+pg_dumpall --tablespaces-only > /path/to/xxx.sql
+```
+
+
+
+### 8.3.还原数据库
+
+> - 使用 `psql` 恢复由 `pg_dump` 和 `pg_dumpall` 命令生成的纯SQL脚本文件。
+> - 使用 `pg_restore` 恢复由 `pg_dump` 命令创建的 `tar` 文件和目录格式。
+
+
+
+#### 8.3.1.还原完整备份
+
+>  `psql`
+
+```sql
+-- 忽略还原过程中发生的任何错误
+psql -U username -f backupfile.sql
+```
+
+```sql
+-- 在出现错误时停止还原数据库
+psql -U username --set ON_ERROR_STOP=on -f backupfile.sql
+```
+
+```sql
+-- 备份特定数据库中的对象
+psql -U username -d database_name -f objects.sql
+```
+
+
+
+>  `pg_restore`
+
+```sql
+-- 更换数据库名称
+pg_restore --dbname=newdb --verbose /path/to/xxx.tar
+```
+
+```sql
+-- 还原与备份数据库相同的数据库
+pg_restore --dbname=db --create --verbose /path/to/xxx.tar
+```
+
+```sql
+pg_restore --dbname=testdb --section=pre-data  /path/to/xxx.tar
+
+-- -- section 仅恢复表结构的选项
+```
+
 
 
 
@@ -504,10 +1168,4 @@ FROM pg_stat_activity
 WHERE datname = current_database()
   AND pid <> pg_backend_pid();
 ```
-
-
-
--- -
-
-
 
