@@ -29,6 +29,9 @@
 
         <projectService
                 serviceImplementation="com.photowey.translator.extension.TranslatorCache"/>
+
+        <toolWindow id="Translator" anchor="right"
+                    factoryClass="com.photowey.translator.tool.window.TranslatorToolWindow"/>
     </extensions>
 
     <actions>

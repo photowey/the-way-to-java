@@ -29,6 +29,7 @@ import com.photowey.translator.handler.TranslateHandler;
 import com.photowey.translator.home.Home;
 import com.photowey.translator.home.HomeData;
 import com.photowey.translator.property.TranslatorProperties;
+import com.photowey.translator.tool.window.TranslatorToolWindow;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,7 +65,7 @@ public class TranslatorAction extends AnAction {
         String cacheKey = this.populateCacheKey(query);
 
         String translateResult = query;
-        if (translateCache.containsKey(query)) {
+        if (translateCache.containsKey(cacheKey)) {
             translateResult = translateCache.get(cacheKey);
         } else {
             if (StringUtils.isBlank(query)) {
@@ -81,6 +82,8 @@ public class TranslatorAction extends AnAction {
                 translateResult = translateHandler.handleTranslate(query, "auto", "zh");
                 translateCache.put(cacheKey, translateResult);
                 cache.put(cacheKey, translateResult);
+
+                TranslatorToolWindow.addNote(query, translateResult);
             }
         }
 

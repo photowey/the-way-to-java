@@ -15,6 +15,7 @@
  */
 package com.photowey.translator.extension;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -39,6 +40,10 @@ public class TranslatorCache implements PersistentStateComponent<TranslatorCache
 
     public static TranslatorCache getInstance(Project project) {
         return project.getService(TranslatorCache.class);
+    }
+
+    public static TranslatorCache getInstance() {
+        return ApplicationManager.getApplication().getService(TranslatorCache.class);
     }
 
     @Override
