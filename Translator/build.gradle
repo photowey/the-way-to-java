@@ -7,6 +7,9 @@ group 'com.phoyowey'
 version '1.0.0-SNAPSHOT'
 
 repositories {
+    maven {
+        url 'https://maven.aliyun.com/nexus/content/groups/public/'
+    }
     mavenCentral()
 }
 
