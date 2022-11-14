@@ -32,8 +32,8 @@ public class TranslatorButtonActionListener extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         String query = window.getOriginalTextArea().getText();
-        String fromLang = langMap.get((String) window.getComboBox1().getSelectedItem());
-        String toLang = langMap.get((String) window.getComboBox2().getSelectedItem());
+        String fromLang = langMap.get((String) window.getEn().getSelectedItem());
+        String toLang = langMap.get((String) window.getZh().getSelectedItem());
 
         TranslateHandler translateHandler = App.getConfigure().getTranslateHandler();
         String translateResult = translateHandler.handleTranslate(query, fromLang, toLang);

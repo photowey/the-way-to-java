@@ -64,7 +64,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="e15d3" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                      <component id="e15d3" class="javax.swing.JComboBox" binding="en" default-binding="true">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -108,7 +108,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="b8681" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+                      <component id="b8681" class="javax.swing.JComboBox" binding="zh" default-binding="true">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>

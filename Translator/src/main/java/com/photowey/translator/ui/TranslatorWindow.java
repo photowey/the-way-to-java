@@ -16,6 +16,7 @@
 package com.photowey.translator.ui;
 
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.ui.GotItTooltip;
 import com.intellij.util.textCompletion.TextFieldWithCompletion;
 import com.photowey.translator.listener.ui.TranslatorButtonActionListener;
 import com.photowey.translator.provider.TranslatorTextProvider;
@@ -37,25 +38,40 @@ public class TranslatorWindow {
     private JPanel translatorPanel;
     private JPanel notePanel;
     private JTable noteTable;
-    private JComboBox<String> comboBox1;
+    private JComboBox<String> en;
     private com.intellij.util.textCompletion.TextFieldWithCompletion originalTextArea;
-    private JComboBox<String> comboBox2;
+    private JComboBox<String> zh;
     private JTextArea translateTextArea;
     private JButton translateButton;
 
     public TranslatorWindow() {
-        comboBox1.addItem("英文");
-        comboBox1.addItem("中文");
-        comboBox2.addItem("中文");
-        comboBox2.addItem("英文");
+        this.en.addItem("英文");
+        this.en.addItem("中文");
+        this.zh.addItem("中文");
+        this.zh.addItem("英文");
 
         String[] header = {"原文", "译文"};
         DefaultTableModel tableModel = new DefaultTableModel(null, header);
-        noteTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        noteTable.setModel(tableModel);
+        this.noteTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        this.noteTable.setModel(tableModel);
 
         // 添加监听
-        translateButton.addActionListener(new TranslatorButtonActionListener(this));
+        this.translateButton.addActionListener(new TranslatorButtonActionListener(this));
+
+        this.gotItNotify();
+    }
+
+    private void gotItNotify() {
+        tabbedPanel.addChangeListener(e -> {
+            JTabbedPane tab = (JTabbedPane) e.getSource();
+            if (tab.getSelectedIndex() == 0) {
+                return;
+            }
+            new GotItTooltip("got.it.id", "翻译插件", ProjectManager.getInstance().getDefaultProject()).
+                    withShowCount(100).
+                    withHeader("输入文本, 点击翻译按钮即可完成翻译").
+                    show(translateButton, GotItTooltip.BOTTOM_MIDDLE);
+        });
     }
 
     private void createUIComponents() {
@@ -85,16 +101,16 @@ public class TranslatorWindow {
         return noteTable;
     }
 
-    public JComboBox<String> getComboBox1() {
-        return comboBox1;
+    public JComboBox<String> getEn() {
+        return en;
     }
 
     public TextFieldWithCompletion getOriginalTextArea() {
         return originalTextArea;
     }
 
-    public JComboBox<String> getComboBox2() {
-        return comboBox2;
+    public JComboBox<String> getZh() {
+        return zh;
     }
 
     public JTextArea getTranslateTextArea() {
