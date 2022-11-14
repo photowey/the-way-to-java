@@ -21,6 +21,7 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import com.photowey.translator.ui.TranslatorWindow;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -42,12 +43,17 @@ public class TranslatorToolWindow implements ToolWindowFactory {
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
 
-        TranslatorNote note = new TranslatorNote();
-        table = note.getTable();
-        Content content = contentFactory.createContent(note.getNotePanel(), "", false);
+        // TranslatorNote note = new TranslatorNote();
+        // table = note.getTable();
+
+        TranslatorWindow translatorWindow = new TranslatorWindow();
+        table = translatorWindow.getNoteTable();
+
+        Content content = contentFactory.createContent(translatorWindow.getMainPanel(), "", false);
         toolWindow.getContentManager().addContent(content);
     }
 
+    @Deprecated
     static class TranslatorNote {
         private final JScrollPane notePanel;
         private final JTable table;

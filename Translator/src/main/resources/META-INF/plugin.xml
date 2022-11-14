@@ -30,15 +30,19 @@
         <projectService
                 serviceImplementation="com.photowey.translator.extension.TranslatorCache"/>
 
-        <toolWindow id="Translator" anchor="right"
-                    factoryClass="com.photowey.translator.tool.window.TranslatorToolWindow"/>
+        <toolWindow id="Translator"
+                    anchor="right"
+                    factoryClass="com.photowey.translator.tool.window.TranslatorToolWindow"
+                    icon="com.photowey.translator.icon.TranslatorIcons.TRANSLATOR"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
         <action id="translator"
                 class="com.photowey.translator.action.TranslatorAction"
-                description="Translate" text="Translate">
+                description="Translate"
+                text="Translate"
+                icon="com.photowey.translator.icon.TranslatorIcons.TRANSLATOR">
             <!-- 绑定快捷键，此处也可以选择不绑定 -->
             <keyboard-shortcut first-keystroke="control shift alt 9"
                                keymap="$default"/>

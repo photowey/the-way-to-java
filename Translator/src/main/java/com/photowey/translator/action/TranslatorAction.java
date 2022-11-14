@@ -32,6 +32,7 @@ import com.photowey.translator.home.Home;
 import com.photowey.translator.home.HomeData;
 import com.photowey.translator.listener.TranslateListener;
 import com.photowey.translator.property.TranslatorProperties;
+import com.photowey.translator.provider.TranslatorTextProvider;
 import com.photowey.translator.tool.window.TranslatorToolWindow;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -95,6 +96,9 @@ public class TranslatorAction extends AnAction {
         }
 
         translateListener.afterTranslated(event.getProject());
+        TranslatorTextProvider.items.add(query);
+        TranslatorTextProvider.items.add(translateResult);
+
         this.busNotifyInfo(TranslatorConstants.TRANSLATOR_GROUP, "Translate Result", translateResult, event);
     }
 
