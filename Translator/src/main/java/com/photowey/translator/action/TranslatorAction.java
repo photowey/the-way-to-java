@@ -23,11 +23,14 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.NlsContexts;
+import com.intellij.util.messages.MessageBus;
 import com.photowey.translator.App;
+import com.photowey.translator.constant.TranslatorConstants;
 import com.photowey.translator.extension.TranslatorCache;
 import com.photowey.translator.handler.TranslateHandler;
 import com.photowey.translator.home.Home;
 import com.photowey.translator.home.HomeData;
+import com.photowey.translator.listener.TranslateListener;
 import com.photowey.translator.property.TranslatorProperties;
 import com.photowey.translator.tool.window.TranslatorToolWindow;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +56,7 @@ public class TranslatorAction extends AnAction {
         String appSecret = translatorProperties.getAppSecret();
 
         if (StringUtils.isBlank(appId) || StringUtils.isBlank(appSecret)) {
-            this.busNotifyError("Translator", "Translate Error", "Please set appId,appSecret first", event);
+            this.busNotifyError(TranslatorConstants.TRANSLATOR_GROUP, "Translate Error", "Please set appId,appSecret first", event);
             return;
         }
         Editor editor = event.getData(CommonDataKeys.EDITOR);
@@ -64,12 +67,16 @@ public class TranslatorAction extends AnAction {
 
         String cacheKey = this.populateCacheKey(query);
 
+        MessageBus messageBus = event.getProject().getMessageBus();
+        TranslateListener translateListener = messageBus.syncPublisher(TranslateListener.TRANSLATE_TOPIC);
+        translateListener.beforeTranslated(event.getProject());
+
         String translateResult = query;
         if (translateCache.containsKey(cacheKey)) {
             translateResult = translateCache.get(cacheKey);
         } else {
             if (StringUtils.isBlank(query)) {
-                this.busNotifyWarning("Translator", "Translate Warnning", "Please select translate query", event);
+                this.busNotifyWarning(TranslatorConstants.TRANSLATOR_GROUP, "Translate Warnning", "Please select translate query", event);
                 return;
             }
 
@@ -83,15 +90,16 @@ public class TranslatorAction extends AnAction {
                 translateCache.put(cacheKey, translateResult);
                 cache.put(cacheKey, translateResult);
 
-                TranslatorToolWindow.addNote(query, translateResult);
+                TranslatorToolWindow.addNote(cacheKey, translateResult);
             }
         }
 
-        this.busNotifyInfo("Translator", "Translate Result", translateResult, event);
+        translateListener.afterTranslated(event.getProject());
+        this.busNotifyInfo(TranslatorConstants.TRANSLATOR_GROUP, "Translate Result", translateResult, event);
     }
 
     private String populateCacheKey(String query) {
-        String key = query + "." + "zh";
+        String key = query + "@_" + "zh";
 
         return key;
     }

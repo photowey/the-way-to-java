@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.translator.constant;
+package com.photowey.translator.listener;
 
-import com.photowey.translator.hash.Hash;
+import com.intellij.openapi.project.Project;
+import com.intellij.util.messages.Topic;
+import com.photowey.translator.constant.TranslatorConstants;
 
 /**
- * {@code TranslatorConstants}
+ * {@code TranslateListener}
  *
  * @author photowey
- * @date 2022/10/15
+ * @date 2022/11/14
  * @since 1.0.0
  */
-public interface TranslatorConstants {
+public interface TranslateListener {
 
-    String PLUGIN_NAME = "Translator";
-    String TRANSLATOR_GROUP = "Translator";
-    String TRANSLATOR_TOPIC_NAME = "Translator";
+    Topic<TranslateListener> TRANSLATE_TOPIC = Topic.create(TranslatorConstants.TRANSLATOR_TOPIC_NAME, TranslateListener.class);
 
-    String STRING_EMPTY = "";
+    default void beforeTranslated(Project project) {
 
-    String USER_HOME = "user.home";
-    String TRANSLATOR_HOME = ".translator";
-    String TRANSLATOR_FILE = "translator.json";
+    }
 
-    String TRANSLATOR_CONFIG_AES_KEY = Hash.MD5.md5("com.photowey.translator.config.key");
+    default void afterTranslated(Project project) {
+
+    }
 
 }

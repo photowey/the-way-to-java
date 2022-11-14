@@ -59,6 +59,10 @@ public class Home {
         return homeData;
     }
 
+    public static void load() {
+        checkConfig();
+    }
+
     private static void initConfig(String appId, String appSecret) {
         HomeData.Config.Baidu baidu = new HomeData.Config.Baidu(appId, appSecret);
         HomeData homeData = new HomeData(new HomeData.Config(baidu));

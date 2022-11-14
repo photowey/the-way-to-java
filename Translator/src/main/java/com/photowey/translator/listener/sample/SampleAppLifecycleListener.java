@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.translator.constant;
+package com.photowey.translator.listener.sample;
 
-import com.photowey.translator.hash.Hash;
+import com.intellij.ide.AppLifecycleListener;
 
 /**
- * {@code TranslatorConstants}
+ * {@code SampleAppLifecycleListener}
  *
  * @author photowey
- * @date 2022/10/15
+ * @date 2022/11/14
  * @since 1.0.0
  */
-public interface TranslatorConstants {
+public class SampleAppLifecycleListener implements AppLifecycleListener {
 
-    String PLUGIN_NAME = "Translator";
-    String TRANSLATOR_GROUP = "Translator";
-    String TRANSLATOR_TOPIC_NAME = "Translator";
+    @Override
+    public void appStarted() {
+    }
 
-    String STRING_EMPTY = "";
-
-    String USER_HOME = "user.home";
-    String TRANSLATOR_HOME = ".translator";
-    String TRANSLATOR_FILE = "translator.json";
-
-    String TRANSLATOR_CONFIG_AES_KEY = Hash.MD5.md5("com.photowey.translator.config.key");
-
+    @Override
+    public void appClosing() {
+    }
 }

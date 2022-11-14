@@ -46,4 +46,20 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
+
+    <projectListeners>
+        <listener topic="com.intellij.openapi.project.ProjectManagerListener"
+                  class="com.photowey.translator.listener.TranslatorSettingListener"/>
+
+        <listener topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"
+                  class="com.photowey.translator.listener.InitTranslatorToolWindowListener"/>
+
+        <listener topic="com.photowey.translator.listener.TranslateListener"
+                  class="com.photowey.translator.listener.composite.CompositeTranslateListener"/>
+    </projectListeners>
+
+    <applicationListeners>
+        <listener topic="com.intellij.ide.AppLifecycleListener"
+                  class="com.photowey.translator.listener.sample.SampleAppLifecycleListener"/>
+    </applicationListeners>
 </idea-plugin>

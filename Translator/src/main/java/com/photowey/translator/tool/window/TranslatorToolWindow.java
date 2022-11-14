@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.photowey.translator.tool.window;
 
 import com.intellij.openapi.project.Project;
@@ -22,7 +21,6 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import com.photowey.translator.extension.TranslatorCache;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -57,24 +55,11 @@ public class TranslatorToolWindow implements ToolWindowFactory {
         public TranslatorNote() {
             String[] header = {"原文", "译文"};
             DefaultTableModel tableModel = new DefaultTableModel(null, header);
-
-            this.fillHistoryIfNecessary(tableModel);
-
             this.table = new JTable();
             this.table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
             this.table.setModel(tableModel);
             this.notePanel = new JBScrollPane(table);
             this.notePanel.setSize(200, 800);
-        }
-
-        private void fillHistoryIfNecessary(DefaultTableModel tableModel) {
-            TranslatorCache translatorCache = TranslatorCache.getInstance();
-            // translatorCache == null ?
-            if (null != translatorCache) {
-                translatorCache.getTranslateCache().forEach((k, v) -> {
-                    tableModel.addRow(new Object[]{k, v});
-                });
-            }
         }
 
         public JScrollPane getNotePanel() {
