@@ -69,79 +69,39 @@ public class TranslatorWindow {
         return tabbedPanel;
     }
 
-    public void setTabbedPanel(JTabbedPane tabbedPanel) {
-        this.tabbedPanel = tabbedPanel;
-    }
-
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-
-    public void setMainPanel(JPanel mainPanel) {
-        this.mainPanel = mainPanel;
     }
 
     public JPanel getTranslatorPanel() {
         return translatorPanel;
     }
 
-    public void setTranslatorPanel(JPanel translatorPanel) {
-        this.translatorPanel = translatorPanel;
-    }
-
     public JPanel getNotePanel() {
         return notePanel;
-    }
-
-    public void setNotePanel(JPanel notePanel) {
-        this.notePanel = notePanel;
     }
 
     public JTable getNoteTable() {
         return noteTable;
     }
 
-    public void setNoteTable(JTable noteTable) {
-        this.noteTable = noteTable;
-    }
-
     public JComboBox<String> getComboBox1() {
         return comboBox1;
-    }
-
-    public void setComboBox1(JComboBox<String> comboBox1) {
-        this.comboBox1 = comboBox1;
     }
 
     public TextFieldWithCompletion getOriginalTextArea() {
         return originalTextArea;
     }
 
-    public void setOriginalTextArea(TextFieldWithCompletion originalTextArea) {
-        this.originalTextArea = originalTextArea;
-    }
-
     public JComboBox<String> getComboBox2() {
         return comboBox2;
-    }
-
-    public void setComboBox2(JComboBox<String> comboBox2) {
-        this.comboBox2 = comboBox2;
     }
 
     public JTextArea getTranslateTextArea() {
         return translateTextArea;
     }
 
-    public void setTranslateTextArea(JTextArea translateTextArea) {
-        this.translateTextArea = translateTextArea;
-    }
-
     public JButton getTranslateButton() {
         return translateButton;
-    }
-
-    public void setTranslateButton(JButton translateButton) {
-        this.translateButton = translateButton;
     }
 }
