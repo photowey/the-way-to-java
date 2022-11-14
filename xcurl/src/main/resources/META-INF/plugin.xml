@@ -1,0 +1,61 @@
+<idea-plugin>
+    <id>com.photowey.plugin.xcurl</id>
+    <name>xcurl</name>
+    <vendor email="photowey@github.com" url="https://www.github.com/photowey">
+        photowey
+    </vendor>
+
+    <description><![CDATA[
+    <h1>xcurl<h1><br>
+    <p>This is a curl plugin, the curl plugin is based on Okhttp3 API and provides the ability to curl in IDE<p><br>
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+
+        <fileType
+                name="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.XCURLFileType"
+                fieldName="INSTANCE"
+                language="XCURL"
+                extensions="xcurl"/>
+
+        <lang.parserDefinition
+                language="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.CURLParserDefinition"/>
+
+        <lang.syntaxHighlighterFactory language="XCURL"
+                                       implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLSyntaxHighlighterFactory"/>
+
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLRelatedItemLineMarkerProvider"/>
+
+        <codeInsight.lineMarkerProvider language="XCURL"
+                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLLineMarkerProvider"/>
+
+        <completion.contributor
+                language="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandCodeContributor"/>
+
+        <lang.documentationProvider
+                language="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandDocumentProvider"/>
+
+        <lang.commenter
+                language="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommenter"/>
+
+        <lang.formatter
+                language="XCURL"
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandFormattingModelBuilder"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
