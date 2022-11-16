@@ -2,7 +2,7 @@
 
 
 
-## 课程
+## 小册
 
 > ```http
 > https://juejin.cn/book/7146874802144280611
@@ -42,7 +42,7 @@ Output:
 	"form":{
 		
 	},
-	"origin":"125.84.181.71",
+	"origin":"x.x.x.x",
 	"files":{
 		
 	},
