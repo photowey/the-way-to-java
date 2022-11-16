@@ -5,10 +5,12 @@
         photowey
     </vendor>
 
-    <description><![CDATA[
-    <h1>xcurl<h1><br>
-    <p>This is a curl plugin, the curl plugin is based on Okhttp3 API and provides the ability to curl in IDE<p><br>
-    ]]></description>
+    <description>
+        <![CDATA[
+            <h1>xcurl<h1><br>
+            <p>This is a curl plugin that provides the ability to write CURL commands and make HTTP requests in IDE<p><br>
+        ]]>
+    </description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
