@@ -15,7 +15,7 @@
 
   tokens = [
         WHITE_SPACE = 'regexp:\s+'
-        URL = 'regexp:(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]'
+        URL = 'regexp:(http|https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]'
         QUOTED_STRING = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
         BASIC_STRING = "regexp:[0-9a-zA_Z]*"
         COMMENT = 'regexp://.*|/\*\*.*\*/'
@@ -25,7 +25,7 @@
 }
 
 XCURLFile ::= COMMAND*
-COMMAND ::= CURL [OPTIONS*] URL
+COMMAND ::= CURL [OPTIONS*] URL [OPTIONS*]
 OPTIONS ::= Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement | Option7Statement | Option8Statement
 Option1Statement ::= OPTION1 QUOTED_STRING
 OPTION1 ::= '-a'|'--append'

@@ -25,6 +25,11 @@
                 language="XCURL"
                 extensions="xcurl"/>
 
+        <toolWindow
+                factoryClass="com.photowey.plugin.xcurl.tool.ConsoleOutputToolWindow"
+                id="Xcurl" anchor="bottom"
+                icon="com.photowey.plugin.xcurl.icon.XCurlIcons.ICON"/>
+
         <lang.parserDefinition
                 language="XCURL"
                 implementationClass="com.photowey.plugin.xcurl.lang.CURLParserDefinition"/>

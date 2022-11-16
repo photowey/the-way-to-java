@@ -36,7 +36,7 @@ public class CURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CURL [OPTIONS*] URL
+  // CURL [OPTIONS*] URL [OPTIONS*]
   public static boolean COMMAND(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMMAND")) return false;
     if (!nextTokenIs(b, CURL)) return false;
@@ -45,6 +45,7 @@ public class CURLParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, CURL);
     r = r && COMMAND_1(b, l + 1);
     r = r && consumeToken(b, URL);
+    r = r && COMMAND_3(b, l + 1);
     exit_section_(b, m, COMMAND, r);
     return r;
   }
@@ -63,6 +64,24 @@ public class CURLParser implements PsiParser, LightPsiParser {
       int c = current_position_(b);
       if (!OPTIONS(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "COMMAND_1_0", c)) break;
+    }
+    return true;
+  }
+
+  // [OPTIONS*]
+  private static boolean COMMAND_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_3")) return false;
+    COMMAND_3_0(b, l + 1);
+    return true;
+  }
+
+  // OPTIONS*
+  private static boolean COMMAND_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_3_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!OPTIONS(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "COMMAND_3_0", c)) break;
     }
     return true;
   }

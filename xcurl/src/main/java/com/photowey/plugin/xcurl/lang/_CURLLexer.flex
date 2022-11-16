@@ -26,7 +26,7 @@ EOL=\R
 WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-URL=(https?|ftp|file):"//"[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]
+URL=(http|https?|ftp|file):"//"[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]
 QUOTED_STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 BASIC_STRING=[0-9a-zA_Z]*
 COMMENT="//".*|"/"\*\*.*\*"/"

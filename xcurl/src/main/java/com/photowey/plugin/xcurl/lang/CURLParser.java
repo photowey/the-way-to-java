@@ -1,3 +1,18 @@
+/**
+ * Copyright © 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 // This is a generated file. Not intended for manual editing.
 package com.photowey.plugin.xcurl.lang;
 
@@ -36,7 +51,7 @@ public class CURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CURL [OPTIONS*] URL
+  // CURL [OPTIONS*] URL [OPTIONS*]
   public static boolean COMMAND(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMMAND")) return false;
     if (!nextTokenIs(b, CURL)) return false;
@@ -45,6 +60,7 @@ public class CURLParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, CURL);
     r = r && COMMAND_1(b, l + 1);
     r = r && consumeToken(b, URL);
+    r = r && COMMAND_3(b, l + 1);
     exit_section_(b, m, COMMAND, r);
     return r;
   }
@@ -63,6 +79,24 @@ public class CURLParser implements PsiParser, LightPsiParser {
       int c = current_position_(b);
       if (!OPTIONS(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "COMMAND_1_0", c)) break;
+    }
+    return true;
+  }
+
+  // [OPTIONS*]
+  private static boolean COMMAND_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_3")) return false;
+    COMMAND_3_0(b, l + 1);
+    return true;
+  }
+
+  // OPTIONS*
+  private static boolean COMMAND_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_3_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!OPTIONS(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "COMMAND_3_0", c)) break;
     }
     return true;
   }
