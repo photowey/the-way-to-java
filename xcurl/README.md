@@ -24,18 +24,20 @@ CURL -X POST -H "Content-Type: application/json" -H "Accept: */*" -d "{\"hello\"
 ----------------------------------------------------------------
 CURL -X POST -H "Content-Type: application/json" -H "Accept: */*" -d "{\"hello\":\"world\"}" https://httpbin.org/post
 -------
-Output: -------
+Output:
+-------
 {
-"args": {
-},
-"headers": {
-"Accept": "*/*",
-"Content-Length": "17",
-"Content-Type": "application/json",
+	"args":{
+		
+	},
+	"headers":{
+		"Accept":"*/*",
+		"Content-Length":"17",
+		"Content-Type":"application/json",
 		"Host":"httpbin.org",
-"User-Agent": "curl/7.83.1",
-"X-Amzn-Trace-Id": "Root=1-6375eb59-33f691254ae9727212f393fd"
-},
+		"User-Agent":"curl/7.83.1",
+		"X-Amzn-Trace-Id":"Root=1-6375eb59-33f691254ae9727212f393fd"
+	},
 	"data":"{\"hello\":\"world\"}",
 	"form":{
 		
