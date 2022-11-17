@@ -25,7 +25,7 @@
 }
 
 XCURLFile ::= COMMAND*
-COMMAND ::= CURL [OPTIONS*] URL [OPTIONS*]
+COMMAND ::= CURL [OPTIONS*] URL
 OPTIONS ::= Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement | Option7Statement | Option8Statement
 Option1Statement ::= OPTION1 QUOTED_STRING
 OPTION1 ::= '-a'|'--append'

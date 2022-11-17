@@ -84,7 +84,7 @@ public class ConsoleOutputToolWindow implements ToolWindowFactory {
         if (StringUtils.isNotBlank(url)) {
             output.append(url);
             output.append("\n");
-            output.append("----------------");
+            output.append("-------");
             output.append("\n");
         }
         output.append("Output:");
@@ -94,6 +94,8 @@ public class ConsoleOutputToolWindow implements ToolWindowFactory {
         output.append(content);
         output.append("\n");
 
+        // activate: console
+        toolWindow.activate(()->{},false);
         cv.print(output.toString(), contentType);
         // @formatter:on
     }
