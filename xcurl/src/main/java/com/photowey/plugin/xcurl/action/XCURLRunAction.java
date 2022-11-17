@@ -61,14 +61,22 @@ public class XCURLRunAction extends AnAction {
         Document document = editor.getDocument();
         String cmd = this.tryBlockParse(document);
 
+        // this.debugger(cmd, "");
+
         try {
             Process process = Runtime.getRuntime().exec(cmd);
             String output = this.readOutput(process.getInputStream());
+
+            // this.debugger(cmd, output);
 
             ConsoleOutputToolWindow.show(event.getProject(), cmd, output);
         } catch (IOException ex) {
             this.doNotify("Print", "Execution failed", ex.getMessage(), NotificationType.ERROR);
         }
+    }
+
+    private void debugger(String cmd, String output) {
+        this.doNotify("Print", "xcurl debugger", cmd + "\n" + output, NotificationType.INFORMATION);
     }
 
     @NotNull

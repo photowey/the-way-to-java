@@ -1,11 +1,12 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'org.jetbrains.intellij' version '1.9.0'
     id "com.github.hierynomus.license" version "0.16.1"
+    id 'maven-publish'
 }
 
 group 'com.photowey'
-version '1.0-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 repositories {
     mavenLocal()
@@ -37,10 +38,15 @@ intellij {
     plugins = ['com.intellij.java']
 }
 
+// ----------------------------------------------------------------
+
 patchPluginXml {
     changeNotes = """
       <em>New feature: provides the ability to write CURL commands and make HTTP requests in IDE</em>
     """
+
+    sinceBuild = "213"
+    untilBuild = "222.*"
 }
 
 tasks.withType(JavaCompile) {
@@ -55,4 +61,31 @@ license {
 
 test {
     useJUnitPlatform()
+}
+
+task cleanDist(type: Delete) {
+    group("build")
+
+    delete("dist")
+}
+
+// ----------------------------------------------------------------
+
+publishing {
+    publications {
+        greetingLibrary(MavenPublication) {
+            groupId = 'com.photowey'
+            artifactId = 'xcurl'
+            version = '1.0.0'
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'local'
+            url = "$rootDir/dist/release"
+        }
+    }
 }
