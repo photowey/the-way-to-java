@@ -29,6 +29,12 @@ public class XCURLOptionsImpl extends ASTWrapperPsiElement implements XCURLOptio
 
   @Override
   @Nullable
+  public XCURLNewLineStatement getNewLineStatement() {
+    return findChildByClass(XCURLNewLineStatement.class);
+  }
+
+  @Override
+  @Nullable
   public XCURLOption1Statement getOption1Statement() {
     return findChildByClass(XCURLOption1Statement.class);
   }

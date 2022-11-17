@@ -82,6 +82,18 @@ public class XCURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // NEWLINE
+  public static boolean NewLineStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NewLineStatement")) return false;
+    if (!nextTokenIs(b, NEWLINE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NEWLINE);
+    exit_section_(b, m, NEW_LINE_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // '-a'|'--append'
   public static boolean OPTION1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OPTION1")) return false;
@@ -197,21 +209,221 @@ public class XCURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement | Option7Statement | Option8Statement
+  // Option1Statement [NewLineStatement?] | Option2Statement [NewLineStatement?] | Option3Statement [NewLineStatement?] | Option4Statement [NewLineStatement?] | Option5Statement [NewLineStatement?] | Option6Statement [NewLineStatement?]| Option7Statement [NewLineStatement?]| Option8Statement [NewLineStatement?]
   public static boolean OPTIONS(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OPTIONS")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTIONS, "<options>");
-    r = Option1Statement(b, l + 1);
-    if (!r) r = Option2Statement(b, l + 1);
-    if (!r) r = Option3Statement(b, l + 1);
-    if (!r) r = Option4Statement(b, l + 1);
-    if (!r) r = Option5Statement(b, l + 1);
-    if (!r) r = Option6Statement(b, l + 1);
-    if (!r) r = Option7Statement(b, l + 1);
-    if (!r) r = Option8Statement(b, l + 1);
+    r = OPTIONS_0(b, l + 1);
+    if (!r) r = OPTIONS_1(b, l + 1);
+    if (!r) r = OPTIONS_2(b, l + 1);
+    if (!r) r = OPTIONS_3(b, l + 1);
+    if (!r) r = OPTIONS_4(b, l + 1);
+    if (!r) r = OPTIONS_5(b, l + 1);
+    if (!r) r = OPTIONS_6(b, l + 1);
+    if (!r) r = OPTIONS_7(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // Option1Statement [NewLineStatement?]
+  private static boolean OPTIONS_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option1Statement(b, l + 1);
+    r = r && OPTIONS_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_0_1")) return false;
+    OPTIONS_0_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_0_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option2Statement [NewLineStatement?]
+  private static boolean OPTIONS_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option2Statement(b, l + 1);
+    r = r && OPTIONS_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_1_1")) return false;
+    OPTIONS_1_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_1_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option3Statement [NewLineStatement?]
+  private static boolean OPTIONS_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option3Statement(b, l + 1);
+    r = r && OPTIONS_2_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_2_1")) return false;
+    OPTIONS_2_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_2_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_2_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option4Statement [NewLineStatement?]
+  private static boolean OPTIONS_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option4Statement(b, l + 1);
+    r = r && OPTIONS_3_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_3_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_3_1")) return false;
+    OPTIONS_3_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_3_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_3_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option5Statement [NewLineStatement?]
+  private static boolean OPTIONS_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_4")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option5Statement(b, l + 1);
+    r = r && OPTIONS_4_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_4_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_4_1")) return false;
+    OPTIONS_4_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_4_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_4_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option6Statement [NewLineStatement?]
+  private static boolean OPTIONS_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_5")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option6Statement(b, l + 1);
+    r = r && OPTIONS_5_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_5_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_5_1")) return false;
+    OPTIONS_5_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_5_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_5_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option7Statement [NewLineStatement?]
+  private static boolean OPTIONS_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_6")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option7Statement(b, l + 1);
+    r = r && OPTIONS_6_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_6_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_6_1")) return false;
+    OPTIONS_6_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_6_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_6_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
+  }
+
+  // Option8Statement [NewLineStatement?]
+  private static boolean OPTIONS_7(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_7")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Option8Statement(b, l + 1);
+    r = r && OPTIONS_7_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [NewLineStatement?]
+  private static boolean OPTIONS_7_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_7_1")) return false;
+    OPTIONS_7_1_0(b, l + 1);
+    return true;
+  }
+
+  // NewLineStatement?
+  private static boolean OPTIONS_7_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OPTIONS_7_1_0")) return false;
+    NewLineStatement(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */

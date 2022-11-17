@@ -15,6 +15,10 @@ public class XCURLVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNewLineStatement(@NotNull XCURLNewLineStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitOption1(@NotNull XCURLOption1 o) {
     visitPsiElement(o);
   }

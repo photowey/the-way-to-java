@@ -27,14 +27,15 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.photowey.plugin.xcurl.formatter.Formatter;
+import com.photowey.plugin.xcurl.lang.XCURLAnnotator;
 import com.photowey.plugin.xcurl.tool.ConsoleOutputToolWindow;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.util.Objects;
 
 /**
  * {@code XCURLRunAction}
@@ -58,22 +59,15 @@ public class XCURLRunAction extends AnAction {
             return;
         }
         Document document = editor.getDocument();
-        int offset = info.getTextOffset();
-        int lineNumber = document.getLineNumber(offset);
-        int startOffset = document.getLineStartOffset(lineNumber);
-        int endOffset = document.getLineEndOffset(lineNumber);
-        String cmd = document.getText(new TextRange(startOffset, endOffset));
-        if (Objects.equals(cmd, "")) {
-            return;
-        }
+        String cmd = this.tryBlockParse(document);
+
         try {
             Process process = Runtime.getRuntime().exec(cmd);
             String output = this.readOutput(process.getInputStream());
 
-            //this.doNotify("Print", "请求结果", output, NotificationType.INFORMATION);
             ConsoleOutputToolWindow.show(event.getProject(), cmd, output);
         } catch (IOException ex) {
-            this.doNotify("Print", "执行失败", ex.getMessage(), NotificationType.ERROR);
+            this.doNotify("Print", "Execution failed", ex.getMessage(), NotificationType.ERROR);
         }
     }
 
@@ -104,4 +98,46 @@ public class XCURLRunAction extends AnAction {
         Notifications.Bus.notify(new Notification(groupId, title, content, type));
     }
     // @formatter:on
+
+    private String tryBlockParse(Document document) {
+        int offset = info.getTextOffset();
+        int lineNumber = document.getLineNumber(offset);
+        int startOffset = document.getLineStartOffset(lineNumber);
+        int endOffset = document.getLineEndOffset(lineNumber);
+
+        String cmd = document.getText(new TextRange(startOffset, endOffset));
+        String copy = this.replaceNewLine(cmd);
+        StringBuilder ctx = new StringBuilder(copy);
+        int counter = 0;
+
+        try {
+            while (StringUtils.isNotBlank(cmd) && (!cmd.startsWith(XCURLAnnotator.XCURL_PREFIX_STR) || counter == 0)) {
+                lineNumber++;
+                counter++;
+                startOffset = document.getLineStartOffset(lineNumber);
+                endOffset = document.getLineEndOffset(lineNumber);
+
+                cmd = document.getText(new TextRange(startOffset, endOffset));
+                cmd = this.replaceNewLine(cmd).replaceAll("^ *", "");
+
+                if (StringUtils.isNotBlank(cmd)) {
+                    ctx.append(XCURLAnnotator.XCURL_SEPARATOR_STR).append(cmd);
+                }
+            }
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+
+        cmd = ctx.toString();
+
+        if (StringUtils.isBlank(cmd) || cmd.trim().equals(XCURLAnnotator.XCURL_PREFIX_STR)) {
+            cmd = XCURLAnnotator.XCURL_HELP_STR;
+        }
+
+        return cmd;
+    }
+
+    @NotNull
+    private static String replaceNewLine(String cmd) {
+        return cmd.replaceAll(" *\\\\$", "");
+    }
 }

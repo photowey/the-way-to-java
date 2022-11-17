@@ -32,6 +32,7 @@ BASIC_STRING=[0-9a-zA_Z]*
 COMMENT="//".*|"/"\*\*.*\*"/"
 OPTION=--append|-a|-A|--user-agent|-anyauth|-u|--user|-G|--get|-X|--request|--header|-H|--output|-o|--data|-d
 METHOD=GET| HEAD| POST| PATCH| PUT| DELETE| CONNECT| OPTIONS| TRACE
+NEWLINE=([ \\]*\\)
 
 %%
 <YYINITIAL> {
@@ -46,6 +47,7 @@ METHOD=GET| HEAD| POST| PATCH| PUT| DELETE| CONNECT| OPTIONS| TRACE
   {COMMENT}            { return COMMENT; }
   {OPTION}             { return OPTION; }
   {METHOD}             { return METHOD; }
+  {NEWLINE}            { return NEWLINE; }
 
 }
 

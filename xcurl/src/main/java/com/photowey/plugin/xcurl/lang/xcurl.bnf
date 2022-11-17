@@ -21,12 +21,14 @@
         COMMENT = 'regexp://.*|/\*\*.*\*/'
         OPTION = 'regexp:--append|-a|-A|--user-agent|-anyauth|-u|--user|-G|--get|-X|--request|--header|-H|--output|-o|--data|-d'
         METHOD = 'regexp:GET| HEAD| POST| PATCH| PUT| DELETE| CONNECT| OPTIONS| TRACE'
+        NEWLINE = "regexp:([ \\]*\\)"
   ]
 }
 
 XCURLFile ::= COMMAND*
 COMMAND ::= CURL [OPTIONS*] URL
-OPTIONS ::= Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement | Option7Statement | Option8Statement
+OPTIONS ::= Option1Statement [NewLineStatement?] | Option2Statement [NewLineStatement?] | Option3Statement [NewLineStatement?] | Option4Statement [NewLineStatement?] | Option5Statement [NewLineStatement?] | Option6Statement [NewLineStatement?]| Option7Statement [NewLineStatement?]| Option8Statement [NewLineStatement?]
+NewLineStatement ::= NEWLINE
 Option1Statement ::= OPTION1 QUOTED_STRING
 OPTION1 ::= '-a'|'--append'
 Option2Statement ::= OPTION2 QUOTED_STRING

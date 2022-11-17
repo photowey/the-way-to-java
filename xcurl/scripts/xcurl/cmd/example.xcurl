@@ -1,0 +1,8 @@
+CURL -X POST -H "Content-Type: application/json" -H "Accept: */*" -d "{\"hello\":\"world\"}" https://httpbin.org/post
+
+CURL -X POST \
+-H "Content-Type: application/json" \
+-H "Accept: */*" -d "{\"hello\":\"world\"}" \
+https://httpbin.org/post
+
+CURL -X GET -H "Accept: */*" https://www.baidu.com

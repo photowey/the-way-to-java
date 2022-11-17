@@ -46,6 +46,11 @@
         <codeInsight.lineMarkerProvider language="XCURL"
                                         implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLLineMarkerProvider"/>
 
+        <annotator language="XCURL" implementationClass="com.photowey.plugin.xcurl.lang.XCURLAnnotator"/>
+
+        <lang.foldingBuilder language="XCURL"
+                             implementationClass="com.photowey.plugin.xcurl.lang.XCURLFoldingBuilder"/>
+
         <completion.contributor
                 language="XCURL"
                 implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLCommandCodeContributor"/>
