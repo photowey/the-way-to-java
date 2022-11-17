@@ -13,55 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.lang.feature;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.photowey.plugin.xcurl.icon.XCURLIcons;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 /**
- * {@code XCURLFileType}
+ * {@code XCURLCommenter}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/15
  * @since 1.0.0
  */
-public class XCURLFileType extends LanguageFileType {
-
-    public static final XCURLFileType INSTANCE = new XCURLFileType();
-
-    public XCURLFileType() {
-        super(XCURLanguage.INSTANCE);
-    }
-
-    public static XCURLFileType getInstance() {
-        return INSTANCE;
-    }
-
+public class XCURLCommenter implements Commenter {
     @Override
-    public @NotNull
-    String getName() {
-        return "XCURL";
-    }
-
-    @Override
-    public @NotNull
-    String getDescription() {
-        return "XCURL language file";
-    }
-
-    @Override
-    public @NotNull
-    String getDefaultExtension() {
-        return "xcurl";
+    public @Nullable
+    String getLineCommentPrefix() {
+        return "//";
     }
 
     @Override
     public @Nullable
-    Icon getIcon() {
-        return XCURLIcons.ICON;
+    String getBlockCommentPrefix() {
+        return "/**";
+    }
+
+    @Override
+    public @Nullable
+    String getBlockCommentSuffix() {
+        return "*/";
+    }
+
+    @Override
+    public @Nullable
+    String getCommentedBlockCommentPrefix() {
+        return "/**";
+    }
+
+    @Override
+    public @Nullable
+    String getCommentedBlockCommentSuffix() {
+        return "*/";
     }
 }

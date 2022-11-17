@@ -20,7 +20,7 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiNameValuePair;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.photowey.plugin.xcurl.constant.Constants;
+import com.photowey.plugin.xcurl.constant.XCURLConstants;
 
 /**
  * {@code ApiUtils}
@@ -43,7 +43,7 @@ public final class ApiUtils {
             return "";
         }
 
-        PsiAnnotation classAnnotation = psiClass.getAnnotation(Constants.RequestMapping);
+        PsiAnnotation classAnnotation = psiClass.getAnnotation(XCURLConstants.RequestMapping);
         if (classAnnotation != null) {
             result.append(getAnnotationAttributeValue(classAnnotation, "value"));
         }
@@ -68,11 +68,11 @@ public final class ApiUtils {
     }
 
     public static boolean isMappingAnnotation(PsiAnnotation psiAnnotation) {
-        return Constants.RequestMapping.equals(psiAnnotation.getQualifiedName()) ||
-                Constants.GetMapping.equals(psiAnnotation.getQualifiedName()) ||
-                Constants.PostMapping.equals(psiAnnotation.getQualifiedName()) ||
-                Constants.PutMapping.equals(psiAnnotation.getQualifiedName()) ||
-                Constants.DeleteMapping.equals(psiAnnotation.getQualifiedName()) ||
-                Constants.PatchMapping.equals(psiAnnotation.getQualifiedName());
+        return XCURLConstants.RequestMapping.equals(psiAnnotation.getQualifiedName()) ||
+                XCURLConstants.GetMapping.equals(psiAnnotation.getQualifiedName()) ||
+                XCURLConstants.PostMapping.equals(psiAnnotation.getQualifiedName()) ||
+                XCURLConstants.PutMapping.equals(psiAnnotation.getQualifiedName()) ||
+                XCURLConstants.DeleteMapping.equals(psiAnnotation.getQualifiedName()) ||
+                XCURLConstants.PatchMapping.equals(psiAnnotation.getQualifiedName());
     }
 }

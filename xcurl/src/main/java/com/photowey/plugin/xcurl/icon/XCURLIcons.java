@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.icon;
 
-import com.intellij.lang.Language;
+import com.intellij.openapi.util.IconLoader;
+
+import javax.swing.*;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCurlIcons}
  *
  * @author photowey
  * @date 2022/11/14
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
-
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
-
-    private XCURLanguage() {
-        super("XCURL");
-    }
+public interface XCURLIcons {
+    Icon ICON = IconLoader.getIcon("/icons/xcurl.png", XCURLIcons.class);
 }

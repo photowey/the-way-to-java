@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.photowey.plugin.xcurl</id>
-    <name>xcurl</name>
+    <name>XCURL</name>
     <vendor email="photowey@github.com" url="https://www.github.com/photowey">
         photowey
     </vendor>
@@ -29,37 +29,38 @@
 
         <toolWindow
                 factoryClass="com.photowey.plugin.xcurl.tool.ConsoleOutputToolWindow"
-                id="Xcurl" anchor="bottom"
-                icon="com.photowey.plugin.xcurl.icon.XCurlIcons.ICON"/>
+                id="Xcurl"
+                anchor="bottom"
+                icon="com.photowey.plugin.xcurl.icon.XCURLIcons.ICON"/>
 
         <lang.parserDefinition
                 language="XCURL"
-                implementationClass="com.photowey.plugin.xcurl.lang.CURLParserDefinition"/>
+                implementationClass="com.photowey.plugin.xcurl.lang.XCURLParserDefinition"/>
 
         <lang.syntaxHighlighterFactory language="XCURL"
-                                       implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLSyntaxHighlighterFactory"/>
+                                       implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLSyntaxHighlighterFactory"/>
 
         <codeInsight.lineMarkerProvider language="JAVA"
-                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLRelatedItemLineMarkerProvider"/>
+                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLRelatedItemLineMarkerProvider"/>
 
         <codeInsight.lineMarkerProvider language="XCURL"
-                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLLineMarkerProvider"/>
+                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLLineMarkerProvider"/>
 
         <completion.contributor
                 language="XCURL"
-                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandCodeContributor"/>
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLCommandCodeContributor"/>
 
         <lang.documentationProvider
                 language="XCURL"
-                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandDocumentProvider"/>
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLCommandDocumentProvider"/>
 
         <lang.commenter
                 language="XCURL"
-                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommenter"/>
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLCommenter"/>
 
         <lang.formatter
                 language="XCURL"
-                implementationClass="com.photowey.plugin.xcurl.lang.feature.CURLCommandFormattingModelBuilder"/>
+                implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLCommandFormattingModelBuilder"/>
     </extensions>
 
     <actions>

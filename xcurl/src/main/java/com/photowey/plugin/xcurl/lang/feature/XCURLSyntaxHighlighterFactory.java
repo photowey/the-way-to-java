@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.lang.feature;
 
-import com.intellij.lang.Language;
+import com.intellij.openapi.fileTypes.SyntaxHighlighter;
+import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCURLSyntaxHighlighterFactory}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/15
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
-
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
-
-    private XCURLanguage() {
-        super("XCURL");
+public class XCURLSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
+    @Override
+    public @NotNull
+    SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
+        return new XCURLSyntaxHighlighter();
     }
 }

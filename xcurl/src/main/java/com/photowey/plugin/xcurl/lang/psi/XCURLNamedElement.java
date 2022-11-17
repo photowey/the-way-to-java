@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.lang.psi;
 
-import com.intellij.lang.Language;
+import com.intellij.psi.PsiNameIdentifierOwner;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCURLNamedElement}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/17
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
-
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
-
-    private XCURLanguage() {
-        super("XCURL");
-    }
+public interface XCURLNamedElement extends PsiNameIdentifierOwner {
 }

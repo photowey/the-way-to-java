@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.lang.psi;
 
-import com.intellij.lang.Language;
+import com.intellij.psi.tree.IElementType;
+import com.photowey.plugin.xcurl.lang.XCURLanguage;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCURLTokenType}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/15
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
+public class XCURLTokenType extends IElementType {
 
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
+    public XCURLTokenType(String element) {
+        super(element, XCURLanguage.INSTANCE);
+    }
 
-    private XCURLanguage() {
-        super("XCURL");
+    @Override
+    public String toString() {
+        return "CURLTokenType." + super.toString();
     }
 }

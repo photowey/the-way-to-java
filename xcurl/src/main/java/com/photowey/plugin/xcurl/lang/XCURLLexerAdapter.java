@@ -15,20 +15,18 @@
  */
 package com.photowey.plugin.xcurl.lang;
 
-import com.intellij.lang.Language;
+import com.intellij.lexer.FlexAdapter;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCURLLexerAdapter}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/15
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
+public class XCURLLexerAdapter extends FlexAdapter {
 
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
-
-    private XCURLanguage() {
-        super("XCURL");
+    public XCURLLexerAdapter() {
+        super(new _XCURLLexer(null));
     }
 }

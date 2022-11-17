@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.plugin.xcurl.lang;
+package com.photowey.plugin.xcurl.lang.psi.impl;
 
-import com.intellij.lang.Language;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.lang.ASTNode;
+import com.photowey.plugin.xcurl.lang.psi.XCURLNamedElement;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * {@code XCURLanguage}
+ * {@code XCURLNamedElementImpl}
  *
  * @author photowey
- * @date 2022/11/14
+ * @date 2022/11/17
  * @since 1.0.0
  */
-public class XCURLanguage extends Language {
+public abstract class XCURLNamedElementImpl extends ASTWrapperPsiElement implements XCURLNamedElement {
 
-    public static final XCURLanguage INSTANCE = new XCURLanguage();
-
-    private XCURLanguage() {
-        super("XCURL");
+    public XCURLNamedElementImpl(@NotNull ASTNode node) {
+        super(node);
     }
 }
