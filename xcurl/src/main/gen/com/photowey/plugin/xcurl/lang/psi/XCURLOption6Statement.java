@@ -25,6 +25,9 @@ public interface XCURLOption6Statement extends PsiElement {
   @NotNull
   XCURLOption6 getOption6();
 
+  @Nullable
+  PsiElement getNewline();
+
   @NotNull
   PsiElement getQuotedString();
 

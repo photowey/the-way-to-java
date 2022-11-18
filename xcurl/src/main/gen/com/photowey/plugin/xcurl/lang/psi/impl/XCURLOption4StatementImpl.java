@@ -48,4 +48,10 @@ public class XCURLOption4StatementImpl extends ASTWrapperPsiElement implements X
     return findNotNullChildByClass(XCURLOption4.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getNewline() {
+    return findChildByType(NEWLINE);
+  }
+
 }

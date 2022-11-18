@@ -28,4 +28,7 @@ public interface XCURLOption5Statement extends PsiElement {
   @NotNull
   PsiElement getMethod();
 
+  @Nullable
+  PsiElement getNewline();
+
 }

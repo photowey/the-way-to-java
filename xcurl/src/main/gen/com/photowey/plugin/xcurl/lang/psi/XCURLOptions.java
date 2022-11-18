@@ -23,9 +23,6 @@ import com.intellij.psi.PsiElement;
 public interface XCURLOptions extends PsiElement {
 
   @Nullable
-  XCURLNewLineStatement getNewLineStatement();
-
-  @Nullable
   XCURLOption1Statement getOption1Statement();
 
   @Nullable

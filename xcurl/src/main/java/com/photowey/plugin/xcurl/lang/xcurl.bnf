@@ -27,23 +27,22 @@
 
 XCURLFile ::= COMMAND*
 COMMAND ::= CURL [OPTIONS*] URL
-OPTIONS ::= Option1Statement [NewLineStatement?] | Option2Statement [NewLineStatement?] | Option3Statement [NewLineStatement?] | Option4Statement [NewLineStatement?] | Option5Statement [NewLineStatement?] | Option6Statement [NewLineStatement?]| Option7Statement [NewLineStatement?]| Option8Statement [NewLineStatement?]
-NewLineStatement ::= NEWLINE
-Option1Statement ::= OPTION1 QUOTED_STRING
+OPTIONS ::= Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement| Option7Statement| Option8Statement
+Option1Statement ::= OPTION1 QUOTED_STRING [NEWLINE?]
 OPTION1 ::= '-a'|'--append'
-Option2Statement ::= OPTION2 QUOTED_STRING
+Option2Statement ::= OPTION2 QUOTED_STRING [NEWLINE?]
 OPTION2 ::= '-A'|'--user-agent'
-Option3Statement ::= OPTION3 KV
+Option3Statement ::= OPTION3 KV [NEWLINE?]
 OPTION3 ::= ('-anyauth') ('-u' | '--user')
-Option4Statement ::= OPTION4
+Option4Statement ::= OPTION4 [NEWLINE?]
 OPTION4 ::= '-G' | '--get'
-Option5Statement ::= OPTION5 METHOD
+Option5Statement ::= OPTION5 METHOD [NEWLINE?]
 OPTION5 ::= '-X'|'--request'
-Option6Statement ::= OPTION6 QUOTED_STRING
+Option6Statement ::= OPTION6 QUOTED_STRING [NEWLINE?]
 OPTION6 ::= '-H'|'--header'
-Option7Statement ::= OPTION7 QUOTED_STRING
+Option7Statement ::= OPTION7 QUOTED_STRING [NEWLINE?]
 OPTION7 ::= '-o'|'--output'
-Option8Statement ::= OPTION8 QUOTED_STRING
+Option8Statement ::= OPTION8 QUOTED_STRING [NEWLINE?]
 OPTION8 ::= '-d'|'--data'
 
 KV ::= BASIC_STRING':'BASIC_STRING

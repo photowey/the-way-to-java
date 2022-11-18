@@ -27,7 +27,6 @@ public interface XCURLTypes {
 
   IElementType COMMAND = new XCURLElementType("COMMAND");
   IElementType KV = new XCURLElementType("KV");
-  IElementType NEW_LINE_STATEMENT = new XCURLElementType("NEW_LINE_STATEMENT");
   IElementType OPTIONS = new XCURLElementType("OPTIONS");
   IElementType OPTION_1 = new XCURLElementType("OPTION_1");
   IElementType OPTION_1_STATEMENT = new XCURLElementType("OPTION_1_STATEMENT");
@@ -63,9 +62,6 @@ public interface XCURLTypes {
       }
       else if (type == KV) {
         return new XCURLKvImpl(node);
-      }
-      else if (type == NEW_LINE_STATEMENT) {
-        return new XCURLNewLineStatementImpl(node);
       }
       else if (type == OPTIONS) {
         return new XCURLOptionsImpl(node);

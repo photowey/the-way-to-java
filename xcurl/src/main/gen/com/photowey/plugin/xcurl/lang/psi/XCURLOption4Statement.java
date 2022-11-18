@@ -25,4 +25,7 @@ public interface XCURLOption4Statement extends PsiElement {
   @NotNull
   XCURLOption4 getOption4();
 
+  @Nullable
+  PsiElement getNewline();
+
 }

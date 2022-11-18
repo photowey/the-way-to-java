@@ -49,6 +49,12 @@ public class XCURLOption2StatementImpl extends ASTWrapperPsiElement implements X
   }
 
   @Override
+  @Nullable
+  public PsiElement getNewline() {
+    return findChildByType(NEWLINE);
+  }
+
+  @Override
   @NotNull
   public PsiElement getQuotedString() {
     return findNotNullChildByType(QUOTED_STRING);

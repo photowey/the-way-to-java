@@ -97,18 +97,6 @@ public class XCURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NEWLINE
-  public static boolean NewLineStatement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "NewLineStatement")) return false;
-    if (!nextTokenIs(b, NEWLINE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NEWLINE);
-    exit_section_(b, m, NEW_LINE_STATEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // '-a'|'--append'
   public static boolean OPTION1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OPTION1")) return false;
@@ -224,316 +212,236 @@ public class XCURLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Option1Statement [NewLineStatement?] | Option2Statement [NewLineStatement?] | Option3Statement [NewLineStatement?] | Option4Statement [NewLineStatement?] | Option5Statement [NewLineStatement?] | Option6Statement [NewLineStatement?]| Option7Statement [NewLineStatement?]| Option8Statement [NewLineStatement?]
+  // Option1Statement | Option2Statement | Option3Statement | Option4Statement | Option5Statement | Option6Statement| Option7Statement| Option8Statement
   public static boolean OPTIONS(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OPTIONS")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTIONS, "<options>");
-    r = OPTIONS_0(b, l + 1);
-    if (!r) r = OPTIONS_1(b, l + 1);
-    if (!r) r = OPTIONS_2(b, l + 1);
-    if (!r) r = OPTIONS_3(b, l + 1);
-    if (!r) r = OPTIONS_4(b, l + 1);
-    if (!r) r = OPTIONS_5(b, l + 1);
-    if (!r) r = OPTIONS_6(b, l + 1);
-    if (!r) r = OPTIONS_7(b, l + 1);
+    r = Option1Statement(b, l + 1);
+    if (!r) r = Option2Statement(b, l + 1);
+    if (!r) r = Option3Statement(b, l + 1);
+    if (!r) r = Option4Statement(b, l + 1);
+    if (!r) r = Option5Statement(b, l + 1);
+    if (!r) r = Option6Statement(b, l + 1);
+    if (!r) r = Option7Statement(b, l + 1);
+    if (!r) r = Option8Statement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // Option1Statement [NewLineStatement?]
-  private static boolean OPTIONS_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option1Statement(b, l + 1);
-    r = r && OPTIONS_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_0_1")) return false;
-    OPTIONS_0_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_0_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option2Statement [NewLineStatement?]
-  private static boolean OPTIONS_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option2Statement(b, l + 1);
-    r = r && OPTIONS_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_1_1")) return false;
-    OPTIONS_1_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_1_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_1_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option3Statement [NewLineStatement?]
-  private static boolean OPTIONS_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option3Statement(b, l + 1);
-    r = r && OPTIONS_2_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_2_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_2_1")) return false;
-    OPTIONS_2_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_2_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_2_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option4Statement [NewLineStatement?]
-  private static boolean OPTIONS_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option4Statement(b, l + 1);
-    r = r && OPTIONS_3_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_3_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_3_1")) return false;
-    OPTIONS_3_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_3_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_3_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option5Statement [NewLineStatement?]
-  private static boolean OPTIONS_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_4")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option5Statement(b, l + 1);
-    r = r && OPTIONS_4_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_4_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_4_1")) return false;
-    OPTIONS_4_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_4_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_4_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option6Statement [NewLineStatement?]
-  private static boolean OPTIONS_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_5")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option6Statement(b, l + 1);
-    r = r && OPTIONS_5_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_5_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_5_1")) return false;
-    OPTIONS_5_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_5_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_5_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option7Statement [NewLineStatement?]
-  private static boolean OPTIONS_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_6")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option7Statement(b, l + 1);
-    r = r && OPTIONS_6_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_6_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_6_1")) return false;
-    OPTIONS_6_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_6_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_6_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
-  // Option8Statement [NewLineStatement?]
-  private static boolean OPTIONS_7(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_7")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Option8Statement(b, l + 1);
-    r = r && OPTIONS_7_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [NewLineStatement?]
-  private static boolean OPTIONS_7_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_7_1")) return false;
-    OPTIONS_7_1_0(b, l + 1);
-    return true;
-  }
-
-  // NewLineStatement?
-  private static boolean OPTIONS_7_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "OPTIONS_7_1_0")) return false;
-    NewLineStatement(b, l + 1);
-    return true;
-  }
-
   /* ********************************************************** */
-  // OPTION1 QUOTED_STRING
+  // OPTION1 QUOTED_STRING [NEWLINE?]
   public static boolean Option1Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option1Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_1_STATEMENT, "<option 1 statement>");
     r = OPTION1(b, l + 1);
     r = r && consumeToken(b, QUOTED_STRING);
+    r = r && Option1Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option1Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option1Statement_2")) return false;
+    Option1Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option1Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option1Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION2 QUOTED_STRING
+  // OPTION2 QUOTED_STRING [NEWLINE?]
   public static boolean Option2Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option2Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_2_STATEMENT, "<option 2 statement>");
     r = OPTION2(b, l + 1);
     r = r && consumeToken(b, QUOTED_STRING);
+    r = r && Option2Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option2Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option2Statement_2")) return false;
+    Option2Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option2Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option2Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION3 KV
+  // OPTION3 KV [NEWLINE?]
   public static boolean Option3Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option3Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_3_STATEMENT, "<option 3 statement>");
     r = OPTION3(b, l + 1);
     r = r && KV(b, l + 1);
+    r = r && Option3Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option3Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option3Statement_2")) return false;
+    Option3Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option3Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option3Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION4
+  // OPTION4 [NEWLINE?]
   public static boolean Option4Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option4Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_4_STATEMENT, "<option 4 statement>");
     r = OPTION4(b, l + 1);
+    r = r && Option4Statement_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option4Statement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option4Statement_1")) return false;
+    Option4Statement_1_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option4Statement_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option4Statement_1_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION5 METHOD
+  // OPTION5 METHOD [NEWLINE?]
   public static boolean Option5Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option5Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_5_STATEMENT, "<option 5 statement>");
     r = OPTION5(b, l + 1);
     r = r && consumeToken(b, METHOD);
+    r = r && Option5Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option5Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option5Statement_2")) return false;
+    Option5Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option5Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option5Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION6 QUOTED_STRING
+  // OPTION6 QUOTED_STRING [NEWLINE?]
   public static boolean Option6Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option6Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_6_STATEMENT, "<option 6 statement>");
     r = OPTION6(b, l + 1);
     r = r && consumeToken(b, QUOTED_STRING);
+    r = r && Option6Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option6Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option6Statement_2")) return false;
+    Option6Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option6Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option6Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION7 QUOTED_STRING
+  // OPTION7 QUOTED_STRING [NEWLINE?]
   public static boolean Option7Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option7Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_7_STATEMENT, "<option 7 statement>");
     r = OPTION7(b, l + 1);
     r = r && consumeToken(b, QUOTED_STRING);
+    r = r && Option7Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // [NEWLINE?]
+  private static boolean Option7Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option7Statement_2")) return false;
+    Option7Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option7Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option7Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPTION8 QUOTED_STRING
+  // OPTION8 QUOTED_STRING [NEWLINE?]
   public static boolean Option8Statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Option8Statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTION_8_STATEMENT, "<option 8 statement>");
     r = OPTION8(b, l + 1);
     r = r && consumeToken(b, QUOTED_STRING);
+    r = r && Option8Statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // [NEWLINE?]
+  private static boolean Option8Statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option8Statement_2")) return false;
+    Option8Statement_2_0(b, l + 1);
+    return true;
+  }
+
+  // NEWLINE?
+  private static boolean Option8Statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Option8Statement_2_0")) return false;
+    consumeToken(b, NEWLINE);
+    return true;
   }
 
   /* ********************************************************** */
