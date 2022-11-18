@@ -40,7 +40,7 @@
         <lang.syntaxHighlighterFactory language="XCURL"
                                        implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLSyntaxHighlighterFactory"/>
 
-        <codeInsight.lineMarkerProvider language="JAVA"
+        <codeInsight.lineMarkerProvider language="XCURL"
                                         implementationClass="com.photowey.plugin.xcurl.lang.feature.XCURLRelatedItemLineMarkerProvider"/>
 
         <codeInsight.lineMarkerProvider language="XCURL"

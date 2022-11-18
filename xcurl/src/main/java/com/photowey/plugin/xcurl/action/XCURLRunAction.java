@@ -54,6 +54,10 @@ public class XCURLRunAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
+        this.trycURL(event);
+    }
+
+    public void trycURL(@NotNull AnActionEvent event) {
         Editor editor = event.getData(CommonDataKeys.EDITOR);
         if (editor == null) {
             return;
@@ -61,7 +65,7 @@ public class XCURLRunAction extends AnAction {
         Document document = editor.getDocument();
         String cmd = this.tryBlockParse(document);
 
-         this.debugger(cmd);
+        this.debugger(cmd);
 
         try {
             Process process = Runtime.getRuntime().exec(cmd);
@@ -149,7 +153,7 @@ public class XCURLRunAction extends AnAction {
     }
 
     @NotNull
-    private static String replaceNewLine(String cmd) {
+    private String replaceNewLine(String cmd) {
         return cmd.replaceAll(" *\\\\$", "");
     }
 }

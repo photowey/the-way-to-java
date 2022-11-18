@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'maven-publish'
     id 'org.jetbrains.intellij' version '1.9.0'
     id "com.github.hierynomus.license" version "0.16.1"
 }
