@@ -152,6 +152,7 @@
                 <groupId>com.photowey</groupId>
                 <artifactId>persistence-in-action-bom</artifactId>
                 <version>${project.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>com.photowey</groupId>

@@ -2,16 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>the-way-to-java</artifactId>
         <groupId>com.photowey</groupId>
+        <artifactId>the-way-to-java</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.photowey</groupId>
     <artifactId>persistence-in-action-bom</artifactId>
     <name>persistence-in-action-bom</name>
+    <packaging>pom</packaging>
 
     <properties>
         <!-- TODO Mybatis 版本声明->方便本地:带有注释的源码调试-可去掉 -->
@@ -20,7 +23,7 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <mybatis-typehandlers-jsr310.version>1.0.2
         </mybatis-typehandlers-jsr310.version>
-        <jackson-datatype-jsr310.version>2.9.7</jackson-datatype-jsr310.version>
+        <jackson-datatype-jsr310.version>2.9.8</jackson-datatype-jsr310.version>
         <druid.version>1.1.10</druid.version>
 
     </properties>

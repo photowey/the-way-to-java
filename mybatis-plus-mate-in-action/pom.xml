@@ -35,6 +35,7 @@
         <dependency>
             <groupId>com.photowey</groupId>
             <artifactId>persistence-in-action-bom</artifactId>
+            <type>pom</type>
         </dependency>
 
         <dependency>
