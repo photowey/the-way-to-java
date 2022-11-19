@@ -60,6 +60,7 @@
         <dependency>
             <groupId>com.photowey</groupId>
             <artifactId>validator-in-action-bom</artifactId>
+            <type>pom</type>
         </dependency>
     </dependencies>
 
