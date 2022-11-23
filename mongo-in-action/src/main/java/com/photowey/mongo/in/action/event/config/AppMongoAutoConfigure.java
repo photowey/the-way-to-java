@@ -35,7 +35,7 @@ import org.springframework.data.mongodb.core.convert.*;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 /**
- * {@code PlatformMongoAutoConfigure}
+ * {@code AppMongoAutoConfigure}
  * 平台 {@code MongoDB} -自动配置
  *
  * @author photowey
@@ -44,7 +44,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
  */
 @Configuration
 @AutoConfigureAfter(value = MongoDataAutoConfiguration.class)
-public class PlatformMongoAutoConfigure {
+public class AppMongoAutoConfigure {
 
     private static final String MONGO_TRANSACTION_MANAGER_BEAN_NAME = "org.springframework.data.mongodb.MongoTransactionManager";
     private static final String MONGO_TYPE_MAPPER_BEAN_NAME = "org.springframework.data.mongodb.core.convert.MongoTypeMapper";

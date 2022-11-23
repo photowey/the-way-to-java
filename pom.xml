@@ -36,6 +36,8 @@
         <guava.version>30.1.1-jre</guava.version>
 
         <knife4j-starter.version>3.0.2</knife4j-starter.version>
+        <swagger-annotations.version>1.5.22</swagger-annotations.version>
+
         <xxl-job.version>2.3.0</xxl-job.version>
         <ulid.version>5.0.2</ulid.version>
         <jsonpath.version>2.7.0</jsonpath.version>
@@ -226,6 +228,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
