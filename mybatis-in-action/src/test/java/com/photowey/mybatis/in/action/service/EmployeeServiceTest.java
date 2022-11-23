@@ -15,6 +15,8 @@
  */
 package com.photowey.mybatis.in.action.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.photowey.mybatis.in.action.Mybatis;
 import com.photowey.mybatis.in.action.domain.entity.Employee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @date 2021/11/02
  * @since 1.0.0
  */
-@SpringBootTest
+@SpringBootTest(classes = Mybatis.class)
 class EmployeeServiceTest {
 
     @Autowired
@@ -40,4 +42,12 @@ class EmployeeServiceTest {
         Assertions.assertNull(employee);
     }
 
+    @Test
+    void testTargetSQL() {
+        LambdaQueryWrapper<Employee> qw = new LambdaQueryWrapper<Employee>()
+                .select(Employee::getId, Employee::getEmployeeNo)
+                .eq(Employee::getOrgName, "github").or().eq(Employee::getEmployeeNo, "9527");
+
+        Assertions.assertEquals("(ORG_NAME = ? OR EMPLOYEE_NO = ?)", qw.getTargetSql());
+    }
 }

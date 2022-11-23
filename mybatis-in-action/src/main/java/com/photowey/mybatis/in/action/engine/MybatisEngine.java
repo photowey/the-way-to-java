@@ -20,7 +20,6 @@ import lombok.experimental.Accessors;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -43,16 +42,17 @@ public class MybatisEngine implements IMybatisEngine {
     @Getter
     private Environment environment;
 
-    // =========================================
+    // -------------------------------------------------------------------------
 
-    @Getter
-    @Autowired
-    private IRepositoryEngine repositoryEngine;
-    @Getter
-    @Autowired
-    private IServiceEngine serviceEngine;
+    public IRepositoryEngine repositoryEngine() {
+        return this.beanFactory.getBean(IRepositoryEngine.class);
+    }
 
-    // =========================================
+    public IServiceEngine serviceEngine() {
+        return this.beanFactory.getBean(IServiceEngine.class);
+    }
+
+    // -------------------------------------------------------------------------
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
