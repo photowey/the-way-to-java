@@ -32,7 +32,7 @@ public final class GenericUtils {
     private static final String PARAMETERIZED_TYPE_IMPL_FULL_NAME = "sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl";
 
     private GenericUtils() {
-        // utils class; can't create
+        // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 

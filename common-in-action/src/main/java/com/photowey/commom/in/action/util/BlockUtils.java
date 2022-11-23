@@ -15,27 +15,31 @@
  */
 package com.photowey.commom.in.action.util;
 
+import java.util.concurrent.TimeUnit;
+
 /**
- * {@code AssertUtils}
+ * {@code BlockUtils}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2022/11/23
  * @since 1.0.0
  */
-public final class AssertUtils {
+public final class BlockUtils {
 
-    private AssertUtils() {
+    private BlockUtils() {
         // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
-    public static void notNull(final Object target) {
-        notNull(target, "Argument:target invalid, check please~");
+    public static void block() {
+        block(100L);
     }
 
-    public static void notNull(final Object target, String message) {
-        if (target == null) {
-            throw new NullPointerException(message);
+    public static void block(final long millis) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(millis);
+        } catch (Exception e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

@@ -16,26 +16,31 @@
 package com.photowey.commom.in.action.util;
 
 /**
- * {@code AssertUtils}
+ * {@code ApiUtils}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2022/11/23
  * @since 1.0.0
  */
-public final class AssertUtils {
+public final class ApiUtils {
 
-    private AssertUtils() {
+    private ApiUtils() {
         // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
-    public static void notNull(final Object target) {
-        notNull(target, "Argument:target invalid, check please~");
+    public static String populateApi(String host, String api) {
+        // https://www.github.com/
+        // /userinfo
+        // -> https://www.github.com/userinfo
+        return StringFormatUtils.format("{}{}",
+                host.endsWith("/") ? host.substring(0, host.length() - 1) : host,
+                api.startsWith("/") ? api : "/" + api
+        );
     }
 
-    public static void notNull(final Object target, String message) {
-        if (target == null) {
-            throw new NullPointerException(message);
-        }
+    public static String populateArgs(String url, Object... args) {
+        return StringFormatUtils.format(url, args);
     }
+
 }

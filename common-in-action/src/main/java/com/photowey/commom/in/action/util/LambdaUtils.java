@@ -34,16 +34,20 @@ import java.util.stream.Collectors;
 public final class LambdaUtils {
 
     private LambdaUtils() {
-        // utils class; can't create
+        // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
-    public static <T, D> List<D> transferToList(Collection<T> resources, Function<T, D> function) {
+    public static <T, D> List<D> toList(Collection<T> resources, Function<T, D> function) {
         return resources.stream().map(function::apply).collect(Collectors.toList());
     }
 
-    public static <T, D> Set<D> transferToSet(Collection<T> resources, Function<T, D> function) {
+    public static <T, D> Set<D> toSet(Collection<T> resources, Function<T, D> function) {
         return resources.stream().map(function::apply).collect(Collectors.toSet());
+    }
+
+    public static <K, V> Map<K, V> toMap(Collection<V> from, Function<V, K> keyMapper) {
+        return from.stream().collect(Collectors.toMap(keyMapper, Function.identity()));
     }
 
     public static <T> List<T> filter(Collection<T> resources, Predicate<? super T> predicate) {
@@ -61,6 +65,15 @@ public final class LambdaUtils {
     public static <T> BigDecimal reduce(Collection<T> resources, Function<T, BigDecimal> function) {
         return resources.stream().map(function).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public static <T> long count(Collection<T> from, Predicate<T> predicate) {
+        return from.stream().filter(predicate).count();
+    }
+
+    public static <T> boolean exists(Collection<T> from, Predicate<T> predicate) {
+        return from.stream().filter(predicate).limit(1).count() > 0;
+    }
+
 
     public static <T> boolean test(T resource, Predicate<T> predicate) {
         return predicate.test(resource);

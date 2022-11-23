@@ -42,7 +42,7 @@ public final class NanoidUtils {
     public static final SecureRandom DEFAULT_NUMBER_GENERATOR = new SecureRandom();
 
     private NanoidUtils() {
-        // utils class; can't create
+        // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 

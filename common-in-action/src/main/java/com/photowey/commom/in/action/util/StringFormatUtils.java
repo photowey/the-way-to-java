@@ -15,27 +15,35 @@
  */
 package com.photowey.commom.in.action.util;
 
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
+
 /**
- * {@code AssertUtils}
+ * {@code StringFormatUtils}
  *
  * @author photowey
- * @date 2021/11/15
+ * @date 2022/11/23
  * @since 1.0.0
  */
-public final class AssertUtils {
+public final class StringFormatUtils {
 
-    private AssertUtils() {
+    private StringFormatUtils() {
         // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
-    public static void notNull(final Object target) {
-        notNull(target, "Argument:target invalid, check please~");
-    }
-
-    public static void notNull(final Object target, String message) {
-        if (target == null) {
-            throw new NullPointerException(message);
-        }
+    /**
+     * 格式化字符串
+     *
+     * @param text 字符串格式
+     * @param args 参数
+     * @see FormattingTuple
+     * @see MessageFormatter#arrayFormat(String, Object[])
+     * @see FormattingTuple#getMessage()
+     */
+    public static String format(String text, Object... args) {
+        assert null != text;
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(text, args);
+        return formattingTuple.getMessage();
     }
 }

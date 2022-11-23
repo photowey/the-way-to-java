@@ -43,6 +43,8 @@
         
         <nanoid.version>2.0.0</nanoid.version>
 
+        <commons-collections4.version>4.3</commons-collections4.version>
+
         <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
         <mysql.version>8.0.13</mysql.version>
     </properties>
@@ -218,6 +220,12 @@
                 <groupId>com.aventrix.jnanoid</groupId>
                 <artifactId>jnanoid</artifactId>
                 <version>${nanoid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
