@@ -13,26 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.elasticseatch.in.action;
-
-import com.photowey.print.in.action.printer.AppPrinter;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+package com.photowey.elasticseatch.in.action.core;
 
 /**
- * {@code ElasticSearchApp}
+ * {@code IPagination}
  *
  * @author photowey
- * @date 2021/11/23
+ * @date 2022/11/23
  * @since 1.0.0
  */
-@SpringBootApplication
-public class ElasticSearchApp {
-    public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(ElasticSearchApp.class, args);
-        AppPrinter.print(applicationContext, false);
-    }
+public interface IPagination {
 
+    int DEFAULT_PAGE_NO = 0;
+    int DEFAULT_PAGE_SIZE = 10;
 
+    int PAGE_NO_THRESHOLD = 0;
+    int PAGE_SIZE_THRESHOLD = 100;
+
+    /**
+     * 当前页码
+     *
+     * @return {@code int} 当前页码
+     */
+    int getCurrent();
+
+    /**
+     * 每页展示条数(偏移量)
+     *
+     * @return {@code int} 每页展示条数(偏移量)
+     */
+    int getPageSize();
 }

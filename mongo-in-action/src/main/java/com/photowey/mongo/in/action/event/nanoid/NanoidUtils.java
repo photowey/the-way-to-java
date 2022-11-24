@@ -60,7 +60,7 @@ public final class NanoidUtils {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, alphabet, size);
     }
 
-// ----------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
     public static String randomLowerNanoId() {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, NANOID_LOWER_ALPHABET, NanoIdUtils.DEFAULT_SIZE);
@@ -74,7 +74,7 @@ public final class NanoidUtils {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, alphabet, size);
     }
 
-// ----------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
     public static String randomNumberNanoId() {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, NANOID_NUMBER_ALPHABET, NanoIdUtils.DEFAULT_SIZE);
@@ -88,7 +88,7 @@ public final class NanoidUtils {
         return randomNanoId(DEFAULT_NUMBER_GENERATOR, alphabet, size);
     }
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
     public static String randomNanoId(final Random random, final char[] alphabet, final int size) {
         return NanoIdUtils.randomNanoId(random, alphabet, size);
