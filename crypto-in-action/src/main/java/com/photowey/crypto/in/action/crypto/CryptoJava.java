@@ -30,7 +30,7 @@ import java.security.SecureRandom;
  * {@code Crypto} {@code Java} 语言部分实现
  * 类结构设计思想来源于 前端 {@code CryptoJS} {@see * https://cryptojs.gitbook.io/docs/}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/03/15
  * @since 1.0.0
  */

@@ -18,7 +18,7 @@ package com.photowey.crypto.in.action.sm2;
 /**
  * {@code SM2Utils}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/10/12
  * @since 1.0.0
  */

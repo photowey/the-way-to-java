@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 /**
  * {@code BreadthFirstSearchTest}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/11/03
  * @since 1.0.0
  */

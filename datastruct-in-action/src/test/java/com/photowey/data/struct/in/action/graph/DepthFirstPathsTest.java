@@ -22,7 +22,7 @@ import java.util.Stack;
 /**
  * {@code DepthFirstPathsTest}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/11/03
  * @since 1.0.0
  */

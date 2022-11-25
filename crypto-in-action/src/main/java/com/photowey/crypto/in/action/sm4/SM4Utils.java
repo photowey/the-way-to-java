@@ -32,7 +32,7 @@ import java.util.Arrays;
 /**
  * {@code SM4Utils}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2022/10/12
  * @since 1.0.0
  */
