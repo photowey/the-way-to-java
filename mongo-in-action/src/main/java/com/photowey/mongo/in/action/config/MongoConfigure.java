@@ -50,8 +50,10 @@ public class MongoConfigure {
      * {@link IKeyGenerator}
      *
      * @return {@link IKeyGenerator}
+     * @see {@link AppMongoAutoConfigure#mongoKeyGenerator()}
      */
-    @Bean("mongoKeyGenerator")
+    @Bean
+    @Deprecated
     public IKeyGenerator keyGenerator() {
         return new KeyGenerator();
     }

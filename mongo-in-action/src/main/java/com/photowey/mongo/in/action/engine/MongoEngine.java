@@ -47,12 +47,13 @@ public class MongoEngine implements IMongoEngine {
 
     // =========================================
 
-    @Getter
-    @Autowired
-    private IRepositoryEngine repositoryEngine;
-    @Getter
-    @Autowired
-    private IServiceEngine serviceEngine;
+    public IRepositoryEngine repositoryEngine() {
+        return this.beanFactory.getBean(IRepositoryEngine.class);
+    }
+
+    public IServiceEngine serviceEngine() {
+        return this.beanFactory.getBean(IServiceEngine.class);
+    }
 
     // =========================================
 

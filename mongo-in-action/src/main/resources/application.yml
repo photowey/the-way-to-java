@@ -10,7 +10,7 @@ spring:
     mongodb:
       host: ${local.config.mongo.host}
       port: ${local.config.mongo.port}
-      database: "authority"
+      database: ${local.config.mongo.database}
       username: ${local.config.mongo.username}
       password: ${local.config.mongo.password}
 

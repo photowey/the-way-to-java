@@ -15,8 +15,6 @@
  */
 package com.photowey.mongo.in.action.generator;
 
-import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,7 +27,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @date 2021/11/24
  * @since 1.0.0
  */
-@Component
 public class KeyGenerator implements IKeyGenerator {
 
     /**
