@@ -1,0 +1,6 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "aot"
