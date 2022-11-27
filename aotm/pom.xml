@@ -56,12 +56,10 @@
             <plugin>
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
-                <version>0.9.17</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.0.0</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -73,5 +71,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
