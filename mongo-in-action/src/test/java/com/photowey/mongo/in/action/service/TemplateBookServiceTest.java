@@ -55,9 +55,81 @@ class TemplateBookServiceTest extends AbstractMongoTest {
     @Test
     void testBookLikeQuery() {
         String publishName = "工业出版社";
+        // { "publish" : { "$regularExpression" : { "pattern" : ".*?工业出版社.*", "options" : ""}}}
         List<Book> books = this.mongoEngine.serviceEngine().templateBookService().findBookByPublishLike(publishName);
+
+        Assertions.assertEquals(4, books.size());
         books.forEach(book -> {
             Assertions.assertTrue(book.getPublish().contains(publishName), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testBookLikeQuery_v2() {
+        String publishName = "工业出版社";
+        List<Book> books = this.mongoEngine.serviceEngine().templateBookService().findBookByPublishLike_v2(publishName);
+
+        Assertions.assertEquals(4, books.size());
+        books.forEach(book -> {
+            Assertions.assertTrue(book.getPublish().contains(publishName), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testBookLikeQuery_v3() {
+        String publishName = "机械";
+        List<Book> books = this.mongoEngine.serviceEngine().templateBookService().findBookByPublishLike_v2(publishName);
+
+        Assertions.assertEquals(2, books.size());
+        books.forEach(book -> {
+            Assertions.assertTrue(book.getPublish().contains(publishName), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testBookLikeQuery_v4() {
+        String publishName = "工业出版社";
+        // { "publish" : { "$regularExpression" : { "pattern" : "工业出版社", "options" : ""}}}
+        List<Book> books = this.mongoEngine.repositoryEngine().bookRepository().findByPublishLike(publishName);
+
+        Assertions.assertEquals(4, books.size());
+        books.forEach(book -> {
+            Assertions.assertTrue(book.getPublish().contains(publishName), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testBookLikeQuery_v5() {
+        String publishName = "机械";
+        List<Book> books = this.mongoEngine.repositoryEngine().bookRepository().findByPublishLike(publishName);
+
+        Assertions.assertEquals(2, books.size());
+        books.forEach(book -> {
+            Assertions.assertTrue(book.getPublish().contains(publishName), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testBookEqQuery() {
+        String publishName = "机械工业出版社";
+        List<Book> books = this.mongoEngine.repositoryEngine().bookRepository().findByPublish(publishName);
+
+        // { "publish" : "机械工业出版社"}
+        Assertions.assertEquals(2, books.size());
+        books.forEach(book -> {
+            Assertions.assertEquals(publishName, book.getPublish(), "TemplateBookService failure!");
+        });
+    }
+
+    @Test
+    void testMongoAware() {
+        String publishName = "机械工业出版社";
+        List<Book> books = this.awareBookService.mongoEngine().repositoryEngine().bookRepository().findByPublish(publishName);
+
+        // { "publish" : "机械工业出版社"}
+        Assertions.assertEquals(2, books.size());
+        books.forEach(book -> {
+            Assertions.assertEquals(publishName, book.getPublish(), "TemplateBookService failure!");
         });
     }
 }

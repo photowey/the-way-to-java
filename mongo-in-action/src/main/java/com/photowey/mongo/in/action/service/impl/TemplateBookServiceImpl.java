@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * {@code TemplateBookServiceImpl}
@@ -133,7 +134,17 @@ public class TemplateBookServiceImpl implements TemplateBookService {
      */
     @Override
     public List<Book> findBookByPublishLike(String publishName) {
-        Query query = new Query(Criteria.where("publish").regex(".*?\\" + publishName + ".*"));
+        // { "publish" : { "$regularExpression" : { "pattern" : ".*?\\工业出版社.*", "options" : ""}}}
+        Query query = new Query(Criteria.where("publish").regex(".*?" + publishName + ".*"));
+        return this.mongoEngine.mongoTemplate().find(query, Book.class);
+    }
+
+    @Override
+    public List<Book> findBookByPublishLike_v2(String publishName) {
+        // { "publish" : { "$regularExpression" : { "pattern" : "^.*?工业出版社.*$", "options" : "i"}}}
+        Pattern pattern = Pattern.compile("^.*?" + publishName + ".*$", Pattern.CASE_INSENSITIVE);
+        Query query = new Query(Criteria.where("publish").regex(pattern));
+
         return this.mongoEngine.mongoTemplate().find(query, Book.class);
     }
 }

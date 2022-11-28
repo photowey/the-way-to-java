@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.mongo.in.action.repository;
+package com.photowey.mongo.in.action.engine;
 
-import com.photowey.mongo.in.action.domain.entity.Book;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.beans.factory.Aware;
 
 /**
- * {@code BookRepository}
+ * {@code MongoEngineAware}
  *
  * @author photowey
- * @date 2021/11/24
+ * @date 2022/11/28
  * @since 1.0.0
  */
-@Repository
-public interface BookRepository extends MongoRepository<Book, String> {
+public interface MongoEngineAware extends Aware {
 
-    List<Book> findByPublishLike(String publish);
-
-    List<Book> findByPublish(String publish);
+    void setMongoEngine(IMongoEngine mongoEngine);
 }

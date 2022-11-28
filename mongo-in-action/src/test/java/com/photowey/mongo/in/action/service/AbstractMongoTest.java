@@ -17,6 +17,7 @@ package com.photowey.mongo.in.action.service;
 
 import com.photowey.mongo.in.action.domain.entity.Book;
 import com.photowey.mongo.in.action.engine.IMongoEngine;
+import com.photowey.mongo.in.action.service.impl.AwareBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -30,6 +31,9 @@ public abstract class AbstractMongoTest {
 
     @Autowired
     protected IMongoEngine mongoEngine;
+
+    @Autowired
+    protected AwareBookService awareBookService;
 
     protected Book populateBook(String nextId, int price) {
         Book book = new Book();

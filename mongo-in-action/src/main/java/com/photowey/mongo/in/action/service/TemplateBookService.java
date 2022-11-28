@@ -82,4 +82,5 @@ public interface TemplateBookService {
      * @return {@link Book}
      */
     List<Book> findBookByPublishLike(String publishName);
+    List<Book> findBookByPublishLike_v2(String publishName);
 }
