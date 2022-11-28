@@ -16,13 +16,11 @@
 package com.photowey.commom.in.action.util;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * {@code LambdaUtils}
@@ -38,32 +36,98 @@ public final class LambdaUtils {
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
-    public static <T, D> List<D> toList(Collection<T> resources, Function<T, D> function) {
-        return resources.stream().map(function::apply).collect(Collectors.toList());
+    public static <T, D> List<D> toList(
+            Collection<T> from,
+            Function<T, D> mapper) {
+        return from.stream()
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
-    public static <T, D> Set<D> toSet(Collection<T> resources, Function<T, D> function) {
-        return resources.stream().map(function::apply).collect(Collectors.toSet());
+    public static <T, D> List<D> toList(
+            Collection<T> from,
+            Predicate<T> predicate,
+            Function<T, D> mapper) {
+        return from.stream()
+                .filter(predicate)
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
-    public static <K, V> Map<K, V> toMap(Collection<V> from, Function<V, K> keyMapper) {
-        return from.stream().collect(Collectors.toMap(keyMapper, Function.identity()));
+    public static <T, MIDDLE, D> List<D> toListm(
+            Collection<T> from,
+            Function<T, Stream<MIDDLE>> mapper,
+            Function<MIDDLE, D> fx) {
+        return from.stream()
+                .flatMap(mapper)
+                .map(fx)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
-    public static <T> List<T> filter(Collection<T> resources, Predicate<? super T> predicate) {
-        return resources.stream().filter(predicate::test).collect(Collectors.toList());
+    public static <T, D> Set<D> toSet(
+            Collection<T> from,
+            Function<T, D> mapper) {
+        return from.stream()
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
-    public static <T> T filterAny(Collection<T> resources, Predicate<T> predicate) {
-        return resources.stream().filter(predicate::test).findAny().orElse(null);
+    public static <T, D> Set<D> toSet(
+            Collection<T> from,
+            Predicate<T> predicate,
+            Function<T, D> mapper) {
+        return from.stream()
+                .filter(predicate)
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
-    public static <T, K> Map<K, List<T>> groupingBy(Collection<T> resources, Function<T, K> function) {
-        return resources.stream().collect(Collectors.groupingBy(function));
+    public static <T, MIDDLE, D> Set<D> toSetm(
+            Collection<T> from,
+            Function<T, Stream<MIDDLE>> mapper,
+            Function<MIDDLE, D> fx) {
+        return from.stream()
+                .flatMap(mapper)
+                .map(fx)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
-    public static <T> BigDecimal reduce(Collection<T> resources, Function<T, BigDecimal> function) {
-        return resources.stream().map(function).reduce(BigDecimal.ZERO, BigDecimal::add);
+    public static <K, V> Map<K, V> toMap(
+            Collection<V> from,
+            Function<V, K> keyMapper) {
+        return from.stream()
+                .collect(Collectors.toMap(keyMapper, Function.identity()));
+    }
+
+    public static <T> List<T> filter(
+            Collection<T> from,
+            Predicate<T> predicate) {
+        return from.stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+    }
+
+    public static <T> T findAny(Collection<T> from, Predicate<T> predicate) {
+        return from.stream()
+                .filter(predicate)
+                .findAny()
+                .orElse(null);
+    }
+
+    public static <T, K> Map<K, List<T>> groupingBy(Collection<T> from, Function<T, K> function) {
+        return from.stream().collect(Collectors.groupingBy(function));
+    }
+
+    public static <T> BigDecimal reduce(Collection<T> from, Function<T, BigDecimal> function) {
+        return from.stream()
+                .map(function)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static <T> long count(Collection<T> from, Predicate<T> predicate) {
@@ -71,16 +135,18 @@ public final class LambdaUtils {
     }
 
     public static <T> boolean exists(Collection<T> from, Predicate<T> predicate) {
-        return from.stream().filter(predicate).limit(1).count() > 0;
+        return from.stream()
+                .filter(predicate)
+                .limit(1)
+                .count() > 0;
     }
 
-
-    public static <T> boolean test(T resource, Predicate<T> predicate) {
-        return predicate.test(resource);
+    public static <T> boolean test(T from, Predicate<T> predicate) {
+        return predicate.test(from);
     }
 
     public static <T> List<T> copy(Collection<T> candidates) {
-        List<T> copy = candidates.stream().map(candidate -> candidate).collect(Collectors.toList());
-        return copy;
+        return new ArrayList<>(candidates);
     }
+
 }
