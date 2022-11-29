@@ -17,6 +17,7 @@ package com.photowey.spring.in.action.threadlocal;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.alibaba.ttl.TtlRunnable;
+import com.alibaba.ttl.threadpool.TtlExecutors;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +40,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 class TransmittableThreadLocalTest {
 
+    private static final TransmittableThreadLocal<String> CONTEXT = new TransmittableThreadLocal<>();
+
     private ExecutorService executorService;
 
     @BeforeEach
@@ -47,16 +51,16 @@ class TransmittableThreadLocalTest {
 
     @AfterEach
     public void shutdown() {
+        CONTEXT.remove();
         executorService.shutdown();
     }
 
     @Test
     @SneakyThrows
     void testHelloTransmittableThreadLocal() {
-        TransmittableThreadLocal<String> context = new TransmittableThreadLocal<>();
-        context.set("value-set-in-parent");
+        CONTEXT.set("value-set-in-parent");
         executorService.execute(() -> {
-            String value = context.get();
+            String value = CONTEXT.get();
             log.info("the sub thread get value is:{}", value);
             Assertions.assertEquals("value-set-in-parent", value);
         });
@@ -67,31 +71,99 @@ class TransmittableThreadLocalTest {
     @Test
     @SneakyThrows
     void testTtl() {
-        TransmittableThreadLocal<String> context = new TransmittableThreadLocal<>();
-        context.set("value-set-in-parent");
+        CONTEXT.set("value-set-in-parent");
 
-        Runnable ttlRunnable = TtlRunnable.get(() -> {
-            String value = context.get();
-            log.info("the sub thread:[ttlRunnable] get value is:{}", value);
+        Runnable t1 = TtlRunnable.get(() -> {
+            String value = CONTEXT.get();
+            log.info("the sub thread:[t1] get value is:{}", value);
             Assertions.assertEquals("value-set-in-parent", value);
         });
 
-        Runnable ttlRunnable2 = TtlRunnable.get(() -> {
-            String value = context.get();
-            log.info("the sub thread:[ttlRunnable2] get value is:{}", value);
+        Runnable t2 = TtlRunnable.get(() -> {
+            String value = CONTEXT.get();
+            log.info("the sub thread:[t2] get value is:{}", value);
             Assertions.assertEquals("value-set-in-parent", value);
         });
 
-        Runnable ttlRunnable3 = TtlRunnable.get(() -> {
-            String value = context.get();
-            log.info("the sub thread:[ttlRunnable3] get value is:{}", value);
+        Runnable t3 = TtlRunnable.get(() -> {
+            String value = CONTEXT.get();
+            log.info("the sub thread:[t3] get value is:{}", value);
             Assertions.assertEquals("value-set-in-parent", value);
         });
 
-        executorService.submit(ttlRunnable);
-        executorService.submit(ttlRunnable2);
-        executorService.submit(ttlRunnable3);
+        executorService.submit(t1);
+        executorService.submit(t2);
+        executorService.submit(t3);
 
         TimeUnit.SECONDS.sleep(3);
+    }
+
+    @Test
+    @SneakyThrows
+    void testTtl_v2() {
+        CONTEXT.set("China");
+
+        Runnable t1 = TtlRunnable.get(() -> {
+            Thread thread = Thread.currentThread();
+            log.info("{}-------------------------------- start", thread.getName());
+            String countryCode = CONTEXT.get();
+            log.info("{}-------------------------------- value={}", thread.getName(), countryCode);
+            CONTEXT.set("US");
+            log.info("{}-------------------------------- end", thread.getName());
+        });
+
+        Runnable t2 = TtlRunnable.get(() -> {
+            Thread thread = Thread.currentThread();
+            log.info("{}-------------------------------- start", thread.getName());
+            String countryCode = CONTEXT.get();
+            log.info("{}-------------------------------- value={}", thread.getName(), countryCode);
+            log.info("{}-------------------------------- end", thread.getName());
+        });
+
+        CompletableFuture<Void> future = CompletableFuture.runAsync(t1, executorService).thenRunAsync(t2, executorService);
+        future.get();
+
+        String countryCode = CONTEXT.get();
+
+        log.info("{}-------------------------------- value={}", "main", countryCode);
+
+        TimeUnit.SECONDS.sleep(3);
+    }
+
+    @Test
+    @SneakyThrows
+    void testTtl_v3() {
+        ExecutorService executor = TtlExecutors.getTtlExecutorService(executorService);
+
+        CONTEXT.set("China");
+
+        Runnable t1 = () -> {
+            Thread thread = Thread.currentThread();
+            log.info("{}-------------------------------- start", thread.getName());
+            String countryCode = CONTEXT.get();
+            log.info("{}-------------------------------- value={}", thread.getName(), countryCode);
+            CONTEXT.set("US");
+            log.info("{}-------------------------------- end", thread.getName());
+        };
+
+        Runnable t2 = () -> {
+            Thread thread = Thread.currentThread();
+            log.info("{}-------------------------------- start", thread.getName());
+            String countryCode = CONTEXT.get();
+            log.info("{}-------------------------------- value={}", thread.getName(), countryCode);
+            log.info("{}-------------------------------- end", thread.getName());
+        };
+
+        CompletableFuture<Void> future = CompletableFuture.runAsync(t1, executor).thenRunAsync(t2, executor);
+        future.get();
+
+        String countryCode = CONTEXT.get();
+
+        log.info("{}-------------------------------- value={}", "main", countryCode);
+
+        TimeUnit.SECONDS.sleep(3);
+
+        CONTEXT.remove();
+        executor.shutdownNow();
     }
 }
