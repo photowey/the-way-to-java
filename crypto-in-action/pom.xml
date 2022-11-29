@@ -14,7 +14,8 @@
     <artifactId>crypto-in-action</artifactId>
 
     <properties>
-        <bouncycastle.version>1.46</bouncycastle.version>
+        <bouncycastle-jdk16.version>1.46</bouncycastle-jdk16.version>
+        <bouncycastle-jdk15on.version>1.70</bouncycastle-jdk15on.version>
         <commons-codec.version>1.15</commons-codec.version>
         <fastjson.version>1.2.79</fastjson.version>
     </properties>
@@ -31,9 +32,10 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 
+        <!-- SM4 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
+            <artifactId>bcprov-jdk15on</artifactId>
         </dependency>
 
         <dependency>
@@ -56,13 +58,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -76,7 +71,13 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk16</artifactId>
-                <version>${bouncycastle.version}</version>
+                <version>${bouncycastle-jdk16.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bouncycastle-jdk15on.version}</version>
             </dependency>
 
             <dependency>

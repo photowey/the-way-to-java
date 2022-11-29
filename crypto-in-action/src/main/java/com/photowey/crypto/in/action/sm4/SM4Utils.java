@@ -36,7 +36,7 @@ import java.util.Arrays;
  * @date 2022/10/12
  * @since 1.0.0
  */
-public class SM4Utils {
+public final class SM4Utils {
 
     private SM4Utils() {
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
