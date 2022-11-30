@@ -22,7 +22,7 @@ package com.photowey.mongo.in.action.document;
  * @date 2021/11/24
  * @since 1.0.0
  */
-public interface MongoDocument {
+public interface MongoDocument extends PrimaryKey {
 
     /**
      * 设置主键标识
@@ -32,6 +32,16 @@ public interface MongoDocument {
     void setId(String id);
 
     String getId();
+
+    /**
+     * 设置
+     * 业务主键标识
+     *
+     * @param businessId 业务主键标识
+     */
+    default void setBusinessId(String businessId) {
+
+    }
 
     /**
      * 获取业务标识

@@ -235,6 +235,12 @@
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger-annotations.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>common-in-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -13,16 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.boot.v3.aot;
+package com.photowey.mongo.in.action.document;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+/**
+ * {@code PrimaryKey}
+ *
+ * @author photowey
+ * @date 2022/11/29
+ * @since 1.0.0
+ */
+public interface PrimaryKey {
 
-@SpringBootTest
-class AotApplicationTests {
+    /**
+     * 是否支持自定义主键
+     *
+     * @return {@code boolean} 是否支持
+     */
+    default boolean supportCustoms() {
+        return false;
+    }
 
-	@Test
-	void contextLoads() {
-	}
-
+    /**
+     * 获取
+     * 自定义主键
+     *
+     * @return 自定义主键
+     */
+    default String customDefine() {
+        return "";
+    }
 }
