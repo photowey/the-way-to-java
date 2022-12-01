@@ -20,8 +20,11 @@ import com.photowey.crypto.in.action.hash.Hash;
 import com.photowey.crypto.in.action.ras.CryptoRsaReader;
 import com.photowey.crypto.in.action.ras.RsaPair;
 import com.photowey.crypto.in.action.sm4.SM4Utils;
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
@@ -49,6 +52,7 @@ public final class CryptoJava {
     private final static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
     private CryptoJava() {
+        // utility class; can't create
         throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
     }
 
@@ -59,12 +63,70 @@ public final class CryptoJava {
         private static final String AES_CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
 
         private AES() {
+            // utility class; can't create
             throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        }
+
+        public static final class SHA1PRNG implements Serializable {
+
+            private static final Integer KEY_INIT_LENGTH = 128;
+            private static final String SHA1PRNG = "SHA1PRNG";
+
+            private SHA1PRNG() {
+                // utility class; can't create
+                throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+            }
+
+            public static String encrypt(String rules, String content) {
+                try {
+                    KeyGenerator keyGen = KeyGenerator.getInstance(AES_ALGORITHM);
+                    SecureRandom random = SecureRandom.getInstance(SHA1PRNG);
+                    random.setSeed(rules.getBytes(StandardCharsets.UTF_8));
+                    keyGen.init(KEY_INIT_LENGTH, random);
+
+                    SecretKey originalKey = keyGen.generateKey();
+                    byte[] raw = originalKey.getEncoded();
+                    SecretKey key = new SecretKeySpec(raw, AES_ALGORITHM);
+                    Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+                    cipher.init(Cipher.ENCRYPT_MODE, key);
+
+                    byte[] byteEncode = content.getBytes(StandardCharsets.UTF_8);
+                    byte[] byteAes = cipher.doFinal(byteEncode);
+
+                    return Base64Utils.encrypt(byteAes);
+                } catch (Exception e) {
+                    throw new SecurityException("handle aes.sha1prng encrypt exception", e);
+                }
+            }
+
+            public static String decrypt(String rules, String content) {
+                try {
+                    KeyGenerator keyGen = KeyGenerator.getInstance(AES_ALGORITHM);
+                    SecureRandom random = SecureRandom.getInstance(SHA1PRNG);
+                    random.setSeed(rules.getBytes(StandardCharsets.UTF_8));
+                    keyGen.init(KEY_INIT_LENGTH, random);
+
+                    SecretKey original_key = keyGen.generateKey();
+                    byte[] raw = original_key.getEncoded();
+
+                    SecretKey key = new SecretKeySpec(raw, AES_ALGORITHM);
+                    Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+                    cipher.init(Cipher.DECRYPT_MODE, key);
+
+                    byte[] contentByte = Base64Utils.decrypt(content);
+                    byte[] decodeByte = cipher.doFinal(contentByte);
+
+                    return new String(decodeByte, StandardCharsets.UTF_8);
+                } catch (Exception e) {
+                    throw new SecurityException("handle aes.sha1prng decrypt exception", e);
+                }
+            }
         }
 
         public static final class NoPadding implements Serializable {
 
             private NoPadding() {
+                // utility class; can't create
                 throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
             }
 
@@ -72,11 +134,7 @@ public final class CryptoJava {
                 return encrypt(rules, context, ivString, AES_CBC_NO_PADDING);
             }
 
-            public static String decrypt(String rules, String encrypted, String ivString) {
-                return decrypt(rules, encrypted, ivString, AES_CBC_NO_PADDING);
-            }
-
-            public static String encrypt(String secretKey, String context, String ivString, String cipherString) {
+            public static String encrypt(String rules, String context, String ivString, String cipherString) {
                 byte[] iv = ivString.getBytes(StandardCharsets.UTF_8);
                 try {
                     Cipher cipher = Cipher.getInstance(cipherString);
@@ -89,7 +147,7 @@ public final class CryptoJava {
                     byte[] plainText = new byte[length];
                     System.arraycopy(dataBytes, 0, plainText, 0, dataBytes.length);
 
-                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+                    SecretKeySpec keySpec = new SecretKeySpec(rules.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
                     IvParameterSpec ivSpec = new IvParameterSpec(iv);
                     cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
                     byte[] encrypted = cipher.doFinal(plainText);
@@ -101,12 +159,16 @@ public final class CryptoJava {
                 }
             }
 
-            public static String decrypt(String secretKey, String encrypted, String ivString, String cipherString) {
+            public static String decrypt(String rules, String encrypted, String ivString) {
+                return decrypt(rules, encrypted, ivString, AES_CBC_NO_PADDING);
+            }
+
+            public static String decrypt(String rules, String encrypted, String ivString, String cipherString) {
                 byte[] iv = ivString.getBytes(StandardCharsets.UTF_8);
                 try {
                     byte[] dataBytes = Base64Utils.decrypt(encrypted);
                     Cipher cipher = Cipher.getInstance(cipherString);
-                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+                    SecretKeySpec keySpec = new SecretKeySpec(rules.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
                     IvParameterSpec ivSpec = new IvParameterSpec(iv);
                     cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
                     byte[] original = cipher.doFinal(dataBytes);
@@ -123,12 +185,17 @@ public final class CryptoJava {
 
             private static final int INIT_VECTOR_LENGTH = 16;
 
-            public static String encrypt(String secretKey, String context) {
-                return encrypt(secretKey, context, AES_CBC_PKCS5_PADDING);
+            private PKCS5Padding() {
+                // utility class; can't create
+                throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
             }
 
-            public static String encrypt(String secretKey, String context, String cipherString) {
-                if (!isKeyLengthValid(secretKey)) {
+            public static String encrypt(String rules, String context) {
+                return encrypt(rules, context, AES_CBC_PKCS5_PADDING);
+            }
+
+            public static String encrypt(String rules, String context, String cipherString) {
+                if (!isKeyLengthValid(rules)) {
                     throw new RuntimeException("secret key's length must be 128, 192 or 256 bits");
                 }
                 try {
@@ -139,7 +206,7 @@ public final class CryptoJava {
                     iv = initVector.getBytes(StandardCharsets.UTF_8);
 
                     IvParameterSpec ivSpec = new IvParameterSpec(iv);
-                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+                    SecretKeySpec keySpec = new SecretKeySpec(rules.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
 
                     Cipher cipher = Cipher.getInstance(cipherString);
                     cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
@@ -156,19 +223,19 @@ public final class CryptoJava {
                 }
             }
 
-            public static String decrypt(String secretKey, String cipherText) {
-                return decrypt(secretKey, cipherText, AES_CBC_PKCS5_PADDING);
+            public static String decrypt(String rules, String cipherText) {
+                return decrypt(rules, cipherText, AES_CBC_PKCS5_PADDING);
             }
 
-            public static String decrypt(String secretKey, String encrypted, String cipherString) {
-                if (!isKeyLengthValid(secretKey)) {
+            public static String decrypt(String rules, String encrypted, String cipherString) {
+                if (!isKeyLengthValid(rules)) {
                     throw new RuntimeException("secret key's length must be 128, 192 or 256 bits");
                 }
                 try {
                     byte[] cipherText = Base64Utils.decrypt(encrypted);
 
                     IvParameterSpec ivSpec = new IvParameterSpec(cipherText, 0, INIT_VECTOR_LENGTH);
-                    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+                    SecretKeySpec keySpec = new SecretKeySpec(rules.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
 
                     Cipher cipher = Cipher.getInstance(cipherString);
                     cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
@@ -681,6 +748,14 @@ public final class CryptoJava {
         }
     }
 
+    /**
+     * to Hex
+     *
+     * @param bytes the byte array to be converted
+     * @return the corresponding hexstring
+     * @see {@link ByteUtils#toHexString(byte[])}
+     */
+    @Deprecated
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
