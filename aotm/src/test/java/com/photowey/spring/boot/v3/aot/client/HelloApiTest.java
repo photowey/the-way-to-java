@@ -15,11 +15,8 @@
  */
 package com.photowey.spring.boot.v3.aot.client;
 
-import com.photowey.spring.boot.v3.aot.App;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -31,15 +28,15 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/12/13
  * @since 1.0.0
  */
-@SpringBootTest(classes = App.class)
+//@SpringBootTest(classes = App.class)
 class HelloApiTest {
 
     @Autowired
     private HelloApi helloApi;
-    @Autowired
+    //@Autowired
     private HelloFeignApi helloFeignApi;
 
-    @Test
+    //@Test
     void testHelloApi() throws InterruptedException {
         Map<String, Object> response = this.helloApi.get();
         Assertions.assertNotNull(response);

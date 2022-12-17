@@ -49,7 +49,7 @@ public class HttpInterfaceConfigure {
         return factory.createClient(HelloApi.class);
     }
 
-    @Bean
+    //@Bean
     public HelloFeignApi helloFeignApi(OkHttpClient okHttpClient, ObjectFactory<HttpMessageConverters> messageConverters) {
         return Feign.builder()
                 .contract(new SpringMvcContract())
