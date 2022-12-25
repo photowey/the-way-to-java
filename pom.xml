@@ -249,7 +249,7 @@
             <id>dev</id>
             <name>local</name>
             <!-- win11 -->
-            <url>file:///D:/software/maven/nexus-maven/repo/repository</url>
+            <url>file:///${env.MAVEN_REPO}</url>
         </repository>
     </distributionManagement>
 
@@ -329,6 +329,10 @@
                         <exclude>**/*.txt</exclude>
                         <exclude>**/*.dll</exclude>
                         <exclude>**/*.sh</exclude>
+                        <exclude>**/*.cmd</exclude>
+                        <exclude>**/*.bat</exclude>
+                        <exclude>**/*.xls</exclude>
+                        <exclude>**/*.xlsx</exclude>
                         <exclude>**/.mvn/**</exclude>
                         <!-- Protobuf-->
                         <exclude>**/*Protobuf.java</exclude>
