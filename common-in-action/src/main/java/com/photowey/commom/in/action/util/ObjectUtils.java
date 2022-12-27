@@ -18,6 +18,7 @@ package com.photowey.commom.in.action.util;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * {@code ObjectUtils}
@@ -59,6 +60,36 @@ public final class ObjectUtils {
 
     public static boolean isNotNullOrEmpty(Object value) {
         return !isNullOrEmpty(value);
+    }
+
+    // =================================================================
+
+    /**
+     * 当
+     * 为空时执行回调函数
+     *
+     * @param target 目标对象
+     * @param fx     回调函数
+     * @param <T>    T 类型
+     */
+    public static <T> void executeEmpty(T target, Consumer<T> fx) {
+        if (isNullOrEmpty(target)) {
+            fx.accept(target);
+        }
+    }
+
+    /**
+     * 当
+     * 不为空时执行回调函数
+     *
+     * @param target 目标对象
+     * @param fx     回调函数
+     * @param <T>    T 类型
+     */
+    public static <T> void executeNotEmpty(T target, Consumer<T> fx) {
+        if (isNotNullOrEmpty(target)) {
+            fx.accept(target);
+        }
     }
 
     // =================================================================
