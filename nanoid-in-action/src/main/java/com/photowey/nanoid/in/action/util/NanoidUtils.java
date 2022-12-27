@@ -34,10 +34,17 @@ public final class NanoidUtils {
      * -> 是为了排除 _ 和 - 这两个字符
      */
 
-
+    public static final char[] PASSWORD_ALPHABET = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ".toCharArray();
     public static final char[] NANOID_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     public static final char[] NANOID_LOWER_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
     public static final char[] NANOID_NUMBER_ALPHABET = "0123456789".toCharArray();
+
+    public static final String ALPHABET_NUMBER_STRING = "123456789";
+    public static final String ALPHABET_NUMBER_WITH_ZERO_STRING = "0" + ALPHABET_NUMBER_STRING;
+    public static final char[] ALPHABET_NUMBER = ALPHABET_NUMBER_STRING.toCharArray();
+    public static final char[] ALPHABET_NUMBER_WITH_ZERO = ALPHABET_NUMBER_WITH_ZERO_STRING.toCharArray();
+
+    public static final int DEFAULT_PASSWORD_SIZE = 16;
 
     public static final SecureRandom DEFAULT_NUMBER_GENERATOR = new SecureRandom();
 
@@ -94,4 +101,11 @@ public final class NanoidUtils {
         return NanoIdUtils.randomNanoId(random, alphabet, size);
     }
 
+    public static String randomPassword() {
+        return randomPassword(DEFAULT_PASSWORD_SIZE);
+    }
+
+    public static String randomPassword(int size) {
+        return randomNanoId(DEFAULT_NUMBER_GENERATOR, PASSWORD_ALPHABET, size);
+    }
 }
