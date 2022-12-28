@@ -15,6 +15,9 @@
  */
 package com.photowey.redis.in.action.config.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.photowey.redis.in.action.constant.RedisFixedConstants;
 import com.photowey.redis.in.action.property.redis.JedisProperties;
 import com.photowey.redis.in.action.property.redis.RedisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +34,13 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import static com.photowey.redis.in.action.constant.RedisBeanNameConstants.*;
+import static com.photowey.redis.in.action.constant.RedisBeanNameConstants.REDIS_CUSTOM_TEMPLATE_BEAN_NAME;
 
 /**
  * {@code RedisConfigure}
@@ -48,6 +52,12 @@ import static com.photowey.redis.in.action.constant.RedisBeanNameConstants.*;
 @Configuration
 @EnableConfigurationProperties(value = {RedisProperties.class, JedisProperties.class})
 public class RedisConfigure {
+
+    private static final String CUSTOM_REDIS_TEMPLATE_BEAN_NAME = RedisFixedConstants.CUSTOM_REDIS_TEMPLATE_BEAN_NAME;
+
+    private static final String REDIS_KEY_SERIALIZER_BEAN_NAME = RedisFixedConstants.REDIS_KEY_SERIALIZER_BEAN_NAME;
+    private static final String REDIS_VALUE_SERIALIZER_BEAN_NAME = RedisFixedConstants.REDIS_VALUE_SERIALIZER_BEAN_NAME;
+
 
     @Autowired
     private RedisProperties redisProperties;
@@ -123,14 +133,14 @@ public class RedisConfigure {
 
     @Bean(REDIS_CUSTOM_TEMPLATE_BEAN_NAME)
     @ConditionalOnMissingBean(name = REDIS_CUSTOM_TEMPLATE_BEAN_NAME)
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory,ObjectMapper objectMapper) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
         RedisSerializer<String> redisKeySerializer = this.redisKeySerializer();
         redisTemplate.setKeySerializer(redisKeySerializer);
         redisTemplate.setHashKeySerializer(redisKeySerializer);
 
-        RedisSerializer<Object> redisValueSerializer = this.redisValueSerializer();
+        RedisSerializer<Object> redisValueSerializer = this.redisValueGenericSerializer(objectMapper);
         redisTemplate.setValueSerializer(redisValueSerializer);
         redisTemplate.setHashValueSerializer(redisValueSerializer);
 
@@ -149,9 +159,22 @@ public class RedisConfigure {
 
     @Bean(REDIS_VALUE_SERIALIZER_BEAN_NAME)
     @ConditionalOnMissingBean(name = REDIS_VALUE_SERIALIZER_BEAN_NAME)
-    public RedisSerializer<Object> redisValueSerializer() {
-        // return new Jackson2JsonRedisSerializer<>(Object.class);
+    @ConditionalOnExpression("#{T(org.springframework.util.StringUtils).hasText(environment['spring.redis.serializer']) && environment['spring.redis.serializer'].startsWith('Jackson')}")
+    public RedisSerializer<Object> redisValueJacksonSerializer(ObjectMapper objectMapper) {
+        objectMapper.registerModule(new JavaTimeModule());
 
-        return new GenericJackson2JsonRedisSerializer();
+        Jackson2JsonRedisSerializer<Object> redisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        redisSerializer.setObjectMapper(objectMapper);
+
+        return redisSerializer;
+    }
+
+    @Bean(REDIS_VALUE_SERIALIZER_BEAN_NAME)
+    @ConditionalOnMissingBean(name = REDIS_VALUE_SERIALIZER_BEAN_NAME)
+    @ConditionalOnExpression("#{T(org.springframework.util.StringUtils).hasText(environment['spring.redis.serializer']) && environment['spring.redis.serializer'].startsWith('Generic')}")
+    public RedisSerializer<Object> redisValueGenericSerializer(ObjectMapper objectMapper) {
+        objectMapper.registerModule(new JavaTimeModule());
+
+        return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
 }

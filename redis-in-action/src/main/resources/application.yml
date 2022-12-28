@@ -12,6 +12,7 @@ spring:
     password: ${local.config.redis.password}
     database: 0
     timeout: 2000
+    serializer: "Generic"
     jedis:
       pool:
         max-idle: 6

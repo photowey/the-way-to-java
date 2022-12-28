@@ -49,9 +49,6 @@ public class TemplateStreamQueueConfigure {
     @Autowired
     private StreamListener<String, MapRecord<String, String, String>> streamListener;
 
-    @Autowired
-    private StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer;
-
     @Bean(destroyMethod = "stop")
     public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer(RedisConnectionFactory connectionFactory) {
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, MapRecord<String, String, String>> options = StreamMessageListenerContainer
