@@ -69,12 +69,10 @@
       - ```json
         # 对象指向它的类元数据的指针
         # 虚拟机通过这个指针来确定这个对象是哪个类的实例
-        
-  # 指向类元数据 InstanceKlass, 确定该对象所属的类型
+        # 指向类元数据 InstanceKlass, 确定该对象所属的类型
         ```
       
-      
-  - 如果是数组 -> 还需记录数组的长度
+    - 如果是数组 -> 还需记录数组的长度
   
   - 实例数据
   
@@ -87,6 +85,28 @@
   - 对其填充
   
     - 不是必须的，没有特别的意义，仅仅起到占位符的作用
+
+
+
+示例: 
+
+```java
+public class App {
+
+    public static void main(String[] args) {
+        Customer customer = new Customer();
+    }
+
+}
+
+// com.photowey.jvm.in.action.objectheader.App
+```
+
+
+
+![object_header](./doc/object_header.png)
+
+
 
 ### 2.2.对象的访问定位
 
