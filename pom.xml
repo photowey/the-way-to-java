@@ -119,6 +119,7 @@
         <module>datastruct-in-action</module>
         <module>swagger-provider-ext</module>
         <module>nanoid-in-action</module>
+        <module>disruptor-in-action</module>
     </modules>
 
     <dependencyManagement>
