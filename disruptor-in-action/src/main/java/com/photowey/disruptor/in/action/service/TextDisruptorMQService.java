@@ -59,12 +59,48 @@ public class TextDisruptorMQService implements DisruptorMQService {
     public boolean publish(String message, Consumer<Event<String>> resolve, Consumer<Throwable> reject) {
         long sequence = this.broker.buffer().next();
         try {
-            Event<String> event = this.broker.populateEvent(sequence, message);
+            Event<String> event = this.broker.populateDefaultEvent(sequence, message);
             resolve.accept(event);
 
             return true;
         } catch (Throwable e) {
-            log.error("publish message to disruptor queue exception, message: [{}]", message, e);
+            log.error("publish text.message to disruptor queue exception, message: [{}]", message, e);
+            reject.accept(e);
+        } finally {
+            this.broker.buffer().publish(sequence);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean publish(Event<String> event) {
+        return this.publish(event, (target) -> {
+        });
+    }
+
+    @Override
+    public boolean publish(Event<String> event, Consumer<Event<String>> resolve) {
+        return this.publish(event, resolve, (e) -> {
+        });
+    }
+
+    @Override
+    public boolean throwingPublish(Event<String> event, Consumer<Throwable> reject) {
+        return this.publish(event, (target) -> {
+        }, reject);
+    }
+
+    @Override
+    public boolean publish(Event<String> event, Consumer<Event<String>> resolve, Consumer<Throwable> reject) {
+        long sequence = this.broker.buffer().next();
+        try {
+            Event<String> target = this.broker.populateEvent(sequence, event);
+            resolve.accept(target);
+
+            return true;
+        } catch (Throwable e) {
+            log.error("publish event.message to disruptor queue exception, message: [{}]", event.getMessage(), e);
             reject.accept(e);
         } finally {
             this.broker.buffer().publish(sequence);

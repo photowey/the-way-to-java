@@ -41,10 +41,19 @@ public class DisruptorBroker<T> {
 
     // TODO
 
-    public Event<T> populateEvent(long sequence, T message) {
+    public Event<T> populateDefaultEvent(long sequence, T message) {
         Event<T> event = this.buffer().get(sequence);
+        // with default topic
         event.setMessage(message);
 
         return event;
+    }
+
+    public Event<T> populateEvent(long sequence, Event<T> event) {
+        Event<T> target = this.buffer().get(sequence);
+        target.setTopic(event.getTopic());
+        target.setMessage(event.getMessage());
+
+        return target;
     }
 }

@@ -33,6 +33,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TextEvent implements Event<String> {
 
-    String type;
+    String topic;
     String message;
 }

@@ -24,8 +24,10 @@ package com.photowey.disruptor.in.action.model;
  */
 public interface Event<T> {
 
-    default String getType() {
-        return String.class.getName();
+    void setTopic(String topic);
+
+    default String getTopic() {
+        return "defaults";
     }
 
     void setMessage(T message);
@@ -36,5 +38,4 @@ public interface Event<T> {
      * @return
      */
     T getMessage();
-
 }
