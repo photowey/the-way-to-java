@@ -20,6 +20,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 /**
  * {@code TextEvent}
  *
@@ -31,8 +33,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextEvent implements Event<String> {
+public class TextEvent implements Event {
 
     String topic;
     String message;
+
+    @Override
+    public void setMessage(Object message) {
+        this.message = this.convert(message, Objects::toString);
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

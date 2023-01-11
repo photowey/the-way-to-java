@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.disruptor.in.action.factory;
+package com.photowey.disruptor.in.action.annotation;
 
-import com.lmax.disruptor.EventFactory;
-import com.photowey.disruptor.in.action.model.Event;
-import com.photowey.disruptor.in.action.model.TextEvent;
+import com.photowey.disruptor.in.action.config.DisruptorBrokerAutoConfigure;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * {@code DisruptorEventFactory}
+ * {@code EnableDisruptorBroker}
  *
  * @author photowey
- * @date 2023/01/09
+ * @date 2023/01/11
  * @since 1.0.0
  */
-public class DisruptorEventFactory implements EventFactory<Event> {
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import(value = {DisruptorBrokerAutoConfigure.class})
+public @interface EnableDisruptorBroker {
 
-    @Override
-    public Event newInstance() {
-        return new TextEvent();
-    }
+    // instead of xxx.imports
 }

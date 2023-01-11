@@ -1,0 +1,3 @@
+com.photowey.disruptor.in.action.config.DisruptorBrokerBeansAutoConfigure
+com.photowey.disruptor.in.action.config.DisruptorBrokerRingBufferAutoConfigure
+com.photowey.disruptor.in.action.config.DisruptorBrokerAutoConfigure

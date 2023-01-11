@@ -31,9 +31,9 @@ import java.util.function.Consumer;
 @Slf4j
 public class TextDisruptorMQService implements DisruptorMQService {
 
-    private final DisruptorBroker<String> broker;
+    private final DisruptorBroker broker;
 
-    public TextDisruptorMQService(DisruptorBroker<String> broker) {
+    public TextDisruptorMQService(DisruptorBroker broker) {
         this.broker = broker;
     }
 
@@ -44,7 +44,7 @@ public class TextDisruptorMQService implements DisruptorMQService {
     }
 
     @Override
-    public boolean publish(String message, Consumer<Event<String>> resolve) {
+    public boolean publish(String message, Consumer<Event> resolve) {
         return this.publish(message, resolve, (e) -> {
         });
     }
@@ -56,10 +56,10 @@ public class TextDisruptorMQService implements DisruptorMQService {
     }
 
     @Override
-    public boolean publish(String message, Consumer<Event<String>> resolve, Consumer<Throwable> reject) {
+    public boolean publish(String message, Consumer<Event> resolve, Consumer<Throwable> reject) {
         long sequence = this.broker.buffer().next();
         try {
-            Event<String> event = this.broker.populateDefaultEvent(sequence, message);
+            Event event = this.broker.populateDefaultEvent(sequence, message);
             resolve.accept(event);
 
             return true;
@@ -74,28 +74,28 @@ public class TextDisruptorMQService implements DisruptorMQService {
     }
 
     @Override
-    public boolean publish(Event<String> event) {
+    public boolean publish(Event event) {
         return this.publish(event, (target) -> {
         });
     }
 
     @Override
-    public boolean publish(Event<String> event, Consumer<Event<String>> resolve) {
+    public boolean publish(Event event, Consumer<Event> resolve) {
         return this.publish(event, resolve, (e) -> {
         });
     }
 
     @Override
-    public boolean throwingPublish(Event<String> event, Consumer<Throwable> reject) {
+    public boolean throwingPublish(Event event, Consumer<Throwable> reject) {
         return this.publish(event, (target) -> {
         }, reject);
     }
 
     @Override
-    public boolean publish(Event<String> event, Consumer<Event<String>> resolve, Consumer<Throwable> reject) {
+    public boolean publish(Event event, Consumer<Event> resolve, Consumer<Throwable> reject) {
         long sequence = this.broker.buffer().next();
         try {
-            Event<String> target = this.broker.populateEvent(sequence, event);
+            Event target = this.broker.populateEvent(sequence, event);
             resolve.accept(target);
 
             return true;

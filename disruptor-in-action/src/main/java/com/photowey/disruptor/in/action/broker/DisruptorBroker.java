@@ -17,10 +17,7 @@ package com.photowey.disruptor.in.action.broker;
 
 import com.lmax.disruptor.RingBuffer;
 import com.photowey.disruptor.in.action.model.Event;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -31,26 +28,27 @@ import lombok.experimental.Accessors;
  * @since 1.0.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Accessors(fluent = true)
-public class DisruptorBroker<T> {
+public class DisruptorBroker {
 
-    private RingBuffer<Event<T>> buffer;
+    private RingBuffer<Event> buffer;
+
+    public DisruptorBroker(RingBuffer<Event> buffer) {
+        this.buffer = buffer;
+    }
 
     // TODO
 
-    public Event<T> populateDefaultEvent(long sequence, T message) {
-        Event<T> event = this.buffer().get(sequence);
+    public Event populateDefaultEvent(long sequence, Object message) {
+        Event event = this.buffer().get(sequence);
         // with default topic
         event.setMessage(message);
 
         return event;
     }
 
-    public Event<T> populateEvent(long sequence, Event<T> event) {
-        Event<T> target = this.buffer().get(sequence);
+    public Event populateEvent(long sequence, Event event) {
+        Event target = this.buffer().get(sequence);
         target.setTopic(event.getTopic());
         target.setMessage(event.getMessage());
 

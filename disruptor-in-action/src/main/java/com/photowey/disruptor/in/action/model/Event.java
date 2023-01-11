@@ -15,6 +15,8 @@
  */
 package com.photowey.disruptor.in.action.model;
 
+import java.util.function.Function;
+
 /**
  * {@code Event}
  *
@@ -22,20 +24,48 @@ package com.photowey.disruptor.in.action.model;
  * @date 2023/01/09
  * @since 1.0.0
  */
-public interface Event<T> {
+public interface Event {
 
     void setTopic(String topic);
 
+    /**
+     * Topic
+     *
+     * @return the topic of event
+     */
     default String getTopic() {
         return "defaults";
     }
 
-    void setMessage(T message);
+    void setMessage(Object message);
 
     /**
      * Body
      *
-     * @return
+     * @return {@code Object} message
      */
-    T getMessage();
+    Object getMessage();
+
+    /**
+     * Convert {@code Object} message to {@code T}
+     *
+     * @param fx  the converter fx
+     * @param <T> T type
+     * @return T
+     */
+    default <T> T convert(Function<Object, T> fx) {
+        return this.convert(this.getMessage(), fx);
+    }
+
+    /**
+     * Convert {@code Object} message to {@code T}
+     *
+     * @param message the {@code Object} message
+     * @param fx      the converter fx
+     * @param <T>     T type
+     * @return T
+     */
+    default <T> T convert(Object message, Function<Object, T> fx) {
+        return fx.apply(message);
+    }
 }

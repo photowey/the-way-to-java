@@ -25,10 +25,10 @@ import com.photowey.disruptor.in.action.model.Event;
  * @date 2023/01/09
  * @since 1.0.0
  */
-public class DisruptorEventHandler implements EventHandler<Event<String>> {
+public class DisruptorEventHandler implements EventHandler<Event> {
 
     @Override
-    public void onEvent(Event<String> stringEvent, long l, boolean b) throws Exception {
-        // TODO
+    public void onEvent(Event event, long sequence, boolean endOfBatch) throws Exception {
+        // TODO dispatch by topic
     }
 }

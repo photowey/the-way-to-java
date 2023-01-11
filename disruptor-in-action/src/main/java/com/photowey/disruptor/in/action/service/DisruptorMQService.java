@@ -36,17 +36,17 @@ public interface DisruptorMQService {
      */
     boolean publish(String message);
 
-    boolean publish(String message, Consumer<Event<String>> resolve);
+    boolean publish(String message, Consumer<Event> resolve);
 
     boolean throwingPublish(String message, Consumer<Throwable> reject);
 
-    boolean publish(String message, Consumer<Event<String>> resolve, Consumer<Throwable> reject);
+    boolean publish(String message, Consumer<Event> resolve, Consumer<Throwable> reject);
 
-    boolean publish(Event<String> event);
+    boolean publish(Event event);
 
-    boolean publish(Event<String> event, Consumer<Event<String>> resolve);
+    boolean publish(Event event, Consumer<Event> resolve);
 
-    boolean throwingPublish(Event<String> event, Consumer<Throwable> reject);
+    boolean throwingPublish(Event event, Consumer<Throwable> reject);
 
-    boolean publish(Event<String> event, Consumer<Event<String>> resolve, Consumer<Throwable> reject);
+    boolean publish(Event event, Consumer<Event> resolve, Consumer<Throwable> reject);
 }
