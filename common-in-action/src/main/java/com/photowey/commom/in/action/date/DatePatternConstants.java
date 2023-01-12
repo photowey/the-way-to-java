@@ -27,6 +27,7 @@ public interface DatePatternConstants {
     String yyyy_MM_dd = "yyyy-MM-dd ";
     String HH_mm_ss = "HH:mm:ss";
     String yyyyMMdd = "yyyyMMdd";
+    String yyMMdd = "yyMMdd";
     String HHmmss = "HHmmss";
 
     String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
@@ -34,5 +35,33 @@ public interface DatePatternConstants {
 
     String yyyyMMddHHmmss = "yyyyMMddHHmmss";
     String yyyyMMddHHmmssSSS = "yyyyMMddHHmmssSSS";
+
+    /**
+     * {@code ES} default data pattern
+     */
+    String yyyy_MM_dd_T_HH_mm_ss_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+    char RFC_3339_T = 'T';
+    String RFC_3339_T_STRING = "'T'";
+    String GMT_8 = "+08:00";
+
+    /**
+     * RFC 3339 date pattern.
+     */
+    String RFC_3339_GMT_8 = rfc3339();
+
+    static String rfc3339() {
+        return rfc3339Zone(GMT_8);
+    }
+
+    static String rfc3339Zone(String zone) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(yyyy_MM_dd)
+                .append(RFC_3339_T_STRING)
+                .append(HH_mm_ss)
+                .append(zone);
+
+        return builder.toString();
+    }
 
 }

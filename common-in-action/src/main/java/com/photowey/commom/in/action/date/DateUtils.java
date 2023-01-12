@@ -170,7 +170,7 @@ public final class DateUtils {
     // --------------------------------------------------------- dayStart
 
     public static LocalDateTime dayStart() {
-        return dayStart();
+        return dayStart(now());
     }
 
     public static LocalDateTime dayStart(LocalDateTime dateTime) {
