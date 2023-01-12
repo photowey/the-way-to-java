@@ -61,7 +61,7 @@ public class GuavaEventBus implements EventBus {
                 Integer.MAX_VALUE,
                 TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(capacity),
-                new NamedThreadFactory(identifier, 1),
+                new NamedThreadFactory(identifier, totalSize),
                 (r, executor) -> log.warn("eventBus executor queue is full, size:{}", executor.getQueue().size())
         ));
     }
