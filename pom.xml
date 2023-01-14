@@ -121,6 +121,7 @@
         <module>swagger-provider-ext</module>
         <module>nanoid-in-action</module>
         <module>disruptor-in-action</module>
+        <module>jvm-delayed-queue-in-action</module>
     </modules>
 
     <dependencyManagement>
