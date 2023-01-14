@@ -15,27 +15,23 @@
  */
 package com.photowey.spring.cloud.alibaba.nacos.in.action.config;
 
-import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
-import com.photowey.spring.cloud.alibaba.nacos.in.action.scope.NacosContextRefresher;
 import com.photowey.spring.cloud.alibaba.nacos.in.action.scope.NacosRefreshScope;
-import org.springframework.boot.context.properties.EnableConfigurationPropertiesExt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * {@code NacosConfigure}
+ * {@code NacosRefreshScopeConfigure}
  *
- * @author photowey
- * @date 2021/11/08
+ * @author weichangjun
+ * @date 2023/01/13
  * @since 1.0.0
  */
 @Configuration
-@EnableConfigurationPropertiesExt
-@NacosPropertySource(dataId = "nacos-in-action", autoRefreshed = true)
-public class NacosConfigure {
+public class NacosRefreshScopeConfigure {
 
     @Bean
-    public NacosContextRefresher nacosContextRefresher(NacosRefreshScope scope) {
-        return new NacosContextRefresher(scope);
+    public NacosRefreshScope nacosRefreshScope() {
+        return new NacosRefreshScope();
     }
+
 }

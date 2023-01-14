@@ -26,8 +26,9 @@
         <java.version>11</java.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <license-maven-plugin.version>3.0</license-maven-plugin.version>
-        <maven-release-version>2.5.3</maven-release-version>
+        <maven-license-plugin.version>3.0</maven-license-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-git-commit-id-plugin.version>4.9.10</maven-git-commit-id-plugin.version>
 
         <spring-boot.version>2.7.3</spring-boot.version>
 
@@ -120,6 +121,7 @@
         <module>swagger-provider-ext</module>
         <module>nanoid-in-action</module>
         <module>disruptor-in-action</module>
+        <module>jvm-delayed-queue-in-action</module>
     </modules>
 
     <dependencyManagement>
@@ -277,7 +279,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-version}</version>
+                <version>${maven-release-plugin.version}</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
@@ -290,7 +292,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${license-maven-plugin.version}</version>
+                <version>${maven-license-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>compile</phase>
@@ -361,6 +363,7 @@
                         <exclude>**/doc/script/**/*.*</exclude>
                         <exclude>**/MathGame.java</exclude>
                         <exclude>**/shared/Sequence.java</exclude>
+                        <exclude>**/listener/scope/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
