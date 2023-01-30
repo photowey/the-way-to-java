@@ -60,6 +60,7 @@
         <module>netty-in-action</module>
         <module>rabbitmq-in-action</module>
         <module>redis-in-action</module>
+        <module>redisson-in-action</module>
         <module>redis-in-action-starter</module>
         <module>rocketmq-in-action</module>
         <module>zookeeper-in-action</module>
