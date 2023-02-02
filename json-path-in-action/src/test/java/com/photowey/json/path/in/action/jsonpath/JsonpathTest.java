@@ -201,6 +201,16 @@ class JsonpathTest {
         );
     }
 
+    @Test
+    void testAddNode() {
+        String newJson = JsonPath.parse(JSON_DOCUMENT)
+                .put(JsonPath.compile("$"), "host", "192.168.19.250:9527")
+                .put(JsonPath.compile("$"), "basePath", "uaa")
+                .jsonString();
+
+        System.out.println(newJson);
+    }
+
     private Configuration jacksonJsonProvider() {
         Configuration configuration = Configuration.builder()
                 .jsonProvider(new JacksonJsonProvider())
