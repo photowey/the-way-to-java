@@ -79,6 +79,7 @@
         <module>elasticsearch-in-action</module>
         <module>persistence-in-action-bom</module>
         <module>print-in-action</module>
+        <module>property-bind-in-action</module>
         <module>validator-in-action-bom</module>
         <module>java-agent-in-action</module>
         <module>emqtt-in-action</module>
