@@ -1,0 +1,7 @@
+app:
+  hello:
+    name: "hello-tester"
+    profiles:
+      active:
+        - "dev"
+        - "webapp"

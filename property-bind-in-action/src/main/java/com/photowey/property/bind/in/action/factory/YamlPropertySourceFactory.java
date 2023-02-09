@@ -22,7 +22,6 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -39,7 +38,8 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
         factory.setResources(encodedResource.getResource());
         Properties properties = factory.getObject();
-        if (Objects.isNull(properties) || ObjectUtils.isEmpty(encodedResource.getResource().getFilename())) {
+        if (ObjectUtils.isEmpty(properties)
+                || ObjectUtils.isEmpty(encodedResource.getResource().getFilename())) {
             return null;
         }
 
