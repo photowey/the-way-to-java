@@ -158,8 +158,8 @@ public class ReentrantReadWriteLocker {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                log.info("---------- t1 release lock ----------");
                 writeLock.unlock();
+                log.info("---------- t1 release lock ----------");
             }
         }, "t1");
 
