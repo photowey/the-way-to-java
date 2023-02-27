@@ -18,6 +18,7 @@ package com.photowey.elasticseatch.in.action.config;
 import com.photowey.elasticseatch.in.action.autoconfigure.ElasticsearchQueryBuilder;
 import com.photowey.elasticseatch.in.action.operator.DefaultElasticsearchOperator;
 import com.photowey.elasticseatch.in.action.operator.ElasticsearchOperator;
+import com.photowey.elasticseatch.in.action.operator.ElasticsearchQueryOperator;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -45,5 +46,10 @@ public class AppElasticsearchAutoConfigure {
             ElasticsearchQueryBuilder elasticsearchQueryBuilder) {
 
         return new DefaultElasticsearchOperator(elasticsearchClient, elasticsearchRestTemplate, elasticsearchQueryBuilder);
+    }
+
+    @Bean
+    public ElasticsearchQueryOperator elasticsearchQueryOperator() {
+        return new ElasticsearchQueryOperator();
     }
 }
