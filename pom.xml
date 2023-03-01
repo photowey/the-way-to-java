@@ -362,6 +362,7 @@
                         <exclude>
                             **/com/photowey/spring/cloud/alibaba/seata/**/*.java
                         </exclude>
+                        <exclude>**/alibaba/nacos/**/scope/*.java</exclude>
                         <exclude>**/doc/script/**/*.*</exclude>
                         <exclude>**/MathGame.java</exclude>
                         <exclude>**/shared/Sequence.java</exclude>
