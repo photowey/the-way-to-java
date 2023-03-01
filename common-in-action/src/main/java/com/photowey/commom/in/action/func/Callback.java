@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.redis.in.action.constant;
+package com.photowey.commom.in.action.func;
+
+import java.util.function.Consumer;
 
 /**
- * {@code RedisFixedConstants}
+ * {@code Callback}
  *
  * @author photowey
- * @date 2022/12/28
+ * @date 2023/03/02
  * @since 1.0.0
  */
-public interface RedisFixedConstants {
+@FunctionalInterface
+public interface Callback<T> extends Consumer<T> {
 
-    String CUSTOM_REDIS_TEMPLATE_BEAN_NAME = "cst.redisTemplate";
-
-    String REDIS_KEY_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.key";
-    String REDIS_VALUE_SERIALIZER_BEAN_NAME = "org.springframework.data.redis.serializer.RedisSerializer.value";
 }
