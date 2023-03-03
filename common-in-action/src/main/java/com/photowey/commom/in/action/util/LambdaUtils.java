@@ -105,6 +105,28 @@ public final class LambdaUtils {
                 .collect(Collectors.toMap(keyMapper, Function.identity()));
     }
 
+    public static <K, T extends Collection<V>, V> List<V> flapMapList(Collection<K> from, Function<K, T> tMapper) {
+        return flapMapList(from, tMapper, Collection::stream);
+    }
+
+    public static <K, T extends Collection<V>, V> Set<V> flapMapSet(Collection<K> from, Function<K, T> tMapper) {
+        return flapMapSet(from, tMapper, Collection::stream);
+    }
+
+    public static <K, T, V> List<V> flapMapList(Collection<K> from, Function<K, T> tMapper, Function<T, Stream<V>> vMapper) {
+        return from.stream()
+                .map(tMapper)
+                .flatMap(vMapper)
+                .collect(Collectors.toList());
+    }
+
+    public static <K, T, V> Set<V> flapMapSet(Collection<K> from, Function<K, T> tMapper, Function<T, Stream<V>> vMapper) {
+        return from.stream()
+                .map(tMapper)
+                .flatMap(vMapper)
+                .collect(Collectors.toSet());
+    }
+
     public static <T> List<T> filter(
             Collection<T> from,
             Predicate<T> predicate) {
