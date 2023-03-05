@@ -15,7 +15,7 @@
  */
 package com.photowey.elasticseatch.in.action.operator;
 
-import com.photowey.elasticseatch.in.action.autoconfigure.ElasticsearchQueryBuilder;
+import com.photowey.elasticseatch.in.action.builder.ElasticsearchQueryBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;

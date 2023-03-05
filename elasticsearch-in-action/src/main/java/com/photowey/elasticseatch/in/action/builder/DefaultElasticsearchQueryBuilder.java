@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.elasticseatch.in.action.autoconfigure;
+package com.photowey.elasticseatch.in.action.builder;
 
 import com.photowey.commom.in.action.util.ObjectUtils;
 import com.photowey.elasticseatch.in.action.constant.ElasticsearchQueryConstants;

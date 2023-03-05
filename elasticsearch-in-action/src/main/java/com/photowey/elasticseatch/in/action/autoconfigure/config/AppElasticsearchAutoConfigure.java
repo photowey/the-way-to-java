@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.elasticseatch.in.action.config;
+package com.photowey.elasticseatch.in.action.autoconfigure.config;
 
-import com.photowey.elasticseatch.in.action.autoconfigure.ElasticsearchQueryBuilder;
+import com.photowey.elasticseatch.in.action.builder.ElasticsearchQueryBuilder;
 import com.photowey.elasticseatch.in.action.operator.DefaultElasticsearchOperator;
 import com.photowey.elasticseatch.in.action.operator.ElasticsearchOperator;
 import com.photowey.elasticseatch.in.action.operator.ElasticsearchQueryOperator;

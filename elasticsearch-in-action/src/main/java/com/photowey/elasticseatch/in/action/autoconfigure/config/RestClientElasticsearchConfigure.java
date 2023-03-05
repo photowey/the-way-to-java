@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.elasticseatch.in.action.config;
+package com.photowey.elasticseatch.in.action.autoconfigure.config;
 
-import com.photowey.elasticseatch.in.action.autoconfigure.DefaultElasticsearchQueryBuilder;
-import com.photowey.elasticseatch.in.action.autoconfigure.ElasticsearchQueryBuilder;
+import com.photowey.elasticseatch.in.action.builder.DefaultElasticsearchQueryBuilder;
+import com.photowey.elasticseatch.in.action.builder.ElasticsearchQueryBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
