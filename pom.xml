@@ -367,6 +367,7 @@
                         <exclude>**/MathGame.java</exclude>
                         <exclude>**/shared/Sequence.java</exclude>
                         <exclude>**/listener/scope/*.java</exclude>
+                        <exclude>**/shared/**/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

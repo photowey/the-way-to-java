@@ -24,6 +24,7 @@
         <module>nacos-patch-in-action</module>
         <module>seata-in-action</module>
         <module>sentinel-in-action</module>
+        <module>spring-boot-properties-refresher</module>
     </modules>
 
     <dependencyManagement>
