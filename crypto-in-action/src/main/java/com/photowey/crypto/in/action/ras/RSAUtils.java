@@ -16,6 +16,7 @@
 package com.photowey.crypto.in.action.ras;
 
 import com.photowey.crypto.in.action.base64.Base64Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +37,7 @@ import java.util.Map;
  * @date 2022/03/03
  * @since 1.0.0
  */
+@Slf4j
 public final class RSAUtils {
 
     /**
@@ -271,7 +273,6 @@ public final class RSAUtils {
     }
 
     private static byte[] decrypt(byte[] encryptedData, KeyFactory keyFactory, Key key) throws SecurityException {
-
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
             cipher.init(Cipher.DECRYPT_MODE, key);
