@@ -69,7 +69,7 @@ public class WeixinBankCardExcelCachedReader implements ReadListener<WeixinBankC
 
     private void fire() {
         for (WeixinBankCardImportPayload payload : this.cached) {
-            log.info("save import model:{}", JSON.toJSONString(payload, JSONWriter.Feature.PrettyFormat));
+            log.info("save import model:\n{}", JSON.toJSONString(payload, JSONWriter.Feature.PrettyFormat));
         }
     }
 }
