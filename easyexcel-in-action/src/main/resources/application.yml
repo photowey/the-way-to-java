@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: "easyexcel-in-action"
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
