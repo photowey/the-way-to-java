@@ -20,7 +20,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ import java.util.stream.Collectors;
  * @date 2023/03/14
  * @since 1.0.0
  */
-@Component
 public class ResourceReader implements ResourceLoaderAware {
 
     private static final String CLASSPATH = "classpath";
