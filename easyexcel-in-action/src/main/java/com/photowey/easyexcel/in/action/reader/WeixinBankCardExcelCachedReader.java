@@ -36,20 +36,24 @@ import java.util.List;
 public class WeixinBankCardExcelCachedReader implements ReadListener<WeixinBankCardImportPayload> {
 
     private final int batchCount;
+    private final int cardType;
     private List<WeixinBankCardImportPayload> cached;
 
-    public WeixinBankCardExcelCachedReader() {
+    public WeixinBankCardExcelCachedReader(int cardType) {
         this.batchCount = 100;
+        this.cardType = cardType;
         this.clean();
     }
 
-    public WeixinBankCardExcelCachedReader(int batchCount) {
+    public WeixinBankCardExcelCachedReader(int batchCount, int cardType) {
         this.batchCount = batchCount;
+        this.cardType = cardType;
         this.clean();
     }
 
     @Override
     public void invoke(WeixinBankCardImportPayload data, AnalysisContext context) {
+        data.setCardType(this.cardType);
         this.cached.add(data);
         if (this.cached.size() >= this.batchCount) {
             this.fire();

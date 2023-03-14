@@ -73,4 +73,19 @@ class WeixinBankCardExcelReaderTest {
         }
     }
 
+    @Test
+    void testImportBankCards_cache_read() throws IOException {
+        // 1:储蓄卡 2:信用卡
+        WeixinBankCardExcelCachedReader sheet0 = new WeixinBankCardExcelCachedReader(50, 2);
+        WeixinBankCardExcelCachedReader sheet1 = new WeixinBankCardExcelCachedReader(50, 1);
+
+        try (InputStream excel = this.resourceReader.read("/excel/dev/银行卡编码.xlsx");
+             ExcelReader excelReader = EasyExcel.read(excel).ignoreEmptyRow(true).build()) {
+            ReadSheet readSheet0 =
+                    EasyExcel.readSheet(0).head(WeixinBankCardImportPayload.class).registerReadListener(sheet0).build();
+            ReadSheet readSheet1 =
+                    EasyExcel.readSheet(1).head(WeixinBankCardImportPayload.class).registerReadListener(sheet1).build();
+            excelReader.read(readSheet0, readSheet1);
+        }
+    }
 }
