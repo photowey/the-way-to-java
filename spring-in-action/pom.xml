@@ -127,7 +127,7 @@
                 <version>${maven-git-commit-id-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>get-the-git-infos</id>
+                        <id>git</id>
                         <goals>
                             <goal>revision</goal>
                         </goals>
