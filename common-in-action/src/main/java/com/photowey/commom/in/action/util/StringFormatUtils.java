@@ -15,6 +15,7 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -29,7 +30,7 @@ public final class StringFormatUtils {
 
     private StringFormatUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(StringFormatUtils.class);
     }
 
     /**

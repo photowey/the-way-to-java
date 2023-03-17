@@ -16,6 +16,7 @@
 package com.photowey.commom.in.action.util;
 
 import com.google.common.reflect.TypeToken;
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -33,7 +34,7 @@ public final class GenericUtils {
 
     private GenericUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(GenericUtils.class);
     }
 
     public static Class<?> determineGenericSuperclassType(Class<?> clazz) {

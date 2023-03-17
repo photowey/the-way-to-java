@@ -15,6 +15,8 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
+
 import java.util.*;
 
 /**
@@ -28,7 +30,7 @@ public final class CollectionUtils {
 
     private CollectionUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(CollectionUtils.class);
     }
 
     public static <T> Set<T> asSet(T... ts) {

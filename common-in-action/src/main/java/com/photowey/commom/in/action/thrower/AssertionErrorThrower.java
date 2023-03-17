@@ -13,35 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.commom.in.action.util;
-
-import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
-
-import java.util.concurrent.TimeUnit;
+package com.photowey.commom.in.action.thrower;
 
 /**
- * {@code BlockUtils}
+ * {@code AssertionErrorThrower}
+ * AssertionErrorThrower
  *
  * @author photowey
- * @date 2022/11/23
+ * @date 2023/03/17
  * @since 1.0.0
  */
-public final class BlockUtils {
+public final class AssertionErrorThrower {
 
-    private BlockUtils() {
+    private AssertionErrorThrower() {
         // utility class; can't create
-        AssertionErrorThrower.throwz(BlockUtils.class);
+        throwz(AssertionErrorThrower.class);
     }
 
-    public static void block() {
-        block(100L);
-    }
-
-    public static void block(final long millis) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(millis);
-        } catch (Exception e) {
-            Thread.currentThread().interrupt();
-        }
+    public static <T> void throwz(Class<T> clazz) {
+        throw new AssertionError("No " + clazz.getName() + " instances for you!");
     }
 }

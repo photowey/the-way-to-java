@@ -15,6 +15,7 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.objenesis.instantiator.util.ClassUtils;
 
@@ -36,7 +37,7 @@ public final class MapUtils {
 
     private MapUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(MapUtils.class);
     }
 
     public static <K, V> Map<K, V> newHashMap() {

@@ -15,6 +15,8 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
+
 /**
  * {@code HardwareUtils}
  *
@@ -28,7 +30,7 @@ public final class HardwareUtils {
 
     private HardwareUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(HardwareUtils.class);
     }
 
     public static int getNcpu() {

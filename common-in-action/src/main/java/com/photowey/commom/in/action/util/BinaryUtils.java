@@ -15,6 +15,8 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
+
 import java.math.BigDecimal;
 
 /**
@@ -33,7 +35,7 @@ public final class BinaryUtils {
 
     private BinaryUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(BinaryUtils.class);
     }
 
     public static String toDecimalString(String binary) {

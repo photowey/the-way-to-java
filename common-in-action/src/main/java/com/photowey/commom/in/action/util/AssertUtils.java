@@ -15,6 +15,8 @@
  */
 package com.photowey.commom.in.action.util;
 
+import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
+
 /**
  * {@code AssertUtils}
  *
@@ -26,7 +28,7 @@ public final class AssertUtils {
 
     private AssertUtils() {
         // utility class; can't create
-        throw new AssertionError("No " + this.getClass().getName() + " instances for you!");
+        AssertionErrorThrower.throwz(AssertUtils.class);
     }
 
     public static void notNull(final Object target) {
