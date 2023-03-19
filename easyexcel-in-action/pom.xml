@@ -60,6 +60,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>common-in-action</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
