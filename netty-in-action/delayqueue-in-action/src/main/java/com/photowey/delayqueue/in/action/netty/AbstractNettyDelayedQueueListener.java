@@ -21,6 +21,8 @@ import io.netty.util.TimerTask;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.AlternativeJdkIdGenerator;
+import org.springframework.util.IdGenerator;
 import org.springframework.util.StopWatch;
 
 /**
@@ -34,7 +36,7 @@ import org.springframework.util.StopWatch;
 public abstract class AbstractNettyDelayedQueueListener<T> implements TimerTask {
 
     private static final String GROUP = "delay-queue-group";
-
+    private final IdGenerator generator = new AlternativeJdkIdGenerator();
     @Getter
     @Setter
     private Task<T> task;
@@ -66,6 +68,10 @@ public abstract class AbstractNettyDelayedQueueListener<T> implements TimerTask 
     protected abstract void execute(Task<T> task);
 
     public void buildTask(T data) {
-        this.setTask(Task.<T>builder().data(data).build());
+        this.setTask(Task.<T>builder().id(this.taskId()).data(data).build());
+    }
+
+    private String taskId() {
+        return this.generator.generateId().toString();
     }
 }

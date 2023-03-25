@@ -37,10 +37,13 @@ import java.util.concurrent.TimeUnit;
 public class NettyDelayQueue implements Serializable {
 
     private static final long serialVersionUID = -840454744524153684L;
+
+    public static final long DEFAULT_TICK_DURATION = 100L;
+    public static final int DEFAULT_TICK_SIZE = 512;
+
     private static final long MILLISECONDS = 1000L;
     private static final String POOL_PREFIX = "netty";
-
-    public final Timer timer;
+    private final Timer timer;
 
     public NettyDelayQueue() {
         this(buildPoolName("delay-queue"));
@@ -51,11 +54,11 @@ public class NettyDelayQueue implements Serializable {
     }
 
     public NettyDelayQueue(ThreadFactory factory) {
-        this(factory, 1000L);
+        this(factory, DEFAULT_TICK_DURATION);
     }
 
     public NettyDelayQueue(ThreadFactory factory, long interval) {
-        this(factory, 60, interval);
+        this(factory, DEFAULT_TICK_SIZE, interval);
     }
 
     public NettyDelayQueue(ThreadFactory factory, int ticks, long interval) {
@@ -144,6 +147,7 @@ public class NettyDelayQueue implements Serializable {
 
     private <T> void offerz(AbstractNettyDelayedQueueListener<T> timerTask, long delay, TimeUnit timeUnit) {
         this.timer.newTimeout(timerTask, delay, timeUnit);
+        log.info("offer task:[{}]", timerTask.getTask().getId());
     }
 
     private static Long toTimestamp(LocalDateTime target) {
