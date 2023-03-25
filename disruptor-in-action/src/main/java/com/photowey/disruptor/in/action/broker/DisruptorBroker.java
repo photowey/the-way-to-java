@@ -17,8 +17,6 @@ package com.photowey.disruptor.in.action.broker;
 
 import com.lmax.disruptor.RingBuffer;
 import com.photowey.disruptor.in.action.model.Event;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * {@code DisruptorBroker}
@@ -27,11 +25,9 @@ import lombok.experimental.Accessors;
  * @date 2023/01/09
  * @since 1.0.0
  */
-@Data
-@Accessors(fluent = true)
 public class DisruptorBroker {
 
-    private RingBuffer<Event> buffer;
+    private final RingBuffer<Event> buffer;
 
     public DisruptorBroker(RingBuffer<Event> buffer) {
         this.buffer = buffer;
@@ -53,5 +49,21 @@ public class DisruptorBroker {
         target.setMessage(event.getMessage());
 
         return target;
+    }
+
+    public long sequence() {
+        return this.next();
+    }
+
+    public void publish(long sequence) {
+        this.buffer().publish(sequence);
+    }
+
+    private long next() {
+        return this.buffer().next();
+    }
+
+    private RingBuffer<Event> buffer() {
+        return this.buffer;
     }
 }

@@ -57,7 +57,7 @@ public class TextDisruptorMQService implements DisruptorMQService {
 
     @Override
     public boolean publish(String message, Consumer<Event> resolve, Consumer<Throwable> reject) {
-        long sequence = this.broker.buffer().next();
+        long sequence = this.broker.sequence();
         try {
             Event event = this.broker.populateDefaultEvent(sequence, message);
             resolve.accept(event);
@@ -67,7 +67,7 @@ public class TextDisruptorMQService implements DisruptorMQService {
             log.error("publish text.message to disruptor queue exception, message: [{}]", message, e);
             reject.accept(e);
         } finally {
-            this.broker.buffer().publish(sequence);
+            this.broker.publish(sequence);
         }
 
         return false;
@@ -93,7 +93,7 @@ public class TextDisruptorMQService implements DisruptorMQService {
 
     @Override
     public boolean publish(Event event, Consumer<Event> resolve, Consumer<Throwable> reject) {
-        long sequence = this.broker.buffer().next();
+        long sequence = this.broker.sequence();
         try {
             Event target = this.broker.populateEvent(sequence, event);
             resolve.accept(target);
@@ -103,7 +103,7 @@ public class TextDisruptorMQService implements DisruptorMQService {
             log.error("publish event.message to disruptor queue exception, message: [{}]", event.getMessage(), e);
             reject.accept(e);
         } finally {
-            this.broker.buffer().publish(sequence);
+            this.broker.publish(sequence);
         }
 
         return false;
