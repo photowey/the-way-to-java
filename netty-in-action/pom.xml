@@ -2,12 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.photowey</groupId>
         <artifactId>the-way-to-java</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>netty-in-action</artifactId>
 
     <name>netty-in-action</name>
@@ -15,30 +18,23 @@
     <packaging>pom</packaging>
 
     <properties>
-        <netty.version>4.1.74.Final</netty.version>
+        <netty.version>4.1.86.Final</netty.version>
         <tablesaw.version>0.38.1</tablesaw.version>
         <commons-cli.version>1.4</commons-cli.version>
 
-        <protobuf-java.version>3.19.4</protobuf-java.version>
+        <protobuf-java.version>3.19.6</protobuf-java.version>
     </properties>
 
+    <modules>
+        <module>client-netty-in-action</module>
+        <module>delayqueue-in-action</module>
+        <module>server-netty-in-action</module>
+        <module>study-netty-in-action</module>
+        <module>telnet-netty-in-action</module>
+        <module>websocket-netty-in-action</module>
+    </modules>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -66,13 +62,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>client-netty-in-action</module>
-        <module>server-netty-in-action</module>
-        <module>telnet-netty-in-action</module>
-        <module>websocket-netty-in-action</module>
-        <module>study-netty-in-action</module>
-    </modules>
 
 </project>
