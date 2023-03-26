@@ -15,6 +15,7 @@
  */
 package com.photowey.delayqueue.in.action.shared.io.netty.util;
 
+import com.photowey.delayqueue.in.action.shared.io.netty.util.concurrent.ImmediateExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,8 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.photowey.delayqueue.in.action.shared.io.netty.util.Functions.*;
+import static io.netty.util.internal.ObjectUtil.checkNotNull;
+import static io.netty.util.internal.ObjectUtil.checkPositive;
 
 /**
  * A {@link Timer} optimized for approximated I/O timeout scheduling.
@@ -73,9 +76,6 @@ import static com.photowey.delayqueue.in.action.shared.io.netty.util.Functions.*
  */
 public class HashedWheelTimer implements Timer {
 
-    public static final String NAME = "hased";
-    private static final char PACKAGE_SEPARATOR_CHAR = '.';
-
     private static final Logger logger = LoggerFactory.getLogger(HashedWheelTimer.class);
 
     private static final AtomicInteger INSTANCE_COUNTER = new AtomicInteger();
@@ -105,6 +105,7 @@ public class HashedWheelTimer implements Timer {
     private final Queue<HashedWheelTimeout> cancelledTimeouts = new LinkedBlockingQueue<>();
     private final AtomicLong pendingTimeouts = new AtomicLong(0);
     private final long maxPendingTimeouts;
+    private final Executor taskExecutor;
 
     private volatile long startTime;
 
@@ -169,8 +170,7 @@ public class HashedWheelTimer implements Timer {
      * @throws NullPointerException     if either of {@code threadFactory} and {@code unit} is {@code null}
      * @throws IllegalArgumentException if {@code tickDuration} is &lt;= 0
      */
-    public HashedWheelTimer(
-            ThreadFactory threadFactory, long tickDuration, TimeUnit unit) {
+    public HashedWheelTimer(ThreadFactory threadFactory, long tickDuration, TimeUnit unit) {
         this(threadFactory, tickDuration, unit, 512);
     }
 
@@ -213,19 +213,41 @@ public class HashedWheelTimer implements Timer {
             ThreadFactory threadFactory,
             long tickDuration, TimeUnit unit, int ticksPerWheel,
             long maxPendingTimeouts) {
+        this(threadFactory, tickDuration, unit, ticksPerWheel, maxPendingTimeouts, ImmediateExecutor.INSTANCE);
+    }
 
-        if (threadFactory == null) {
-            throw new NullPointerException("threadFactory");
-        }
-        if (unit == null) {
-            throw new NullPointerException("unit");
-        }
-        if (tickDuration <= 0) {
-            throw new IllegalArgumentException("tickDuration must be greater than 0: " + tickDuration);
-        }
-        if (ticksPerWheel <= 0) {
-            throw new IllegalArgumentException("ticksPerWheel must be greater than 0: " + ticksPerWheel);
-        }
+    /**
+     * Creates a new timer.
+     *
+     * @param threadFactory      a {@link ThreadFactory} that creates a
+     *                           background {@link Thread} which is dedicated to
+     *                           {@link io.netty.util.TimerTask} execution.
+     * @param tickDuration       the duration between tick
+     * @param unit               the time unit of the {@code tickDuration}
+     * @param ticksPerWheel      the size of the wheel
+     * @param maxPendingTimeouts The maximum number of pending timeouts after which call to
+     *                           {@code newTimeout} will result in
+     *                           {@link java.util.concurrent.RejectedExecutionException}
+     *                           being thrown. No maximum pending timeouts limit is assumed if
+     *                           this value is 0 or negative.
+     * @param taskExecutor       The {@link Executor} that is used to execute the submitted {@link io.netty.util.TimerTask}s.
+     *                           The caller is responsible to shutdown the {@link Executor} once it is not needed
+     *                           anymore.
+     * @throws NullPointerException     if either of {@code threadFactory} and {@code unit} is {@code null}
+     * @throws IllegalArgumentException if either of {@code tickDuration} and {@code ticksPerWheel} is &lt;= 0
+     */
+    public HashedWheelTimer(
+            ThreadFactory threadFactory,
+            long tickDuration, TimeUnit unit, int ticksPerWheel,
+            long maxPendingTimeouts, Executor taskExecutor) {
+
+        checkNotNull(threadFactory, "threadFactory");
+        checkNotNull(unit, "unit");
+        checkPositive(tickDuration, "tickDuration");
+        checkPositive(ticksPerWheel, "ticksPerWheel");
+
+        this.taskExecutor = checkNotNull(taskExecutor, "taskExecutor");
+
 
         // Normalize ticksPerWheel to power of two and initialize the wheel.
         wheel = createWheel(ticksPerWheel);
@@ -397,7 +419,7 @@ public class HashedWheelTimer implements Timer {
     }
 
     private final class Worker implements Runnable {
-        private final Set<Timeout> unprocessedTimeouts = new HashSet<Timeout>();
+        private final Set<Timeout> unprocessedTimeouts = new HashSet<>();
 
         private long tick;
 
@@ -418,8 +440,7 @@ public class HashedWheelTimer implements Timer {
                 if (deadline > 0) {
                     int idx = (int) (tick & mask);
                     processCancelledTasks();
-                    HashedWheelBucket bucket =
-                            wheel[idx];
+                    HashedWheelBucket bucket = wheel[idx];
                     transferTimeoutsToBuckets();
                     bucket.expireTimeouts(deadline);
                     tick++;
@@ -525,7 +546,7 @@ public class HashedWheelTimer implements Timer {
         }
     }
 
-    private static final class HashedWheelTimeout implements Timeout {
+    private static final class HashedWheelTimeout implements Timeout, Runnable {
 
         private static final int ST_INIT = 0;
         private static final int ST_CANCELLED = 1;
@@ -614,7 +635,7 @@ public class HashedWheelTimer implements Timer {
             return state() == ST_EXPIRED;
         }
 
-        public void expire() {
+        public void expirez() {
             if (!compareAndSetState(ST_INIT, ST_EXPIRED)) {
                 return;
             }
@@ -624,6 +645,32 @@ public class HashedWheelTimer implements Timer {
             } catch (Throwable t) {
                 if (logger.isWarnEnabled()) {
                     logger.warn("An exception was thrown by " + TimerTask.class.getSimpleName() + '.', t);
+                }
+            }
+        }
+
+        public void expire() {
+            if (!compareAndSetState(ST_INIT, ST_EXPIRED)) {
+                return;
+            }
+
+            try {
+                timer.taskExecutor.execute(this);
+            } catch (Throwable t) {
+                if (logger.isWarnEnabled()) {
+                    logger.warn("An exception was thrown while submit " + io.netty.util.TimerTask.class.getSimpleName()
+                            + " for execution.", t);
+                }
+            }
+        }
+
+        @Override
+        public void run() {
+            try {
+                task.run(this);
+            } catch (Throwable t) {
+                if (logger.isWarnEnabled()) {
+                    logger.warn("An exception was thrown by " + io.netty.util.TimerTask.class.getSimpleName() + '.', t);
                 }
             }
         }
