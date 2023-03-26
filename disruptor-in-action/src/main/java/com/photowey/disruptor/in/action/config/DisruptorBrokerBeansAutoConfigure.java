@@ -30,9 +30,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * {@code DisruptorBrokerBeansAutoConfigure}
  *
@@ -44,7 +41,6 @@ import java.util.concurrent.Executors;
 public class DisruptorBrokerBeansAutoConfigure {
 
     public static final String DISRUPTOR_MQ_SERVICE_BEAN_NAME = DisruptorBrokerBeanNameConstants.DISRUPTOR_MQ_SERVICE_BEAN_NAME;
-    public static final String EXECUTOR_SERVICE_BEAN_NAME = DisruptorBrokerBeanNameConstants.EXECUTOR_SERVICE_BEAN_NAME;
     public static final String EVENT_HANDLER_BEAN_NAME = DisruptorBrokerBeanNameConstants.EVENT_HANDLER_BEAN_NAME;
     public static final String EVENT_FACTORY_BEAN_NAME = DisruptorBrokerBeanNameConstants.EVENT_FACTORY_BEAN_NAME;
     public static final String WAIT_STRATEGY_BEAN_NAME = DisruptorBrokerBeanNameConstants.WAIT_STRATEGY_BEAN_NAME;
@@ -55,15 +51,9 @@ public class DisruptorBrokerBeansAutoConfigure {
         return new TextDisruptorMQService(disruptorBroker);
     }
 
-    @Bean(EXECUTOR_SERVICE_BEAN_NAME)
-    @ConditionalOnMissingBean(name = EXECUTOR_SERVICE_BEAN_NAME)
-    public ExecutorService executorService() {
-        return Executors.newFixedThreadPool(1 << 2);
-    }
-
     @Bean(EVENT_FACTORY_BEAN_NAME)
     @ConditionalOnMissingBean(name = EVENT_FACTORY_BEAN_NAME)
-    public EventFactory eventFactory() {
+    public EventFactory<Event> eventFactory() {
         return new DisruptorEventFactory();
     }
 

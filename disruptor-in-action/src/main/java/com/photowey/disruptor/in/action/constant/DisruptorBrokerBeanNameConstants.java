@@ -27,6 +27,8 @@ public interface DisruptorBrokerBeanNameConstants {
     String RING_BUFFER_BEAN_NAME = "com.lmax.disruptor.RingBuffer";
     String DISRUPTOR_BROKER_BEAN_NAME = "com.photowey.disruptor.in.action.broker.DisruptorBroker";
     String DISRUPTOR_MQ_SERVICE_BEAN_NAME = "com.photowey.disruptor.in.action.service.DisruptorMQService";
+
+    @Deprecated
     String EXECUTOR_SERVICE_BEAN_NAME = "disruptor.executor.service";
     String EVENT_HANDLER_BEAN_NAME = "com.lmax.disruptor.EventHandler";
     String EVENT_FACTORY_BEAN_NAME = "com.lmax.disruptor.EventFactory";
