@@ -30,8 +30,6 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.photowey.delayqueue.in.action.shared.io.netty.util.Functions.*;
-import static io.netty.util.internal.ObjectUtil.checkNotNull;
-import static io.netty.util.internal.ObjectUtil.checkPositive;
 
 /**
  * A {@link Timer} optimized for approximated I/O timeout scheduling.
@@ -245,9 +243,7 @@ public class HashedWheelTimer implements Timer {
         checkNotNull(unit, "unit");
         checkPositive(tickDuration, "tickDuration");
         checkPositive(ticksPerWheel, "ticksPerWheel");
-
         this.taskExecutor = checkNotNull(taskExecutor, "taskExecutor");
-
 
         // Normalize ticksPerWheel to power of two and initialize the wheel.
         wheel = createWheel(ticksPerWheel);
@@ -259,8 +255,7 @@ public class HashedWheelTimer implements Timer {
         // Prevent overflow.
         if (this.tickDuration >= Long.MAX_VALUE / wheel.length) {
             throw new IllegalArgumentException(String.format(
-                    "tickDuration: %d (expected: 0 < tickDuration in nanos < %d",
-                    tickDuration, Long.MAX_VALUE / wheel.length));
+                    "tickDuration: %d (expected: 0 < tickDuration in nanos < %d", tickDuration, Long.MAX_VALUE / wheel.length));
         }
         workerThread = threadFactory.newThread(worker);
 
@@ -340,10 +335,8 @@ public class HashedWheelTimer implements Timer {
     @Override
     public Set<Timeout> stop() {
         if (Thread.currentThread() == workerThread) {
-            throw new IllegalStateException(
-                    HashedWheelTimer.class.getSimpleName() +
-                            ".stop() cannot be called from " +
-                            TimerTask.class.getSimpleName());
+            throw new IllegalStateException(HashedWheelTimer.class.getSimpleName()
+                    + ".stop() cannot be called from " + TimerTask.class.getSimpleName());
         }
 
         if (!WORKER_STATE_UPDATER.compareAndSet(this, WORKER_STATE_STARTED, WORKER_STATE_SHUTDOWN)) {
@@ -635,20 +628,6 @@ public class HashedWheelTimer implements Timer {
             return state() == ST_EXPIRED;
         }
 
-        public void expirez() {
-            if (!compareAndSetState(ST_INIT, ST_EXPIRED)) {
-                return;
-            }
-
-            try {
-                task.run(this);
-            } catch (Throwable t) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn("An exception was thrown by " + TimerTask.class.getSimpleName() + '.', t);
-                }
-            }
-        }
-
         public void expire() {
             if (!compareAndSetState(ST_INIT, ST_EXPIRED)) {
                 return;
@@ -686,11 +665,9 @@ public class HashedWheelTimer implements Timer {
                     .append('(')
                     .append("deadline: ");
             if (remaining > 0) {
-                buf.append(remaining)
-                        .append(" ns later");
+                buf.append(remaining).append(" ns later");
             } else if (remaining < 0) {
-                buf.append(-remaining)
-                        .append(" ns ago");
+                buf.append(-remaining).append(" ns ago");
             } else {
                 buf.append("now");
             }

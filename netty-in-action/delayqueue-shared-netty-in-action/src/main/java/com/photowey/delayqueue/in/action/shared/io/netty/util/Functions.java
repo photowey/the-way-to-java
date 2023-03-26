@@ -27,7 +27,8 @@ import java.util.Locale;
  */
 interface Functions {
 
-    static final char PACKAGE_SEPARATOR_CHAR = '.';
+    char PACKAGE_SEPARATOR_CHAR = '.';
+    long LONG_ZERO = 0L;
 
     String NORMALIZED_OS = normalizeOs(System.getProperty("os.name", ""));
     boolean IS_WINDOWS = isWindows0();
@@ -104,6 +105,13 @@ interface Functions {
             throw new IllegalArgumentException(name + ": " + i + " (expected: " + start + "-" + end + ")");
         }
         return i;
+    }
+
+    static long checkPositive(long l, String name) {
+        if (l <= LONG_ZERO) {
+            throw new IllegalArgumentException(name + " : " + l + " (expected: > 0)");
+        }
+        return l;
     }
 
     /**
