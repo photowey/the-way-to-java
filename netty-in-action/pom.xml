@@ -28,6 +28,7 @@
     <modules>
         <module>client-netty-in-action</module>
         <module>delayqueue-in-action</module>
+        <module>delayqueue-shared-netty-in-action</module>
         <module>server-netty-in-action</module>
         <module>study-netty-in-action</module>
         <module>telnet-netty-in-action</module>
