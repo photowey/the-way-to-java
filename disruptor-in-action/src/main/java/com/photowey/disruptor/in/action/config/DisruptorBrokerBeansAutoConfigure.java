@@ -15,10 +15,10 @@
  */
 package com.photowey.disruptor.in.action.config;
 
-import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.WaitStrategy;
+import com.lmax.disruptor.YieldingWaitStrategy;
 import com.photowey.disruptor.in.action.broker.DisruptorBroker;
 import com.photowey.disruptor.in.action.constant.DisruptorBrokerBeanNameConstants;
 import com.photowey.disruptor.in.action.factory.DisruptorEventFactory;
@@ -60,7 +60,8 @@ public class DisruptorBrokerBeansAutoConfigure {
     @Bean(WAIT_STRATEGY_BEAN_NAME)
     @ConditionalOnMissingBean(name = WAIT_STRATEGY_BEAN_NAME)
     public WaitStrategy waitStrategy() {
-        return new BlockingWaitStrategy();
+        // BlockingWaitStrategy();
+        return new YieldingWaitStrategy();
     }
 
     @Bean(EVENT_HANDLER_BEAN_NAME)

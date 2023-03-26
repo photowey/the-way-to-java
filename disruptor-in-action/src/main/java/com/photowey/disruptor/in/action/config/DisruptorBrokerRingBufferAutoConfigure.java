@@ -46,7 +46,7 @@ public class DisruptorBrokerRingBufferAutoConfigure {
     public static final String EVENT_FACTORY_BEAN_NAME = DisruptorBrokerBeanNameConstants.EVENT_FACTORY_BEAN_NAME;
     public static final String WAIT_STRATEGY_BEAN_NAME = DisruptorBrokerBeanNameConstants.WAIT_STRATEGY_BEAN_NAME;
 
-    public static final int BUFFER_SIZE = 1024;
+    public static final int BUFFER_SIZE = 1024 * 256;
 
     @Bean(RING_BUFFER_BEAN_NAME)
     @ConditionalOnMissingBean(name = RING_BUFFER_BEAN_NAME)
