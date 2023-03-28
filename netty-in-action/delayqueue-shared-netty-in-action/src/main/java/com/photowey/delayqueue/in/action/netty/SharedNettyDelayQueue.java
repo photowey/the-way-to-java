@@ -17,7 +17,7 @@ package com.photowey.delayqueue.in.action.netty;
 
 import com.photowey.delayqueue.in.action.shared.io.netty.util.HashedWheelTimer;
 import com.photowey.delayqueue.in.action.shared.io.netty.util.Timer;
-import io.netty.util.concurrent.DefaultThreadFactory;
+import com.photowey.delayqueue.in.action.shared.io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;

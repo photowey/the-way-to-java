@@ -219,7 +219,7 @@ public class HashedWheelTimer implements Timer {
      *
      * @param threadFactory      a {@link ThreadFactory} that creates a
      *                           background {@link Thread} which is dedicated to
-     *                           {@link io.netty.util.TimerTask} execution.
+     *                           {@link TimerTask} execution.
      * @param tickDuration       the duration between tick
      * @param unit               the time unit of the {@code tickDuration}
      * @param ticksPerWheel      the size of the wheel
@@ -228,7 +228,7 @@ public class HashedWheelTimer implements Timer {
      *                           {@link java.util.concurrent.RejectedExecutionException}
      *                           being thrown. No maximum pending timeouts limit is assumed if
      *                           this value is 0 or negative.
-     * @param taskExecutor       The {@link Executor} that is used to execute the submitted {@link io.netty.util.TimerTask}s.
+     * @param taskExecutor       The {@link Executor} that is used to execute the submitted {@link TimerTask}s.
      *                           The caller is responsible to shutdown the {@link Executor} once it is not needed
      *                           anymore.
      * @throws NullPointerException     if either of {@code threadFactory} and {@code unit} is {@code null}
@@ -637,7 +637,7 @@ public class HashedWheelTimer implements Timer {
                 timer.taskExecutor.execute(this);
             } catch (Throwable t) {
                 if (logger.isWarnEnabled()) {
-                    logger.warn("An exception was thrown while submit " + io.netty.util.TimerTask.class.getSimpleName()
+                    logger.warn("An exception was thrown while submit " + TimerTask.class.getSimpleName()
                             + " for execution.", t);
                 }
             }
@@ -649,7 +649,7 @@ public class HashedWheelTimer implements Timer {
                 task.run(this);
             } catch (Throwable t) {
                 if (logger.isWarnEnabled()) {
-                    logger.warn("An exception was thrown by " + io.netty.util.TimerTask.class.getSimpleName() + '.', t);
+                    logger.warn("An exception was thrown by " + TimerTask.class.getSimpleName() + '.', t);
                 }
             }
         }
