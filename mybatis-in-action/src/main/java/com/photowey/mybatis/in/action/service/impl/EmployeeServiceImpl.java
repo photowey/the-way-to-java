@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
 
@@ -61,7 +63,34 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeRepository, Employe
         if (1 != 2) {
             throw new RuntimeException("test nested rollback");
         }
+    }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public TxStatus add(Employee employee) {
+
+        TxStatus txStatus = new TxStatus(0);
+        this.save(employee);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void beforeCommit(boolean readOnly) {
+                log.info("before commit:{}", readOnly);
+            }
+
+            @Override
+            public void beforeCompletion() {
+                log.info("before completion");
+            }
+
+            @Override
+            public void afterCommit() {
+                log.info("after commit");
+                txStatus.setStatus(1);
+            }
+        });
+
+        return txStatus;
     }
 
     private Employee populateEmployee() {

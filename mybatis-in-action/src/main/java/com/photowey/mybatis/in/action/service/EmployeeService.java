@@ -17,6 +17,12 @@ package com.photowey.mybatis.in.action.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.photowey.mybatis.in.action.domain.entity.Employee;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * {@code EmployeeService}
@@ -31,4 +37,13 @@ public interface EmployeeService extends IService<Employee> {
 
     void handleNestedSave();
 
+    TxStatus add(Employee employee);
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    class TxStatus implements Serializable {
+        private int status;
+    }
 }

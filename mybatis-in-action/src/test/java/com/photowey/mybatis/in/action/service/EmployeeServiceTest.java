@@ -50,4 +50,19 @@ class EmployeeServiceTest {
 
         Assertions.assertEquals("(ORG_NAME = ? OR EMPLOYEE_NO = ?)", qw.getTargetSql());
     }
+
+    @Test
+    void testAddEmployeeForRegisterSynchronization() {
+        // 在测试数据库中真实存在
+        Long employeeId = 1457238442743197697L;
+
+        Employee employee = this.employeeService.getById(employeeId);
+        employee.setId(null);
+        employee.setEmployeeNo("2023039527");
+        employee.setOrderNo(4096);
+        employee.setRemark("我是事务备注");
+        EmployeeService.TxStatus txStatus = this.employeeService.add(employee);
+
+        Assertions.assertEquals(1, txStatus.getStatus());
+    }
 }
