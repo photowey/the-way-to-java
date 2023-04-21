@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.5</version>
+    </parent>
+
+    <groupId>com.photowey</groupId>
+    <artifactId>wechat-sdk-java</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>wechat-sdk-java</name>
+    <description>The sdk of wechat open platform in Java language</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
+        <templating-maven-plugin.version>1.0.0</templating-maven-plugin.version>
+
+        <fastjson.version>2.0.24</fastjson.version>
+        <wechatpay-java.version>0.2.7</wechatpay-java.version>
+
+        <bcprov.version>1.70</bcprov.version>
+        <jnanoid.version>2.0.0</jnanoid.version>
+    </properties>
+
+    <!-- dummy -->
+    <!--
+    <scm>
+        <connection>
+            scm:git:http://github.com/photowey/wechat-sdk-java.git
+        </connection>
+        <developerConnection>
+            scm:git:http://github.com/photowey/wechat-sdk-java.git
+        </developerConnection>
+        <url>http://github.com/photowey/wechat-sdk-java</url>
+        <tag>HEAD</tag>
+    </scm>
+    -->
+
+    <modules>
+        <module>wechat-sdk-java-api</module>
+        <module>wechat-sdk-java-autoconfigure</module>
+        <module>wechat-sdk-java-core</module>
+        <module>wechat-sdk-java-starter</module>
+    </modules>
+
+    <dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>wechat-sdk-java-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>wechat-sdk-java-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>wechat-sdk-java-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>wechat-sdk-java-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>dev</id>
+            <name>local</name>
+            <!-- win11 -->
+            <url>file:///${env.MAVEN_REPO}</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>templating-maven-plugin</artifactId>
+                <version>${templating-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>interpolate-templates</id>
+                        <goals>
+                            <goal>filter-sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>date</name>
+                            <placement>a</placement>
+                            <head>Create time</head>
+                        </tag>
+                    </tags>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <generateReleasePoms>false</generateReleasePoms>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <arguments>-DskipTests</arguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>remove</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <inlineHeader>
+                        <![CDATA[
+Copyright © 2023 the original author or authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+]]>
+                    </inlineHeader>
+                    <properties>
+                        <inceptionYear>2023</inceptionYear>
+                        <author>photowey</author>
+                        <email>photowey@gmail.com</email>
+                        <owner>photowey</owner>
+                        <website>https://github.ccom/photowey</website>
+                    </properties>
+                    <excludes>
+                        <exclude>**/.mvn/**</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>LICENSE</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.yml</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>**/*.png</exclude>
+                        <exclude>**/*.jpg</exclude>
+                        <exclude>**/*.sql</exclude>
+                        <exclude>**/*.pub</exclude>
+                        <exclude>**/*.pri</exclude>
+                        <exclude>**/*.crt</exclude>
+                        <exclude>**/*.pem</exclude>
+                        <exclude>**/*.pfx</exclude>
+                        <exclude>**/*.p12</exclude>
+                        <exclude>**/*.jks</exclude>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>**/*.dll</exclude>
+                        <exclude>**/*.xls</exclude>
+                        <exclude>**/*.xlsx</exclude>
+                        <exclude>**/*.csv</exclude>
+                        <exclude>**/*.cmd</exclude>
+                        <exclude>**/*.bat</exclude>
+                        <exclude>**/*.sh</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
