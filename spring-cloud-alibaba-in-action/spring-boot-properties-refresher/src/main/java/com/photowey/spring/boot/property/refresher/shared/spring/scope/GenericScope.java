@@ -28,6 +28,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -366,6 +367,10 @@ public class GenericScope
                 synchronized (this.name) {
                     if (this.bean == null) {
                         this.bean = this.objectFactory.getObject();
+                        // Invoke hook-func if necessary
+                        if (this.bean instanceof SmartInitializingSingleton) {
+                            ((SmartInitializingSingleton) this.bean).afterSingletonsInstantiated();
+                        }
                     }
                 }
             }
