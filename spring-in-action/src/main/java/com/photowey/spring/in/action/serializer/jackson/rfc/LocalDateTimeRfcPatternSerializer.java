@@ -13,35 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spring.in.action.serializer.jackson;
+package com.photowey.spring.in.action.serializer.jackson.rfc;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.photowey.spring.in.action.serializer.Cleaner;
 import com.photowey.spring.in.action.serializer.formatter.RFC3339DateTimeFormatter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
- * {@code LocalDateTimeRfcPatternDeserializer}
+ * {@code LocalDateTimeRfcPatternSerializer}
  *
  * @author photowey
  * @date 2023/03/16
  * @since 1.0.0
  */
-public class LocalDateTimeRfcPatternDeserializer extends JsonDeserializer<LocalDateTime> {
+public class LocalDateTimeRfcPatternSerializer extends JsonSerializer<LocalDateTime> {
 
     @Override
-    public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {
-        String dateTime = p.getValueAsString();
-        if (null != dateTime && dateTime.trim().length() > 0) {
-            DateTimeFormatter formatter = RFC3339DateTimeFormatter.buildDefault();
-            return LocalDateTime.from(formatter.parse(dateTime));
-        } else {
-            return null;
+    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        if (value != null) {
+            String formatted = RFC3339DateTimeFormatter.format(Cleaner.trimTail(value));
+            gen.writeString(formatted);
         }
     }
-
 }
