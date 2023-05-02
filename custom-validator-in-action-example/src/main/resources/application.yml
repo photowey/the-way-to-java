@@ -18,19 +18,19 @@ knife4j:
     footerCustomContent: Apache License 2.0 | Copyright  2021-[photowey](https://wiki.hicoofinal.com/spaces/viewspace.action?key=~photowey)
   production: false
 
-#uphicoo:
+#photowey:
 #  platform:
 #    knife4j:
 #      app:
 #        name: "${spring.application.name}"
 #        author: "photowey"
-#        email: "photowey@uphicoo.com"
+#        email: "photowey@gmail.com"
 #      api:
 #        group: "${spring.application.name}"
 #        title: "${spring.application.name} API doc"
 #        description: "# ${spring.application.name} project RESTful APIs"
-#        controllers: ["com.uphicoo.uphicoo.in.action.api", "com.uphicoo.uphicoo.in.action.controller"]
-#        termsOfServiceUrl: "https://wiki.hicoofinal.com/"
+#        controllers: ["com.photowey.validator.in.action.api", "com.photowey.validator.in.action.controller"]
+#        termsOfServiceUrl: "https://github.com/photowey/"
 #        version: "1.0.0"
 
 logging:
