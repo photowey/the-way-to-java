@@ -15,25 +15,43 @@
  */
 package com.photowey.spring.in.action.infras.engine;
 
-import org.springframework.beans.factory.BeanFactoryAware;
+import lombok.Getter;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
 /**
- * {@code Engine}
+ * {@code AbstractEngine}
  *
  * @author photowey
- * @date 2023/05/06
+ * @date 2023/05/07
  * @since 1.0.0
  */
-public interface Engine extends BeanFactoryAware, ApplicationContextAware, EnvironmentAware {
+public abstract class AbstractEngine implements Engine {
 
-    ListableBeanFactory beanFactory();
+    @Getter
+    protected ListableBeanFactory beanFactory;
 
-    ApplicationContext applicationContext();
+    @Getter
+    protected ApplicationContext applicationContext;
 
-    Environment environment();
+    @Getter
+    protected Environment environment;
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) beanFactory;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 }
