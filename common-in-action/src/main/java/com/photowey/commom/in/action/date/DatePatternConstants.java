@@ -27,8 +27,11 @@ public interface DatePatternConstants {
     String yyyy_MM_dd = "yyyy-MM-dd ";
     String HH_mm_ss = "HH:mm:ss";
     String yyyyMMdd = "yyyyMMdd";
+    String yyyyMM = "yyyyMM";
+    String yyMM = "yyMM";
     String yyMMdd = "yyMMdd";
     String HHmmss = "HHmmss";
+
 
     String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
     String yyyy_MM_dd_HH_mm_ss_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -40,6 +43,7 @@ public interface DatePatternConstants {
      * {@code ES} default data pattern
      */
     String yyyy_MM_dd_T_HH_mm_ss_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    String yyyy_MM_dd_T_HH_mm_ss_SSS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     char RFC_3339_T = 'T';
     String RFC_3339_T_STRING = "'T'";
