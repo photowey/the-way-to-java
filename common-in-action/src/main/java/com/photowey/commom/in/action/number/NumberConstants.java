@@ -27,6 +27,7 @@ public interface NumberConstants {
     String NO_SCALE = "#";
     String TWO_DECIMAL_POINTS = "#0.00";
     String FOUR_DECIMAL_POINTS = "#0.0000";
+    String FIVE_DECIMAL_POINTS = "#0.00000";
 
     String PERCENT_WITH_NO_POINT = "##%";
     String PERCENT_WITH_1_POINT = "#0.0%";
