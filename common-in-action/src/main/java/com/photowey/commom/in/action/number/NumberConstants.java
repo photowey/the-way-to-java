@@ -62,4 +62,21 @@ public interface NumberConstants {
     long TEN_BILLION = (long) (BILLION) * 10;
 
     int DEFAULT_DIV_SCALE = 10;
+
+    // -------------------------------------------------------------------------
+
+    String ONE_STRING = String.valueOf(ONE);
+    String TEN_STRING = String.valueOf(TEN);
+    String HUNDRED_STRING = String.valueOf(HUNDRED);
+    String THOUSAND_STRING = String.valueOf(THOUSAND);
+
+    String TEN_THOUSAND_STRING = String.valueOf(TEN_THOUSAND);
+    String HUNDRED_THOUSAND_STRING = String.valueOf(HUNDRED_THOUSAND);
+
+    String MILLION_STRING = String.valueOf(MILLION);
+    String TEN_MILLION_STRING = String.valueOf(TEN_MILLION);
+    String HUNDRED_MILLION_STRING = String.valueOf(HUNDRED_MILLION);
+
+    String BILLION_STRING = String.valueOf(BILLION);
+    String TEN_BILLION_STRING = String.valueOf(TEN_BILLION);
 }
