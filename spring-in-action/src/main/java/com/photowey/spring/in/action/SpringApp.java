@@ -32,6 +32,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 @Slf4j
 @SpringBootApplication
 @EnableDynamicInjected
+//@Import(value = {
+//        JungleBeanDefinitionRegistryPostProcessor.class,
+//})
+//@EnableJungleService(basePackages = {
+//        "com.photowey.spring.in.action.hello.service"
+//})
 public class SpringApp {
 
     public static void main(String[] args) {
