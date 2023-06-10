@@ -21,6 +21,7 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * {@code ObjectUtils}
@@ -40,8 +41,16 @@ public final class ObjectUtils {
         return defaultIfNullOrEmpty(target, defaultValue);
     }
 
+    public static <T> T defaultIfNull(T target, Supplier<T> fx) {
+        return defaultIfNullOrEmpty(target, fx);
+    }
+
     public static <T> T defaultIfNullOrEmpty(final T object, final T defaultValue) {
         return isNotNullOrEmpty(object) ? object : defaultValue;
+    }
+
+    public static <T> T defaultIfNullOrEmpty(final T target, Supplier<T> fx) {
+        return isNotNullOrEmpty(target) ? target : fx.get();
     }
 
     public static boolean isNullOrEmpty(Object value) {
