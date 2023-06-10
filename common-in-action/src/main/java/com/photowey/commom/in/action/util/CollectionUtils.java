@@ -18,6 +18,7 @@ package com.photowey.commom.in.action.util;
 import com.photowey.commom.in.action.thrower.AssertionErrorThrower;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * {@code CollectionUtils}
@@ -85,6 +86,47 @@ public final class CollectionUtils {
 
     public static <T> boolean isNotEmpty(Collection<T> collection) {
         return org.apache.commons.collections4.CollectionUtils.isNotEmpty(collection);
+    }
+
+    public static <T> List<T> union(Collection<T> c1, Collection<T> c2) {
+        List<T> c11 = new ArrayList<>(c1);
+        List<T> c21 = new ArrayList<>(c2);
+        c11.addAll(c21);
+
+        return distinct(c11);
+    }
+
+    public static <T> List<T> unionAll(Collection<T> c1, Collection<T> c2) {
+        List<T> c11 = new ArrayList<>(c1);
+        List<T> c21 = new ArrayList<>(c2);
+        c11.addAll(c21);
+
+        return c11;
+    }
+
+    public static <T> List<T> intersection(Collection<T> c1, Collection<T> c2) {
+        List<T> c11 = new ArrayList<>(c1);
+        c11.retainAll(c2);
+
+        return c11;
+    }
+
+    public static <T> List<T> reduce21(Collection<T> c1, Collection<T> c2) {
+        List<T> c21 = new ArrayList<>(c2);
+        c21.removeAll(c1);
+
+        return c21;
+    }
+
+    public static <T> List<T> reduce12(Collection<T> c1, Collection<T> c2) {
+        List<T> c11 = new ArrayList<>(c1);
+        c11.removeAll(c2);
+
+        return c11;
+    }
+
+    public static <T> List<T> distinct(Collection<T> c1) {
+        return c1.stream().distinct().collect(Collectors.toList());
     }
 
     private static int calculateInitialCapacityFromExpectedSize(int expectedSize) {
