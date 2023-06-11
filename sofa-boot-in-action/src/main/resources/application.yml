@@ -1,0 +1,7 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: "sofa-boot-in-action"
+  profiles:
+    active: dev
