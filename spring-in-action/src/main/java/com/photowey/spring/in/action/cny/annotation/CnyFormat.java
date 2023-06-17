@@ -13,18 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.wechat.sdk.core.checker.wechat;
+package com.photowey.spring.in.action.cny.annotation;
 
-import com.photowey.wechat.sdk.core.property.WechatProperties;
+import org.springframework.core.annotation.AliasFor;
+
+import java.lang.annotation.*;
 
 /**
- * {@code WechatPropertyChecker}
+ * {@code CnyFormat}
  *
  * @author photowey
- * @date 2023/05/13
+ * @date 2023/06/17
  * @since 1.0.0
  */
-public interface WechatPropertyChecker {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+public @interface CnyFormat {
 
-    void check(WechatProperties properties);
+    @AliasFor("toYuan")
+    boolean value() default true;
+
+    @AliasFor("value")
+    boolean toYuan() default true;
+
+    boolean toFen() default false;
 }

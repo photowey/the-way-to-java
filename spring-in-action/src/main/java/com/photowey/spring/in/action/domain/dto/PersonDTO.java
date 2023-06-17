@@ -13,43 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.wechat.sdk.core.callback.payload.marketing;
+package com.photowey.spring.in.action.domain.dto;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.photowey.wechat.sdk.core.annotation.Required;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.photowey.spring.in.action.cny.annotation.CnyFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
- * {@code SingleitemDiscountOff}
+ * {@code PersonDTO}
  *
  * @author photowey
- * @date 2023/05/02
+ * @date 2023/06/17
  * @since 1.0.0
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingleitemDiscountOff implements Serializable {
+public class PersonDTO implements Serializable {
 
-    private static final long serialVersionUID = -1072994662254986014L;
+    private static final long serialVersionUID = -4477639101713352528L;
 
-    /**
-     * 单品最高优惠价格
-     * <p>
-     * 单品最高优惠价格，单位：分。
-     * 示例值：100
-     */
-    @Required
-    @NotNull(message = "单品最高优惠价格:为空")
-    @JsonProperty(value = "single_price_max")
-    @JSONField(name = "single_price_max")
-    private Long priceMax;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    @CnyFormat(toYuan = false, toFen = true)
+    private BigDecimal balance;
+
+    @CnyFormat(toYuan = false, toFen = true)
+    private String wallet;
 }

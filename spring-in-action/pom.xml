@@ -69,6 +69,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.photowey</groupId>
+            <artifactId>common-in-action</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
