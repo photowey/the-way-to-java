@@ -83,6 +83,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>javax.money</groupId>
+            <artifactId>money-api</artifactId>
+            <version>1.0.3</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
