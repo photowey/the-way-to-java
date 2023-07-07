@@ -15,9 +15,13 @@
  */
 package com.photowey.spring.in.action.controller;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.photowey.spring.in.action.annotation.TrimField;
 import com.photowey.spring.in.action.annotation.TrimMethod;
 import com.photowey.spring.in.action.domain.model.TrimModel;
+import com.photowey.spring.in.action.serializer.jackson.trimmer.StringSpaceTrimmerDeserializer;
+import com.photowey.spring.in.action.serializer.jackson.trimmer.StringSpaceTrimmerSerializer;
 import com.photowey.spring.in.action.trim.annotation.TrimSpace;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -58,10 +62,28 @@ public class TrimController {
         return new ResponseEntity<>(String.format("hello %s~", payload.getName()), HttpStatus.OK);
     }
 
+    @PostMapping("/post/serializer")
+    public ResponseEntity<StudentJsonPayload> serializerPost(@RequestBody @ApiParam @Validated StudentJsonPayload payload) {
+        payload.setName(" A  B X ");
+        return new ResponseEntity<>(payload, HttpStatus.OK);
+    }
+
+    @PostMapping("/post/nested/serializer")
+    public ResponseEntity<NestedStudentJsonPayload> nesteSerializerPost(@RequestBody @ApiParam @Validated NestedStudentJsonPayload payload) {
+        payload.setName(" A  B X ");
+        payload.getStudent().setName("   A   B  X");
+        return new ResponseEntity<>(payload, HttpStatus.OK);
+    }
+
     @TrimMethod
     @GetMapping("/get/query")
-    public ResponseEntity<String> queryGet(StudentQuery payload) {
-        return new ResponseEntity<>(String.format("hello %s~", payload.getName()), HttpStatus.OK);
+    public ResponseEntity<String> queryGet(StudentQuery query) {
+        return new ResponseEntity<>(String.format("hello %s~", query.getName()), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/trimspace")
+    public ResponseEntity<String> trimspaceGet(StudentQuery query) {
+        return new ResponseEntity<>(String.format("address at: %s~", query.getAddress()), HttpStatus.OK);
     }
 
     @Data
@@ -74,11 +96,37 @@ public class TrimController {
     }
 
     @Data
+    public static class StudentJsonPayload implements Serializable, TrimModel {
+
+        private static final long serialVersionUID = 3067875834364794883L;
+
+        @JsonSerialize(using = StringSpaceTrimmerSerializer.class)
+        @JsonDeserialize(using = StringSpaceTrimmerDeserializer.class)
+        private String name;
+    }
+
+
+    @Data
+    public static class NestedStudentJsonPayload implements Serializable, TrimModel {
+
+        private static final long serialVersionUID = 3067875834364794883L;
+
+        @JsonSerialize(using = StringSpaceTrimmerSerializer.class)
+        @JsonDeserialize(using = StringSpaceTrimmerDeserializer.class)
+        private String name;
+
+        private StudentJsonPayload student;
+    }
+
+    @Data
     public static class StudentQuery implements Serializable, TrimModel {
 
         private static final long serialVersionUID = 3067875834364794883L;
 
         @TrimField
         private String name;
+
+        @TrimSpace
+        private String address;
     }
 }
