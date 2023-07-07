@@ -67,7 +67,10 @@ public class TrimAspect {
                 ReflectionUtils.makeAccessible(field);
                 Object pv = field.get(arg);
                 if (pv instanceof String) {
-                    field.set(arg, String.valueOf(arg).replaceAll(" ", ""));
+                    field.set(arg, String.valueOf(pv).replaceAll(" ", ""));
+                } else {
+                    // TODO 处理嵌套模型
+                    this.handleTrimModel(joinPoint, pv);
                 }
             }, (f) -> f.isAnnotationPresent(TrimField.class));
         }
