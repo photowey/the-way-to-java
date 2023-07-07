@@ -16,6 +16,7 @@
 package com.photowey.spring.in.action.config;
 
 import com.photowey.spring.in.action.cny.factory.CnyFormatAnnotationFormatterFactory;
+import com.photowey.spring.in.action.trim.factory.TrimSpaceAnnotationFormatterFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionService;
@@ -46,9 +47,14 @@ public class FormatterConfigurer implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatterForFieldAnnotation(this.formatterFactory());
+        registry.addFormatterForFieldAnnotation(this.trimSpaceTrimmerFactory());
     }
 
     public CnyFormatAnnotationFormatterFactory formatterFactory() {
         return new CnyFormatAnnotationFormatterFactory();
+    }
+
+    public TrimSpaceAnnotationFormatterFactory trimSpaceTrimmerFactory() {
+        return new TrimSpaceAnnotationFormatterFactory();
     }
 }

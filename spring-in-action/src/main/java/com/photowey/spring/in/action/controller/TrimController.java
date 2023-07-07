@@ -18,6 +18,7 @@ package com.photowey.spring.in.action.controller;
 import com.photowey.spring.in.action.annotation.TrimField;
 import com.photowey.spring.in.action.annotation.TrimMethod;
 import com.photowey.spring.in.action.domain.model.TrimModel;
+import com.photowey.spring.in.action.trim.annotation.TrimSpace;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -39,6 +40,11 @@ import java.io.Serializable;
 @RequestMapping("/trim")
 @Api(value = "参数修改", tags = {"String参数修改"})
 public class TrimController {
+
+    @GetMapping("/trimspace")
+    public ResponseEntity<String> trimSpace(@TrimSpace @RequestParam("name") String name) {
+        return new ResponseEntity<>(String.format("hello %s~", name), HttpStatus.OK);
+    }
 
     @TrimMethod
     @GetMapping("/get")
