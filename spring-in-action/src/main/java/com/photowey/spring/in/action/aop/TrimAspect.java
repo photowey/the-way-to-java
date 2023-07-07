@@ -28,6 +28,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Collection;
 
 /**
  * {@code TrimAspect}
@@ -61,7 +62,22 @@ public class TrimAspect {
         return joinPoint.proceed(args);
     }
 
+
     private void handleTrimModel(ProceedingJoinPoint joinPoint, Object arg) {
+        this.handleInnerTrimModel(joinPoint, arg);
+        this.handleTrimListModel(joinPoint, arg);
+    }
+
+    private void handleTrimListModel(ProceedingJoinPoint joinPoint, Object arg) {
+        if (arg instanceof Collection) {
+            Collection argz = (Collection) arg;
+            for (Object x : argz) {
+                this.handleTrimModel(joinPoint, x);
+            }
+        }
+    }
+
+    private void handleInnerTrimModel(ProceedingJoinPoint joinPoint, Object arg) {
         if (arg instanceof TrimModel) {
             ReflectionUtils.doWithFields(arg.getClass(), (field) -> {
                 ReflectionUtils.makeAccessible(field);
