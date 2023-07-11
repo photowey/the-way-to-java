@@ -69,7 +69,7 @@ public class JwtAccessTokenManager implements ReactiveAuthorizationManager<Autho
             return Mono.just(new AuthorizationDecision(true));
         }
         URI uri = request.getURI();
-        //白名单路径直接放行
+        // 白名单路径直接放行
         List<String> ignoreUrls = this.gatewayProperties.getIgnoreUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {

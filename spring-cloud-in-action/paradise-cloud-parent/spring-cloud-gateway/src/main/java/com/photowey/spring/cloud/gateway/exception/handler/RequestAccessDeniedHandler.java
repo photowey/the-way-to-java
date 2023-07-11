@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 
 /**
- * {@code RequestAccessDeniedHandler}
+ * {@code DirectedServerAccessDeniedHandler}
  *
  * @author photowey
  * @date 2022/01/16
