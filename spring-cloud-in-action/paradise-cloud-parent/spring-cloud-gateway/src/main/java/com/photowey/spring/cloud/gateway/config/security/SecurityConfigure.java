@@ -67,7 +67,6 @@ public class SecurityConfigure {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
-
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(this.jwtAuthenticationConverter());
         // 自定义处理 {@code jwt} 请求头过期或签名错误的结果
         http.oauth2ResourceServer().authenticationEntryPoint(requestAuthenticationEntryPoint);
@@ -75,22 +74,26 @@ public class SecurityConfigure {
         // 对白名单路径,直接移除JWT请求头
         http.addFilterBefore(removeJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
+        // @formatter:off
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(tokenAuthenticationManager);
         authenticationWebFilter.setServerAuthenticationConverter(new ServerBearerTokenAuthenticationConverter());
-        http.httpBasic().disable()
-                .csrf().disable()
-                .authorizeExchange()
+        http
+            .httpBasic().disable()
+            .csrf().disable()
+            .authorizeExchange()
                 .pathMatchers(toArray(this.gatewayProperties.getIgnoreUrls(), String.class)).permitAll()
                 // 鉴权管理器配置
                 .anyExchange().access(authorizationManager)
-                .and().exceptionHandling()
+            .and()
+                .exceptionHandling()
                 // 处理未授权
                 .accessDeniedHandler(requestAccessDeniedHandler)
                 // 处理未认证
                 .authenticationEntryPoint(requestAuthenticationEntryPoint)
-                .and()
+            .and()
                 .addFilterAt(corsFilter, SecurityWebFiltersOrder.CORS)
                 .addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        // @formatter:on
 
         return http.build();
     }
