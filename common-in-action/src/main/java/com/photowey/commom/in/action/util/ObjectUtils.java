@@ -103,6 +103,44 @@ public final class ObjectUtils {
         }
     }
 
+    public static <T> void executeTrue(boolean expression, T target, Consumer<T> fx) {
+        if (expression) {
+            fx.accept(target);
+        }
+    }
+
+    public static <T> void executeFalse(boolean expression, T target, Consumer<T> fx) {
+        executeTrue(!expression, target, fx);
+    }
+
+    public static <T> void executeEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void executeNotEquals(T v1, T v2, Consumer<T> fx) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        }
+    }
+
+    public static <T> void executeEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
+        }
+    }
+
+    public static <T> void executeNotEquals(T v1, T v2, Consumer<T> fx, Runnable callback) {
+        if (ObjectUtils.isNotNullOrEmpty(v2) && !v2.equals(v1)) {
+            fx.accept(v2);
+        } else {
+            callback.run();
+        }
+    }
+
     // =================================================================
 
     public static <T> boolean equals(final T t1, final T t2) {
