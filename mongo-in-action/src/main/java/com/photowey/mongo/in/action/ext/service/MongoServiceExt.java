@@ -16,6 +16,7 @@
 package com.photowey.mongo.in.action.ext.service;
 
 import com.photowey.mongo.in.action.document.DocumentUpdateCounter;
+import com.photowey.mongo.in.action.fx.ThreeConsumer;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -58,15 +59,54 @@ public interface MongoServiceExt<T, ID> {
      * @param <TARGET> 目标对象类型
      */
     default <PK, TARGET> void addToSet(TARGET target, PK pk, String node, Class<T> clazz) {
+        this.addToSetOps(target, pk, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateFirst(query, update, clazz);
+        });
+    }
+
+    default <V, TARGET> void addToSet(TARGET target, String key, V value, String node, Class<T> clazz) {
+        this.addToSetOps(target, key, value, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateFirst(query, update, clazz);
+        });
+    }
+
+    /**
+     * 批量
+     * 添加到列表
+     *
+     * @param target   目标对象
+     * @param pk       主键标识
+     * @param node     文档节点 key
+     * @param clazz    文档类型
+     * @param <PK>     业务主键类型
+     * @param <TARGET> 目标对象类型
+     */
+    default <PK, TARGET> void batchAddToSet(TARGET target, PK pk, String node, Class<T> clazz) {
+        this.addToSetOps(target, pk, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateMulti(query, update, clazz);
+        });
+    }
+
+    default <V, TARGET> void batchAddToSet(TARGET target, String key, V value, String node, Class<T> clazz) {
+        this.addToSetOps(target, key, value, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateMulti(query, update, clazz);
+        });
+    }
+
+    default <PK, TARGET> void addToSetOps(TARGET target, PK pk, String node, ThreeConsumer<MongoOperations, Query, Update> fx) {
+        this.addToSetOps(target, DEFAULT_PK_ID, this.wrapId(pk), node, fx);
+    }
+
+    default <V, TARGET> void addToSetOps(TARGET target, String key, V value, String node, ThreeConsumer<MongoOperations, Query, Update> fx) {
         MongoOperations mongoTemplate = this.mongoOperations();
         if (null == mongoTemplate) {
             return;
         }
-        Query query = new Query(Criteria.where(DEFAULT_PK_ID).is(this.wrapId(pk)));
+        Query query = new Query(Criteria.where(key).is(value));
         Update update = new Update();
         update.addToSet(node, target);
 
-        mongoTemplate.updateFirst(query, update, clazz);
+        fx.accept(mongoTemplate, query, update);
     }
 
     /**
@@ -80,15 +120,54 @@ public interface MongoServiceExt<T, ID> {
      * @param <TARGET> 目标对象类型
      */
     default <PK, TARGET> void pull(TARGET target, PK pk, String node, Class<T> clazz) {
+        this.pullOps(target, pk, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateFirst(query, update, clazz);
+        });
+    }
+
+    default <V, TARGET> void pull(TARGET target, String key, V v, String node, Class<T> clazz) {
+        this.pullOps(target, key, v, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateFirst(query, update, clazz);
+        });
+    }
+
+    /**
+     * 批量
+     * 从列表移除
+     *
+     * @param target   目标对象
+     * @param pk       主键标识
+     * @param node     文档节点 key
+     * @param clazz    文档类型
+     * @param <PK>     业务主键类型
+     * @param <TARGET> 目标对象类型
+     */
+    default <PK, TARGET> void batchPull(TARGET target, PK pk, String node, Class<T> clazz) {
+        this.pullOps(target, pk, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateMulti(query, update, clazz);
+        });
+    }
+
+    default <V, TARGET> void batchPull(TARGET target, String key, V v, String node, Class<T> clazz) {
+        this.pullOps(target, key, v, node, (mongoTemplate, query, update) -> {
+            mongoTemplate.updateMulti(query, update, clazz);
+        });
+    }
+
+    default <PK, TARGET> void pullOps(TARGET target, PK pk, String node, ThreeConsumer<MongoOperations, Query, Update> fx) {
+        this.pullOps(target, DEFAULT_PK_ID, this.wrapId(pk), node, fx);
+    }
+
+    default <V, TARGET> void pullOps(TARGET target, String key, V v, String node, ThreeConsumer<MongoOperations, Query, Update> fx) {
         MongoOperations mongoTemplate = this.mongoOperations();
         if (null == mongoTemplate) {
             return;
         }
-        Query query = new Query(Criteria.where(DEFAULT_PK_ID).is(this.wrapId(pk)));
+        Query query = new Query(Criteria.where(key).is(v));
         Update update = new Update();
         update.pull(node, target);
 
-        mongoTemplate.updateFirst(query, update, clazz);
+        fx.accept(mongoTemplate, query, update);
     }
 
     /**
