@@ -1,0 +1,12 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "nio-in-action"
+  profiles:
+    active: dev
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

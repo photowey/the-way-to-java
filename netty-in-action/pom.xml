@@ -33,6 +33,7 @@
         <module>study-netty-in-action</module>
         <module>telnet-netty-in-action</module>
         <module>websocket-netty-in-action</module>
+        <module>nio-in-action</module>
     </modules>
 
     <dependencies>
