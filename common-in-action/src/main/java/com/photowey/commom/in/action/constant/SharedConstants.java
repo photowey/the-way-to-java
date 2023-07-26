@@ -28,4 +28,9 @@ public interface SharedConstants {
     String SHARED_FEIGN_CODEC_DECODER_BEAN_NAME = "feign.codec.Decoder";
 
     String APPLICATION_NAME = "spring.application.name";
+
+    // --------------------------------------------------------- Long
+
+    long MILLIS_UNIT = 1000L;
+    long TIME_STAMP_LENGTH = 13;
 }
