@@ -16,6 +16,7 @@
 package com.photowey.spring.in.action.infras.engine;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.Aware;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 /**
@@ -25,7 +26,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * @date 2023/05/06
  * @since 1.0.0
  */
-public abstract class AbstractEngineAwareBeanPostProcessor<E extends Engine, A extends EngineAware> implements EngineBeanPostProcessor {
+public abstract class AbstractEngineAwareBeanPostProcessor<E extends Engine, A extends Aware> implements EngineBeanPostProcessor {
 
     protected ConfigurableListableBeanFactory beanFactory;
 
@@ -36,10 +37,22 @@ public abstract class AbstractEngineAwareBeanPostProcessor<E extends Engine, A e
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        this.inject(beanFactory, bean);
+        if (this.determineInjects(bean, beanName)) {
+            return this.inject(this.beanFactory, bean, beanName);
+        }
 
         return bean;
     }
 
-    public abstract void inject(ConfigurableListableBeanFactory beanFactory, Object bean);
+    public boolean determineInjects(Object bean, String beanName) {
+        return false;
+    }
+
+    public Object inject(ConfigurableListableBeanFactory beanFactory, Object bean) {
+        return bean;
+    }
+
+    public Object inject(ConfigurableListableBeanFactory beanFactory, Object bean, String beanName) {
+        return this.inject(beanFactory, bean);
+    }
 }

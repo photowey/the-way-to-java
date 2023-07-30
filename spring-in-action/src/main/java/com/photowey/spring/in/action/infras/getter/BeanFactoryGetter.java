@@ -16,6 +16,7 @@
 package com.photowey.spring.in.action.infras.getter;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 /**
  * {@code BeanFactoryGetter}
@@ -27,4 +28,8 @@ import org.springframework.beans.factory.BeanFactory;
 public interface BeanFactoryGetter {
 
     BeanFactory beanFactory();
+
+    default ListableBeanFactory listableBeanFactory() {
+        return (ListableBeanFactory) this.beanFactory();
+    }
 }

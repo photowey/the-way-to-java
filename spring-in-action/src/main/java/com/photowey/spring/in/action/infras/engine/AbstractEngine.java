@@ -15,7 +15,6 @@
  */
 package com.photowey.spring.in.action.infras.engine;
 
-import lombok.Getter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -31,13 +30,8 @@ import org.springframework.core.env.Environment;
  */
 public abstract class AbstractEngine implements Engine {
 
-    @Getter
-    protected ListableBeanFactory beanFactory;
-
-    @Getter
+    protected BeanFactory beanFactory;
     protected ApplicationContext applicationContext;
-
-    @Getter
     protected Environment environment;
 
     @Override
@@ -54,4 +48,24 @@ public abstract class AbstractEngine implements Engine {
     public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
+
+    // ----------------------------------------------------------------
+
+    @Override
+    public BeanFactory beanFactory() {
+        return this.beanFactory;
+    }
+
+    @Override
+    public ApplicationContext applicationContext() {
+        return this.applicationContext;
+    }
+
+    @Override
+    public Environment environment() {
+        return this.environment;
+    }
+
+    // ----------------------------------------------------------------
+
 }

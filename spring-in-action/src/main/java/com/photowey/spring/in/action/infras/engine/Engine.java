@@ -15,12 +15,12 @@
  */
 package com.photowey.spring.in.action.infras.engine;
 
+import com.photowey.spring.in.action.infras.getter.ApplicationContextGetter;
+import com.photowey.spring.in.action.infras.getter.BeanFactoryGetter;
+import com.photowey.spring.in.action.infras.getter.EnvironmentGetter;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.core.env.Environment;
 
 /**
  * {@code Engine}
@@ -29,11 +29,7 @@ import org.springframework.core.env.Environment;
  * @date 2023/05/06
  * @since 1.0.0
  */
-public interface Engine extends BeanFactoryAware, ApplicationContextAware, EnvironmentAware {
+public interface Engine extends BeanFactoryAware, ApplicationContextAware, EnvironmentAware,
+        BeanFactoryGetter, ApplicationContextGetter, EnvironmentGetter {
 
-    ListableBeanFactory beanFactory();
-
-    ApplicationContext applicationContext();
-
-    Environment environment();
 }

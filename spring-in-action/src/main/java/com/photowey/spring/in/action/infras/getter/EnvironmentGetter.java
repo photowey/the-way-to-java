@@ -16,6 +16,7 @@
 package com.photowey.spring.in.action.infras.getter;
 
 import org.springframework.core.env.Environment;
+import org.springframework.util.ObjectUtils;
 
 /**
  * {@code EnvironmentGetter}
@@ -26,6 +27,44 @@ import org.springframework.core.env.Environment;
  */
 public interface EnvironmentGetter {
 
-    Environment environment();
-}
+    String SPRING_PROFILES_ACTIVE_KEY = "spring.profiles.active";
 
+    String APPLICATION_SERVER_PORT_KEY = "server.port";
+    String APPLICATION_SERVER_SERVLET_CONTEXT_PATH_KEY = "server.servlet.context-path";
+    String APPLICATION_SERVER_SERVLET_CONTEXT_PATH_ROOT = "/";
+
+    String SPRING_PROFILES_ACTIVE_DEV = "dev";
+    String SPRING_PROFILES_ACTIVE_TEST = "test";
+
+    String SPRING_PROFILES_ACTIVE_PRO = "pro";
+    String SPRING_PROFILES_ACTIVE_PROD = "prod";
+
+    /**
+     * GET {@link Environment}
+     *
+     * @return {@link Environment}
+     */
+    default Environment environment() {
+        return null;
+    }
+
+    default String determineProfilesActive() {
+        return this.environment().getProperty(SPRING_PROFILES_ACTIVE_KEY);
+    }
+
+    default String determineServerServletContextPath() {
+        return this.environment().getProperty(APPLICATION_SERVER_SERVLET_CONTEXT_PATH_KEY, APPLICATION_SERVER_SERVLET_CONTEXT_PATH_ROOT);
+    }
+
+    default boolean determineDeveloping(String profiles) {
+        if (ObjectUtils.isEmpty(profiles)) {
+            return false;
+        }
+
+        return profiles.contains(SPRING_PROFILES_ACTIVE_DEV) || profiles.contains(SPRING_PROFILES_ACTIVE_TEST);
+    }
+
+    default int determineServerPort() {
+        return Integer.parseInt(this.environment().getProperty(APPLICATION_SERVER_PORT_KEY));
+    }
+}
