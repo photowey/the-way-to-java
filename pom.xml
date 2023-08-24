@@ -327,8 +327,7 @@ limitations under the License.
 ]]>
                     </inlineHeader>
                     <properties>
-                        <!-- <owner>photowey</owner>-->
-                        <owner>the original author or authors</owner>
+                        <owner>photowey</owner>
                         <email>photowey@gmail.com</email>
                     </properties>
                     <excludes>
