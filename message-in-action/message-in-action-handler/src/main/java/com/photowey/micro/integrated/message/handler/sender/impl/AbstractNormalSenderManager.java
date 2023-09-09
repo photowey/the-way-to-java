@@ -40,6 +40,10 @@ public abstract class AbstractNormalSenderManager implements NormalSenderManager
 
     protected final Lock lock = new ReentrantLock();
 
+    public <T extends MessageSender> void registerReport(T sender) {
+
+    }
+
     /**
      * 注册消息发送器
      * <pre>
@@ -57,6 +61,7 @@ public abstract class AbstractNormalSenderManager implements NormalSenderManager
         lock.lock();
         try {
             this.senders.computeIfAbsent(sender.name(), (x) -> sender);
+            this.registerReport(sender);
         } finally {
             lock.unlock();
         }

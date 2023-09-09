@@ -58,7 +58,7 @@ public abstract class AbstractMessageProcessor implements MessageProcessor {
                     channel.basicAck(deliveryTag, false);
                     break;
                 case RETRY:
-                    channel.basicNack(deliveryTag, false, true);
+                    channel.basicNack(deliveryTag, false, false);
                     break;
                 case REJECT:
                     // channel.basicNack(deliveryTag, false, false);
