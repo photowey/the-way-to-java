@@ -103,6 +103,8 @@
         <module>fastjson2-in-action</module>
         <module>bean-searcher-in-action</module>
         <module>brpc-java-in-action</module>
+        <module>message-in-action</module>
+        <module>message-in-action-rabbitmq</module>
         <module>minio-in-action</module>
         <module>fastdfs-in-action</module>
         <module>shardingsphere-in-action</module>
