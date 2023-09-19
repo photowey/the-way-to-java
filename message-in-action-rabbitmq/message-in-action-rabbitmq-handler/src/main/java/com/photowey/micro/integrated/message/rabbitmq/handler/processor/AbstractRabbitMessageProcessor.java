@@ -15,9 +15,9 @@
  */
 package com.photowey.micro.integrated.message.rabbitmq.handler.processor;
 
-import com.rabbitmq.client.Channel;
 import com.photowey.micro.integrated.message.core.domain.body.MessageBody;
 import com.photowey.micro.integrated.message.core.enums.MessageAckEnum;
+import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -45,8 +45,20 @@ public abstract class AbstractRabbitMessageProcessor implements RabbitMessagePro
 
     @Override
     public <T extends MessageBody> void onObjectMessage(
-            T body, String queue, long deliveryTag,
-            Channel channel, Function<T, Boolean> callback) throws IOException {
+            T body, String queue,
+            Function<T, Boolean> callback) throws IOException {
+        try {
+            callback.apply(body);
+        } catch (Exception e) {
+            log.error("message.rabbit: non.ack.on.broker.push.body.message, queue:[{}], body:[{}]", queue, body.toJSONString(), e);
+        }
+    }
+
+    @Override
+    public <T extends MessageBody> void onObjectMessage(
+            T body, String queue,
+            long deliveryTag, Channel channel,
+            Function<T, Boolean> callback) throws IOException {
         MessageAckEnum ack = MessageAckEnum.REJECT;
         try {
             if (callback.apply(body)) {
@@ -76,7 +88,19 @@ public abstract class AbstractRabbitMessageProcessor implements RabbitMessagePro
     @Override
     public void onTextMessage(
             String body, String queue,
-            long deliveryTag, Channel channel, Function<String, Boolean> callback) throws IOException {
+            Function<String, Boolean> callback) throws IOException {
+        try {
+            callback.apply(body);
+        } catch (Exception e) {
+            log.error("message.rabbit: non.ack.on.broker.push.text.message, queue:[{}], body:[{}]", queue, body, e);
+        }
+    }
+
+    @Override
+    public void onTextMessage(
+            String body, String queue,
+            long deliveryTag, Channel channel,
+            Function<String, Boolean> callback) throws IOException {
         MessageAckEnum ack = MessageAckEnum.REJECT;
         try {
             if (callback.apply(body)) {

@@ -34,6 +34,21 @@ public interface RabbitMessageProcessor extends MessageProcessor {
     /**
      * 处理-消息体类型的消息
      *
+     * @param body     消息体
+     * @param queue    队列名称
+     * @param callback 回调函数
+     * @param <T>      消息类型
+     * @throws IOException
+     */
+    default <T extends MessageBody> void onObjectMessage(
+            T body, String queue,
+            Function<T, Boolean> callback) throws IOException {
+
+    }
+
+    /**
+     * 处理-消息体类型的消息
+     *
      * @param body        消息体
      * @param queue       队列名称
      * @param deliveryTag 投递标识
@@ -45,6 +60,20 @@ public interface RabbitMessageProcessor extends MessageProcessor {
     default <T extends MessageBody> void onObjectMessage(
             /*@Payload*/ T body, String queue,
             /*@Header(AmqpHeaders.DELIVERY_TAG)*/ long deliveryTag, Channel channel, Function<T, Boolean> callback) throws IOException {
+
+    }
+
+    /**
+     * 处理-字符串类型的消息
+     *
+     * @param body     字符串消息
+     * @param queue    队列名称
+     * @param callback 回调函数
+     * @throws IOException
+     */
+    default void onTextMessage(
+            String body, String queue,
+            Function<String, Boolean> callback) throws IOException {
 
     }
 
