@@ -23,4 +23,43 @@ package com.photowey.micro.integrated.message.handler.sender;
  * @since 1.0.0
  */
 public interface SenderManager {
+
+    String RABBIT_SENDER = "Rabbit";
+    String RABBIT_SENDER_DELAYED = "Rabbit.delayed";
+
+    String KAFKA_SENDER = "Kafka";
+    String KAFKA_SENDER_DELAYED = "Kafka.delayed";
+
+    String ROCKET_SENDER = "Rocket";
+    String ROCKET_SENDER_DELAYED = "Rocket.delayed";
+
+    // ---------------------------------------------------------------- RabbitMQ
+
+    static String rabbit() {
+        return RABBIT_SENDER;
+    }
+
+    static String delayedRabbit() {
+        return RABBIT_SENDER_DELAYED;
+    }
+
+    // ---------------------------------------------------------------- Kafka
+
+    static String kafka() {
+        return KAFKA_SENDER;
+    }
+
+    static String delayedKafka() {
+        return KAFKA_SENDER_DELAYED;
+    }
+
+    // ---------------------------------------------------------------- RocketMQ
+
+    static String rocket() {
+        return ROCKET_SENDER;
+    }
+
+    static String delayedRocket() {
+        return ROCKET_SENDER_DELAYED;
+    }
 }
