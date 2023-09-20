@@ -15,6 +15,8 @@
  */
 package com.photowey.micro.integrated.message.autoconfigure;
 
+import com.photowey.micro.integrated.message.handler.engine.DefaultMessageEngine;
+import com.photowey.micro.integrated.message.handler.engine.MessageEngine;
 import com.photowey.micro.integrated.message.handler.sender.MessageSenderManager;
 import com.photowey.micro.integrated.message.handler.sender.impl.DefaultMessageSenderManager;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -35,5 +37,10 @@ public class IntegratedMessageManagerAutoconfigure {
     @ConditionalOnMissingBean(MessageSenderManager.class)
     public MessageSenderManager messageSenderManager() {
         return new DefaultMessageSenderManager();
+    }
+
+    @Bean
+    public MessageEngine messageEngine() {
+        return new DefaultMessageEngine();
     }
 }
