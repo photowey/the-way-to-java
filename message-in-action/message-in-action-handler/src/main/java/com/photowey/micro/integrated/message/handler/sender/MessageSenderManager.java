@@ -24,4 +24,12 @@ package com.photowey.micro.integrated.message.handler.sender;
  */
 public interface MessageSenderManager extends NormalSenderManager, DelayedSenderManager, SenderManager {
 
+    default boolean supports(String sender) {
+        return false;
+    }
+
+    default boolean delayedSupports(String delayedSender) {
+        return false;
+    }
+
 }

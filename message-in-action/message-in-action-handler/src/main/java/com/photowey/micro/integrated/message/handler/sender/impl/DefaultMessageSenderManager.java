@@ -26,4 +26,13 @@ import com.photowey.micro.integrated.message.handler.sender.MessageSenderManager
  */
 public class DefaultMessageSenderManager extends AbstractDelayedSenderManager implements MessageSenderManager {
 
+    @Override
+    public boolean supports(String sender) {
+        return this.senders.containsKey(sender);
+    }
+
+    @Override
+    public boolean delayedSupports(String delayedSender) {
+        return this.delayedSenders.containsKey(delayedSender);
+    }
 }
