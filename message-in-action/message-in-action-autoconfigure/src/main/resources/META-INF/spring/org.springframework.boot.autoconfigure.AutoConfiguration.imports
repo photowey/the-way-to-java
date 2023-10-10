@@ -1,1 +1,1 @@
-com.photowey.micro.integrated.message.autoconfigure.IntegratedMessageManagerAutoconfigure
+com.photowey.micro.integrated.message.autoconfigure.PlatformMessageAutoconfigure

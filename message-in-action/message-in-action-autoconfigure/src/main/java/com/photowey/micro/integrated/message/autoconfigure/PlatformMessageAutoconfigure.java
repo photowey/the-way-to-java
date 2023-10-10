@@ -24,14 +24,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 /**
- * {@code IntegratedMessageManagerAutoconfigure}
+ * {@code PlatformMessageAutoconfigure}
  *
  * @author photowey
  * @date 2023/09/08
  * @since 1.0.0
  */
 @AutoConfiguration
-public class IntegratedMessageManagerAutoconfigure {
+public class PlatformMessageAutoconfigure {
 
     @Bean
     @ConditionalOnMissingBean(MessageSenderManager.class)
