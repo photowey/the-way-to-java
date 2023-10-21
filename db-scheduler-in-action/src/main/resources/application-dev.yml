@@ -5,7 +5,7 @@ local:
       port: 3307
       username: "root"
       password: "root"
-      database: "shedlock-in-action"
+      database: "db-scheduler-in-action"
 
 # ----------------------------------------------------------------
 

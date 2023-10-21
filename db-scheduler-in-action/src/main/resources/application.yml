@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: "shedlock-in-action"
+    name: "db-scheduler-in-action"
   profiles:
     active: dev
   datasource:

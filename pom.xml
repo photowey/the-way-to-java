@@ -130,6 +130,7 @@
         <module>jvm-delayed-queue-in-action</module>
         <module>easyexcel-in-action</module>
         <module>shedlock-in-action</module>
+        <module>db-scheduler-in-action</module>
     </modules>
 
     <dependencyManagement>
