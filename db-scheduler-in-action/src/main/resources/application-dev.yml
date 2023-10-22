@@ -9,6 +9,17 @@ local:
 
 # ----------------------------------------------------------------
 
+db-scheduler:
+  immediate-execution-enabled: true
+  polling-interval: 5s
+  polling-strategy: fetch
+  polling-strategy-lower-limit-fraction-of-threads: 0.5
+  polling-strategy-upper-limit-fraction-of-threads: 3.0
+  shutdown-max-wait: 30m
+  threads: 5
+
+# ----------------------------------------------------------------
+
 management:
   endpoint:
     shutdown:
