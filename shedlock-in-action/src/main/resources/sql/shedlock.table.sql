@@ -6,7 +6,7 @@ CREATE TABLE `shedlock` (
   `locked_at` timestamp(3) NULL DEFAULT NULL,
   `locked_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- PostgreSQL
 --drop table if exist shedlock;
