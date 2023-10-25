@@ -60,6 +60,9 @@ public final class Json {
                     objectMapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
                     objectMapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
                     objectMapper.registerModule(new JavaTimeModule());
+
+                    // changed
+                    //objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
                     objectMapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
                     return objectMapper;
@@ -84,6 +87,8 @@ public final class Json {
         }
     }
 
+    // ---------------------------------------------------------------- additional.methods
+
     public static <T> List<T> toList(String json) {
         return read(json, new TypeReference<>() {});
     }
@@ -99,6 +104,8 @@ public final class Json {
     public static <T> Map<String, T> toMap(String json) {
         return read(json, new TypeReference<>() {});
     }
+
+    // ----------------------------------------------------------------
 
     public static <T> String write(T object) {
         return write(object, PublicView.class);

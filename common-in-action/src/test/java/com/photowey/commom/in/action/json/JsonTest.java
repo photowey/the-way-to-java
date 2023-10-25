@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@code JsonTest}
@@ -64,6 +65,9 @@ class JsonTest {
 
         String object = Json.write(p1, Person.class);
         log.info("the json object is:{}", object);
+
+        Map<String, Object> map = Json.toMap(object);
+        log.info("the json object.map is:{}", Json.write(map));
 
         List<Person> pn = Lists.newArrayList(p1, p2);
         String array = Json.write(pn, Person.class);
