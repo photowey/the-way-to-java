@@ -13,23 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.micro.integrated.message.core.exception;
+package com.photowey.common.in.action.util;
 
-import com.photowey.common.in.action.formatter.StringFormatter;
+import com.photowey.common.in.action.thrower.AssertionErrorThrower;
 
 /**
- * {@code MessageSenderNotFoundException}
+ * {@code AssertUtils}
  *
  * @author photowey
- * @date 2023/09/08
+ * @date 2021/11/15
  * @since 1.0.0
  */
-public class MessageSenderNotFoundException extends RuntimeException {
+public final class AssertUtils {
 
-    public MessageSenderNotFoundException() {
+    private AssertUtils() {
+        // utility class; can't create
+        AssertionErrorThrower.throwz(AssertUtils.class);
     }
 
-    public MessageSenderNotFoundException(String message, Object... args) {
-        super(StringFormatter.format(message, args));
+    public static void notNull(final Object target) {
+        notNull(target, "Argument:target invalid, check please~");
+    }
+
+    public static void notNull(final Object target, String message) {
+        if (target == null) {
+            throw new NullPointerException(message);
+        }
     }
 }

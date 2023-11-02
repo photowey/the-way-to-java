@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.micro.integrated.message.core.exception;
-
-import com.photowey.common.in.action.formatter.StringFormatter;
+package com.photowey.common.in.action.thrower;
 
 /**
- * {@code MessageSenderNotFoundException}
+ * {@code AssertionErrorThrower}
+ * AssertionErrorThrower
  *
  * @author photowey
- * @date 2023/09/08
+ * @date 2023/03/17
  * @since 1.0.0
  */
-public class MessageSenderNotFoundException extends RuntimeException {
+public final class AssertionErrorThrower {
 
-    public MessageSenderNotFoundException() {
+    private AssertionErrorThrower() {
+        // utility class; can't create
+        throwz(AssertionErrorThrower.class);
     }
 
-    public MessageSenderNotFoundException(String message, Object... args) {
-        super(StringFormatter.format(message, args));
+    public static <T> void throwz(Class<T> clazz) {
+        throw new AssertionError("No " + clazz.getName() + " instances for you!");
     }
 }

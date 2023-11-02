@@ -16,8 +16,8 @@
 package com.photowey.micro.integrated.message.rabbitmq.handler.sender;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.photowey.commom.in.action.formatter.StringFormatter;
-import com.photowey.commom.in.action.util.ObjectUtils;
+import com.photowey.common.in.action.formatter.StringFormatter;
+import com.photowey.common.in.action.util.ObjectUtils;
 import com.photowey.micro.integrated.message.handler.sender.Sender;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 

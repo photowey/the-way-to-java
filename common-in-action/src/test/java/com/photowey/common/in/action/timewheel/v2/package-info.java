@@ -13,23 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.micro.integrated.message.core.exception;
-
-import com.photowey.common.in.action.formatter.StringFormatter;
-
 /**
- * {@code MessageSenderNotFoundException}
+ * {@code com.photowey.common.in.action.timewheel.v2}
+ * chatGTP
  *
  * @author photowey
- * @date 2023/09/08
+ * @date 2023/11/03
  * @since 1.0.0
  */
-public class MessageSenderNotFoundException extends RuntimeException {
-
-    public MessageSenderNotFoundException() {
-    }
-
-    public MessageSenderNotFoundException(String message, Object... args) {
-        super(StringFormatter.format(message, args));
-    }
-}
+package com.photowey.common.in.action.timewheel.v2;

@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.micro.integrated.message.core.exception;
-
-import com.photowey.common.in.action.formatter.StringFormatter;
+package com.photowey.common.in.action.constant;
 
 /**
- * {@code MessageSenderNotFoundException}
+ * {@code SharedConstants}
  *
  * @author photowey
- * @date 2023/09/08
+ * @date 2023/05/23
  * @since 1.0.0
  */
-public class MessageSenderNotFoundException extends RuntimeException {
+public interface SharedConstants {
 
-    public MessageSenderNotFoundException() {
-    }
+    String SHARED_OBJECT_MAPPER_BEAN_NAME = "com.fasterxml.jackson.databind.ObjectMapper#Jdk8Module&JavaTimeModule";
+    String SHARED_FEIGN_CODEC_DECODER_BEAN_NAME = "feign.codec.Decoder";
 
-    public MessageSenderNotFoundException(String message, Object... args) {
-        super(StringFormatter.format(message, args));
-    }
+    String APPLICATION_NAME = "spring.application.name";
+
+    // --------------------------------------------------------- Long
+
+    long MILLIS_UNIT = 1000L;
+    long TIME_STAMP_LENGTH = 13;
 }

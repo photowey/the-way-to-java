@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.micro.integrated.message.core.exception;
-
-import com.photowey.common.in.action.formatter.StringFormatter;
+package com.photowey.common.in.action.func;
 
 /**
- * {@code MessageSenderNotFoundException}
+ * {@code ThreeConsumer}
  *
  * @author photowey
- * @date 2023/09/08
+ * @date 2023/05/23
  * @since 1.0.0
  */
-public class MessageSenderNotFoundException extends RuntimeException {
+@FunctionalInterface
+public interface ThreeConsumer<T, R, U> {
 
-    public MessageSenderNotFoundException() {
-    }
-
-    public MessageSenderNotFoundException(String message, Object... args) {
-        super(StringFormatter.format(message, args));
-    }
+    void accept(T t, R r, U u);
 }

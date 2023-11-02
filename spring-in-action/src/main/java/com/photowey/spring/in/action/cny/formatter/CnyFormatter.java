@@ -15,7 +15,7 @@
  */
 package com.photowey.spring.in.action.cny.formatter;
 
-import com.photowey.commom.in.action.converter.currency.CurrencyConverter;
+import com.photowey.common.in.action.converter.currency.CurrencyConverter;
 import org.springframework.format.Formatter;
 
 import java.math.BigDecimal;

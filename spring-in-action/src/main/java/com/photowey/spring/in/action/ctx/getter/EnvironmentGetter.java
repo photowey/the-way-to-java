@@ -15,7 +15,7 @@
  */
 package com.photowey.spring.in.action.ctx.getter;
 
-import com.photowey.commom.in.action.util.ObjectUtils;
+import com.photowey.common.in.action.util.ObjectUtils;
 import org.springframework.core.env.Environment;
 
 /**

@@ -15,7 +15,7 @@
  */
 package com.photowey.elasticseatch.in.action.builder;
 
-import com.photowey.commom.in.action.util.ObjectUtils;
+import com.photowey.common.in.action.util.ObjectUtils;
 import com.photowey.elasticseatch.in.action.constant.ElasticsearchQueryConstants;
 import com.photowey.elasticseatch.in.action.enums.MathOperatorEnum;
 import org.apache.lucene.search.join.ScoreMode;
