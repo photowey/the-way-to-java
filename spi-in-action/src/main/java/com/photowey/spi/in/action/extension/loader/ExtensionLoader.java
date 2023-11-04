@@ -20,7 +20,8 @@ import com.photowey.spi.in.action.core.entity.ExtensionEntity;
 import com.photowey.spi.in.action.core.enums.Scoped;
 import com.photowey.spi.in.action.extension.generator.DefaultExtensionNameGenerator;
 import com.photowey.spi.in.action.extension.generator.ExtensionNameGenerator;
-import com.photowey.spi.in.action.extension.lifecycle.InitializeSPI;
+import com.photowey.spi.in.action.extension.lifecycle.InitializeLifeCycle;
+import com.photowey.spi.in.action.extension.lifecycle.LifeCycle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,8 +68,12 @@ public final class ExtensionLoader<T> {
         this.extensionNameGenerator = this.initBeanNameGenerator();
     }
 
-    public ExtensionNameGenerator initBeanNameGenerator() {
+    private ExtensionNameGenerator initBeanNameGenerator() {
         return new DefaultExtensionNameGenerator();
+    }
+
+    public static Map<Class<?>, ExtensionLoader<?>> loaders() {
+        return LOADERS;
     }
 
     public static <T> ExtensionLoader<T> getExtensionLoader(final Class<T> clazz) {
@@ -111,6 +116,16 @@ public final class ExtensionLoader<T> {
 
     public List<T> loads(final ClassLoader loader) {
         return this.loads(null, null, loader);
+    }
+
+    public void stop() {
+        for (Map.Entry<String, TypeHolder<T>> entry : this.cachedSingletonInstances.entrySet()) {
+            TypeHolder<T> holder = entry.getValue();
+            T target = holder.getValue();
+            if (target instanceof InitializeLifeCycle) {
+                ((InitializeLifeCycle) target).stop();
+            }
+        }
     }
 
     private List<T> loads(final Class<?>[] argsType, final Object[] args, final ClassLoader loader) {
@@ -292,17 +307,23 @@ public final class ExtensionLoader<T> {
 
     private T initInstance(final Class<?> implClazz, final Class<?>[] argTypes, final Object[] args)
             throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        T result;
+        T entity;
+
         if (null != argTypes && null != args) {
             Constructor<?> constructor = implClazz.getDeclaredConstructor(argTypes);
-            result = this.clazz.cast(constructor.newInstance(args));
+            entity = this.clazz.cast(constructor.newInstance(args));
         } else {
-            result = this.clazz.cast(implClazz.getDeclaredConstructor().newInstance());
+            entity = this.clazz.cast(implClazz.getDeclaredConstructor().newInstance());
         }
-        if (result instanceof InitializeSPI) {
-            ((InitializeSPI) result).init();
+
+        if (entity instanceof LifeCycle) {
+            ((LifeCycle) entity).start();
+            if (entity instanceof InitializeLifeCycle) {
+                ((InitializeLifeCycle) entity).init();
+            }
         }
-        return result;
+
+        return entity;
     }
 
     @Data

@@ -18,6 +18,7 @@ package com.photowey.spi.in.action.extension.factory;
 import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@code ExtensionFactory}
@@ -34,6 +35,13 @@ public final class ExtensionFactory {
 
     public static <T> T create(final Class<T> ext) {
         return createLoader(ext).load(determineClassLoader());
+    }
+
+    public static void stop() {
+        Map<Class<?>, ExtensionLoader<?>> loaders = createLoaders();
+        loaders.forEach((key, loader) -> {
+            loader.stop();
+        });
     }
 
     public static <T> T create(final Class<T> ext, final String name) {
@@ -66,5 +74,9 @@ public final class ExtensionFactory {
 
     private static <T> ExtensionLoader<T> createLoader(final Class<T> ext) {
         return ExtensionLoaderFactory.create(ext);
+    }
+
+    private static Map<Class<?>, ExtensionLoader<?>> createLoaders() {
+        return ExtensionLoaderFactory.loaders();
     }
 }

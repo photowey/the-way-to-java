@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.test;
-
-import com.photowey.spi.in.action.extension.lifecycle.InitializeSPI;
+package com.photowey.spi.in.action.extension.lifecycle;
 
 /**
- * {@code HelloTestSPI}
+ * {@code InitializeLifeCycle}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public interface HelloTestSPI extends InitializeSPI {
+public interface InitializeLifeCycle extends LifeCycle {
 
-    String sayHello();
+    void init();
 }

@@ -13,30 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extension.factory;
+package com.photowey.spi.in.action.test;
 
-import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
-
-import java.util.Map;
+import com.photowey.spi.in.action.extension.lifecycle.InitializeLifeCycle;
 
 /**
- * {@code ExtensionLoaderFactory}
+ * {@code HelloTestLifeCycle}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public final class ExtensionLoaderFactory {
+public interface HelloTestLifeCycle extends InitializeLifeCycle {
 
-    private ExtensionLoaderFactory() {
-        throw new AssertionError("No " + ExtensionLoaderFactory.class.getName() + " instances for you!");
-    }
-
-    public static <T> ExtensionLoader<T> create(final Class<T> ext) {
-        return ExtensionLoader.getExtensionLoader(ext);
-    }
-
-    public static Map<Class<?>, ExtensionLoader<?>> loaders() {
-        return ExtensionLoader.loaders();
-    }
+    String sayHello();
 }

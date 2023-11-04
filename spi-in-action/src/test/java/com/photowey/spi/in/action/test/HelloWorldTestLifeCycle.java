@@ -13,17 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extension.lifecycle;
+package com.photowey.spi.in.action.test;
+
+import com.photowey.spi.in.action.core.annotation.SPI;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code InitializeSPI}
+ * {@code HelloWorldTestLifeCycle}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public interface InitializeSPI {
+@Slf4j
+@SPI(value = "hello")
+public class HelloWorldTestLifeCycle implements HelloTestLifeCycle {
 
-    void init();
+    @Override
+    public String sayHello() {
+        return "say hello world!";
+    }
 
+    @Override
+    public void init() {
+        log.info("init the HelloWorldTestLifeCycle");
+    }
 }
