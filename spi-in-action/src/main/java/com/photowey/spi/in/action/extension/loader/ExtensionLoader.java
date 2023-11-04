@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extention.loader;
+package com.photowey.spi.in.action.extension.loader;
 
 import com.photowey.spi.in.action.core.annotation.SPI;
 import com.photowey.spi.in.action.core.entity.ExtensionEntity;
 import com.photowey.spi.in.action.core.enums.Scoped;
-import com.photowey.spi.in.action.extention.generator.BeanNameGenerator;
-import com.photowey.spi.in.action.extention.generator.DefaultBeanNameGenerator;
-import com.photowey.spi.in.action.extention.lifecycle.InitializeSPI;
+import com.photowey.spi.in.action.extension.generator.DefaultExtensionNameGenerator;
+import com.photowey.spi.in.action.extension.generator.ExtensionNameGenerator;
+import com.photowey.spi.in.action.extension.lifecycle.InitializeSPI;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -55,21 +55,20 @@ public final class ExtensionLoader<T> {
     private final TypeHolder<List<ExtensionEntity>> entitiesHolder = new TypeHolder<>();
     private final Map<String, TypeHolder<T>> cachedSingletonInstances = new ConcurrentHashMap<>();
 
-
     private final Map<String, ExtensionEntity> nameToEntityMap = new ConcurrentHashMap<>();
     private final Map<Class<?>, ExtensionEntity> classToEntityMap = new ConcurrentHashMap<>();
 
-    private final BeanNameGenerator beanNameGenerator;
+    private final ExtensionNameGenerator extensionNameGenerator;
 
     private final Class<T> clazz;
 
     private ExtensionLoader(final Class<T> clazz) {
         this.clazz = clazz;
-        this.beanNameGenerator = this.initBeanNameGenerator();
+        this.extensionNameGenerator = this.initBeanNameGenerator();
     }
 
-    public BeanNameGenerator initBeanNameGenerator() {
-        return new DefaultBeanNameGenerator();
+    public ExtensionNameGenerator initBeanNameGenerator() {
+        return new DefaultExtensionNameGenerator();
     }
 
     public static <T> ExtensionLoader<T> getExtensionLoader(final Class<T> clazz) {
@@ -148,15 +147,15 @@ public final class ExtensionLoader<T> {
         }
 
         if (Scoped.SINGLETON.equals(entity.getScope())) {
-            String beanName = entity.getName();
-            if (null == beanName) {
-                beanName = this.beanNameGenerator.generate(entity.getTargetClass());
+            String entityName = entity.getName();
+            if (null == entityName) {
+                entityName = this.extensionNameGenerator.generate(entity.getTargetClass());
             }
 
-            TypeHolder<T> holder = this.cachedSingletonInstances.get(beanName);
+            TypeHolder<T> holder = this.cachedSingletonInstances.get(entityName);
             if (holder == null) {
-                this.cachedSingletonInstances.putIfAbsent(beanName, new TypeHolder<>());
-                holder = this.cachedSingletonInstances.get(beanName);
+                this.cachedSingletonInstances.putIfAbsent(entityName, new TypeHolder<>());
+                holder = this.cachedSingletonInstances.get(entityName);
             }
 
             T instance = holder.getValue();
@@ -257,19 +256,19 @@ public final class ExtensionLoader<T> {
                 throw new IllegalStateException("Load @SPI extension resources error," + clazz + " subtype is not of " + targetClass);
             }
 
-            String beanName = this.beanNameGenerator.generate(targetClass);
+            String entityName = this.extensionNameGenerator.generate(targetClass);
 
             SPI spi = targetClass.getAnnotation(SPI.class);
 
             ExtensionEntity.ExtensionEntityBuilder builder = ExtensionEntity.builder()
-                    .name(beanName)
+                    .name(entityName)
                     .order(0)
                     .scope(Scoped.SINGLETON)
                     .targetClass(targetClass);
 
             if (null != spi) {
-                beanName = spi.value();
-                builder.name(beanName).order(spi.order()).scope(spi.scope());
+                entityName = spi.value();
+                builder.name(entityName).order(spi.order()).scope(spi.scope());
             }
 
             ExtensionEntity ext = builder.build();
@@ -278,9 +277,9 @@ public final class ExtensionLoader<T> {
             this.classToEntityMap.put(targetClass, ext);
 
             if (null != spi) {
-                this.nameToEntityMap.put(beanName, ext);
+                this.nameToEntityMap.put(entityName, ext);
             } else {
-                this.nameToEntityMap.put(beanName, ext);
+                this.nameToEntityMap.put(entityName, ext);
             }
         }
     }

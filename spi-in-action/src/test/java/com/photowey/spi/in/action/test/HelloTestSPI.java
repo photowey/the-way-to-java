@@ -15,7 +15,7 @@
  */
 package com.photowey.spi.in.action.test;
 
-import com.photowey.spi.in.action.extention.lifecycle.InitializeSPI;
+import com.photowey.spi.in.action.extension.lifecycle.InitializeSPI;
 
 /**
  * {@code HelloTestSPI}

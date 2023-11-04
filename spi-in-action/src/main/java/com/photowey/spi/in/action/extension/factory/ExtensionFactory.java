@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extention.factory;
+package com.photowey.spi.in.action.extension.factory;
 
-import com.photowey.spi.in.action.extention.loader.ExtensionLoader;
+import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
 
 import java.util.List;
 

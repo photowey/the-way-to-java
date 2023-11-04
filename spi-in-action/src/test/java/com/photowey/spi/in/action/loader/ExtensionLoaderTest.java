@@ -15,8 +15,8 @@
  */
 package com.photowey.spi.in.action.loader;
 
-import com.photowey.spi.in.action.extention.factory.ExtensionLoaderFactory;
-import com.photowey.spi.in.action.extention.loader.ExtensionLoader;
+import com.photowey.spi.in.action.extension.factory.ExtensionLoaderFactory;
+import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
 import com.photowey.spi.in.action.test.HelloTestSPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

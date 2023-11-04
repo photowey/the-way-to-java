@@ -15,7 +15,7 @@
  */
 package com.photowey.spi.in.action.factory;
 
-import com.photowey.spi.in.action.extention.factory.ExtensionFactory;
+import com.photowey.spi.in.action.extension.factory.ExtensionFactory;
 import com.photowey.spi.in.action.test.HelloTestSPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

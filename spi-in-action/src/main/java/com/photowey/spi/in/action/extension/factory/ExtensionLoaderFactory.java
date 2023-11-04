@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extention.generator;
+package com.photowey.spi.in.action.extension.factory;
+
+import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
 
 /**
- * {@code DefaultBeanNameGenerator}
+ * {@code ExtensionLoaderFactory}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public class DefaultBeanNameGenerator implements BeanNameGenerator {
+public final class ExtensionLoaderFactory {
 
-    @Override
-    public String generate(Class<?> clazz) {
-        return fullName(clazz);
+    private ExtensionLoaderFactory() {
+        throw new AssertionError("No " + ExtensionLoaderFactory.class.getName() + " instances for you!");
     }
 
-    public static String fullName(Class<?> clazz) {
-        return clazz.getName();
+    public static <T> ExtensionLoader<T> create(final Class<T> ext) {
+        return ExtensionLoader.getExtensionLoader(ext);
     }
 }

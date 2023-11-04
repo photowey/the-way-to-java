@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.spi.in.action.extention.lifecycle;
+package com.photowey.spi.in.action.extension.generator;
 
 /**
- * {@code InitializeSPI}
+ * {@code ExtensionNameGenerator}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public interface InitializeSPI {
+public interface ExtensionNameGenerator {
 
-    void init();
-
+    String generate(Class<?> clazz);
 }
