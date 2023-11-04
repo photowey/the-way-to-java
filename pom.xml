@@ -131,6 +131,7 @@
         <module>easyexcel-in-action</module>
         <module>shedlock-in-action</module>
         <module>db-scheduler-in-action</module>
+        <module>spi-in-action</module>
     </modules>
 
     <dependencyManagement>
