@@ -16,7 +16,7 @@
 package com.photowey.spi.in.action.factory;
 
 import com.photowey.spi.in.action.extension.factory.ExtensionFactory;
-import com.photowey.spi.in.action.test.HelloTestLifeCycle;
+import com.photowey.spi.in.action.test.HelloTestSPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +31,10 @@ class ExtensionFactoryTest {
 
     @Test
     public void testCreateSPI() {
-        HelloTestLifeCycle testSPI = ExtensionFactory.create(HelloTestLifeCycle.class);
+        HelloTestSPI testSPI = ExtensionFactory.create(HelloTestSPI.class);
         Assertions.assertNotNull(testSPI);
 
-        HelloTestLifeCycle testSPI2 = ExtensionFactory.create(HelloTestLifeCycle.class);
+        HelloTestSPI testSPI2 = ExtensionFactory.create(HelloTestSPI.class);
         Assertions.assertEquals(testSPI.hashCode(), testSPI2.hashCode());
     }
 }

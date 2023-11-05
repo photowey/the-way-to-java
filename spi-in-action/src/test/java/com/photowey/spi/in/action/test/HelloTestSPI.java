@@ -18,13 +18,13 @@ package com.photowey.spi.in.action.test;
 import com.photowey.spi.in.action.extension.lifecycle.InitializeLifeCycle;
 
 /**
- * {@code HelloTestLifeCycle}
+ * {@code HelloTestSPI}
  *
  * @author photowey
  * @date 2023/11/04
  * @since 1.0.0
  */
-public interface HelloTestLifeCycle extends InitializeLifeCycle {
+public interface HelloTestSPI extends InitializeLifeCycle {
 
     String sayHello();
 }

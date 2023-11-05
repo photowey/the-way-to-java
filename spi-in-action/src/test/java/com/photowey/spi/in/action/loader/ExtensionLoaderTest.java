@@ -17,7 +17,7 @@ package com.photowey.spi.in.action.loader;
 
 import com.photowey.spi.in.action.extension.factory.ExtensionLoaderFactory;
 import com.photowey.spi.in.action.extension.loader.ExtensionLoader;
-import com.photowey.spi.in.action.test.HelloTestLifeCycle;
+import com.photowey.spi.in.action.test.HelloTestSPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,11 +32,11 @@ class ExtensionLoaderTest {
 
     @Test
     public void testCreateSPI() {
-        ExtensionLoader<HelloTestLifeCycle> loader = ExtensionLoaderFactory.create(HelloTestLifeCycle.class);
-        HelloTestLifeCycle testSPI = loader.load("hello", ClassLoader.getSystemClassLoader());
+        ExtensionLoader<HelloTestSPI> loader = ExtensionLoaderFactory.create(HelloTestSPI.class);
+        HelloTestSPI testSPI = loader.load("hello", ClassLoader.getSystemClassLoader());
         Assertions.assertNotNull(testSPI);
 
-        HelloTestLifeCycle notFoundAPI = loader.load("notFound", ClassLoader.getSystemClassLoader());
+        HelloTestSPI notFoundAPI = loader.load("notFound", ClassLoader.getSystemClassLoader());
         Assertions.assertNull(notFoundAPI);
     }
 }

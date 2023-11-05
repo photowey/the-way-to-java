@@ -19,7 +19,7 @@ import com.photowey.spi.in.action.core.annotation.SPI;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code HelloWorldTestLifeCycle}
+ * {@code HelloWorldTestSPI}
  *
  * @author photowey
  * @date 2023/11/04
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @SPI(value = "hello")
-public class HelloWorldTestLifeCycle implements HelloTestLifeCycle {
+public class HelloWorldTestSPI implements HelloTestSPI {
 
     @Override
     public String sayHello() {
@@ -36,6 +36,6 @@ public class HelloWorldTestLifeCycle implements HelloTestLifeCycle {
 
     @Override
     public void init() {
-        log.info("init the HelloWorldTestLifeCycle");
+        log.info("init the HelloWorldTestSPI");
     }
 }
