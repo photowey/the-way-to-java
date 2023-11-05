@@ -42,6 +42,12 @@ public class MyService implements MyServiceInterface {
         LOGGER.info("Doing some work without arguments");
     }
 
+    @Recurring(id = "time-zone-recurring-job", cron = "*/5 * * * * *")
+    @Job(name = "TimeZone job")
+    public void timeZone() {
+        LOGGER.info("TimeZone::Doing some work without arguments");
+    }
+
     @Override
     public void doSimpleJob(String anArgument) {
         LOGGER.info("Doing some work: " + anArgument);
