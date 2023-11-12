@@ -133,6 +133,7 @@
         <module>db-scheduler-in-action</module>
         <module>spi-in-action</module>
         <module>jobrunr-in-action</module>
+        <module>proguard-in-action</module>
     </modules>
 
     <dependencyManagement>

@@ -1,0 +1,8 @@
+local:
+  config:
+    mysql:
+      host: "192.168.1.11"
+      port: 3306
+      username: "root"
+      password: "root"
+      database: "proguard-in-action"

@@ -1,0 +1,35 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: "proguard-in-action"
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&characterEncoding=UTF-8"
+    username: ${local.config.mysql.username}
+    password: ${local.config.mysql.password}
+
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+    jdbc-type-for-null: 'null'
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      id-type: id_worker
+      table-prefix: sys_
+      capital-mode: true
+    db-column-underline: true
+    field-strategy: 2
+    refresh-mapper: true
+  check-config-location: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: io.github.photowey.proguard.in.action.domain.entity
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

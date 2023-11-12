@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="io.github.photowey.proguard.in.action.repository.EmployeeRepository">
+
+    <resultMap id="findByIdResultMap"
+               type="io.github.photowey.proguard.in.action.domain.entity.Employee">
+        <id column="id" property="id"/>
+        <result column="employee_no" property="employeeNo"/>
+        <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <select id="findById" parameterType="java.lang.Long"
+            resultMap="findByIdResultMap">
+        SELECT * FROM sys_employee e WHERE e.id = #{id}
+    </select>
+
+</mapper>
