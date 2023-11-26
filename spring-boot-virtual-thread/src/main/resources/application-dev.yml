@@ -1,0 +1,8 @@
+logging:
+  level:
+    root: INFO
+  time-rolling-file:
+    file: '${app.base}/logs/${spring.application.name}.%d{yyyy-MM-dd}.log'
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %red([%X{traceId}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger:%M:%L) %cyan(%msg%n) %ex{10}'
+    time-rolling-file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%X{traceId}] [%thread] %-5level %logger:%M:%L %msg%n %ex{10}'

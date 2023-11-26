@@ -1,0 +1,11 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: "virtual-thread"
+  profiles:
+    active: dev
+  threads:
+    virtual:
+      enabled: true
