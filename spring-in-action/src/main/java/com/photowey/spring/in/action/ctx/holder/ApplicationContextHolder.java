@@ -49,6 +49,22 @@ public enum ApplicationContextHolder {
         return this.applicationContext;
     }
 
+    /**
+     * 不推荐直接使用 {@code BeanName} 的方式直接依赖查找
+     * |- 除非开发者自己非常确定只有一个实例被 {@code IOC} 管理
+     *
+     * @param beanName 实例名称
+     * @param <T>      T 类型
+     * @return T 实例
+     */
+    public <T> T getBean(String beanName) {
+        return (T) this.applicationContext.getBean(beanName);
+    }
+
+    public <T> T getBean(String beanName, Class<T> requiredType) {
+        return this.applicationContext.getBean(beanName, requiredType);
+    }
+
     public <T> void setSharedObject(Class<T> sharedType, T t) {
         this.sharedObjects.put(sharedType, t);
     }
