@@ -16,6 +16,7 @@
 package com.photowey.spring.in.action.converter.json;
 
 import java.util.List;
+import java.io.InputStream;
 
 /**
  * {@code JsonConverter}
@@ -30,6 +31,13 @@ public interface JsonConverter {
 
     <T> T parseObject(String body, Class<T> clazz);
 
+    <T> T parseObject(byte[] body, Class<T> clazz);
+
+    <T> T parseObject(InputStream body, Class<T> clazz);
+
     <T> List<T> parseArray(String body, Class<T> clazz);
 
+    <T> List<T> parseArray(byte[] body, Class<T> clazz);
+
+    <T> List<T> parseArray(InputStream body, Class<T> clazz);
 }

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
+import java.io.InputStream;
 
 /**
  * {@code JacksonJsonConverter}
@@ -50,11 +51,54 @@ public interface JacksonJsonConverter extends JsonConverter {
     }
 
     @Override
+    default <T> T parseObject(byte[] body, Class<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    default <T> T parseObject(InputStream body, Class<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     default <T> List<T> parseArray(String body, Class<T> clazz) {
         return this.parseObject(body, new TypeReference<List<T>>() {});
     }
 
+    @Override
+    default <T> List<T> parseArray(byte[] body, Class<T> clazz) {
+        return this.parseObject(body, new TypeReference<List<T>>() {});
+    }
+
+    @Override
+    default <T> List<T> parseArray(InputStream body, Class<T> clazz) {
+        return this.parseObject(body, new TypeReference<List<T>>() {});
+    }
+
     default <T> T parseObject(String body, TypeReference<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    default <T> T parseObject(byte[] body, TypeReference<T> clazz) {
+        try {
+            return this.objectMapper().readValue(body, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    default <T> T parseObject(InputStream body, TypeReference<T> clazz) {
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
