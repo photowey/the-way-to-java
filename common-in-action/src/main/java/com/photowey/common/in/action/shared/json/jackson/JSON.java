@@ -18,13 +18,13 @@ package com.photowey.common.in.action.shared.json.jackson;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.photowey.common.in.action.thrower.AssertionErrorThrower;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +86,25 @@ public final class JSON {
         try {
             ObjectMapper mapper = getObjectMapper();
             return mapper.readValue(json, clazz);
-        } catch (JsonProcessingException processingException) {
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(byte[] json, Class<T> clazz) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, clazz);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(InputStream json, Class<T> clazz) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, clazz);
+        } catch (Exception processingException) {
             return throwUnchecked(processingException);
         }
     }
@@ -95,7 +113,25 @@ public final class JSON {
         try {
             ObjectMapper mapper = getObjectMapper();
             return mapper.readValue(json, typeRef);
-        } catch (JsonProcessingException processingException) {
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(byte[] json, TypeReference<T> typeRef) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, typeRef);
+        } catch (Exception processingException) {
+            return throwUnchecked(processingException);
+        }
+    }
+
+    public static <T> T parseObject(InputStream json, TypeReference<T> typeRef) {
+        try {
+            ObjectMapper mapper = getObjectMapper();
+            return mapper.readValue(json, typeRef);
+        } catch (Exception processingException) {
             return throwUnchecked(processingException);
         }
     }
@@ -107,6 +143,22 @@ public final class JSON {
     }
 
     public static <T> List<T> parseArray(String json, Class<T> clazz) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(byte[] json) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(byte[] json, Class<T> clazz) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(InputStream json) {
+        return parseObject(json, new TypeReference<List<T>>() {});
+    }
+
+    public static <T> List<T> parseArray(InputStream json, Class<T> clazz) {
         return parseObject(json, new TypeReference<List<T>>() {});
     }
 
@@ -135,11 +187,7 @@ public final class JSON {
     // ----------------------------------------------------------------
 
     public static <T> String toJSONString(T object) {
-        return toJSONString(object, PublicView.class);
-    }
-
-    public static <T> String toPrivateJSONString(T object) {
-        return toJSONString(object, PrivateView.class);
+        return toJSONString(object,null);
     }
 
     public static <T> String toJSONString(T object, Class<?> view) {
