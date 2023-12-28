@@ -20,7 +20,7 @@ import com.photowey.jvm.delayed.queue.in.action.event.DelayedEvent;
 /**
  * {@code DelayedQueueEventPublisher}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/14
  * @since 1.0.0
  */

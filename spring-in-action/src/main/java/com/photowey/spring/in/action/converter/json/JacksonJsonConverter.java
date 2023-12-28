@@ -18,13 +18,13 @@ package com.photowey.spring.in.action.converter.json;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.List;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * {@code JacksonJsonConverter}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/12/06
  * @since 1.0.0
  */

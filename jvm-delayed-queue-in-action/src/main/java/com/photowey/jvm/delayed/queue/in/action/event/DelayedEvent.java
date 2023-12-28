@@ -20,7 +20,7 @@ import java.util.concurrent.Delayed;
 /**
  * {@code DelayedEvent}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/14
  * @since 1.0.0
  */

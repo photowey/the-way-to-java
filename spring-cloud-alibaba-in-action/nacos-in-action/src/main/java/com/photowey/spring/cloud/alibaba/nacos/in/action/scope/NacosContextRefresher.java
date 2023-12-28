@@ -20,7 +20,7 @@ import lombok.Getter;
 /**
  * {@code NacosContextRefresher}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/13
  * @since 1.0.0
  */

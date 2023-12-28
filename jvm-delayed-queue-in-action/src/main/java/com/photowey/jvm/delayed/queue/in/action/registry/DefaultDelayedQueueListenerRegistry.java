@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * {@code DefaultDelayedQueueListenerRegistry}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/14
  * @since 1.0.0
  */

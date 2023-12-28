@@ -25,7 +25,7 @@ import java.util.function.Function;
 /**
  * {@code AbstractDelayedEvent}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/14
  * @since 1.0.0
  */

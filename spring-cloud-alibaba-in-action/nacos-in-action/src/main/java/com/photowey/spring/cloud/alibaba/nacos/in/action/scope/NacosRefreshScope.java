@@ -30,7 +30,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 /**
  * {@code NacosRefreshScope}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/13
  * @since 1.0.0
  */

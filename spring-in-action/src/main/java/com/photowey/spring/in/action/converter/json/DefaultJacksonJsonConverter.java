@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 /**
  * {@code DefaultJacksonJsonConverter}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/12/06
  * @since 1.0.0
  */

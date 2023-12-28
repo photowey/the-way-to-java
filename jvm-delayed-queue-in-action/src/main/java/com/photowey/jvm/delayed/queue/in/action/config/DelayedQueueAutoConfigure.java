@@ -40,7 +40,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * {@code DelayedQueueAutoConfigure}
  *
- * @author weichangjun
+ * @author photowey
  * @date 2023/01/14
  * @since 1.0.0
  */
