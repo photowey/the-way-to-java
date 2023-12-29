@@ -15,6 +15,7 @@
  */
 package com.photowey.redis.in.action.proxy.template;
 
+import com.photowey.common.in.action.counter.SafeCounter;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
 
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2023/12/28
  * @since 1.0.0
  */
-public interface ICacheTemplate {
+public interface ICacheTemplate extends SafeCounter {
 
     boolean exists(final String key);
 
@@ -59,7 +60,6 @@ public interface ICacheTemplate {
     Long incr(String key, Long delta);
 
     Long hashIncr(String key, String filed);
-
 
     Long hashIncr(String key, String filed, Long delta);
 
