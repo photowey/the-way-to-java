@@ -74,4 +74,13 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     <T> List<T> setRandomMembers(String key, long count);
 
+    // ---------------------------------------------------------------- zset
+
+    Long zsetSize(final String key);
+
+    boolean zsetExists(final String key, Object value);
+
+    void zsetTrim(final String key, final long max);
+
+    void zsetRemoveRange(final String key, final long start, final long end);
 }
