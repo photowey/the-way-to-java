@@ -15,9 +15,13 @@
  */
 package com.photowey.redis.in.action.proxy.template;
 
+import com.photowey.common.in.action.func.ThreeConsumer;
+import org.springframework.data.redis.connection.RedisZSetCommands;
+
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * {@code IRedisTemplate}
@@ -83,4 +87,33 @@ public interface IRedisTemplate extends ICacheTemplate {
     void zsetTrim(final String key, final long max);
 
     void zsetRemoveRange(final String key, final long start, final long end);
+
+    // ---------------------------------------------------------------- pipeline
+
+    /**
+     * 管道
+     * |-批量删除操作
+     *
+     * @param actors 批量操作目标列表
+     * @param kfx    key 回调函数
+     * @param vfx    member 回调函数
+     * @param <T>    T 目标对象裂隙
+     * @param <V>    V member 成员类型
+     * @return {@code int} 0: 失败 1: 成功
+     */
+    <T, V> int zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx);
+
+    /**
+     * 管道
+     * |-批量操作
+     *
+     * @param actors 批量操作目标列表
+     * @param kfx    key 回调函数
+     * @param vfx    member 回调函数
+     * @param fx     操作回调函数
+     * @param <T>    T 目标对象裂隙
+     * @param <V>    V member 成员类型
+     * @return {@code int} 0: 失败 1: 成功
+     */
+    <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx);
 }
