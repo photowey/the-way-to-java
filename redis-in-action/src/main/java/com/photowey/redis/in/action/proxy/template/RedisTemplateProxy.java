@@ -25,7 +25,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @date 2024/01/19
  * @since 1.0.0
  */
-public interface RedisTemplateProxy {
+public interface RedisTemplateProxy extends IRedisTemplate {
 
     RedisTemplate<String, Object> redis();
 
