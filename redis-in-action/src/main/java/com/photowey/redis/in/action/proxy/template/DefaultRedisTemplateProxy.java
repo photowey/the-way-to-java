@@ -59,32 +59,42 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public boolean exists(String key) {
-        return false;
+        return Boolean.TRUE.equals(this.redisTemplate.hasKey(key));
     }
 
     @Override
     public void delete(String key) {
-
+        this.redisTemplate.delete(key);
     }
 
     @Override
     public <T> void set(String key, T value) {
-
+        this.redisTemplate.opsForValue().set(key, value);
     }
 
     @Override
     public <T> void reset(String key, T value) {
+        this.set(key, value);
+    }
 
+    @Override
+    public void set(String key, Object value, long expires) {
+        this.redisTemplate.opsForValue().set(key, value, expires, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void reset(String key, Object value, long expires) {
+        this.set(key, value, expires, TimeUnit.SECONDS);
     }
 
     @Override
     public <T> void set(String key, T value, long expires, TimeUnit timeUnit) {
-
+        this.redisTemplate.opsForValue().set(key, value, expires, timeUnit);
     }
 
     @Override
     public <T> void reset(String key, T value, long expires, TimeUnit timeUnit) {
-
+        this.set(key, value, expires, timeUnit);
     }
 
     @Override
