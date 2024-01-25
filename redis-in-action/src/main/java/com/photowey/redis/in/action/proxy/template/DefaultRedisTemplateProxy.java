@@ -99,92 +99,92 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public <T> T get(String key) {
-        return null;
+        return (T) this.redisTemplate.opsForValue().get(key);
     }
 
     @Override
     public void setString(String key, String value) {
-
+        this.stringRedisTemplate.opsForValue().set(key, value);
     }
 
     @Override
     public void resetString(String key, String value) {
-
+        this.setString(key, value);
     }
 
     @Override
     public void setString(String key, String value, long expires, TimeUnit timeUnit) {
-
+        this.stringRedisTemplate.opsForValue().set(key, value, expires, timeUnit);
     }
 
     @Override
     public void resetString(String key, String value, long expires, TimeUnit timeUnit) {
-
+        this.setString(key, value, expires, timeUnit);
     }
 
     @Override
     public String getString(String key) {
-        return null;
+        return this.stringRedisTemplate.opsForValue().get(key);
     }
 
     @Override
     public Long incr(String key) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long incr(String key, Long delta) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long hashIncr(String key, String filed) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long hashIncr(String key, String filed, Long delta) {
-        return null;
+        return 0L;
     }
 
     @Override
     public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed) {
-        return null;
+        return 0L;
     }
 
     @Override
     public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed, Long delta) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long decr(String key) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long decr(String key, Long delta) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long hashDecr(String key, String filed) {
-        return null;
+        return 0L;
     }
 
     @Override
     public Long hashDecr(String key, String filed, Long delta) {
-        return null;
+        return 0L;
     }
 
     @Override
     public <T> Long hashDecr(String key, LambdaFunction<T, ?> filed) {
-        return null;
+        return 0L;
     }
 
     @Override
     public <T> Long hashDecr(String key, LambdaFunction<T, ?> filed, Long delta) {
-        return null;
+        return 0L;
     }
 
     // ----------------------------------------------------------------
