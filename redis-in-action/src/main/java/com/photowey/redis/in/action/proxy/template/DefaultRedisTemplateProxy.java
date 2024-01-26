@@ -129,32 +129,32 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public Long incr(String key) {
-        return 0L;
+        return this.incr(key, 1L);
     }
 
     @Override
     public Long incr(String key, Long delta) {
-        return 0L;
+        return this.redisTemplate.opsForValue().increment(key, Math.abs(delta));
     }
 
     @Override
     public Long hashIncr(String key, String filed) {
-        return 0L;
+        return this.hashIncr(key, filed, 1L);
     }
 
     @Override
     public Long hashIncr(String key, String filed, Long delta) {
-        return 0L;
+        return this.redisTemplate.opsForHash().increment(key, filed, Math.abs(delta));
     }
 
     @Override
     public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed) {
-        return 0L;
+        return this.hashIncr(key, filed, 1L);
     }
 
     @Override
     public <T> Long hashIncr(String key, LambdaFunction<T, ?> filed, Long delta) {
-        return 0L;
+        return this.hashIncr(key, LambdaFunction.resolve(filed), delta);
     }
 
     @Override
