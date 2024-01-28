@@ -17,10 +17,12 @@ package com.photowey.redis.in.action.proxy.template;
 
 import com.photowey.common.in.action.func.ThreeConsumer;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
+import com.photowey.common.in.action.util.ObjectUtils;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -191,27 +193,34 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public void remove(String key) {
-
+        this.redisTemplate.delete(key);
     }
 
     @Override
     public void remove(String... keys) {
+        if (ObjectUtils.isNullOrEmpty(keys)) {
+            return;
+        }
 
+        this.redisTemplate.delete(Arrays.asList(keys));
     }
 
     @Override
     public void removePattern(String pattern) {
-
+        Set<String> keys = this.redisTemplate.keys(pattern);
+        if (ObjectUtils.isNotNullOrEmpty(keys)) {
+            this.redisTemplate.delete(keys);
+        }
     }
 
     @Override
     public boolean expire(String key, long expireTime) {
-        return false;
+        return this.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
     @Override
     public boolean expire(String key, long expireTime, TimeUnit timeUnit) {
-        return false;
+        return Boolean.TRUE.equals(this.redisTemplate.expire(key, expireTime, timeUnit));
     }
 
     @Override
