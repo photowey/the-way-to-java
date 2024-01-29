@@ -225,27 +225,37 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public <T> long leftPush(String key, T value) {
-        return 0;
+        Long length = this.redisTemplate.opsForList().leftPush(key, value);
+        return length != null ? length : 0L;
     }
 
     @Override
     public <T> T rightPop(String key) {
-        return null;
+        return (T) this.redisTemplate.opsForList().rightPop(key);
     }
 
     @Override
     public long rightPush(String key, Object value) {
-        return 0;
+        Long length = this.redisTemplate.opsForList().rightPush(key, value);
+        return length != null ? length : 0L;
     }
 
     @Override
     public <T> T leftPop(String key) {
-        return null;
+        return (T) this.redisTemplate.opsForList().leftPop(key);
     }
 
     @Override
     public <T> List<T> range(String key, Integer start, Integer stop) {
-        return null;
+        start = null != start ? start : 0;
+        stop = null != stop ? stop : -1;
+
+        List<T> results = (List<T>) this.redisTemplate.opsForList().range(key, start, stop);
+        if (null == results) {
+            return this.emptyList();
+        }
+
+        return results;
     }
 
     @Override

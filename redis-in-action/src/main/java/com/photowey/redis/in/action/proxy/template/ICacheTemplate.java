@@ -18,6 +18,10 @@ package com.photowey.redis.in.action.proxy.template;
 import com.photowey.common.in.action.counter.SafeCounter;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -84,4 +88,14 @@ public interface ICacheTemplate extends SafeCounter {
     <T> Long hashDecr(String key, LambdaFunction<T, ?> filed);
 
     <T> Long hashDecr(String key, LambdaFunction<T, ?> filed, Long delta);
+
+    // ---------------------------------------------------------------- empty.collection
+
+    default <T> List<T> emptyList() {
+        return new ArrayList<>(0);
+    }
+
+    default <T> Set<T> emptySet() {
+        return new HashSet<>(0);
+    }
 }
