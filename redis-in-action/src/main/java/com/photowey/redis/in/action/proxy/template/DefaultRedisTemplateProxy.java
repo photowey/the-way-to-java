@@ -260,22 +260,22 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public <T> Long setAdd(String key, T... values) {
-        return null;
+        return this.redisTemplate.opsForSet().add(key, values);
     }
 
     @Override
     public <T> Long setRemove(String key, T... values) {
-        return null;
+        return this.redisTemplate.opsForSet().remove(key, values);
     }
 
     @Override
     public <T> T setPop(String key) {
-        return null;
+        return (T) this.redisTemplate.opsForSet().pop(key);
     }
 
     @Override
     public <T> Boolean setMove(String key, T value, String destKey) {
-        return null;
+        return this.redisTemplate.opsForSet().move(key, value, destKey);
     }
 
     @Override
