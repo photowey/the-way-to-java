@@ -280,22 +280,27 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public Long setSize(String key) {
-        return null;
+        return this.redisTemplate.opsForSet().size(key);
     }
 
     @Override
     public <T> Boolean setIsMember(String key, T value) {
-        return null;
+        return this.redisTemplate.opsForSet().isMember(key, value);
     }
 
     @Override
     public <T> Set<T> setMembers(String key) {
-        return null;
+        Set<Object> objects = this.redisTemplate.opsForSet().members(key);
+        if (null == objects) {
+            objects = this.emptySet();
+        }
+
+        return (Set<T>) objects;
     }
 
     @Override
     public <T> T setRandomMember(String key) {
-        return null;
+        return (T) this.redisTemplate.opsForSet().randomMember(key);
     }
 
     @Override
