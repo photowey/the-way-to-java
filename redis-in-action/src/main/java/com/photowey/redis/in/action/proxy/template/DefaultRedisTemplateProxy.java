@@ -305,27 +305,36 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
 
     @Override
     public <T> List<T> setRandomMembers(String key, long count) {
-        return null;
+        List<Object> objects = this.redisTemplate.opsForSet().randomMembers(key, count);
+        if (null == objects) {
+            objects = this.emptyList();
+        }
+
+        return (List<T>) objects;
     }
 
     @Override
     public Long zsetSize(String key) {
-        return null;
+        return this.determineCounter(() -> this.redisTemplate.opsForZSet().size(key));
     }
 
     @Override
     public boolean zsetExists(String key, Object value) {
-        return false;
+        Double score = this.redisTemplate.opsForZSet().score(key, value);
+        return null != score;
     }
 
     @Override
     public void zsetTrim(String key, long max) {
-
+        long size = this.redisTemplate.opsForZSet().size(key);
+        if (size > max) {
+            this.zsetRemoveRange(key, 0, size - (max + 1));
+        }
     }
 
     @Override
     public void zsetRemoveRange(String key, long start, long end) {
-
+        this.redisTemplate.opsForZSet().removeRange(key, start, end);
     }
 
     @Override
