@@ -15,12 +15,15 @@
  */
 package com.photowey.redis.in.action.proxy.template;
 
+import com.photowey.common.in.action.func.FourConsumer;
 import com.photowey.common.in.action.func.ThreeConsumer;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
 import com.photowey.common.in.action.util.ObjectUtils;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -347,4 +350,13 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
         return null;
     }
 
+    @Override
+    public <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx) {
+        return null;
+    }
+
+    @Override
+    public <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx) {
+        return null;
+    }
 }

@@ -15,8 +15,11 @@
  */
 package com.photowey.redis.in.action.proxy.template;
 
+import com.photowey.common.in.action.func.FourConsumer;
 import com.photowey.common.in.action.func.ThreeConsumer;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
 import java.util.Set;
@@ -116,4 +119,9 @@ public interface IRedisTemplate extends ICacheTemplate {
      * @return {@code int} 0: 失败 1: 成功
      */
     <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx);
+
+    <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx);
+
+    <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx);
+
 }
