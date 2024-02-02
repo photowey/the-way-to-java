@@ -19,6 +19,11 @@ import com.photowey.common.in.action.func.FourConsumer;
 import com.photowey.common.in.action.func.ThreeConsumer;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
 import com.photowey.common.in.action.util.ObjectUtils;
+import com.photowey.redis.in.action.constant.RedisFixedConstants;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -38,16 +43,23 @@ import java.util.function.Function;
  * @date 2024/01/20
  * @since 1.0.0
  */
-public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
+public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactoryAware {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final StringRedisTemplate stringRedisTemplate;
+
+    private ListableBeanFactory beanFactory;
 
     public DefaultRedisTemplateProxy(
             RedisTemplate<String, Object> redisTemplate,
             StringRedisTemplate stringRedisTemplate) {
         this.redisTemplate = redisTemplate;
         this.stringRedisTemplate = stringRedisTemplate;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) beanFactory;
     }
 
     @Override
@@ -58,6 +70,16 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
     @Override
     public StringRedisTemplate stringRedis() {
         return this.stringRedisTemplate;
+    }
+
+    // ----------------------------------------------------------------
+
+    public RedisSerializer<String> redisKeySerializer() {
+        return this.beanFactory.getBean(RedisFixedConstants.REDIS_KEY_SERIALIZER_BEAN_NAME, RedisSerializer.class);
+    }
+
+    public RedisSerializer<Object> redisValueSerializer() {
+        return this.beanFactory.getBean(RedisFixedConstants.REDIS_VALUE_SERIALIZER_BEAN_NAME, RedisSerializer.class);
     }
 
     // ----------------------------------------------------------------
@@ -341,22 +363,24 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy {
     }
 
     @Override
-    public <T, V> int zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx) {
-        return 0;
+    public <T, V> Integer zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx) {
+        return this.zsetPipeline(actors, kfx, vfx, RedisZSetCommands::zRem);
     }
 
     @Override
     public <T, V> Integer zsetPipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisZSetCommands, byte[], byte[]> fx) {
-        return null;
+        return this.pipeline(actors, kfx, vfx, (conn, k, v) -> {
+            fx.accept(conn.zSetCommands(), k, v);
+        });
     }
 
     @Override
     public <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx) {
-        return null;
+        return 0;
     }
 
     @Override
     public <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx) {
-        return null;
+        return 0;
     }
 }

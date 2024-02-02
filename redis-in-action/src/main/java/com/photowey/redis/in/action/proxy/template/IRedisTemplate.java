@@ -104,7 +104,7 @@ public interface IRedisTemplate extends ICacheTemplate {
      * @param <V>    V member 成员类型
      * @return {@code int} 0: 失败 1: 成功
      */
-    <T, V> int zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx);
+    <T, V> Integer zsetRemovePipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx);
 
     /**
      * 管道
