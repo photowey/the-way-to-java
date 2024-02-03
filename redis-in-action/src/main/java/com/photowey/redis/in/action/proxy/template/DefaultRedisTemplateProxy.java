@@ -15,6 +15,7 @@
  */
 package com.photowey.redis.in.action.proxy.template;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photowey.common.in.action.func.FourConsumer;
 import com.photowey.common.in.action.func.ThreeConsumer;
 import com.photowey.common.in.action.func.lambda.LambdaFunction;
@@ -32,6 +33,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -60,6 +62,10 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = (ListableBeanFactory) beanFactory;
+    }
+
+    public ObjectMapper objectMapper() {
+        return this.beanFactory.getBean(ObjectMapper.class);
     }
 
     @Override
@@ -376,11 +382,33 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
     @Override
     public <T, V> Integer pipeline(List<T> actors, Function<T, String> kfx, Function<T, V> vfx, ThreeConsumer<RedisConnection, byte[], byte[]> fx) {
-        return 0;
+        return this.pipeline(actors, false, (conn, kSerializer, vSerializer, actor) -> {
+            String cacheKey = kfx.apply(actor);
+            V value = vfx.apply(actor);
+
+            byte[] keyBytes = kSerializer.serialize(cacheKey);
+            byte[] valueBytes = vSerializer.serialize(value);
+
+            fx.accept(conn, Objects.requireNonNull(keyBytes), Objects.requireNonNull(valueBytes));
+        });
     }
 
     @Override
     public <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx) {
-        return 0;
+        if (null == actors) {
+            return 0;
+        }
+
+        return this.redisTemplate.execute((conn) -> {
+            // conn.openPipeline();
+
+            for (T actor : actors) {
+                fx.accept(conn, redisKeySerializer(), redisValueSerializer(), actor);
+            }
+
+            // conn.closePipeline();
+
+            return 1;
+        }, exposeConnection, true);
     }
 }
