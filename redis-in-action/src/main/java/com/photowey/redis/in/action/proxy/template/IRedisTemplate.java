@@ -17,11 +17,13 @@ package com.photowey.redis.in.action.proxy.template;
 
 import com.photowey.common.in.action.func.FourConsumer;
 import com.photowey.common.in.action.func.ThreeConsumer;
+import com.photowey.common.in.action.func.lambda.LambdaFunction;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -124,4 +126,13 @@ public interface IRedisTemplate extends ICacheTemplate {
 
     <T> Integer pipeline(List<T> actors, boolean exposeConnection, FourConsumer<RedisConnection, RedisSerializer<String>, RedisSerializer<Object>, T> fx);
 
+    // ---------------------------------------------------------------- hash
+
+    void hashSet(final String key, final String field, Object value);
+
+    void hashmSet(final String key, Map<Object, Object> entries);
+
+    <T> T hashGet(final String key, String field);
+
+    <T, R> R hashGet(final String key, LambdaFunction<T, ?> field);
 }

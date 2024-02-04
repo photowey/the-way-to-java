@@ -31,10 +31,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -410,5 +407,27 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
             return 1;
         }, exposeConnection, true);
+    }
+
+    // ---------------------------------------------------------------- hash
+
+    @Override
+    public void hashSet(String key, String field, Object value) {
+        this.redisTemplate.opsForHash().put(key, field, value);
+    }
+
+    @Override
+    public void hashmSet(String key, Map<Object, Object> entries) {
+        this.redisTemplate.opsForHash().putAll(key, entries);
+    }
+
+    @Override
+    public <T> T hashGet(String key, String field) {
+        return (T) this.redisTemplate.opsForHash().get(key, field);
+    }
+
+    @Override
+    public <T, R> R hashGet(String key, LambdaFunction<T, ?> field) {
+        return this.hashGet(key, LambdaFunction.resolve(field));
     }
 }
