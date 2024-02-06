@@ -135,4 +135,16 @@ public interface IRedisTemplate extends ICacheTemplate {
     <T> T hashGet(final String key, String field);
 
     <T, R> R hashGet(final String key, LambdaFunction<T, ?> field);
+
+    <T> T hashmGet(Class<T> clazz, final String key, String... fields);
+
+    <T> T hashmGet(final String key, Function<Map<Object, Object>, T> fx, String... fields);
+
+    <T, R> R hashmGet(final String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields);
+
+    <T, R> R hashmGet(Class<R> clazz, final String key, LambdaFunction<T, ?>... fields);
+
+    Map<Object, Object> hashmGet(final String key, List<Object> fields);
+
+    <T> T hashEntries(Class<T> clazz, final String key);
 }

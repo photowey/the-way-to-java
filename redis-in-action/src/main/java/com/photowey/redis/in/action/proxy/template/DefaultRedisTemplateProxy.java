@@ -430,4 +430,34 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     public <T, R> R hashGet(String key, LambdaFunction<T, ?> field) {
         return this.hashGet(key, LambdaFunction.resolve(field));
     }
+
+    @Override
+    public <T> T hashmGet(Class<T> clazz, String key, String... fields) {
+        return null;
+    }
+
+    @Override
+    public <T> T hashmGet(String key, Function<Map<Object, Object>, T> fx, String... fields) {
+        return null;
+    }
+
+    @Override
+    public <T, R> R hashmGet(String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields) {
+        return null;
+    }
+
+    @Override
+    public <T, R> R hashmGet(Class<R> clazz, String key, LambdaFunction<T, ?>... fields) {
+        return null;
+    }
+
+    @Override
+    public Map<Object, Object> hashmGet(String key, List<Object> fields) {
+        return null;
+    }
+
+    @Override
+    public <T> T hashEntries(Class<T> clazz, String key) {
+        return null;
+    }
 }
