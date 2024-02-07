@@ -34,6 +34,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * {@code DefaultRedisTemplateProxy}
@@ -63,6 +65,10 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
 
     public ObjectMapper objectMapper() {
         return this.beanFactory.getBean(ObjectMapper.class);
+    }
+
+    public <T> T toBean(Map<Object, Object> entries, Class<T> clazz) {
+        return this.objectMapper().convertValue(entries, clazz);
     }
 
     @Override
@@ -432,32 +438,57 @@ public class DefaultRedisTemplateProxy implements RedisTemplateProxy, BeanFactor
     }
 
     @Override
-    public <T> T hashmGet(Class<T> clazz, String key, String... fields) {
-        return null;
+    public <T> T hashmGet(Class<T> clazz, final String key, final String... fields) {
+        List<Object> fs = Arrays.asList(fields);
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return this.toBean(entries, clazz);
     }
 
     @Override
-    public <T> T hashmGet(String key, Function<Map<Object, Object>, T> fx, String... fields) {
-        return null;
+    public <T> T hashmGet(final String key, Function<Map<Object, Object>, T> fx, final String... fields) {
+        List<Object> fs = Arrays.asList(fields);
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return fx.apply(entries);
     }
 
     @Override
-    public <T, R> R hashmGet(String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields) {
-        return null;
+    public <T, R> R hashmGet(final String key, Function<Map<Object, Object>, R> fx, LambdaFunction<T, ?>... fields) {
+        List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return fx.apply(entries);
     }
 
     @Override
-    public <T, R> R hashmGet(Class<R> clazz, String key, LambdaFunction<T, ?>... fields) {
-        return null;
+    public Map<Object, Object> hashmGet(final String key, List<Object> fields) {
+        List<Object> values = this.redisTemplate.opsForHash().multiGet(key, fields);
+
+        Map<Object, Object> entries = new HashMap<>();
+
+        for (int i = 0; i < fields.size(); i++) {
+            Object k = fields.get(i);
+            Object v = values.get(i);
+
+            entries.put(k, v);
+        }
+
+        return entries;
     }
 
     @Override
-    public Map<Object, Object> hashmGet(String key, List<Object> fields) {
-        return null;
+    public <T, R> R hashmGet(Class<R> clazz, final String key, LambdaFunction<T, ?>... fields) {
+        List<Object> fs = Stream.of(fields).map(LambdaFunction::resolve).collect(Collectors.toList());
+        Map<Object, Object> entries = this.hashmGet(key, fs);
+
+        return this.toBean(entries, clazz);
     }
 
     @Override
-    public <T> T hashEntries(Class<T> clazz, String key) {
-        return null;
+    public <T> T hashEntries(Class<T> clazz, final String key) {
+        Map<Object, Object> entries = this.redisTemplate.opsForHash().entries(key);
+
+        return this.toBean(entries, clazz);
     }
 }
