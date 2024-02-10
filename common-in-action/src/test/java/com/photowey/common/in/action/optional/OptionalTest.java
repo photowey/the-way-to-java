@@ -1,0 +1,67 @@
+/*
+ * Copyright (C) 2021-2023 Thomas Akehurst
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.photowey.common.in.action.optional;
+
+import lombok.Data;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+
+/**
+ * {@code OptionalTest}
+ *
+ * @author photowey
+ * @date 2024/02/10
+ * @since 1.0.0
+ */
+class OptionalTest {
+
+    @Data
+    public static class Message implements Serializable {
+
+        private static final long serialVersionUID = -7142353781081408528L;
+
+        private String value;
+
+        public Message(String value) {
+            this.value = value;
+        }
+    }
+
+    @Test
+    void testOptional_null() {
+        Optional<Message> optional = Optional.valueOf(null);
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            optional.match(() -> {
+                return "failed";
+            });
+        });
+
+    }
+
+    @Test
+    void testOptional_not_null() {
+        Optional<Message> optional = Optional.valueOf(new Message("ok"));
+        Message message = optional.match(() -> {
+            throw new UnsupportedOperationException("Unsupported now");
+        });
+
+        Assertions.assertNotNull(message);
+        Assertions.assertEquals("ok", message.getValue());
+    }
+}
