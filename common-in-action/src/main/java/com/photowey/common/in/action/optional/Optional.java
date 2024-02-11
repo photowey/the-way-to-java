@@ -61,4 +61,8 @@ public final class Optional<T> {
 
         throw new RuntimeException(fx.get());
     }
+
+    public T unwrap() {
+        return this.value;
+    }
 }

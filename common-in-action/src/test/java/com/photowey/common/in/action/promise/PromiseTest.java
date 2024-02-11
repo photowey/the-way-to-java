@@ -98,7 +98,7 @@ class PromiseTest {
     @Test
     void testPromise_throwable__value() {
         Promise<PromiseTest.Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
-        Message message = promise.throwable(Assertions::assertNotNull).value();
+        Message message = promise.throwable(Assertions::assertNotNull).unwrap();
 
         Assertions.assertNull(message);
     }

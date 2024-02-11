@@ -119,7 +119,7 @@ public final class Promise<T, E extends Throwable> {
         return this;
     }
 
-    public T value() {
+    public T unwrap() {
         return this.value;
     }
 }
