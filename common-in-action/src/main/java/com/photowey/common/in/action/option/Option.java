@@ -13,53 +13,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.optional;
+package com.photowey.common.in.action.option;
 
 import java.util.function.Supplier;
 
 /**
- * {@code Optional}
+ * {@code Option<T>}
  *
+ * @param <T> T
  * @author photowey
  * @date 2024/02/10
  * @since 1.0.0
  */
-public final class Optional<T> {
+public final class Option<T> {
 
-    private static final Optional<?> EMPTY = new Optional<>();
+    private static final Option<?> EMPTY = new Option<>();
 
-    public static <T> Optional<T> valueOf(T value) {
+    public static <T> Option<T> valueOf(T value) {
         if (null == value) {
-            return (Optional<T>) Optional.EMPTY;
+            return (Option<T>) Option.EMPTY;
         }
 
-        return new Optional<>(value);
+        return new Option<>(value);
     }
 
     private final T value;
 
-    public Optional() {
+    public Option() {
         this(null);
     }
 
-    public Optional(T value) {
+    public Option(T value) {
         this.value = value;
     }
 
-    public boolean determineIsPresent() {
-        return !this.determineIsEmpty();
+    public boolean isPresent() {
+        return !this.isEmpty();
     }
 
-    public boolean determineIsEmpty() {
+    public boolean isEmpty() {
         return this.value == null;
     }
 
     public T match(Supplier<String> fx) {
-        if (this.determineIsPresent()) {
+        return this.matches(() -> {
+            throw new RuntimeException(fx.get());
+        });
+    }
+
+    public T matches(OptionHandler<T> fx) {
+        if (this.isPresent()) {
             return this.value;
         }
 
-        throw new RuntimeException(fx.get());
+        return fx.handle();
     }
 
     public T unwrap() {

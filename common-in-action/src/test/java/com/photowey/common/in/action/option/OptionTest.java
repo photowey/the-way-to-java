@@ -1,4 +1,4 @@
-/*
+package com.photowey.common.in.action.option;/*
  * Copyright © 2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.optional;
 
 import lombok.Data;
 import org.junit.jupiter.api.Assertions;
@@ -22,13 +21,13 @@ import org.junit.jupiter.api.Test;
 import java.io.Serializable;
 
 /**
- * {@code OptionalTest}
+ * {@code OptionTest}
  *
  * @author photowey
  * @date 2024/02/10
  * @since 1.0.0
  */
-class OptionalTest {
+class OptionTest {
 
     @Data
     public static class Message implements Serializable {
@@ -43,11 +42,11 @@ class OptionalTest {
     }
 
     @Test
-    void testOptional_null() {
-        Optional<Message> optional = Optional.valueOf(null);
+    void testOption_null() {
+        Option<Message> option = Option.valueOf(null);
 
         Assertions.assertThrows(RuntimeException.class, () -> {
-            optional.match(() -> {
+            Message x = option.match(() -> {
                 return "failed";
             });
         });
@@ -55,9 +54,9 @@ class OptionalTest {
     }
 
     @Test
-    void testOptional_not_null() {
-        Optional<Message> optional = Optional.valueOf(new Message("ok"));
-        Message message = optional.match(() -> {
+    void testOption_not_null() {
+        Option<Message> option = Option.valueOf(new Message("ok"));
+        Message message = option.matches(() -> {
             throw new UnsupportedOperationException("Unsupported now");
         });
 

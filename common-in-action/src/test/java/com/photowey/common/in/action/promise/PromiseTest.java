@@ -50,7 +50,7 @@ class PromiseTest {
 
     @Test
     void testPromise_then__resolve_reject() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.valueOf(new PromiseTest.Message("ok"));
+        Promise<Message, Throwable> promise = Promise.valueOf(new Message("ok"));
         promise.then((value) -> {
             Assertions.assertNotNull(value);
             Assertions.assertEquals("ok", value.getValue());
@@ -61,13 +61,13 @@ class PromiseTest {
 
     @Test
     void testPromise_throwable() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
+        Promise<Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
         promise.throwable(Assertions::assertNotNull);
     }
 
     @Test
     void testPromise_then_throwable() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
+        Promise<Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
         promise.then((value) -> {
             throw new UnsupportedOperationException("Unsupported now");
         }).throwable(Assertions::assertNotNull);
@@ -75,7 +75,7 @@ class PromiseTest {
 
     @Test
     void testPromise_then__resolve_reject_throwable() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
+        Promise<Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
         promise.then((v1) -> {
             throw new UnsupportedOperationException("Unsupported now");
         }, (v2) -> {
@@ -85,11 +85,11 @@ class PromiseTest {
 
     @Test
     void testPromise_then__value() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.valueOf(new PromiseTest.Message("ok"));
+        Promise<Message, Throwable> promise = Promise.valueOf(new Message("ok"));
         Message message = promise.then((value) -> {
             Assertions.assertNotNull(value);
             Assertions.assertEquals("ok", value.getValue());
-        }).value();
+        }).unwrap();
 
         Assertions.assertNotNull(message);
         Assertions.assertEquals("ok", message.getValue());
@@ -97,7 +97,7 @@ class PromiseTest {
 
     @Test
     void testPromise_throwable__value() {
-        Promise<PromiseTest.Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
+        Promise<Message, Throwable> promise = Promise.throwableOf(new RuntimeException("failed"));
         Message message = promise.throwable(Assertions::assertNotNull).unwrap();
 
         Assertions.assertNull(message);
