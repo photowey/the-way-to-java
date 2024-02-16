@@ -63,9 +63,21 @@ public interface ICacheTemplate extends SafeCounter {
 
     // ---------------------------------------------------------------- incr
 
+    default Long counter(String key) {
+        return this.incr(key, 0L);
+    }
+
     Long incr(String key);
 
     Long incr(String key, Long delta);
+
+    default Long hashCounter(String key, String filed) {
+        return this.hashIncr(key, filed, 0L);
+    }
+
+    default <T> Long hashCounter(String key, LambdaFunction<T, ?> filed) {
+        return this.hashIncr(key, filed, 0L);
+    }
 
     Long hashIncr(String key, String filed);
 
