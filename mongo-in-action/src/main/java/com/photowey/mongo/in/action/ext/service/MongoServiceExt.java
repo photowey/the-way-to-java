@@ -15,6 +15,7 @@
  */
 package com.photowey.mongo.in.action.ext.service;
 
+import com.photowey.mongo.in.action.constant.MongoConstants;
 import com.photowey.mongo.in.action.document.DocumentUpdateCounter;
 import com.photowey.mongo.in.action.fx.ThreeConsumer;
 import org.bson.Document;
@@ -35,9 +36,9 @@ import java.util.function.Consumer;
  */
 public interface MongoServiceExt<T, ID> {
 
-    String DEFAULT_PK_ID = "_id";
-    String DEFAULT_DELETED_KEY = "deleted";
-    int DEFAULT_DELETED_VALUE = 1;
+    String DEFAULT_PK_ID = MongoConstants.DEFAULT_PK_ID;
+    String DEFAULT_DELETED_KEY = MongoConstants.DEFAULT_DELETED_KEY;
+    int DEFAULT_DELETED_VALUE = MongoConstants.DEFAULT_DELETED_VALUE;
 
     /**
      * 获取 {@link MongoOperations} 实例
@@ -185,6 +186,33 @@ public interface MongoServiceExt<T, ID> {
         Update update = Update.fromDocument(document);
 
         this.mongoOperations().updateFirst(query, update, clazz);
+    }
+
+    default void updateDocument(Consumer<Criteria> criteriaFx, Document document, Class<T> clazz) {
+        this.doUpdate(criteriaFx, document, (mongoTemplate, query, update) -> {
+            this.mongoOperations().updateFirst(query, update, clazz);
+        });
+    }
+
+    default void batchUpdateDocument(Consumer<Criteria> criteriaFx, Document document, Class<T> clazz) {
+        this.doUpdate(criteriaFx, document, (mongoTemplate, query, update) -> {
+            this.mongoOperations().updateMulti(query, update, clazz);
+        });
+    }
+
+    default void doUpdate(Consumer<Criteria> condition, Document document, ThreeConsumer<MongoOperations, Query, Update> fx) {
+        MongoOperations mongoTemplate = this.mongoOperations();
+        if (null == mongoTemplate) {
+            return;
+        }
+
+        Criteria criteria = new Criteria();
+        condition.accept(criteria);
+
+        Query query = new Query(criteria);
+        Update update = Update.fromDocument(document);
+
+        fx.accept(mongoTemplate, query, update);
     }
 
     /**
