@@ -26,6 +26,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.ObjectUtils;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * {@code MongoServiceExt}
@@ -48,6 +49,8 @@ public interface MongoServiceExt<T, ID> {
     default MongoOperations mongoOperations() {
         return null;
     }
+
+    // ----------------------------------------------------------------
 
     /**
      * 添加到列表
@@ -110,6 +113,8 @@ public interface MongoServiceExt<T, ID> {
         fx.accept(mongoTemplate, query, update);
     }
 
+    // ----------------------------------------------------------------
+
     /**
      * 从列表移除
      *
@@ -171,6 +176,23 @@ public interface MongoServiceExt<T, ID> {
         fx.accept(mongoTemplate, query, update);
     }
 
+    // ----------------------------------------------------------------
+
+    default void doUpdate(Consumer<Criteria> criteriaFx, Supplier<Update> updateGetter, ThreeConsumer<MongoOperations, Query, Update> fx) {
+        MongoOperations mongoTemplate = this.mongoOperations();
+        if (null == mongoTemplate) {
+            return;
+        }
+
+        Criteria criteria = new Criteria();
+        criteriaFx.accept(criteria);
+
+        Query query = new Query(criteria);
+        Update update = updateGetter.get();
+
+        fx.accept(mongoTemplate, query, update);
+    }
+
     /**
      * 执行
      * 文档更新
@@ -188,6 +210,7 @@ public interface MongoServiceExt<T, ID> {
         this.mongoOperations().updateFirst(query, update, clazz);
     }
 
+    // ----------------------------------------------------------------
     default void updateDocument(Consumer<Criteria> criteriaFx, Document document, Class<T> clazz) {
         this.doUpdate(criteriaFx, document, (mongoTemplate, query, update) -> {
             this.mongoOperations().updateFirst(query, update, clazz);
@@ -199,6 +222,8 @@ public interface MongoServiceExt<T, ID> {
             this.mongoOperations().updateMulti(query, update, clazz);
         });
     }
+
+    // ----------------------------------------------------------------
 
     default void doUpdate(Consumer<Criteria> condition, Document document, ThreeConsumer<MongoOperations, Query, Update> fx) {
         MongoOperations mongoTemplate = this.mongoOperations();
@@ -214,6 +239,8 @@ public interface MongoServiceExt<T, ID> {
 
         fx.accept(mongoTemplate, query, update);
     }
+
+    // ----------------------------------------------------------------
 
     /**
      * 执行
