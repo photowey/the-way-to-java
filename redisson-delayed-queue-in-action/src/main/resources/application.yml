@@ -1,0 +1,25 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "redisson-delayed-queue-in-action"
+  profiles:
+    active: dev
+  redis:
+    host: ${local.config.redis.host}
+    port: ${local.config.redis.port}
+    password: ${local.config.redis.password}
+    database: 0
+    timeout: 2000
+    serializer: "Generic"
+    jedis:
+      pool:
+        max-idle: 6
+        max-total: 32
+        max-wait: 100
+        min-idle: 4
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
