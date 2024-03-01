@@ -31,6 +31,12 @@
             <groupId>com.photowey</groupId>
             <artifactId>message-in-action-rabbitmq-handler</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,1 +1,1 @@
-com.photowey.micro.integrated.message.rabbitmq.autoconfigure.config.IntegratedRabbitMessageAutoConfigure
+com.photowey.micro.integrated.message.rabbitmq.autoconfigure.config.RabbitMessageAutoConfigure

@@ -28,10 +28,16 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.integration.channel.DefaultHeaderChannelRegistry;
+import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.integration.context.IntegrationContextUtils;
+import org.springframework.integration.support.channel.HeaderChannelRegistry;
+import org.springframework.messaging.MessageChannel;
 
 /**
  * {@code IntegratedRabbitMessageAutoConfigure}
@@ -42,7 +48,7 @@ import org.springframework.context.annotation.Scope;
  */
 @AutoConfiguration
 @ConditionalOnProperty(name = "spring.rabbitmq.enabled", matchIfMissing = true)
-public class IntegratedRabbitMessageAutoConfigure {
+public class RabbitMessageAutoConfigure {
 
     @Bean
     public RabbitmqCallbackHandler rabbitmqCallbackHandler() {
@@ -110,5 +116,31 @@ public class IntegratedRabbitMessageAutoConfigure {
     @ConditionalOnMissingBean(RabbitDelayedMessageSender.class)
     public RabbitDelayedMessageSender rabbitDelayedMessageSender() {
         return new DefaultRabbitDelayedMessageSender();
+    }
+
+    // ----------------------------------------------------------------
+
+    /**
+     * org.springframework.integration.config.DefaultConfiguringBeanFactoryPostProcessor:info:292
+     * No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+     *
+     * @return {@link MessageChannel}
+     */
+    @Bean(name = IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME)
+    @ConditionalOnClass(MessageChannel.class)
+    public MessageChannel errorChannel() {
+        return new PublishSubscribeChannel();
+    }
+
+    /**
+     * org.springframework.integration.config.DefaultConfiguringBeanFactoryPostProcessor:info:292
+     * No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+     *
+     * @return {@link HeaderChannelRegistry}
+     */
+    @Bean(name = IntegrationContextUtils.INTEGRATION_HEADER_CHANNEL_REGISTRY_BEAN_NAME)
+    @ConditionalOnClass(HeaderChannelRegistry.class)
+    public HeaderChannelRegistry integrationHeaderChannelRegistry() {
+        return new DefaultHeaderChannelRegistry();
     }
 }
