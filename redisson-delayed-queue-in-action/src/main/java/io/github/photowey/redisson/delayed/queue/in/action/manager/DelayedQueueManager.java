@@ -15,6 +15,9 @@
  */
 package io.github.photowey.redisson.delayed.queue.in.action.manager;
 
+import io.github.photowey.redisson.delayed.queue.in.action.queue.DelayedQueue;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+
 /**
  * {@code DelayedQueueManager}
  *
@@ -22,5 +25,11 @@ package io.github.photowey.redisson.delayed.queue.in.action.manager;
  * @date 2024/03/02
  * @since 1.0.0
  */
-public interface DelayedQueueManager {
+public interface DelayedQueueManager extends BeanFactoryPostProcessor {
+
+    DelayedQueue register(DelayedQueue delayedQueue);
+
+    DelayedQueue tryAcquire(String topic);
+
+    boolean contains(String topic);
 }
