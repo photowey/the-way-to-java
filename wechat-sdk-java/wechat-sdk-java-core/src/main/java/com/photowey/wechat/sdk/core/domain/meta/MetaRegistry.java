@@ -13,16 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.wechat.sdk.core.meta;
+package com.photowey.wechat.sdk.core.domain.meta;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
- * {@code MetaLoader}
+ * {@code MetaRegistry}
  *
  * @author photowey
  * @date 2024/02/25
  * @since 1.0.0
  */
-public interface MetaLoader {
+public interface MetaRegistry {
 
-    Meta load(String tenantId);
+    void register(Meta... metas);
+
+    void register(Collection<Meta> metas);
+
+    void registerRelax(Collection<Meta> metas);
+
+    Meta remove(String tenantId);
+
+    Meta meta(String tenantId);
+
+    Meta metaRelax(String tenantId);
+
+    Set<String> tenantIds();
 }

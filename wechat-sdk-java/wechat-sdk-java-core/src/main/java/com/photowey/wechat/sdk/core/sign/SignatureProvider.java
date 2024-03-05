@@ -16,9 +16,9 @@
 package com.photowey.wechat.sdk.core.sign;
 
 import com.photowey.wechat.sdk.core.domain.encrypt.EncryptedData;
+import com.photowey.wechat.sdk.core.domain.meta.MetaRegistry;
 import com.photowey.wechat.sdk.core.domain.sign.Signer;
 import com.photowey.wechat.sdk.core.domain.sign.verify.Verifier;
-import com.photowey.wechat.sdk.core.registry.MetaRegistry;
 
 /**
  * {@code SignatureProvider}

@@ -29,7 +29,7 @@ import java.io.Serializable;
  * {@code Meta}
  *
  * @author photowey
- * @date 2023/09/03
+ * @date 2024/02/25
  * @since 1.0.0
  */
 @Data

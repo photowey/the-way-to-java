@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.wechat.sdk.core.meta;
+package com.photowey.wechat.sdk.core.domain.meta;
 
 /**
- * {@code LazyMetaLoader}
+ * {@code MetaLoader}
  *
  * @author photowey
  * @date 2024/02/25
  * @since 1.0.0
  */
-public interface LazyMetaLoader extends MetaLoader {
+public interface MetaLoader {
+
+    Meta load(String tenantId);
 }
