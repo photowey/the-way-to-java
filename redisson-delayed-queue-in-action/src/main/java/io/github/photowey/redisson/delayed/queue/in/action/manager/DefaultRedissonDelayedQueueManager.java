@@ -20,6 +20,7 @@ import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.DelayedQueue;
+import io.github.photowey.redisson.delayed.queue.in.action.scheduler.RedissonDelayedQueueScheduler;
 import org.redisson.api.RBlockingDeque;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
@@ -128,5 +129,10 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
     @Override
     public QueuePair tryAcquirePair(String topic) {
         return this.pairs.get(topic);
+    }
+
+    @Override
+    public RedissonDelayedQueueScheduler redissonScheduler() {
+        return this.beanFactory.getBean(RedissonDelayedQueueScheduler.class);
     }
 }
