@@ -60,7 +60,7 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
     @Override
     public void afterSingletonsInstantiated() {
         this.init();
-        // TODO
+        this.redissonScheduler().start();
     }
 
     // ----------------------------------------------------------------
