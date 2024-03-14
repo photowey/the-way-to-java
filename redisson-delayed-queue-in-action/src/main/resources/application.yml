@@ -19,6 +19,20 @@ spring:
         max-total: 32
         max-wait: 100
         min-idle: 4
+    client:
+      redisson:
+        enabled: true
+        mode: SINGLE
+        address: "redis://${local.config.redis.host}:${local.config.redis.port}"
+        password: "${local.config.redis.password}"
+        master-name: "master"
+        database: 0
+        timeout: 10_000
+        delayed:
+          topic: "io.github.photowey.delayed.queue.redisson.topic"
+          initial-delay: 0
+          period: 1
+          unit: SECONDS
 
 logging:
   pattern:

@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0.0
  */
 @Data
-@ConfigurationProperties(prefix = "spring.redis.lock.redisson")
+@ConfigurationProperties(prefix = "spring.redis.client.redisson")
 public class RedissonClientProperties {
 
     private boolean enabled = false;
