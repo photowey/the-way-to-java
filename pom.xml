@@ -275,12 +275,13 @@
         </repository>
     </distributionManagement>
 
+    <!-- @formatter:off -->
     <scm>
         <url>https://github.com/photowey/the-way-to-java</url>
         <connection>scm:git@github.com:photowey/the-way-to-java.git</connection>
-        <developerConnection>scm:git@github.com:photowey/the-way-to-java.git
-        </developerConnection>
+        <developerConnection>scm:git@github.com:photowey/the-way-to-java.git</developerConnection>
     </scm>
+    <!-- @formatter:on -->
 
     <build>
         <finalName>${project.artifactId}</finalName>

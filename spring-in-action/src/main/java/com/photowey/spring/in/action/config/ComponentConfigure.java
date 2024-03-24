@@ -39,4 +39,9 @@ public class ComponentConfigure {
     public ComponentBeanRef componentBeanRef(ComponentBean componentBean) {
         return new ComponentBeanRef(componentBean);
     }
+
+    /*@Bean
+    public HeadRequestMappingHandlerMapping headRequestMappingHandlerMapping() {
+        return new HeadRequestMappingHandlerMapping();
+    }*/
 }

@@ -13,16 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.virtual.thread.spring.boot.virtual.thread;
+package com.photowey.spring.in.action.controller;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.photowey.spring.in.action.ext.spring.web.bind.annotation.HeadMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootTest
-class AppTests {
+/**
+ * {@code HealthController}
+ *
+ * @author photowey
+ * @date 2024/03/24
+ * @since 1.0.0
+ */
+@RestController
+public class HealthController {
 
-    @Test
-    void contextLoads() {
+    /**
+     * curl -I http://localhost:7923/healthz
+     */
+    @HeadMapping("/healthz")
+    public void health() {
+        System.out.println("health");
     }
 
 }
