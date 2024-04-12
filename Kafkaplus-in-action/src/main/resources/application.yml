@@ -1,0 +1,35 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "kafkaplus-in-action"
+  profiles:
+    active: dev
+  kafkaplus:
+    mode:
+      mode: STANDALONE
+    bootstrap:
+      servers: "${local.config.kafka.host}:${local.config.kafka.port}"
+    admin:
+      topics:
+        - topic: "io.github.photowey.helloworld.topic"
+          numPartitions: 1
+          replicationFactor: 1
+    consumer:
+      key-deserializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value-deserializer: "org.apache.kafka.common.serialization.StringSerializer"
+      auto-offset-reset: EARLIEST
+      group-id: "io.github.photowey.helloworld.group"
+      auto-commit: true
+      subscribes: "io.github.photowey.helloworld.topic"
+    producer:
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      acks: LEADER
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

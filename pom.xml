@@ -30,7 +30,7 @@
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-git-commit-id-plugin.version>4.9.10</maven-git-commit-id-plugin.version>
 
-        <spring-boot.version>2.7.3</spring-boot.version>
+        <spring-boot.version>2.7.5</spring-boot.version>
 
         <fastjson.version>2.0.24</fastjson.version>
         <fastjson2.version>2.0.24</fastjson2.version>
@@ -57,6 +57,7 @@
         <!--        <module>benchmark-in-action</module>-->
         <module>dubbo-in-action</module>
         <module>kafka-in-action</module>
+        <module>kafkaplus-in-action</module>
         <module>mybatis-in-action</module>
         <module>netty-in-action</module>
         <module>rabbitmq-in-action</module>
@@ -270,7 +271,6 @@
         <repository>
             <id>dev</id>
             <name>local</name>
-            <!-- win11 -->
             <url>file:///${env.MAVEN_REPO}</url>
         </repository>
     </distributionManagement>
