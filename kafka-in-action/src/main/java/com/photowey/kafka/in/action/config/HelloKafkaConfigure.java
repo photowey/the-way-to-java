@@ -42,8 +42,9 @@ public class HelloKafkaConfigure {
 
     private final static String KAFKA_BOOTSTRAP_SERVERS = HelloKafkaConstants.KAFKA_BOOTSTRAP_SERVERS;
     public final static String CONSUMER_GROUP_ID = HelloKafkaConstants.CONSUMER_GROUP_ID;
+    public final static String TRANSACTION_CONSUMER_GROUP_ID = HelloKafkaConstants.TRANSACTION_CONSUMER_GROUP_ID;
 
-    @Bean
+    //@Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>(1 << 4);
 
@@ -61,6 +62,24 @@ public class HelloKafkaConfigure {
     }
 
     @Bean
+    public ConsumerFactory<String, String> txConsumerFactory() {
+        Map<String, Object> props = new HashMap<>(1 << 4);
+
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BOOTSTRAP_SERVERS);
+
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, TRANSACTION_CONSUMER_GROUP_ID);
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "100");
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
+        props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
+
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+
+    @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(ConsumerFactory<String, String> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
@@ -68,7 +87,7 @@ public class HelloKafkaConfigure {
         return factory;
     }
 
-    @Bean
+    //@Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> props = new HashMap<>(1 << 4);
 
@@ -79,6 +98,26 @@ public class HelloKafkaConfigure {
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
         props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
+
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
+        return new DefaultKafkaProducerFactory<>(props);
+    }
+
+    @Bean
+    public ProducerFactory<String, String> txProducerFactory() {
+        Map<String, Object> props = new HashMap<>(1 << 4);
+
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BOOTSTRAP_SERVERS);
+
+        props.put(ProducerConfig.ACKS_CONFIG, "-1");
+        props.put(ProducerConfig.RETRIES_CONFIG, 1);
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
+
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, HelloKafkaConstants.TRANSACTION_KEY);
 
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

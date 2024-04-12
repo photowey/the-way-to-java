@@ -34,7 +34,14 @@ public class HelloKafkaConsumer {
     @KafkaListener(id = HelloKafkaConstants.CONSUMER_GROUP_ID, topics = {
             HelloKafkaConstants.TOPIC_NAME,
     })
-    public void onMessage(String message) {
+    public void onNormalMessage(String message) {
         log.info("Received kafka message: {}", message);
+    }
+
+    @KafkaListener(id = HelloKafkaConstants.TRANSACTION_CONSUMER_GROUP_ID, topics = {
+            HelloKafkaConstants.TRANSACTION_TOPIC_NAME,
+    })
+    public void onTxMessage(String message) {
+        log.info("Received kafka tx.message: {}", message);
     }
 }

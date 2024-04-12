@@ -28,4 +28,9 @@ public interface HelloKafkaConstants {
     String TOPIC_NAME = "io.github.photowey.kafka.in.action.topic";
     String KEY_NAME = "io.github.photowey.kafka.in.action.key";
     String CONSUMER_GROUP_ID = "io.github.photowey.kafka.in.action.topic.group";
+
+    String TRANSACTION_KEY = "io.github.photowey.kafka.in.action.transaction.key";
+    String TRANSACTION_TOPIC_NAME = "io.github.photowey.kafka.in.action.transaction.topic";
+    String TRANSACTION_KEY_NAME = "io.github.photowey.kafka.in.action.transaction.key";
+    String TRANSACTION_CONSUMER_GROUP_ID = "io.github.photowey.kafka.in.action.transaction.topic.group";
 }

@@ -50,6 +50,11 @@ public class HelloKafkaProducer implements ApplicationListener<ContextRefreshedE
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        //this.normal();
+        this.transaction();
+    }
+
+    private void normal() {
         this.taskExecutor.execute(() -> {
             for (int i = 0; i < 100; i++) {
                 this.sendSync(HelloKafkaConstants.KEY_NAME, String.format("Hello,Kafka.sync.%d!", i));
@@ -57,6 +62,14 @@ public class HelloKafkaProducer implements ApplicationListener<ContextRefreshedE
 
                 sleep(100);
             }
+        });
+    }
+
+    private void transaction() {
+        this.taskExecutor.execute(() -> {
+            log.info("---------------- tx ----------------.start");
+            this.sendTransaction(HelloKafkaConstants.TRANSACTION_TOPIC_NAME, HelloKafkaConstants.TRANSACTION_KEY_NAME, "Hello,Kafka.tx!");
+            log.info("---------------- tx ----------------.end");
         });
     }
 
@@ -84,6 +97,17 @@ public class HelloKafkaProducer implements ApplicationListener<ContextRefreshedE
             log.info("Succeed: rvt:[topic: [{}] offset: [{}]]", metadata.topic(), metadata.offset());
         }, (failed) -> {
             log.error("Failed", failed);
+        });
+    }
+
+    public void sendTransaction(String topic, String key, String message) {
+        this.kafkaTemplate.executeInTransaction(template -> {
+            for (int i = 0; i < 100; i++) {
+                template.send(topic, key, message + "." + i);
+                sleep(100);
+            }
+
+            return 1;
         });
     }
 }
