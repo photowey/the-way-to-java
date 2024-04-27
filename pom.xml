@@ -136,6 +136,7 @@
         <module>spi-in-action</module>
         <module>jobrunr-in-action</module>
         <module>proguard-in-action</module>
+        <module>spring-project-infras-in-action</module>
     </modules>
 
     <dependencyManagement>

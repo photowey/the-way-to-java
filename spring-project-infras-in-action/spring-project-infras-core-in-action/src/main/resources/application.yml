@@ -1,0 +1,8 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "spring-project-infras-core-in-action"
+  profiles:
+    active: dev

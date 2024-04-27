@@ -15,6 +15,7 @@
  */
 package com.photowey.common.in.action.func.lambda;
 
+import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -28,7 +29,7 @@ import java.util.function.Function;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface LambdaFunction<T, R> extends Function<T, R> {
+public interface LambdaFunction<T, R> extends Function<T, R>, Serializable {
 
     static <T, R> String resolve(LambdaFunction<T, R> fx) {
         try {
