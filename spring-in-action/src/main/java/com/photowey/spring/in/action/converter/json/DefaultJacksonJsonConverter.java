@@ -16,7 +16,6 @@
 package com.photowey.spring.in.action.converter.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,8 +28,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultJacksonJsonConverter implements JacksonJsonConverter {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    public DefaultJacksonJsonConverter(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public ObjectMapper objectMapper() {

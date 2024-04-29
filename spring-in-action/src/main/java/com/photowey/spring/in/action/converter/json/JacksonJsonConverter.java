@@ -16,10 +16,11 @@
 package com.photowey.spring.in.action.converter.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photowey.spring.in.action.ctx.getter.ObjectMapperGetter;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@code JacksonJsonConverter}
@@ -28,9 +29,7 @@ import java.util.List;
  * @date 2023/12/06
  * @since 1.0.0
  */
-public interface JacksonJsonConverter extends JsonConverter {
-
-    ObjectMapper objectMapper();
+public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter {
 
     @Override
     default <P> String toJSONString(P payload) {
@@ -58,6 +57,7 @@ public interface JacksonJsonConverter extends JsonConverter {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     default <T> T parseObject(InputStream body, Class<T> clazz) {
         try {
@@ -80,6 +80,24 @@ public interface JacksonJsonConverter extends JsonConverter {
     @Override
     default <T> List<T> parseArray(InputStream body, Class<T> clazz) {
         return this.parseObject(body, new TypeReference<List<T>>() {});
+    }
+
+    @Override
+    default <T> T toObject(Map<String, Object> map, Class<T> targetClass) {
+        try {
+            return this.objectMapper().convertValue(map, targetClass);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    default <T> Map<String, Object> toMap(T object) {
+        try {
+            return this.objectMapper().convertValue(object, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     default <T> T parseObject(String body, TypeReference<T> clazz) {
