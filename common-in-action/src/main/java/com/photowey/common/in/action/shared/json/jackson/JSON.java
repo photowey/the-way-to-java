@@ -18,7 +18,6 @@ package com.photowey.common.in.action.shared.json.jackson;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -26,7 +25,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.photowey.common.in.action.thrower.AssertionErrorThrower;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
@@ -72,15 +72,6 @@ public final class JSON {
 
     // ----------------------------------------------------------------
 
-    public interface View {
-
-        interface Public {}
-
-        interface Private {}
-    }
-
-    // ----------------------------------------------------------------
-
     public static void injectSharedObjectMapper(ObjectMapper objectMapper) {
         sharedObjectMapper = objectMapper;
     }
@@ -111,8 +102,8 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, clazz);
-        } catch (JsonProcessingException processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
@@ -126,8 +117,8 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, clazz);
-        } catch (Exception processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
@@ -141,8 +132,8 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, clazz);
-        } catch (Exception processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
@@ -156,8 +147,8 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, typeRef);
-        } catch (JsonProcessingException processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
@@ -171,8 +162,8 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, typeRef);
-        } catch (Exception processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
@@ -186,87 +177,107 @@ public final class JSON {
         checkNPE(objectMapper);
         try {
             return objectMapper.readValue(json, typeRef);
-        } catch (Exception processingException) {
-            return throwUnchecked(processingException);
+        } catch (Exception e) {
+            return throwUnchecked(e);
         }
     }
 
     // ----------------------------------------------------------------
 
-    public static <T> List<T> parseArray(byte[] json) {
-        return parseObject(json, new TypeReference<List<T>>() {});
-    }
-
-    public static <T> List<T> parseArray(byte[] json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<List<T>>() {});
-    }
-
-    // ----------------------------------------------------------------
-
-    public static <T> List<T> parseArray(InputStream json) {
-        return parseObject(json, new TypeReference<List<T>>() {});
-    }
-
-    public static <T> List<T> parseArray(InputStream json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<List<T>>() {});
-    }
-
-    // ----------------------------------------------------------------
-
-    public static <T> List<T> parseArray(String json) {
-        return parseObject(json, new TypeReference<List<T>>() {});
-    }
+    // Notes:
+    // Due to the introduction of the parameter TypeReference,
+    // the essence of the parseArray and toXxx methods is the same, just a name difference.
 
     /**
      * Parse {@code json} Array.
      *
-     * @param json  the string Array json body.
-     * @param clazz the target class.
-     * @param <T>   the target class type.
+     * @param json    the string Array json body.
+     * @param typeRef the target reference.
+     * @param <T>     the target class type.
      * @return T type.
      */
-    public static <T> List<T> parseArray(String json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<List<T>>() {});
+    public static <T> T parseArray(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T parseArray(ObjectMapper objectMapper, String json, TypeReference<T> typeRef) {
+        return parseObject(objectMapper, json, typeRef);
     }
 
     // ----------------------------------------------------------------
 
-    public static <T> List<T> toList(String json) {
-        return parseArray(json);
+    public static <T> T parseArray(byte[] json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
     }
 
-    public static <T> List<T> toList(String json, Class<T> clazz) {
-        return parseArray(json, clazz);
-    }
-
-    // ----------------------------------------------------------------
-
-    public static <T> Set<T> toSet(String json) {
-        return parseObject(json, new TypeReference<Set<T>>() {});
-    }
-
-    public static <T> Set<T> toSet(String json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<Set<T>>() {});
+    public static <T> T parseArray(ObjectMapper objectMapper, byte[] json, TypeReference<T> typeRef) {
+        return parseObject(objectMapper, json, typeRef);
     }
 
     // ----------------------------------------------------------------
 
-    public static <T> Collection<T> toCollection(String json) {
-        return parseObject(json, new TypeReference<Collection<T>>() {});
+    public static <T> T parseArray(InputStream json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
     }
 
-    public static <T> Collection<T> toCollection(String json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<Collection<T>>() {});
+    public static <T> T parseArray(ObjectMapper objectMapper, InputStream json, TypeReference<T> typeRef) {
+        return parseObject(objectMapper, json, typeRef);
     }
 
     // ----------------------------------------------------------------
 
-    public static <T> Map<String, T> toMap(String json) {
-        return parseObject(json, new TypeReference<Map<String, T>>() {});
+    public static <T> T toList(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
     }
 
-    public static <T> Map<String, T> toMap(String json, Class<T> clazz) {
-        return parseObject(json, new TypeReference<Map<String, T>>() {});
+    public static <T> T toList(byte[] json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toList(InputStream json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    // ----------------------------------------------------------------
+
+    public static <T> T toSet(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toSet(byte[] json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toSet(InputStream json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    // ----------------------------------------------------------------
+
+    public static <T> T toCollection(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toCollection(byte[] json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toCollection(InputStream json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    // ----------------------------------------------------------------
+
+    public static <T> T toMap(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toMap(byte[] json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
+    }
+
+    public static <T> T toMap(InputStream json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef);
     }
 
     // ----------------------------------------------------------------

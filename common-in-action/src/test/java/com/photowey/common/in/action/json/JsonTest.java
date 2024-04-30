@@ -15,19 +15,13 @@
  */
 package com.photowey.common.in.action.json;
 
-import com.google.common.collect.Lists;
-import com.photowey.common.in.action.shared.json.Json;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * {@code JsonTest}
@@ -50,32 +44,5 @@ class JsonTest {
         private Long id;
         private String name;
         private Integer age;
-    }
-
-    @Test
-    void testJson() {
-        Person p1 = Person.builder()
-                .id(System.currentTimeMillis())
-                .name("tom").age(18)
-                .build();
-        Person p2 = Person.builder()
-                .id(System.currentTimeMillis())
-                .name("tom").age(18)
-                .build();
-
-        String object = Json.write(p1, Person.class);
-        log.info("the json object is:{}", object);
-
-        Map<String, Object> map = Json.toMap(object);
-        log.info("the json object.map is:{}", Json.write(map));
-
-        List<Person> pn = Lists.newArrayList(p1, p2);
-        String array = Json.write(pn, Person.class);
-        log.info("the json array is:{}", array);
-
-        Assertions.assertNotNull(array);
-
-        List<Person> p11 = Json.toList(array);
-        log.info("the json array.p11 is:{}", Json.write(p11, Person.class));
     }
 }

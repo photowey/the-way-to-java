@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.photowey.spring.in.action.ctx.getter.ObjectMapperGetter;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,39 +66,6 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         }
     }
 
-    @Override
-    default <T> List<T> parseArray(String body, Class<T> clazz) {
-        return this.parseObject(body, new TypeReference<List<T>>() {});
-    }
-
-    @Override
-    default <T> List<T> parseArray(byte[] body, Class<T> clazz) {
-        return this.parseObject(body, new TypeReference<List<T>>() {});
-    }
-
-    @Override
-    default <T> List<T> parseArray(InputStream body, Class<T> clazz) {
-        return this.parseObject(body, new TypeReference<List<T>>() {});
-    }
-
-    @Override
-    default <T> T toObject(Map<String, Object> map, Class<T> targetClass) {
-        try {
-            return this.objectMapper().convertValue(map, targetClass);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    default <T> Map<String, Object> toMap(T object) {
-        try {
-            return this.objectMapper().convertValue(object, new TypeReference<Map<String, Object>>() {});
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     default <T> T parseObject(String body, TypeReference<T> clazz) {
         try {
             return this.objectMapper().readValue(body, clazz);
@@ -122,5 +88,39 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // ----------------------------------------------------------------
+
+    @Override
+    default <T> T toObject(Map<String, Object> map, Class<T> targetClass) {
+        try {
+            return this.objectMapper().convertValue(map, targetClass);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    default <T> Map<String, Object> toMap(T object) {
+        try {
+            return this.objectMapper().convertValue(object, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ----------------------------------------------------------------
+
+    default <T> T parseArray(String body, TypeReference<T> typeRef) {
+        return this.parseObject(body, typeRef);
+    }
+
+    default <T> T parseArray(byte[] body, TypeReference<T> typeRef) {
+        return this.parseObject(body, typeRef);
+    }
+
+    default <T> T parseArray(InputStream body, TypeReference<T> typeRef) {
+        return this.parseObject(body, typeRef);
     }
 }
