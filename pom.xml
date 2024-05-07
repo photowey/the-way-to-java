@@ -46,8 +46,9 @@
         <auto-pipeline.version>0.2.0</auto-pipeline.version>
         
         <nanoid.version>2.0.0</nanoid.version>
-
         <commons-collections4.version>4.3</commons-collections4.version>
+
+        <jython.version>2.7.0</jython.version>
 
         <!--  Cannot load driver class: com.mysql.cj.jdbc.Driver -->
         <mysql.version>8.0.13</mysql.version>
@@ -135,6 +136,7 @@
         <module>db-scheduler-in-action</module>
         <module>spi-in-action</module>
         <module>jobrunr-in-action</module>
+        <module>jython-in-action</module>
         <module>proguard-in-action</module>
         <module>spring-project-infras-in-action</module>
     </modules>
@@ -264,6 +266,12 @@
                 <groupId>org.gavaghan</groupId>
                 <artifactId>geodesy</artifactId>
                 <version>${geodesy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.python</groupId>
+                <artifactId>jython-standalone</artifactId>
+                <version>${jython.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
