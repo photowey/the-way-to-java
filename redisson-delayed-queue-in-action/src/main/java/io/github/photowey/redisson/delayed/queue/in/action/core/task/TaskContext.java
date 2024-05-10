@@ -21,62 +21,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
- * {@code RedissonDelayedTask}
+ * {@code TaskContext}
  *
  * @author photowey
- * @date 2024/03/01
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/05/11
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RedissonDelayedTask<P extends Serializable> implements Serializable {
+public class TaskContext<P extends Serializable> implements Serializable {
 
-    private static final long serialVersionUID = -3410279574140030355L;
+    private static final long serialVersionUID = -8411945629477188222L;
 
-    /**
-     * 队列名称
-     * |- 优先级高于全局
-     */
     private String topic;
-    /**
-     * 任务标识
-     * |- 处理自己感兴趣的任务
-     */
     private String taskId;
     private P payload;
-
-    private long delayed;
-    private String timeUnit;
-
-    public TimeUnit determineTimeUnit() {
-        return this.determineTimeUnit(() -> TimeUnit.MILLISECONDS);
-    }
-
-    public TimeUnit determineTimeUnit(Supplier<TimeUnit> fx) {
-        if (null == timeUnit) {
-            return fx.get();
-        }
-
-        return TimeUnit.valueOf(this.timeUnit);
-    }
-
-    public <T> T getGenericPayload() {
-        return (T) this.getPayload();
-    }
-
-    public long delayed() {
-        return delayed;
-    }
-
-    public void topic(String topic) {
-        this.topic = topic;
-    }
 
     public String topic() {
         return topic;

@@ -17,6 +17,8 @@ package io.github.photowey.redisson.delayed.queue.in.action.config;
 
 import io.github.photowey.redisson.delayed.queue.in.action.executor.CompositeRedissonDelayedQueueExecutor;
 import io.github.photowey.redisson.delayed.queue.in.action.executor.RedissonDelayedQueueExecutor;
+import io.github.photowey.redisson.delayed.queue.in.action.listener.CompositeRedissonDelayedQueueEventListener;
+import io.github.photowey.redisson.delayed.queue.in.action.listener.RedissonDelayedQueueBeanPostProcessor;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.DefaultRedissonDelayedQueueManager;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
@@ -34,6 +36,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
@@ -46,6 +49,9 @@ import org.springframework.util.StringUtils;
  */
 @ConditionalOnClass(RedissonClient.class)
 @AutoConfiguration(before = RedisAutoConfiguration.class)
+@Import(value = {
+        RedissonDelayedQueueBeanPostProcessor.class,
+})
 public class RedissonClientAutoConfigure {
 
     @Bean
@@ -53,7 +59,8 @@ public class RedissonClientAutoConfigure {
         return bind(environment, RedissonClientProperties.getPrefix(), RedissonClientProperties.class);
     }
 
-    @Bean(destroyMethod = "shutdown")
+    @Bean
+    @ConditionalOnMissingBean(RedissonClient.class)
     public RedissonClient redisson(RedissonClientProperties redissonProperties) {
         return this.populateRedissonClient(redissonProperties);
     }
@@ -69,7 +76,7 @@ public class RedissonClientAutoConfigure {
         return new CompositeRedissonDelayedQueueExecutor();
     }
 
-    @Bean("io.github.photowey.redisson.delayed.queue.in.action.queue.RedissonDelayedQueue")
+    @Bean
     @ConditionalOnMissingBean(RedissonDelayedQueue.class)
     public RedissonDelayedQueue redissonDelayedQueue(RedissonDelayedQueueManager manager) {
         return new CompositeRedissonDelayedQueue(manager);
@@ -79,6 +86,11 @@ public class RedissonClientAutoConfigure {
     @ConditionalOnMissingBean(RedissonDelayedQueueScheduler.class)
     public RedissonDelayedQueueScheduler redissonScheduler(RedissonDelayedQueueManager manager, RedissonDelayedQueueExecutor executor) {
         return new CompositeRedissonDelayedQueueScheduler(manager, executor);
+    }
+
+    @Bean
+    public CompositeRedissonDelayedQueueEventListener compositeRedissonDelayedQueueEventListener() {
+        return new CompositeRedissonDelayedQueueEventListener();
     }
 
     public static <T> T bind(Environment environment, String prefix, Class<T> clazz) {

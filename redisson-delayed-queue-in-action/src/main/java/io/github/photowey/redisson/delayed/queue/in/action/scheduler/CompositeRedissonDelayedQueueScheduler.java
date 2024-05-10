@@ -20,10 +20,15 @@ import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDel
 import io.github.photowey.redisson.delayed.queue.in.action.executor.RedissonDelayedQueueExecutor;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import jodd.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
 
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 /**
  * {@code CompositeRedissonDelayedQueueScheduler}
@@ -35,15 +40,30 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQueueScheduler {
 
+    private static final int THRESHOLD = 1 << 4;
+    private static final String SCHEDULER_NAME_TEMPLATE = "redisson.delayed.queue-scheduler-%d";
+
     private final RedissonDelayedQueueManager manager;
     private final RedissonDelayedQueueExecutor executor;
     private final ScheduledExecutorService watcher;
+    private final ScheduledExecutorService scheduler;
 
     public CompositeRedissonDelayedQueueScheduler(RedissonDelayedQueueManager manager, RedissonDelayedQueueExecutor executor) {
         this.manager = manager;
         this.executor = executor;
-
         this.watcher = Executors.newSingleThreadScheduledExecutor();
+
+        int size = this.topics().size();
+        int threshold = THRESHOLD;
+        if (size < threshold) {
+            threshold = size;
+        }
+
+        ThreadFactory factory = ThreadFactoryBuilder.create()
+                .setNameFormat(SCHEDULER_NAME_TEMPLATE)
+                .get();
+
+        this.scheduler = Executors.newScheduledThreadPool(threshold, factory);
     }
 
     // ----------------------------------------------------------------
@@ -56,14 +76,8 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
     // ----------------------------------------------------------------
 
     @Override
-    public String topic() {
-        return this.redissonProperties().getDelayed().getTopic();
-    }
-
-    @Override
-    public void schedule() {
-        RedissonClientProperties.DelayedQueue delayedQueue = this.redissonProperties().getDelayed();
-        this.watcher.scheduleAtFixedRate(this::watch, delayedQueue.getInitialDelay(), delayedQueue.getPeriod(), delayedQueue.getUnit());
+    public Set<String> topics() {
+        return this.redissonProperties().getDelayed().topics();
     }
 
     @Override
@@ -72,8 +86,15 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
     }
 
     @Override
+    public void schedule() {
+        RedissonClientProperties.DelayedQueue delayedQueue = this.redissonProperties().getDelayed();
+        this.watcher.scheduleAtFixedRate(this::tick, delayedQueue.getInitialDelay(), delayedQueue.getPeriod(), delayedQueue.getUnit());
+    }
+
+    @Override
     public void stop() {
         this.watcher.shutdown();
+        this.scheduler.shutdown();
     }
 
     // ----------------------------------------------------------------
@@ -81,28 +102,32 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
     @Override
     public void destroy() throws Exception {
         this.stop();
-        QueuePair pair = this.manager.tryAcquirePair(this.topic());
-        pair.destroy();
+        this.manager.tryAcquirePairs().forEach(QueuePair::destroy);
     }
 
     // ----------------------------------------------------------------
 
-    private void watch() {
-        try {
-            this.run();
-        } catch (Exception e) {
-            log.error("handle.redisson.delayed.queue.watch.failed", e);
-        }
+    private void tick() {
+        this.advance();
     }
 
-    public void run() {
-        QueuePair pair = this.manager.tryAcquirePair(this.topic());
+    public void advance() {
+        this.topics().forEach(topic -> {
+            this.scheduler.execute(() -> {
+                QueuePair pair = this.manager.tryAcquirePair(topic);
+                if (!ObjectUtils.isEmpty(pair)) {
+                    this.scheduleTopic(pair);
+                }
+            });
+        });
+    }
 
+    private void scheduleTopic(QueuePair pair) {
         try {
-            RedissonDelayedTask<?> delayedTask = pair.blockingQueue().take();
-            this.executor.execute(delayedTask);
-        } catch (Throwable e) {
-            Thread.currentThread().interrupt();
-        }
+            RedissonDelayedTask<?> delayedTask = null;
+            while (null != (delayedTask = pair.blockingQueue().poll(100, TimeUnit.MILLISECONDS))) {
+                this.executor.execute(delayedTask);
+            }
+        } catch (Throwable ignored) {}
     }
 }

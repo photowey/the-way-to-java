@@ -17,6 +17,7 @@ package io.github.photowey.redisson.delayed.queue.in.action.manager;
 
 import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
+import io.github.photowey.redisson.delayed.queue.in.action.listener.CompositeRedissonDelayedQueueEventListener;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.DelayedQueue;
 import io.github.photowey.redisson.delayed.queue.in.action.scheduler.RedissonDelayedQueueScheduler;
@@ -26,6 +27,10 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -80,17 +85,20 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
     // ----------------------------------------------------------------
 
     public void init() {
-        String topic = this.redissonProperties().getDelayed().getTopic();
-        RBlockingDeque<RedissonDelayedTask<?>> blockingQueue = this.redisson().getBlockingDeque(topic);
-        RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = this.redisson().getDelayedQueue(blockingQueue);
+        Set<String> topics = this.redissonProperties().getDelayed().topics();
 
-        QueuePair pair = QueuePair.builder()
-                .topic(topic)
-                .blockingQueue(blockingQueue)
-                .delayedQueue(delayedQueue)
-                .build();
+        for (String topicx : topics) {
+            RBlockingDeque<RedissonDelayedTask<?>> blockingQueue = this.redisson().getBlockingDeque(topicx);
+            RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = this.redisson().getDelayedQueue(blockingQueue);
 
-        this.registerPair(pair);
+            QueuePair pair = QueuePair.builder()
+                    .topic(topicx)
+                    .blockingQueue(blockingQueue)
+                    .delayedQueue(delayedQueue)
+                    .build();
+
+            this.registerPair(pair);
+        }
     }
 
     @Override
@@ -109,17 +117,42 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
         return this.ctx.get(topic);
     }
 
+    // ----------------------------------------------------------------
+
     @Override
-    public boolean contains(String topic) {
-        return this.ctx.containsKey(topic);
+    public boolean topicContains(String topic) {
+        if (this.ctx.containsKey(topic)) {
+            return true;
+        }
+
+        return this.determineIsTopicContains(topic);
     }
+
+    @Override
+    public boolean taskContains(String taskId) {
+        return this.determineIsTaskContains(taskId);
+    }
+
+    // ----------------------------------------------------------------
+
+    @Override
+    public boolean removeTask(String taskId) {
+        return this.tryRemoveTask(taskId);
+    }
+
+    // ----------------------------------------------------------------
 
     @Override
     public QueuePair registerPair(QueuePair pair) {
         String topic = pair.topic();
+
         QueuePair image = this.pairs.get(topic);
         if (null == image) {
-            return this.pairs.computeIfAbsent(topic, (x) -> pair);
+            return this.pairs.computeIfAbsent(topic, (x) -> {
+                this.registerTopic(topic);
+
+                return pair;
+            });
         }
 
         return image;
@@ -131,7 +164,37 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
     }
 
     @Override
+    public List<QueuePair> tryAcquirePairs() {
+        return Collections.unmodifiableList(new ArrayList<>(this.pairs.values()));
+    }
+
+    @Override
     public RedissonDelayedQueueScheduler redissonScheduler() {
         return this.beanFactory.getBean(RedissonDelayedQueueScheduler.class);
+    }
+
+    @Override
+    public CompositeRedissonDelayedQueueEventListener redissonEventListener() {
+        return this.beanFactory.getBean(CompositeRedissonDelayedQueueEventListener.class);
+    }
+
+    private void registerTopic(String topic) {
+        String topicSet = this.redissonProperties().getDelayed().getReport().getTopicSet();
+        this.redisson().getSetCache(topicSet).add(topic);
+    }
+
+    private boolean determineIsTopicContains(String topic) {
+        String topicSet = this.redissonProperties().getDelayed().getReport().getTopicSet();
+        return this.redisson().getSetCache(topicSet).contains(topic);
+    }
+
+    private boolean determineIsTaskContains(String taskId) {
+        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
+        return this.redisson().getSetCache(taskSet).contains(taskId);
+    }
+
+    private boolean tryRemoveTask(String taskId) {
+        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
+        return this.redisson().getSetCache(taskSet).remove(taskId);
     }
 }

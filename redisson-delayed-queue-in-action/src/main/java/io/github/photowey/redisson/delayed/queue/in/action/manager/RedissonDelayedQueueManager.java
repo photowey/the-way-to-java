@@ -16,10 +16,13 @@
 package io.github.photowey.redisson.delayed.queue.in.action.manager;
 
 import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
+import io.github.photowey.redisson.delayed.queue.in.action.listener.CompositeRedissonDelayedQueueEventListener;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.scheduler.RedissonDelayedQueueScheduler;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+
+import java.util.List;
 
 /**
  * {@code RedissonDelayedQueueManager}
@@ -38,5 +41,9 @@ public interface RedissonDelayedQueueManager extends DelayedQueueManager, SmartI
 
     QueuePair tryAcquirePair(String topic);
 
+    List<QueuePair> tryAcquirePairs();
+
     RedissonDelayedQueueScheduler redissonScheduler();
+
+    CompositeRedissonDelayedQueueEventListener redissonEventListener();
 }

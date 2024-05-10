@@ -31,5 +31,13 @@ public interface DelayedQueueManager extends BeanFactoryPostProcessor {
 
     DelayedQueue tryAcquire(String topic);
 
-    boolean contains(String topic);
+    // ----------------------------------------------------------------
+
+    boolean topicContains(String topic);
+
+    boolean taskContains(String taskId);
+
+    // ----------------------------------------------------------------
+
+    boolean removeTask(String taskId);
 }

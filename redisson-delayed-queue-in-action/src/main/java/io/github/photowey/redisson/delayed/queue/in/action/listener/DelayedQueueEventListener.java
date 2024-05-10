@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.redisson.delayed.queue.in.action.scheduler;
+package io.github.photowey.redisson.delayed.queue.in.action.listener;
 
-import org.springframework.beans.factory.DisposableBean;
-
-import java.util.Set;
+import io.github.photowey.redisson.delayed.queue.in.action.core.task.TaskContext;
+import org.springframework.core.Ordered;
 
 /**
- * {@code DelayedQueueScheduler}
+ * {@code DelayedQueueEventListener}
  *
  * @author photowey
- * @date 2024/03/09
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/05/10
  */
-public interface DelayedQueueScheduler extends DisposableBean {
+public interface DelayedQueueEventListener extends Ordered {
 
-    Set<String> topics();
+    boolean supports(TaskContext<?> ctx);
 
-    void start();
+    void handle(TaskContext<?> ctx);
 
-    void schedule();
-
-    void stop();
+    @Override
+    default int getOrder() {
+        return 0;
+    }
 }

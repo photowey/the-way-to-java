@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.redisson.delayed.queue.in.action.scheduler;
+package io.github.photowey.redisson.delayed.queue.in.action.getter;
 
-import org.springframework.beans.factory.DisposableBean;
-
-import java.util.Set;
+import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
 
 /**
- * {@code DelayedQueueScheduler}
+ * {@code RedissonDelayedQueueManagerGetter}
  *
  * @author photowey
- * @date 2024/03/09
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/05/11
  */
-public interface DelayedQueueScheduler extends DisposableBean {
+public interface RedissonDelayedQueueManagerGetter {
 
-    Set<String> topics();
-
-    void start();
-
-    void schedule();
-
-    void stop();
+    RedissonDelayedQueueManager manager();
 }

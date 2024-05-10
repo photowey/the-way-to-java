@@ -16,6 +16,7 @@
 package io.github.photowey.redisson.delayed.queue.in.action.event;
 
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
+import io.github.photowey.redisson.delayed.queue.in.action.core.task.TaskContext;
 import org.springframework.context.ApplicationEvent;
 
 import java.io.Serializable;
@@ -35,5 +36,14 @@ public class RedissonDelayedTaskEvent extends ApplicationEvent {
 
     public <T extends Serializable> RedissonDelayedTask<T> getTask() {
         return (RedissonDelayedTask<T>) this.getSource();
+    }
+
+    public TaskContext<?> toTaskContext() {
+        RedissonDelayedTask<Serializable> task = this.getTask();
+        return TaskContext.builder()
+                .topic(task.topic())
+                .taskId(task.taskId())
+                .payload(task.payload())
+                .build();
     }
 }

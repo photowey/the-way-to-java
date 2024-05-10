@@ -18,6 +18,7 @@ package io.github.photowey.redisson.delayed.queue.in.action.executor;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.event.RedissonDelayedTaskEvent;
 import io.github.photowey.redisson.delayed.queue.in.action.getter.ApplicationContextGetter;
+import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -49,6 +50,11 @@ public class CompositeRedissonDelayedQueueExecutor implements RedissonDelayedQue
 
     @Override
     public <P extends Serializable> void execute(RedissonDelayedTask<P> task) {
-        this.applicationContext.publishEvent(new RedissonDelayedTaskEvent(task));
+        //this.applicationContext.publishEvent(new RedissonDelayedTaskEvent(task));
+        this.manager().redissonEventListener().onEvent(new RedissonDelayedTaskEvent(task));
+    }
+
+    public RedissonDelayedQueueManager manager() {
+        return this.applicationContext.getBean(RedissonDelayedQueueManager.class);
     }
 }

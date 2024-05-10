@@ -21,7 +21,7 @@ spring:
         min-idle: 4
     client:
       redisson:
-        enabled: true
+        enabled: false
         mode: SINGLE
         address: "redis://${local.config.redis.host}:${local.config.redis.port}"
         password: "${local.config.redis.password}"
@@ -29,10 +29,15 @@ spring:
         database: 0
         timeout: 10_000
         delayed:
-          topic: "io.github.photowey.delayed.queue.redisson.topic"
+          topic: "io.github.photowey:global:redisson:delayedqueue:topic"
+          topics:
+            - "io.github.photowey:hello:world:delayed:query:delayedqueue:topic"
           initial-delay: 0
           period: 1
-          unit: SECONDS
+          unit: "SECONDS"
+          report:
+            topic-set: "io.github.photowey:global:redisson:delayed:queue:topicset"
+            task-set: "io.github.photowey:global:redisson:delayed:queue:taskset"
 
 logging:
   pattern:

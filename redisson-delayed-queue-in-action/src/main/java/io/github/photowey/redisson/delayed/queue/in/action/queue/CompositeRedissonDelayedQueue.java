@@ -23,6 +23,8 @@ import org.redisson.api.RDelayedQueue;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 
@@ -72,9 +74,22 @@ public class CompositeRedissonDelayedQueue implements RedissonDelayedQueue {
 
     @Override
     public <P extends Serializable> void offer(RedissonDelayedTask<P> task) {
-        QueuePair pair = this.manager().tryAcquirePair(this.topic());
-        RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = pair.delayedQueue();
+        String topic = StringUtils.hasText(task.topic()) ? task.topic() : this.topic();
+        task.topic(topic);
 
-        delayedQueue.offer(task, task.getDelayed(), task.determineTimeUnit());
+        QueuePair pair = this.manager().tryAcquirePair(topic);
+        if (ObjectUtils.isEmpty(pair)) {
+            throw new RuntimeException("Unknown topic:" + topic);
+        }
+
+        RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = pair.delayedQueue();
+        delayedQueue.offer(task, task.delayed(), task.determineTimeUnit());
+
+        this.registerTask(task.taskId());
+    }
+
+    private void registerTask(String taskId) {
+        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
+        this.redisson().getSetCache(taskSet).add(taskId);
     }
 }

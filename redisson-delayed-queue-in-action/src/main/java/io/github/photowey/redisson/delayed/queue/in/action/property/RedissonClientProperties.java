@@ -18,8 +18,11 @@ package io.github.photowey.redisson.delayed.queue.in.action.property;
 import io.github.photowey.redisson.delayed.queue.in.action.core.enums.RedisModeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,9 +53,29 @@ public class RedissonClientProperties {
     public static class DelayedQueue implements Serializable {
 
         private String topic;
+        private Set<String> topics = new HashSet<>();
         private long initialDelay = 0;
         private long period = 1;
         private TimeUnit unit = TimeUnit.SECONDS;
+        private DelayedReport report = new DelayedReport();
+
+        public Set<String> topics() {
+            Set<String> topics = new HashSet<>(this.topics);
+            if (!ObjectUtils.isEmpty(topic)) {
+                topics.add(topic);
+            }
+
+            return topics;
+        }
+    }
+
+    @Data
+    public static class DelayedReport implements Serializable {
+
+        private static final long serialVersionUID = -662198986634128016L;
+
+        private String topicSet = "delayed:queue:redisson:report:topic:set";
+        private String taskSet = "delayed:queue:redisson:report:task:set";
     }
 
     public static String getPrefix() {
