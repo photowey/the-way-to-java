@@ -21,6 +21,8 @@ import io.github.photowey.redisson.delayed.queue.in.action.listener.CompositeRed
 import io.github.photowey.redisson.delayed.queue.in.action.listener.RedissonDelayedQueueBeanPostProcessor;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.DefaultRedissonDelayedQueueManager;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
+import io.github.photowey.redisson.delayed.queue.in.action.pattern.DefaultDelayedAntPathMatcher;
+import io.github.photowey.redisson.delayed.queue.in.action.pattern.DelayedAntPathMatcher;
 import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.CompositeRedissonDelayedQueue;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.RedissonDelayedQueue;
@@ -91,6 +93,12 @@ public class RedissonClientAutoConfigure {
     @Bean
     public CompositeRedissonDelayedQueueEventListener compositeRedissonDelayedQueueEventListener() {
         return new CompositeRedissonDelayedQueueEventListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DelayedAntPathMatcher.class)
+    public DelayedAntPathMatcher delayedAntPathMatcher() {
+        return new DefaultDelayedAntPathMatcher(true);
     }
 
     public static <T> T bind(Environment environment, String prefix, Class<T> clazz) {

@@ -19,6 +19,7 @@ import com.photowey.common.in.action.shared.json.jackson.JSON;
 import io.github.photowey.redisson.delayed.queue.in.action.App;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.TaskContext;
+import io.github.photowey.redisson.delayed.queue.in.action.listener.AbstractAntDelayedQueueEventListener;
 import io.github.photowey.redisson.delayed.queue.in.action.listener.DelayedQueueEventListener;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.RedissonDelayedQueue;
 import lombok.AllArgsConstructor;
@@ -160,6 +161,61 @@ class RedissonDelayedQueueTests {
         sleep(12_000);
     }
 
+    /**
+     * Ant 匹配模式
+     */
+    @Test
+    void testRedissonDelayedQueue_payload_ant_single_listener() {
+        RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
+
+        for (int i = 0; i < 2; i++) {
+            HelloPayload payload = HelloPayload.builder()
+                    .id(1760223724043808770L)
+                    .name("王大锤" + (i + 1))
+                    .age(18 + i)
+                    .build();
+
+            RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
+                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
+                    // io.github.photowey.ant.*
+                    .taskId("io.github.photowey.ant.hello.world." + (i + 1))
+                    .payload(payload)
+                    .delayed((i + 1) * 5)
+                    .timeUnit(TimeUnit.SECONDS.name())
+                    .build();
+
+            delayedQueue.offer(task);
+        }
+
+        sleep(12_000);
+    }
+
+    @Test
+    void testRedissonDelayedQueue_payload_ant_multi_listener() {
+        RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
+
+        for (int i = 0; i < 2; i++) {
+            HelloPayload payload = HelloPayload.builder()
+                    .id(1760223724043808770L)
+                    .name("王大锤" + (i + 1))
+                    .age(18 + i)
+                    .build();
+
+            RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
+                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
+                    // io.github.photowey.ant.#
+                    .taskId("io.github.photowey.ant." + (i + 1))
+                    .payload(payload)
+                    .delayed((i + 1) * 5)
+                    .timeUnit(TimeUnit.SECONDS.name())
+                    .build();
+
+            delayedQueue.offer(task);
+        }
+
+        sleep(12_000);
+    }
+
     @Configuration
     public static class RedissonDelayedQueueEventListenerConfigure {
 
@@ -186,6 +242,16 @@ class RedissonDelayedQueueTests {
         @Bean
         public SingleDelayedQueueEventListener singleDelayedQueueEventListener() {
             return new SingleDelayedQueueEventListener();
+        }
+
+        @Bean
+        public AntSingleDelayedQueueEventListener antSingleDelayedQueueEventListener() {
+            return new AntSingleDelayedQueueEventListener();
+        }
+
+        @Bean
+        public AntMultiDelayedQueueEventListener antMultiDelayedQueueEventListener() {
+            return new AntMultiDelayedQueueEventListener();
         }
     }
 
@@ -291,6 +357,48 @@ class RedissonDelayedQueueTests {
         public void handle(TaskContext<?> ctx) {
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: custom.topic.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+        }
+    }
+
+    @Slf4j
+    public static class AntSingleDelayedQueueEventListener extends AbstractAntDelayedQueueEventListener {
+
+        @Override
+        public int getOrder() {
+            return Ordered.HIGHEST_PRECEDENCE + 300;
+        }
+
+        @Override
+        public boolean supports(TaskContext<?> ctx) {
+            return this.matches("io.github.photowey:hello:world:*", ctx.topic())
+                    && this.matches("io.github.photowey.ant.#", ctx.taskId());
+        }
+
+        @Override
+        public void handle(TaskContext<?> ctx) {
+            HelloPayload payload = (HelloPayload) ctx.getPayload();
+            log.info("json.generic: ant.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+        }
+    }
+
+    @Slf4j
+    public static class AntMultiDelayedQueueEventListener extends AbstractAntDelayedQueueEventListener {
+
+        @Override
+        public int getOrder() {
+            return Ordered.HIGHEST_PRECEDENCE + 300;
+        }
+
+        @Override
+        public boolean supports(TaskContext<?> ctx) {
+            return this.matches("io.github.photowey:hello:world:*", ctx.topic())
+                    && this.matches("io.github.photowey.ant.*", ctx.taskId());
+        }
+
+        @Override
+        public void handle(TaskContext<?> ctx) {
+            HelloPayload payload = (HelloPayload) ctx.getPayload();
+            log.info("json.generic: ant.multi.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
     }
 
