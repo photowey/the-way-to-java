@@ -27,7 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -36,6 +36,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -46,8 +49,12 @@ import java.util.concurrent.TimeUnit;
  * @date 2024/03/14
  * @since 1.0.0
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(classes = {App.class, RedissonDelayedQueueTests.RedissonDelayedQueueEventListenerConfigure.class})
 class RedissonDelayedQueueTests {
+
+    @Autowired
+    private Counter counter;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -57,7 +64,31 @@ class RedissonDelayedQueueTests {
     }
 
     @Test
+    @Order(1)
+    void testRedissonDelayedQueue_max_delayed() {
+        this.counter.clean();
+
+        RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
+        RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
+                .taskId("hello.redisson.delayqueue")
+                .payload("hello.redisson.delayqueue")
+                // Config: 7 days
+                .delayed(TimeUnit.DAYS.toMillis(8))
+                .timeUnit(TimeUnit.SECONDS.name())
+                .build();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            delayedQueue.offer(task);
+        });
+
+        Assertions.assertEquals(0, this.counter.registers().size());
+    }
+
+    @Test
+    @Order(2)
     void testRedissonDelayedQueue_string_payload() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
         for (int i = 0; i < 2; i++) {
             RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
@@ -71,14 +102,16 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(5_000);
+
+        Assertions.assertEquals(1, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(DefaultTopicStringPayloadDelayedQueueEventListener.class.getSimpleName()));
     }
 
-    /**
-     * 不定义 topic
-     * |- 走全局 topic
-     */
     @Test
+    @Order(3)
     void testRedissonDelayedQueue_body_payload_default_topic() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
 
         String prefix = UUID.randomUUID().toString().replaceAll("-", "");
@@ -86,7 +119,7 @@ class RedissonDelayedQueueTests {
         for (int i = 0; i < 2; i++) {
             HelloPayload payload = HelloPayload.builder()
                     .id(1760223724043808770L)
-                    .name("王大锤" + (i + 1))
+                    .name("photowey" + (i + 1))
                     .age(18 + i)
                     .build();
 
@@ -101,26 +134,27 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(12_000);
+        Assertions.assertEquals(1, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(DefaultTopicDelayedQueueEventListener.class.getSimpleName()));
     }
 
-    /**
-     * 定义 topic
-     * |- 定义 多播 task
-     */
     @Test
+    @Order(4)
     void testRedissonDelayedQueue_body_payload_topic_and_task_with_multi_listener() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
 
         for (int i = 0; i < 2; i++) {
             HelloPayload payload = HelloPayload.builder()
                     .id(1760223724043808770L)
-                    .name("王大锤" + (i + 1))
+                    .name("photowey" + (i + 1))
                     .age(18 + i)
                     .build();
 
             RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
-                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
-                    .taskId("io.github.photowey.delayed.queue" + "." + (i + 1))
+                    .topic("io.github.photowey.hello.world.delayed.query.delayqueue.topic")
+                    .taskId("io.github.photowey.hello.world" + "." + (i + 1))
                     .payload(payload)
                     .delayed((i + 1) * 5)
                     .timeUnit(TimeUnit.SECONDS.name())
@@ -130,25 +164,27 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(12_000);
+        Assertions.assertEquals(2, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(Multi1DelayedQueueEventListener.class.getSimpleName()));
+        Assertions.assertTrue(this.counter.registers().contains(Multi2DelayedQueueEventListener.class.getSimpleName()));
     }
 
-    /**
-     * 定义 topic
-     * |- 定义 单播 task
-     */
     @Test
+    @Order(5)
     void testRedissonDelayedQueue_body_payload_topic_and_task_with_single_listener() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
 
         for (int i = 0; i < 2; i++) {
             HelloPayload payload = HelloPayload.builder()
                     .id(1760223724043808770L)
-                    .name("王大锤" + (i + 1))
+                    .name("photowey" + (i + 1))
                     .age(18 + i)
                     .build();
 
             RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
-                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
+                    .topic("io.github.photowey.hello.world.delayed.query.delayqueue.topic")
                     .taskId("io.github.photowey.delayed.queue.single." + (i + 1))
                     .payload(payload)
                     .delayed((i + 1) * 5)
@@ -159,24 +195,26 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(12_000);
+        Assertions.assertEquals(1, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(SingleDelayedQueueEventListener.class.getSimpleName()));
     }
 
-    /**
-     * Ant 匹配模式
-     */
     @Test
-    void testRedissonDelayedQueue_payload_ant_single_listener() {
+    @Order(6)
+    void testRedissonDelayedQueue_payload_ant_multi_world_listener() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
 
         for (int i = 0; i < 2; i++) {
             HelloPayload payload = HelloPayload.builder()
                     .id(1760223724043808770L)
-                    .name("王大锤" + (i + 1))
+                    .name("photowey" + (i + 1))
                     .age(18 + i)
                     .build();
 
             RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
-                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
+                    .topic("io.github.photowey.hello.world.delayed.query.delayqueue.topic")
                     // io.github.photowey.ant.*
                     .taskId("io.github.photowey.ant.hello.world." + (i + 1))
                     .payload(payload)
@@ -188,21 +226,26 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(12_000);
+        Assertions.assertEquals(1, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(AntMultiDelayedQueueEventListener.class.getSimpleName()));
     }
 
     @Test
-    void testRedissonDelayedQueue_payload_ant_multi_listener() {
+    @Order(7)
+    void testRedissonDelayedQueue_payload_ant_single_world_listener() {
+        this.counter.clean();
+
         RedissonDelayedQueue delayedQueue = this.applicationContext().getBean(RedissonDelayedQueue.class);
 
         for (int i = 0; i < 2; i++) {
             HelloPayload payload = HelloPayload.builder()
                     .id(1760223724043808770L)
-                    .name("王大锤" + (i + 1))
+                    .name("photowey" + (i + 1))
                     .age(18 + i)
                     .build();
 
             RedissonDelayedTask<Serializable> task = RedissonDelayedTask.builder()
-                    .topic("io.github.photowey:hello:world:delayed:query:delayedqueue:topic")
+                    .topic("io.github.photowey.hello.world.delayed.query.delayqueue.topic")
                     // io.github.photowey.ant.#
                     .taskId("io.github.photowey.ant." + (i + 1))
                     .payload(payload)
@@ -214,10 +257,18 @@ class RedissonDelayedQueueTests {
         }
 
         sleep(12_000);
+        Assertions.assertEquals(2, this.counter.registers().size());
+        Assertions.assertTrue(this.counter.registers().contains(AntSingleDelayedQueueEventListener.class.getSimpleName()));
+        Assertions.assertTrue(this.counter.registers().contains(AntMultiDelayedQueueEventListener.class.getSimpleName()));
     }
 
     @Configuration
     public static class RedissonDelayedQueueEventListenerConfigure {
+
+        @Bean
+        public Counter counter() {
+            return new Counter();
+        }
 
         @Bean
         public DefaultTopicStringPayloadDelayedQueueEventListener defaultTopicStringPayloadDelayedQueueEventListener() {
@@ -255,8 +306,28 @@ class RedissonDelayedQueueTests {
         }
     }
 
+    public static class Counter {
+
+        private final Set<String> listeners = new HashSet<>();
+
+        public void clean() {
+            this.listeners.clear();
+        }
+
+        public void register(String listener) {
+            this.listeners.add(listener);
+        }
+
+        public Set<String> registers() {
+            return Collections.unmodifiableSet(this.listeners);
+        }
+    }
+
     @Slf4j
     public static class DefaultTopicStringPayloadDelayedQueueEventListener implements DelayedQueueEventListener {
+
+        @Autowired
+        private Counter counter;
 
         @Override
         public int getOrder() {
@@ -265,12 +336,14 @@ class RedissonDelayedQueueTests {
 
         @Override
         public boolean supports(TaskContext<?> ctx) {
-            return ctx.topic().equals("io.github.photowey:global:redisson:delayedqueue:topic")
+            return ctx.topic().equals("io.github.photowey.global.redisson.delayqueue.topic")
                     && ctx.getPayload() instanceof String;
         }
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             String payload = (String) ctx.getPayload();
             log.info("json.generic: default.topic.string.payload.listener:[{},{}]", ctx.taskId(), payload);
         }
@@ -279,6 +352,9 @@ class RedissonDelayedQueueTests {
     @Slf4j
     public static class DefaultTopicDelayedQueueEventListener implements DelayedQueueEventListener {
 
+        @Autowired
+        private Counter counter;
+
         @Override
         public int getOrder() {
             return Ordered.HIGHEST_PRECEDENCE;
@@ -286,12 +362,14 @@ class RedissonDelayedQueueTests {
 
         @Override
         public boolean supports(TaskContext<?> ctx) {
-            return ctx.topic().equals("io.github.photowey:global:redisson:delayedqueue:topic")
+            return ctx.topic().equals("io.github.photowey.global.redisson.delayqueue.topic")
                     && !(ctx.getPayload() instanceof String);
         }
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: default.topic.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
@@ -300,6 +378,9 @@ class RedissonDelayedQueueTests {
     @Slf4j
     public static class Multi1DelayedQueueEventListener implements DelayedQueueEventListener {
 
+        @Autowired
+        private Counter counter;
+
         @Override
         public int getOrder() {
             return Ordered.HIGHEST_PRECEDENCE + 100;
@@ -307,12 +388,14 @@ class RedissonDelayedQueueTests {
 
         @Override
         public boolean supports(TaskContext<?> ctx) {
-            return ctx.topic().startsWith("io:github:photowey:delayed:queue")
-                    && ctx.taskId().startsWith("io.github.photowey.delayed.queue");
+            return ctx.topic().startsWith("io.github.photowey.hello.world")
+                    && ctx.taskId().startsWith("io.github.photowey.hello.world");
         }
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: custom.topic.multi1.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
@@ -321,6 +404,9 @@ class RedissonDelayedQueueTests {
     @Slf4j
     public static class Multi2DelayedQueueEventListener implements DelayedQueueEventListener {
 
+        @Autowired
+        private Counter counter;
+
         @Override
         public int getOrder() {
             return Ordered.HIGHEST_PRECEDENCE + 200;
@@ -328,12 +414,14 @@ class RedissonDelayedQueueTests {
 
         @Override
         public boolean supports(TaskContext<?> ctx) {
-            return ctx.topic().startsWith("io:github:photowey:delayed:queue")
-                    && ctx.taskId().startsWith("io.github.photowey.delayed.queue");
+            return ctx.topic().startsWith("io.github.photowey.hello.world")
+                    && ctx.taskId().startsWith("io.github.photowey.hello.world");
         }
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: custom.topic.multi2.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
@@ -342,6 +430,9 @@ class RedissonDelayedQueueTests {
     @Slf4j
     public static class SingleDelayedQueueEventListener implements DelayedQueueEventListener {
 
+        @Autowired
+        private Counter counter;
+
         @Override
         public int getOrder() {
             return Ordered.HIGHEST_PRECEDENCE + 300;
@@ -349,12 +440,14 @@ class RedissonDelayedQueueTests {
 
         @Override
         public boolean supports(TaskContext<?> ctx) {
-            return ctx.topic().startsWith("io:github:photowey:delayed:queue")
+            return ctx.topic().startsWith("io.github.photowey.hello.world")
                     && ctx.taskId().startsWith("io.github.photowey.delayed.queue.single");
         }
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: custom.topic.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
@@ -362,6 +455,9 @@ class RedissonDelayedQueueTests {
 
     @Slf4j
     public static class AntSingleDelayedQueueEventListener extends AbstractAntDelayedQueueEventListener {
+
+        @Autowired
+        private Counter counter;
 
         @Override
         public int getOrder() {
@@ -376,6 +472,8 @@ class RedissonDelayedQueueTests {
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: ant.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }
@@ -383,6 +481,9 @@ class RedissonDelayedQueueTests {
 
     @Slf4j
     public static class AntMultiDelayedQueueEventListener extends AbstractAntDelayedQueueEventListener {
+
+        @Autowired
+        private Counter counter;
 
         @Override
         public int getOrder() {
@@ -397,6 +498,8 @@ class RedissonDelayedQueueTests {
 
         @Override
         public void handle(TaskContext<?> ctx) {
+            this.counter.register(this.getClass().getSimpleName());
+
             HelloPayload payload = (HelloPayload) ctx.getPayload();
             log.info("json.generic: ant.multi.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
         }

@@ -17,7 +17,7 @@ package io.github.photowey.redisson.delayed.queue.in.action.queue;
 
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 import org.redisson.api.RedissonClient;
 
 import java.io.Serializable;
@@ -37,7 +37,9 @@ public interface RedissonDelayedQueue extends DelayedQueue {
         return this.manager().redisson();
     }
 
-    RedissonClientProperties redissonProperties();
+    RedissonProperties redissonProperties();
+
+    void registerTask(String taskId);
 
     <P extends Serializable> void offer(RedissonDelayedTask<P> task);
 }

@@ -18,7 +18,7 @@ package io.github.photowey.redisson.delayed.queue.in.action.manager;
 import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.listener.CompositeRedissonDelayedQueueEventListener;
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.DelayedQueue;
 import io.github.photowey.redisson.delayed.queue.in.action.scheduler.RedissonDelayedQueueScheduler;
 import org.redisson.api.RBlockingDeque;
@@ -71,8 +71,8 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
     // ----------------------------------------------------------------
 
     @Override
-    public RedissonClientProperties redissonProperties() {
-        return this.beanFactory.getBean(RedissonClientProperties.class);
+    public RedissonProperties redissonProperties() {
+        return this.beanFactory.getBean(RedissonProperties.class);
     }
 
     // ----------------------------------------------------------------
@@ -178,23 +178,25 @@ public class DefaultRedissonDelayedQueueManager implements RedissonDelayedQueueM
         return this.beanFactory.getBean(CompositeRedissonDelayedQueueEventListener.class);
     }
 
+    // ----------------------------------------------------------------
+
     private void registerTopic(String topic) {
-        String topicSet = this.redissonProperties().getDelayed().getReport().getTopicSet();
+        String topicSet = this.redissonProperties().delayed().registry().topicSet();
         this.redisson().getSetCache(topicSet).add(topic);
     }
 
     private boolean determineIsTopicContains(String topic) {
-        String topicSet = this.redissonProperties().getDelayed().getReport().getTopicSet();
+        String topicSet = this.redissonProperties().delayed().registry().topicSet();
         return this.redisson().getSetCache(topicSet).contains(topic);
     }
 
     private boolean determineIsTaskContains(String taskId) {
-        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
+        String taskSet = this.redissonProperties().delayed().registry().taskSet();
         return this.redisson().getSetCache(taskSet).contains(taskId);
     }
 
     private boolean tryRemoveTask(String taskId) {
-        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
+        String taskSet = this.redissonProperties().delayed().registry().taskSet();
         return this.redisson().getSetCache(taskSet).remove(taskId);
     }
 }

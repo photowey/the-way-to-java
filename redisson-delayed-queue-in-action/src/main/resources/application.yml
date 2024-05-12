@@ -29,15 +29,21 @@ spring:
         database: 0
         timeout: 10_000
         delayed:
-          topic: "io.github.photowey:global:redisson:delayedqueue:topic"
+          # 7 DAYS
+          max: 604_800_000
+          topic: "io.github.photowey.global.redisson.delayqueue.topic"
           topics:
-            - "io.github.photowey:hello:world:delayed:query:delayedqueue:topic"
-          initial-delay: 0
-          period: 1
-          unit: "SECONDS"
-          report:
-            topic-set: "io.github.photowey:global:redisson:delayed:queue:topicset"
-            task-set: "io.github.photowey:global:redisson:delayed:queue:taskset"
+            - "io.github.photowey.hello.world.delayed.query.delayqueue.topic"
+          ticker:
+            initial-delay: 0
+            period: 5
+            unit: "SECONDS"
+          poll:
+            timeout: 2
+            unit: "SECONDS"
+          registry:
+            topic-set: "io:github:photowey:global:redisson:delayqueue:topicset"
+            task-set: "io:github:photowey:global:redisson:delayqueue:taskset"
 
 logging:
   pattern:

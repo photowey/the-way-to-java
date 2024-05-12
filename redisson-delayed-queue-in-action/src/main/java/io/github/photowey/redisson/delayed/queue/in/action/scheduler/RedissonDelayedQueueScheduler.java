@@ -15,7 +15,7 @@
  */
 package io.github.photowey.redisson.delayed.queue.in.action.scheduler;
 
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 
 /**
  * {@code RedissonDelayedQueueScheduler}
@@ -26,6 +26,6 @@ import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClie
  */
 public interface RedissonDelayedQueueScheduler extends DelayedQueueScheduler {
 
-    RedissonClientProperties redissonProperties();
+    RedissonProperties redissonProperties();
 
 }

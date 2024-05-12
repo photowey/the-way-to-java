@@ -18,7 +18,7 @@ package io.github.photowey.redisson.delayed.queue.in.action.queue;
 import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 import org.redisson.api.RDelayedQueue;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -61,7 +61,7 @@ public class CompositeRedissonDelayedQueue implements RedissonDelayedQueue {
     }
 
     @Override
-    public RedissonClientProperties redissonProperties() {
+    public RedissonProperties redissonProperties() {
         return this.manager.redissonProperties();
     }
 
@@ -73,23 +73,43 @@ public class CompositeRedissonDelayedQueue implements RedissonDelayedQueue {
     }
 
     @Override
+    public void registerTask(String taskId) {
+        String taskSet = this.redissonProperties().delayed().registry().taskSet();
+        this.redisson().getSetCache(taskSet).add(taskId);
+    }
+
+    // ----------------------------------------------------------------
+
+    @Override
     public <P extends Serializable> void offer(RedissonDelayedTask<P> task) {
-        String topic = StringUtils.hasText(task.topic()) ? task.topic() : this.topic();
-        task.topic(topic);
-
-        QueuePair pair = this.manager().tryAcquirePair(topic);
-        if (ObjectUtils.isEmpty(pair)) {
-            throw new RuntimeException("Unknown topic:" + topic);
-        }
-
-        RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = pair.delayedQueue();
+        RDelayedQueue<RedissonDelayedTask<?>> delayedQueue = this.determineDelayedQueue(task);
         delayedQueue.offer(task, task.delayed(), task.determineTimeUnit());
 
         this.registerTask(task.taskId());
     }
 
-    private void registerTask(String taskId) {
-        String taskSet = this.redissonProperties().getDelayed().getReport().getTaskSet();
-        this.redisson().getSetCache(taskSet).add(taskId);
+    // ----------------------------------------------------------------
+
+    private <P extends Serializable> RDelayedQueue<RedissonDelayedTask<?>> determineDelayedQueue(RedissonDelayedTask<P> task) {
+        long delayMax = this.redissonProperties().delayed().max();
+        task.checkDelayMillis(delayMax);
+
+        QueuePair pair = this.determinePair(task);
+
+        return pair.delayedQueue();
+    }
+
+    private <P extends Serializable> QueuePair determinePair(RedissonDelayedTask<P> task) {
+        String topic = StringUtils.hasText(task.topic()) ? task.topic() : this.topic();
+        task.topic(topic);
+        if (ObjectUtils.isEmpty(topic)) {
+            throw new RuntimeException("Unknown topic:" + topic);
+        }
+
+        QueuePair pair = this.manager().tryAcquirePair(topic);
+        if (ObjectUtils.isEmpty(pair)) {
+            throw new RuntimeException("The topic:[" + topic + "] is not registered.");
+        }
+        return pair;
     }
 }

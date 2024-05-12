@@ -19,7 +19,7 @@ import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.executor.RedissonDelayedQueueExecutor;
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 import jodd.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -27,8 +27,6 @@ import org.springframework.util.ObjectUtils;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 
 /**
  * {@code CompositeRedissonDelayedQueueScheduler}
@@ -41,35 +39,30 @@ import java.util.concurrent.TimeUnit;
 public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQueueScheduler {
 
     private static final int THRESHOLD = 1 << 4;
-    private static final String SCHEDULER_NAME_TEMPLATE = "redisson.delayed.queue-scheduler-%d";
+    private static final String SCHEDULER_NAME_TEMPLATE = "redisson-delayqueue-scheduler-%d";
 
     private final RedissonDelayedQueueManager manager;
     private final RedissonDelayedQueueExecutor executor;
-    private final ScheduledExecutorService watcher;
+    private final ScheduledExecutorService ticker;
     private final ScheduledExecutorService scheduler;
 
     public CompositeRedissonDelayedQueueScheduler(RedissonDelayedQueueManager manager, RedissonDelayedQueueExecutor executor) {
         this.manager = manager;
         this.executor = executor;
-        this.watcher = Executors.newSingleThreadScheduledExecutor();
+        this.ticker = Executors.newSingleThreadScheduledExecutor();
 
-        int size = this.topics().size();
-        int threshold = THRESHOLD;
-        if (size < threshold) {
-            threshold = size;
-        }
-
-        ThreadFactory factory = ThreadFactoryBuilder.create()
-                .setNameFormat(SCHEDULER_NAME_TEMPLATE)
-                .get();
-
-        this.scheduler = Executors.newScheduledThreadPool(threshold, factory);
+        this.scheduler = Executors.newScheduledThreadPool(
+                Math.min(this.topics().size(), THRESHOLD),
+                ThreadFactoryBuilder.create()
+                        .setNameFormat(SCHEDULER_NAME_TEMPLATE)
+                        .get()
+        );
     }
 
     // ----------------------------------------------------------------
 
     @Override
-    public RedissonClientProperties redissonProperties() {
+    public RedissonProperties redissonProperties() {
         return this.manager.redissonProperties();
     }
 
@@ -77,7 +70,7 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
 
     @Override
     public Set<String> topics() {
-        return this.redissonProperties().getDelayed().topics();
+        return this.redissonProperties().delayed().topics();
     }
 
     @Override
@@ -87,13 +80,13 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
 
     @Override
     public void schedule() {
-        RedissonClientProperties.DelayedQueue delayedQueue = this.redissonProperties().getDelayed();
-        this.watcher.scheduleAtFixedRate(this::tick, delayedQueue.getInitialDelay(), delayedQueue.getPeriod(), delayedQueue.getUnit());
+        RedissonProperties.Ticker tickerConf = this.redissonProperties().delayed().ticker();
+        this.ticker.scheduleAtFixedRate(this::tick, tickerConf.initialDelay(), tickerConf.period(), tickerConf.unit());
     }
 
     @Override
     public void stop() {
-        this.watcher.shutdown();
+        this.ticker.shutdown();
         this.scheduler.shutdown();
     }
 
@@ -123,9 +116,10 @@ public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQu
     }
 
     private void scheduleTopic(QueuePair pair) {
+        RedissonProperties.Poll poll = this.redissonProperties().delayed().poll();
         try {
             RedissonDelayedTask<?> delayedTask = null;
-            while (null != (delayedTask = pair.blockingQueue().poll(100, TimeUnit.MILLISECONDS))) {
+            while (null != (delayedTask = pair.blockingQueue().poll(poll.timeout(), poll.unit()))) {
                 this.executor.execute(delayedTask);
             }
         } catch (Throwable ignored) {}

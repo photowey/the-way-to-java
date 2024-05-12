@@ -23,7 +23,7 @@ import io.github.photowey.redisson.delayed.queue.in.action.manager.DefaultRediss
 import io.github.photowey.redisson.delayed.queue.in.action.manager.RedissonDelayedQueueManager;
 import io.github.photowey.redisson.delayed.queue.in.action.pattern.DefaultDelayedAntPathMatcher;
 import io.github.photowey.redisson.delayed.queue.in.action.pattern.DelayedAntPathMatcher;
-import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonClientProperties;
+import io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.CompositeRedissonDelayedQueue;
 import io.github.photowey.redisson.delayed.queue.in.action.queue.RedissonDelayedQueue;
 import io.github.photowey.redisson.delayed.queue.in.action.scheduler.CompositeRedissonDelayedQueueScheduler;
@@ -56,14 +56,14 @@ import org.springframework.util.StringUtils;
 })
 public class RedissonClientAutoConfigure {
 
-    @Bean
-    public RedissonClientProperties redissonProperties(Environment environment) {
-        return bind(environment, RedissonClientProperties.getPrefix(), RedissonClientProperties.class);
+    @Bean("io.github.photowey.redisson.delayed.queue.in.action.property.RedissonProperties")
+    public RedissonProperties redissonProperties(Environment environment) {
+        return bind(environment, RedissonProperties.getPrefix(), RedissonProperties.class);
     }
 
     @Bean
     @ConditionalOnMissingBean(RedissonClient.class)
-    public RedissonClient redisson(RedissonClientProperties redissonProperties) {
+    public RedissonClient redisson(RedissonProperties redissonProperties) {
         return this.populateRedissonClient(redissonProperties);
     }
 
@@ -107,7 +107,7 @@ public class RedissonClientAutoConfigure {
         return binder.bind(prefix, clazz).get();
     }
 
-    private RedissonClient populateRedissonClient(RedissonClientProperties properties) {
+    private RedissonClient populateRedissonClient(RedissonProperties properties) {
         Config config = new Config();
         SingleServerConfig singleServerConfig = config.useSingleServer()
                 .setAddress(properties.getAddress())

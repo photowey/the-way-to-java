@@ -54,6 +54,15 @@ public class RedissonDelayedTask<P extends Serializable> implements Serializable
     private long delayed;
     private String timeUnit;
 
+    // ----------------------------------------------------------------
+
+    public void checkDelayMillis(long max) {
+        long millis = this.determineTimeUnit().toMillis(this.delayed());
+        if (millis > max) {
+            throw new IllegalArgumentException("The delayed time is too large");
+        }
+    }
+
     public TimeUnit determineTimeUnit() {
         return this.determineTimeUnit(() -> TimeUnit.MILLISECONDS);
     }
