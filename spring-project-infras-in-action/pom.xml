@@ -18,11 +18,12 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>spring-project-infras-common-in-action</module>
         <module>spring-project-infras-core-in-action</module>
     </modules>
 
     <properties>
-        <spring-project-infras.version>1.2.0</spring-project-infras.version>
+        <spring-project-infras.version>1.5.0</spring-project-infras.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,11 @@
             <dependency>
                 <groupId>io.github.photowey</groupId>
                 <artifactId>spring-project-infras-bean</artifactId>
+                <version>${spring-project-infras.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.photowey</groupId>
+                <artifactId>spring-project-infras-common</artifactId>
                 <version>${spring-project-infras.version}</version>
             </dependency>
             <dependency>

@@ -11,10 +11,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-project-infras-core-in-action</artifactId>
+    <artifactId>spring-project-infras-common-in-action</artifactId>
 
-    <name>spring-project-infras-core-in-action</name>
-    <description>spring-project-infras-core-in-action project for Spring Boot</description>
+    <name>spring-project-infras-common-in-action</name>
+    <description>spring-project-infras-common-in-action project for Spring Boot</description>
 
     <properties>
     </properties>
@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>io.github.photowey</groupId>
-            <artifactId>spring-project-infras-core</artifactId>
+            <artifactId>spring-project-infras-common</artifactId>
         </dependency>
 
         <dependency>
