@@ -15,6 +15,7 @@
  */
 package io.github.photowey.redisson.delayed.queue.in.action.scheduler;
 
+import com.photowey.common.in.action.util.HardwareUtils;
 import io.github.photowey.redisson.delayed.queue.in.action.core.pair.QueuePair;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.executor.RedissonDelayedQueueExecutor;
@@ -38,7 +39,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQueueScheduler {
 
-    private static final int THRESHOLD = 1 << 4;
+    private static final int THRESHOLD = HardwareUtils.getNcpu();
     private static final String SCHEDULER_NAME_TEMPLATE = "redisson-delayqueue-scheduler-%d";
 
     private final RedissonDelayedQueueManager manager;
