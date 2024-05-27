@@ -388,15 +388,19 @@ public final class CryptoJava {
          * @throws Exception
          */
         public static String encrypt(String data, String publicKey) throws Exception {
-            PublicKey publicK = publicKeyFromString(publicKey);
+            PublicKey puk = publicKeyFromString(publicKey);
+            return encrypt(data, puk);
+        }
+
+        public static String encrypt(String data, PublicKey publicKey) throws Exception {
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-            byte[] encryptedData = encrypt(data.getBytes(StandardCharsets.UTF_8), keyFactory, publicK);
+            byte[] encryptedData = encrypt(data.getBytes(StandardCharsets.UTF_8), keyFactory, publicKey);
 
             return Base64Utils.encrypt(encryptedData);
         }
 
         /**
-         * 公钥解密
+         * 公钥加密
          *
          * @param data      明文的字节数据
          * @param publicKey 公钥-{@code Base64}字符串
@@ -438,9 +442,13 @@ public final class CryptoJava {
          * @throws Exception
          */
         public static String decrypt(String encryptedData, String privateKey) throws Exception {
-            PrivateKey privateK = privateKeyFromString(privateKey);
+            PrivateKey pvk = privateKeyFromString(privateKey);
+            return decrypt(encryptedData, pvk);
+        }
+
+        public static String decrypt(String encryptedData, PrivateKey privateKey) throws Exception {
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-            byte[] decryptedData = decrypt(Base64Utils.decrypt(encryptedData), keyFactory, privateK);
+            byte[] decryptedData = decrypt(Base64Utils.decrypt(encryptedData), keyFactory, privateKey);
 
             return new String(decryptedData, StandardCharsets.UTF_8);
         }

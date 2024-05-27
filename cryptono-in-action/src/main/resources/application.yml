@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: "cryptono-in-action"
+  profiles:
+    active: dev
+
+# ---------------------------------------------------------------------
+
+# custom the /actuator/info endpoint
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"
+    env:
+      active: ${spring.profiles.active}
+
+# ---------------------------------------------------------------------
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'

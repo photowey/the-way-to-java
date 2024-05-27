@@ -139,6 +139,7 @@
         <module>jython-in-action</module>
         <module>proguard-in-action</module>
         <module>spring-project-infras-in-action</module>
+        <module>cryptono-in-action</module>
     </modules>
 
     <dependencyManagement>
