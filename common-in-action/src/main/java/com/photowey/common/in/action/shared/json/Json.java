@@ -15,12 +15,13 @@
  */
 package com.photowey.common.in.action.shared.json;
 
+import com.photowey.common.in.action.shared.json.jackson.Jackson;
 import com.photowey.common.in.action.thrower.AssertionErrorThrower;
 
 /**
  * {@code Json}
  * <p>
- * Use {@link com.photowey.common.in.action.shared.json.jackson.JSON} instead.
+ * Use {@link Jackson} instead.
  *
  * @author photowey
  * @date 2023/10/26

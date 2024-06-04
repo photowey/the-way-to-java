@@ -16,7 +16,7 @@
 package com.photowey.spring.in.action.ctx.holder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.photowey.common.in.action.shared.json.jackson.JSON;
+import com.photowey.common.in.action.shared.json.jackson.Jackson;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -49,7 +49,7 @@ public class ApplicationContextInjector implements ApplicationContextAware, Disp
 
     private void clean() {
         ApplicationContextHolder.cleanSharedObjects();
-        JSON.clean();
+        Jackson.clean();
     }
 
     private void inject() {
@@ -59,6 +59,6 @@ public class ApplicationContextInjector implements ApplicationContextAware, Disp
 
     private void injectSharedObjectMapper() {
         ObjectMapper objectMapper = this.applicationContext.getBean(ObjectMapper.class);
-        JSON.injectSharedObjectMapper(objectMapper);
+        Jackson.injectSharedObjectMapper(objectMapper);
     }
 }

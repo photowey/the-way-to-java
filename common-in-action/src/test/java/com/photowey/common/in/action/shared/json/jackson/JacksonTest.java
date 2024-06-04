@@ -25,7 +25,7 @@ import java.util.*;
  * @version 1.0.0
  * @since 2024/05/01
  */
-class JSONTest {
+class JacksonTest {
 
     @Data
     @Builder
@@ -52,7 +52,7 @@ class JSONTest {
                 .age(18)
                 .build();
 
-        String json = JSON.toJSONString(student);
+        String json = Jackson.toJSONString(student);
         DocumentContext ctx = JsonPath.parse(json);
 
         Assertions.assertEquals(student.getId(), ctx.read("$.id"));
@@ -69,7 +69,7 @@ class JSONTest {
                 .age(18)
                 .build();
 
-        String json = JSON.toJSONString(student, View.Public.class);
+        String json = Jackson.toJSONString(student, View.Public.class);
         DocumentContext ctx = JsonPath.parse(json);
 
         Assertions.assertEquals(student.getId(), ctx.read("$.id"));
@@ -87,10 +87,10 @@ class JSONTest {
                 .age(18)
                 .build();
 
-        String json = JSON.toJSONString(student);
+        String json = Jackson.toJSONString(student);
         Assertions.assertFalse(json.contains("\n"));
 
-        String prettyJson = JSON.toPrettyString(json);
+        String prettyJson = Jackson.toPrettyString(json);
         Assertions.assertTrue(prettyJson.contains("\n"));
     }
 
@@ -106,8 +106,8 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
-        List<Student> peers = JSON.parseArray(json, new TypeReference<List<Student>>() {});
+        String json = Jackson.toJSONString(students);
+        List<Student> peers = Jackson.parseArray(json, new TypeReference<List<Student>>() {});
 
         Assertions.assertNotNull(peers);
         Assertions.assertEquals(1, peers.size());
@@ -130,8 +130,8 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
-        List<Student> peers = JSON.parseArray(json.getBytes(StandardCharsets.UTF_8), new TypeReference<List<Student>>() {});
+        String json = Jackson.toJSONString(students);
+        List<Student> peers = Jackson.parseArray(json.getBytes(StandardCharsets.UTF_8), new TypeReference<List<Student>>() {});
 
         Assertions.assertNotNull(peers);
         Assertions.assertEquals(1, peers.size());
@@ -154,9 +154,9 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
+        String json = Jackson.toJSONString(students);
         InputStream input = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
-        List<Student> peers = JSON.parseArray(input, new TypeReference<List<Student>>() {});
+        List<Student> peers = Jackson.parseArray(input, new TypeReference<List<Student>>() {});
 
         Assertions.assertNotNull(peers);
         Assertions.assertEquals(1, peers.size());
@@ -179,13 +179,13 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
+        String json = Jackson.toJSONString(students);
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         InputStream input = new ByteArrayInputStream(bytes);
 
         // ----------------------------------------------------------------
 
-        List<Student> peers1 = JSON.toList(json, new TypeReference<List<Student>>() {});
+        List<Student> peers1 = Jackson.toList(json, new TypeReference<List<Student>>() {});
 
         Assertions.assertNotNull(peers1);
         Assertions.assertEquals(1, peers1.size());
@@ -197,7 +197,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        List<Student> peers2 = JSON.toList(bytes, new TypeReference<List<Student>>() {});
+        List<Student> peers2 = Jackson.toList(bytes, new TypeReference<List<Student>>() {});
         Assertions.assertNotNull(peers2);
         Assertions.assertEquals(1, peers2.size());
 
@@ -208,7 +208,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        List<Student> peers3 = JSON.toList(input, new TypeReference<List<Student>>() {});
+        List<Student> peers3 = Jackson.toList(input, new TypeReference<List<Student>>() {});
         Assertions.assertNotNull(peers3);
         Assertions.assertEquals(1, peers3.size());
 
@@ -230,13 +230,13 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
+        String json = Jackson.toJSONString(students);
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         InputStream input = new ByteArrayInputStream(bytes);
 
         // ----------------------------------------------------------------
 
-        Set<Student> peers1 = JSON.toSet(json, new TypeReference<Set<Student>>() {});
+        Set<Student> peers1 = Jackson.toSet(json, new TypeReference<Set<Student>>() {});
 
         Assertions.assertNotNull(peers1);
         Assertions.assertEquals(1, peers1.size());
@@ -248,7 +248,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Set<Student> peers2 = JSON.toSet(bytes, new TypeReference<Set<Student>>() {});
+        Set<Student> peers2 = Jackson.toSet(bytes, new TypeReference<Set<Student>>() {});
         Assertions.assertNotNull(peers2);
         Assertions.assertEquals(1, peers2.size());
 
@@ -259,7 +259,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Set<Student> peers3 = JSON.toSet(input, new TypeReference<Set<Student>>() {});
+        Set<Student> peers3 = Jackson.toSet(input, new TypeReference<Set<Student>>() {});
         Assertions.assertNotNull(peers3);
         Assertions.assertEquals(1, peers3.size());
 
@@ -281,13 +281,13 @@ class JSONTest {
         List<Student> students = new ArrayList<>();
         students.add(student);
 
-        String json = JSON.toJSONString(students);
+        String json = Jackson.toJSONString(students);
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         InputStream input = new ByteArrayInputStream(bytes);
 
         // ----------------------------------------------------------------
 
-        Collection<Student> peers1 = JSON.toCollection(json, new TypeReference<Collection<Student>>() {});
+        Collection<Student> peers1 = Jackson.toCollection(json, new TypeReference<Collection<Student>>() {});
 
         Assertions.assertNotNull(peers1);
         Assertions.assertEquals(1, peers1.size());
@@ -299,7 +299,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Collection<Student> peers2 = JSON.toCollection(bytes, new TypeReference<Collection<Student>>() {});
+        Collection<Student> peers2 = Jackson.toCollection(bytes, new TypeReference<Collection<Student>>() {});
         Assertions.assertNotNull(peers2);
         Assertions.assertEquals(1, peers2.size());
 
@@ -310,7 +310,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Collection<Student> peers3 = JSON.toCollection(input, new TypeReference<Collection<Student>>() {});
+        Collection<Student> peers3 = Jackson.toCollection(input, new TypeReference<Collection<Student>>() {});
         Assertions.assertNotNull(peers3);
         Assertions.assertEquals(1, peers3.size());
 
@@ -329,13 +329,13 @@ class JSONTest {
                 .age(18)
                 .build();
 
-        String json = JSON.toJSONString(student);
+        String json = Jackson.toJSONString(student);
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         InputStream input = new ByteArrayInputStream(bytes);
 
         // ----------------------------------------------------------------
 
-        Map<String, Object> peers1 = JSON.toMap(json, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> peers1 = Jackson.toMap(json, new TypeReference<Map<String, Object>>() {});
 
         Assertions.assertNotNull(peers1);
         Assertions.assertEquals(3, peers1.size());
@@ -346,7 +346,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Map<String, Object> peers2 = JSON.toMap(bytes, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> peers2 = Jackson.toMap(bytes, new TypeReference<Map<String, Object>>() {});
 
         Assertions.assertNotNull(peers2);
         Assertions.assertEquals(3, peers2.size());
@@ -357,7 +357,7 @@ class JSONTest {
 
         // ----------------------------------------------------------------
 
-        Map<String, Object> peers3 = JSON.toMap(input, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> peers3 = Jackson.toMap(input, new TypeReference<Map<String, Object>>() {});
 
         Assertions.assertNotNull(peers3);
         Assertions.assertEquals(3, peers3.size());
@@ -365,5 +365,127 @@ class JSONTest {
         Assertions.assertEquals(peers3.get("id"), student.getId());
         Assertions.assertEquals(peers3.get("name"), student.getName());
         Assertions.assertEquals(peers3.get("age"), student.getAge());
+    }
+
+    // ----------------------------------------------------------------
+
+    @Test
+    void testParseArray_simple() {
+        long now = System.currentTimeMillis();
+        Student student = Student.builder()
+                .id(now)
+                .name("photowey")
+                .age(18)
+                .build();
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        String jsonArray = Jackson.toJSONString(students);
+        byte[] bytes = jsonArray.getBytes(StandardCharsets.UTF_8);
+
+        List<Student> simpleList1 = Jackson.parseArray(jsonArray, Student.class);
+        Assertions.assertNotNull(simpleList1);
+        Assertions.assertEquals(1, simpleList1.size());
+        Assertions.assertEquals(now, simpleList1.get(0).getId());
+
+        List<Student> simpleList2 = Jackson.parseArray(bytes, Student.class);
+        Assertions.assertNotNull(simpleList2);
+        Assertions.assertEquals(1, simpleList2.size());
+        Assertions.assertEquals(now, simpleList2.get(0).getId());
+
+        List<Student> simpleList3 = Jackson.parseArray(new ByteArrayInputStream(bytes), Student.class);
+        Assertions.assertNotNull(simpleList3);
+        Assertions.assertEquals(1, simpleList3.size());
+        Assertions.assertEquals(now, simpleList3.get(0).getId());
+    }
+
+    @Test
+    void testToList_simple() {
+        long now = System.currentTimeMillis();
+        Student student = Student.builder()
+                .id(now)
+                .name("photowey")
+                .age(18)
+                .build();
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        String jsonArray = Jackson.toJSONString(students);
+        byte[] bytes = jsonArray.getBytes(StandardCharsets.UTF_8);
+
+        List<Student> simpleList1 = Jackson.toList(jsonArray, Student.class);
+        Assertions.assertNotNull(simpleList1);
+        Assertions.assertEquals(1, simpleList1.size());
+        Assertions.assertEquals(now, simpleList1.get(0).getId());
+
+        List<Student> simpleList2 = Jackson.toList(bytes, Student.class);
+        Assertions.assertNotNull(simpleList2);
+        Assertions.assertEquals(1, simpleList2.size());
+        Assertions.assertEquals(now, simpleList2.get(0).getId());
+
+        List<Student> simpleList3 = Jackson.toList(new ByteArrayInputStream(bytes), Student.class);
+        Assertions.assertNotNull(simpleList3);
+        Assertions.assertEquals(1, simpleList3.size());
+        Assertions.assertEquals(now, simpleList3.get(0).getId());
+    }
+
+    @Test
+    void testToSet_simple() {
+        long now = System.currentTimeMillis();
+        Student student = Student.builder()
+                .id(now)
+                .name("photowey")
+                .age(18)
+                .build();
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        String jsonArray = Jackson.toJSONString(students);
+        byte[] bytes = jsonArray.getBytes(StandardCharsets.UTF_8);
+
+        Set<Student> simpleSet1 = Jackson.toSet(jsonArray, Student.class);
+        Assertions.assertNotNull(simpleSet1);
+        Assertions.assertEquals(1, simpleSet1.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleSet1).get(0).getId());
+
+        Set<Student> simpleSet2 = Jackson.toSet(bytes, Student.class);
+        Assertions.assertNotNull(simpleSet2);
+        Assertions.assertEquals(1, simpleSet2.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleSet2).get(0).getId());
+
+        Set<Student> simpleSet3 = Jackson.toSet(new ByteArrayInputStream(bytes), Student.class);
+        Assertions.assertNotNull(simpleSet3);
+        Assertions.assertEquals(1, simpleSet3.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleSet3).get(0).getId());
+    }
+
+    @Test
+    void testToCollection_simple() {
+        long now = System.currentTimeMillis();
+        Student student = Student.builder()
+                .id(now)
+                .name("photowey")
+                .age(18)
+                .build();
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        String jsonArray = Jackson.toJSONString(students);
+        byte[] bytes = jsonArray.getBytes(StandardCharsets.UTF_8);
+
+        Collection<Student> simpleCollection1 = Jackson.toCollection(jsonArray, Student.class);
+        Assertions.assertNotNull(simpleCollection1);
+        Assertions.assertEquals(1, simpleCollection1.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleCollection1).get(0).getId());
+
+        Collection<Student> simpleCollection2 = Jackson.toCollection(bytes, Student.class);
+        Assertions.assertNotNull(simpleCollection2);
+        Assertions.assertEquals(1, simpleCollection2.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleCollection2).get(0).getId());
+
+        Collection<Student> simpleCollection3 = Jackson.toCollection(new ByteArrayInputStream(bytes), Student.class);
+        Assertions.assertNotNull(simpleCollection3);
+        Assertions.assertEquals(1, simpleCollection3.size());
+        Assertions.assertEquals(now, new ArrayList<>(simpleCollection3).get(0).getId());
     }
 }

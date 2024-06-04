@@ -15,7 +15,7 @@
  */
 package io.github.photowey.redisson.delayed.queue.in.action.delayed;
 
-import com.photowey.common.in.action.shared.json.jackson.JSON;
+import com.photowey.common.in.action.shared.json.jackson.Jackson;
 import io.github.photowey.redisson.delayed.queue.in.action.App;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.RedissonDelayedTask;
 import io.github.photowey.redisson.delayed.queue.in.action.core.task.TaskContext;
@@ -371,7 +371,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: default.topic.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: default.topic.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
@@ -397,7 +397,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: custom.topic.multi1.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: custom.topic.multi1.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
@@ -423,7 +423,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: custom.topic.multi2.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: custom.topic.multi2.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
@@ -449,7 +449,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: custom.topic.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: custom.topic.single.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
@@ -475,7 +475,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: ant.single.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: ant.single.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
@@ -501,7 +501,7 @@ class RedissonDelayedQueueTests {
             this.counter.register(this.getClass().getSimpleName());
 
             HelloPayload payload = (HelloPayload) ctx.getPayload();
-            log.info("json.generic: ant.multi.listener:[{}:{}]", ctx.taskId(), JSON.toJSONString(payload));
+            log.info("json.generic: ant.multi.listener:[{}:{}]", ctx.taskId(), Jackson.toJSONString(payload));
         }
     }
 
