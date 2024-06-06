@@ -74,7 +74,7 @@ public abstract class AbstractRabbitMessageProcessor implements RabbitMessagePro
                     log.info("message.rabbit: ack.broker.push.body.message.succeed, queue:[{}], action:[{}]", queue, ack.name());
                     break;
                 case RETRY:
-                    channel.basicNack(deliveryTag, false, this.determineNeedRequeue());
+                    channel.basicNack(deliveryTag, body.determineRequeue(MessageBody::incrRequeueTimes), this.determineNeedRequeue());
                     break;
                 case REJECT:
                     channel.basicReject(deliveryTag, this.determineNeedRequeue());

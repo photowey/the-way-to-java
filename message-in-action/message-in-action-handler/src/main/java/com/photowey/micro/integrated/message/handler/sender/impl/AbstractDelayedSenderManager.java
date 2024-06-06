@@ -41,9 +41,7 @@ public abstract class AbstractDelayedSenderManager extends AbstractNormalSenderM
 
     protected final Lock delayedLock = new ReentrantLock();
 
-    public <T extends DelayedMessageSender> void delayedRegisterReport(T sender) {
-
-    }
+    public <T extends DelayedMessageSender> void delayedRegisterReport(T sender) {}
 
     /**
      * 注册消息发送器
@@ -59,12 +57,12 @@ public abstract class AbstractDelayedSenderManager extends AbstractNormalSenderM
      */
     @Override
     public <T extends DelayedMessageSender> void delayedRegister(T sender) {
-        delayedLock.lock();
+        this.delayedLock.lock();
         try {
             this.delayedSenders.computeIfAbsent(sender.name(), (x) -> sender);
             this.delayedRegisterReport(sender);
         } finally {
-            delayedLock.unlock();
+            this.delayedLock.unlock();
         }
     }
 

@@ -22,6 +22,4 @@ package com.photowey.micro.integrated.message.handler.processor;
  * @date 2023/09/08
  * @since 1.0.0
  */
-public interface MessageProcessor extends Processor {
-
-}
+public interface MessageProcessor extends Processor {}

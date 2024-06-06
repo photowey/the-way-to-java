@@ -31,5 +31,4 @@ public interface MessageSenderManager extends NormalSenderManager, DelayedSender
     default boolean delayedSupports(String delayedSender) {
         return false;
     }
-
 }

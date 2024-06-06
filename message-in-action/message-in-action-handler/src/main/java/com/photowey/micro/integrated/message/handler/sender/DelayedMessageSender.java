@@ -34,9 +34,7 @@ public interface DelayedMessageSender extends Sender, Ordered {
      * @param topic   主题
      * @param payload 消息体
      */
-    default <T> void delayedSend(String topic, MessagePayload<T> payload) {
-
-    }
+    default <T> void delayedSend(String topic, MessagePayload<T> payload) {}
 
     /**
      * 发送交换机类延迟消息
@@ -45,8 +43,5 @@ public interface DelayedMessageSender extends Sender, Ordered {
      * @param routingKey 路由键
      * @param payload    消息体
      */
-    default <T> void delayedSend(String exchange, String routingKey, MessagePayload<T> payload) {
-
-    }
-
+    default <T> void delayedSend(String exchange, String routingKey, MessagePayload<T> payload) {}
 }

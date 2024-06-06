@@ -42,8 +42,7 @@ public interface RabbitMessageTopicProcessor extends MessageProcessor {
      */
     default <T extends MessageBody> void onObjectTopicMessage(
             T body, String queue,
-            Function<T, Boolean> callback) throws IOException {
-    }
+            Function<T, Boolean> callback) throws IOException {}
 
     /**
      * 处理-消息体类型的 Topic 消息
@@ -59,9 +58,7 @@ public interface RabbitMessageTopicProcessor extends MessageProcessor {
     default <T extends MessageBody> void onObjectTopicMessage(
             T body, String queue,
             Long deliveryTag, Channel channel,
-            Function<T, Boolean> callback) throws IOException {
-
-    }
+            Function<T, Boolean> callback) throws IOException {}
 
     /**
      * 处理-字符串类型的 Topic 消息
@@ -73,9 +70,7 @@ public interface RabbitMessageTopicProcessor extends MessageProcessor {
      */
     default void onTextTopicMessage(
             String body, String queue,
-            Function<String, Boolean> callback) throws IOException {
-
-    }
+            Function<String, Boolean> callback) throws IOException {}
 
     /**
      * 处理-字符串类型的 Topic 消息
@@ -90,7 +85,5 @@ public interface RabbitMessageTopicProcessor extends MessageProcessor {
     default void onTextTopicMessage(
             String body, String queue,
             Long deliveryTag, Channel channel,
-            Function<String, Boolean> callback) throws IOException {
-
-    }
+            Function<String, Boolean> callback) throws IOException {}
 }

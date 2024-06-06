@@ -42,9 +42,7 @@ public interface RabbitMessageProcessor extends MessageProcessor {
      */
     default <T extends MessageBody> void onObjectMessage(
             T body, String queue,
-            Function<T, Boolean> callback) throws IOException {
-
-    }
+            Function<T, Boolean> callback) throws IOException {}
 
     /**
      * 处理-消息体类型的消息
@@ -59,9 +57,7 @@ public interface RabbitMessageProcessor extends MessageProcessor {
      */
     default <T extends MessageBody> void onObjectMessage(
             /*@Payload*/ T body, String queue,
-            /*@Header(AmqpHeaders.DELIVERY_TAG)*/ long deliveryTag, Channel channel, Function<T, Boolean> callback) throws IOException {
-
-    }
+            /*@Header(AmqpHeaders.DELIVERY_TAG)*/ long deliveryTag, Channel channel, Function<T, Boolean> callback) throws IOException {}
 
     /**
      * 处理-字符串类型的消息
@@ -73,9 +69,7 @@ public interface RabbitMessageProcessor extends MessageProcessor {
      */
     default void onTextMessage(
             String body, String queue,
-            Function<String, Boolean> callback) throws IOException {
-
-    }
+            Function<String, Boolean> callback) throws IOException {}
 
     /**
      * 处理-字符串类型的消息
@@ -89,7 +83,5 @@ public interface RabbitMessageProcessor extends MessageProcessor {
      */
     default void onTextMessage(
             /*@Payload*/ String body, String queue,
-            /*@Header(AmqpHeaders.DELIVERY_TAG)*/ long deliveryTag, Channel channel, Function<String, Boolean> callback) throws IOException {
-
-    }
+            /*@Header(AmqpHeaders.DELIVERY_TAG)*/ long deliveryTag, Channel channel, Function<String, Boolean> callback) throws IOException {}
 }

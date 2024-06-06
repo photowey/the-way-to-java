@@ -52,11 +52,11 @@ public interface RabbitSender extends Sender, SmartInitializingSingleton {
     }
 
     default String buildMessageId(String type, String data) {
-        String dataId = IdWorker.getIdStr();
+        String messageId = IdWorker.getIdStr();
         if (ObjectUtils.isNotNullOrEmpty(data)) {
-            return StringFormatter.format(RABBIT_MESSAGE_ID_TEMPLATE, dataId, type, data);
+            return StringFormatter.format(RABBIT_MESSAGE_ID_TEMPLATE, messageId, type, data);
         }
 
-        return dataId;
+        return messageId;
     }
 }

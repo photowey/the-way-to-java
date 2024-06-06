@@ -16,6 +16,7 @@
 package com.photowey.micro.integrated.message.core.domain.body;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 /**
  * {@code MessageBody}
@@ -32,6 +33,27 @@ public interface MessageBody extends Serializable {
      * @return JSON
      */
     String toJSONString();
+
+    default int requeueThreshold() {
+        return 1;
+    }
+
+    default int requeueTimes() {
+        return 1;
+    }
+
+    default void incrRequeueTimes() {
+
+    }
+
+    default boolean determineRequeue(Consumer<MessageBody> fx) {
+        boolean ok = this.requeueTimes() < this.requeueThreshold();
+        if (ok) {
+            fx.accept(this);
+        }
+
+        return ok;
+    }
 
     default boolean isSuccessfully() {
         return true;
