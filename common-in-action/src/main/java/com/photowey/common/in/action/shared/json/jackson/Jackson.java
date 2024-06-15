@@ -294,8 +294,7 @@ public final class Jackson {
     public static <T> List<T> parseList(ObjectMapper objectMapper, String json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(List.class, clazz);
+            CollectionType collectionType = toListCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -318,8 +317,7 @@ public final class Jackson {
     public static <T> List<T> parseList(ObjectMapper objectMapper, byte[] json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(List.class, clazz);
+            CollectionType collectionType = toListCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -342,8 +340,7 @@ public final class Jackson {
     public static <T> List<T> parseList(ObjectMapper objectMapper, InputStream json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(List.class, clazz);
+            CollectionType collectionType = toListCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -368,8 +365,7 @@ public final class Jackson {
     public static <T> Set<T> parseSet(ObjectMapper objectMapper, String json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Set.class, clazz);
+            CollectionType collectionType = toSetCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -392,8 +388,7 @@ public final class Jackson {
     public static <T> Set<T> parseSet(ObjectMapper objectMapper, byte[] json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Set.class, clazz);
+            CollectionType collectionType = toSetCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -416,8 +411,7 @@ public final class Jackson {
     public static <T> Set<T> parseSet(ObjectMapper objectMapper, InputStream json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Set.class, clazz);
+            CollectionType collectionType = toSetCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -442,8 +436,7 @@ public final class Jackson {
     public static <T> Collection<T> parseCollection(ObjectMapper objectMapper, String json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Collection.class, clazz);
+            CollectionType collectionType = toCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -466,8 +459,7 @@ public final class Jackson {
     public static <T> Collection<T> parseCollection(ObjectMapper objectMapper, byte[] json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Collection.class, clazz);
+            CollectionType collectionType = toCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -490,8 +482,7 @@ public final class Jackson {
     public static <T> Collection<T> parseCollection(ObjectMapper objectMapper, InputStream json, Class<T> clazz) {
         checkNPE(objectMapper);
         try {
-            TypeFactory typeFactory = objectMapper.getTypeFactory();
-            CollectionType collectionType = typeFactory.constructCollectionType(Collection.class, clazz);
+            CollectionType collectionType = toCollectionType(objectMapper, clazz);
             return objectMapper.readValue(json, collectionType);
         } catch (Exception e) {
             return throwUnchecked(e);
@@ -843,6 +834,38 @@ public final class Jackson {
 
     public static void checkNPE(ObjectMapper objectMapper) {
         Objects.requireNonNull(objectMapper, "infras: the objectMapper can't be null.");
+    }
+
+    // ----------------------------------------------------------------
+
+    private static <T> CollectionType toListCollectionType(Class<T> clazz) {
+        return toListCollectionType(getObjectMapper(), clazz);
+    }
+
+    private static <T> CollectionType toListCollectionType(ObjectMapper objectMapper, Class<T> clazz) {
+        checkNPE(objectMapper);
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        return typeFactory.constructCollectionType(List.class, clazz);
+    }
+
+    private static <T> CollectionType toSetCollectionType(Class<T> clazz) {
+        return toSetCollectionType(getObjectMapper(), clazz);
+    }
+
+    private static <T> CollectionType toSetCollectionType(ObjectMapper objectMapper, Class<T> clazz) {
+        checkNPE(objectMapper);
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        return typeFactory.constructCollectionType(Set.class, clazz);
+    }
+
+    private static <T> CollectionType toCollectionType(Class<T> clazz) {
+        return toCollectionType(getObjectMapper(), clazz);
+    }
+
+    private static <T> CollectionType toCollectionType(ObjectMapper objectMapper, Class<T> clazz) {
+        checkNPE(objectMapper);
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        return typeFactory.constructCollectionType(Collection.class, clazz);
     }
 
     // ----------------------------------------------------------------

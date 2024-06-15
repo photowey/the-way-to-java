@@ -16,9 +16,12 @@
 package com.photowey.spring.in.action.converter.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.photowey.spring.in.action.ctx.getter.ObjectMapperGetter;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +38,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().writeValueAsString(payload);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e, String.class);
         }
     }
 
@@ -44,7 +47,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e, clazz);
         }
     }
 
@@ -53,7 +56,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e, clazz);
         }
     }
 
@@ -62,7 +65,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e, clazz);
         }
     }
 
@@ -70,7 +73,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e);
         }
     }
 
@@ -78,7 +81,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e);
         }
     }
 
@@ -86,7 +89,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().readValue(body, clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e);
         }
     }
 
@@ -97,7 +100,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().convertValue(map, targetClass);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e, targetClass);
         }
     }
 
@@ -106,7 +109,7 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
         try {
             return this.objectMapper().convertValue(object, new TypeReference<Map<String, Object>>() {});
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return throwUnchecked(e);
         }
     }
 
@@ -123,4 +126,43 @@ public interface JacksonJsonConverter extends JsonConverter, ObjectMapperGetter 
     default <T> T parseArray(InputStream body, TypeReference<T> typeRef) {
         return this.parseObject(body, typeRef);
     }
+
+    // ----------------------------------------------------------------
+
+    @Override
+    default <T> List<T> parseArray(String body, Class<T> clazz) {
+        try {
+            CollectionType collectionType = this.toListCollectionType(clazz);
+            return this.objectMapper().readValue(body, collectionType);
+        } catch (Exception e) {
+            return throwUnchecked(e);
+        }
+    }
+
+    @Override
+    default <T> List<T> parseArray(byte[] body, Class<T> clazz) {
+        try {
+            CollectionType collectionType = this.toListCollectionType(clazz);
+            return this.objectMapper().readValue(body, collectionType);
+        } catch (Exception e) {
+            return throwUnchecked(e);
+        }
+    }
+
+    @Override
+    default <T> List<T> parseArray(InputStream body, Class<T> clazz) {
+        try {
+            CollectionType collectionType = this.toListCollectionType(clazz);
+            return this.objectMapper().readValue(body, collectionType);
+        } catch (Exception e) {
+            return throwUnchecked(e);
+        }
+    }
+
+    default <T> CollectionType toListCollectionType(Class<T> clazz) {
+        TypeFactory typeFactory = this.objectMapper().getTypeFactory();
+        return typeFactory.constructCollectionType(List.class, clazz);
+    }
+
+    // ----------------------------------------------------------------
 }
