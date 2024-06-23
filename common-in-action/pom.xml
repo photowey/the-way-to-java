@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-in-action</artifactId>
-    <name>common-bus-in-action</name>
+    <name>common-in-action</name>
     <description>Common-in-action project for Spring Boot</description>
 
     <dependencies>
