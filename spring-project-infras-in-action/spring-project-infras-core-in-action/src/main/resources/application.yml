@@ -6,3 +6,24 @@ spring:
     name: "spring-project-infras-core-in-action"
   profiles:
     active: dev
+
+io:
+  github:
+    photowey:
+      github:
+        accessor:
+          mock:
+            profiles: "dev,test,staging"
+
+# ---------------------------------------------------------------------
+
+# custom the /actuator/info endpoint
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"
+    env:
+      active: ${spring.profiles.active}

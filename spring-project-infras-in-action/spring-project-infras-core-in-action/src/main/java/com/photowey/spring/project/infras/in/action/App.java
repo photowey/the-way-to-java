@@ -32,8 +32,8 @@ public class App {
 
     /*
 ----------------------------------------------------------
-	Bootstrap: the 'spring-project-infras-core-example Context' is Success!
-	Application: 'spring-project-infras-core-example' is running! Access URLs:
+	Bootstrap: the 'spring-project-infras-core-in-action Context' is Success!
+	Application: 'spring-project-infras-core-in-action' is running! Access URLs:
 	Local: 		http://localhost:7923
 	External: 	http://192.168.1.101:7923
 	Swagger: 	http://192.168.1.101:7923/swagger-ui/index.html
