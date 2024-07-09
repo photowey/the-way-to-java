@@ -1,0 +1,26 @@
+local:
+  config:
+    spring:
+      name: "spring-modulith-in-action"
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        # autoconfig & trace No mapping
+        # include: [health,info,beans,env,configprops,mappings,metrics]
+        include: "*"
+
+# Custom the /actuator/info endpoint
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@

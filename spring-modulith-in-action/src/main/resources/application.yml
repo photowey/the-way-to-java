@@ -1,0 +1,28 @@
+server:
+  port: 7923
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: "spring-modulith-in-action"
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+io:
+  github:
+    photowey:
+      spring:
+        modulith:
+          in:
+            action:
+              inventory: 1024
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
