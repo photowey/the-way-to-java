@@ -47,11 +47,11 @@ class KryoTest {
                 .build();
 
         Input input = pool.run((kryo) -> {
-            return this.encode(kryo, student);
+            return kryo.encode(student);
         });
 
         Output output = pool.run((kryo) -> {
-            return this.decode(kryo, this.parseObject(input, Student.class));
+            return kryo.decode(input);
         });
 
         Student copy = this.parseObject(output, Student.class);
@@ -79,43 +79,19 @@ class KryoTest {
         }
     }
 
-    private Input encode(Kryo _kryo, Student student) {
-        // dummy
-        try {
-            return Input.builder().data(this.objectMapper.writeValueAsBytes(student)).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Output decode(Kryo _kryo, Student input) {
-        // dummy
-        try {
-            return Output.builder().data(this.objectMapper.writeValueAsBytes(input)).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static void configureKryo(Kryo kryo) {
 
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class Input implements Serializable {
-        private byte[] data;
-    }
+    static class DefaultKryoFactory implements KryoFactory {
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class Output implements Serializable {
+        @Override
+        public Kryo create() {
+            Kryo kryo = new Kryo(new ObjectMapper());
+            configureKryo(kryo);
 
-        private byte[] data;
+            return kryo;
+        }
     }
 
     @Data
@@ -129,17 +105,6 @@ class KryoTest {
         private Long id;
         private String name;
         private Integer age;
-    }
-
-    static class DefaultKryoFactory implements KryoFactory {
-
-        @Override
-        public Kryo create() {
-            Kryo kryo = new Kryo();
-            configureKryo(kryo);
-
-            return kryo;
-        }
     }
 
 }

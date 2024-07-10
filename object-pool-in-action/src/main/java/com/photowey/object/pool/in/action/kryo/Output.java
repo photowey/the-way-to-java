@@ -15,38 +15,25 @@
  */
 package com.photowey.object.pool.in.action.kryo;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
- * {@code Kryo}
+ * {@code Output}
  *
  * @author photowey
  * @version 1.0.0
  * @since 2024/07/10
  */
-public class Kryo {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Output implements Serializable {
 
-    // dummy kryo for test.
-
-    private final ObjectMapper objectMapper;
-
-    public Kryo(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public <T> Input encode(T input) {
-        try {
-            return Input.builder().data(this.objectMapper.writeValueAsBytes(input)).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public <T> Output decode(Input input) {
-        try {
-            return Output.builder().data(input.getData()).build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private byte[] data;
 }
