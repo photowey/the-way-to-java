@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.com.photowey.object.pool.in.action;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
 /**
- * {@code AppTests}
+ * {@code com.photowey.com.photowey.object.pool.in.action.kryo}
+ * |- 简化的 {@code kryo 4} 的对象池
  *
  * @author photowey
  * @version 1.0.0
  * @since 2024/07/10
+ * <p>
+ * copy from * https://github.com/EsotericSoftware/kryo tag:kryo-parent-4.0.3
  */
-@SpringBootTest
-class AppTests {
-
-    @Test
-    void contextLoads() {}
-}
+package com.photowey.com.photowey.object.pool.in.action.kryo;
