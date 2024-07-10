@@ -1,0 +1,21 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "object-pool-in-action"
+  profiles:
+    active: dev
+
+# ---------------------------------------------------------------------
+
+# custom the /actuator/info endpoint
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: "@project.build.sourceEncoding@"
+    java:
+      source: "@java.version@"
+      target: "@java.version@"
+    env:
+      active: ${spring.profiles.active}

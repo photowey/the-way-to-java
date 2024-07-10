@@ -141,7 +141,8 @@
         <module>spring-project-infras-in-action</module>
         <module>cryptono-in-action</module>
         <module>rust-jni-in-action</module>
-        <!--        <module>spring-modulith-in-action</module>-->
+        <!-- <module>spring-modulith-in-action</module> -->
+        <module>object-pool-in-action</module>
     </modules>
 
     <dependencyManagement>
