@@ -25,6 +25,7 @@ import java.util.function.Function;
  * @version 1.0.0
  * @since 2024/07/22
  */
+@SuppressWarnings("all")
 public class Result<T, E> {
 
     private final Optional<T> ok;
@@ -35,14 +36,16 @@ public class Result<T, E> {
         this.err = err;
     }
 
-    @SuppressWarnings("all")
     public static <T, E> Result<T, E> Ok(T value) {
         return new Result<>(Optional.of(value), Optional.empty());
     }
 
-    @SuppressWarnings("all")
     public static <T, E> Result<T, E> Err(E error) {
         return new Result<>(Optional.empty(), Optional.of(error));
+    }
+
+    public static <T, E> Result<T, E> Err(String message, Function<String, E> fx) {
+        return new Result<>(Optional.empty(), Optional.of(fx.apply(message)));
     }
 
     public boolean isOk() {

@@ -25,6 +25,7 @@ import java.util.function.Supplier;
  * @version 1.0.0
  * @since 2024/07/22
  */
+@SuppressWarnings("all")
 public class Option<T> {
 
     private final Optional<T> value;
@@ -33,12 +34,10 @@ public class Option<T> {
         this.value = value;
     }
 
-    @SuppressWarnings("all")
     public static <T> Option<T> Some(T value) {
         return new Option<>(Optional.of(value));
     }
 
-    @SuppressWarnings("all")
     public static <T> Option<T> None() {
         return new Option<>(Optional.empty());
     }
@@ -48,11 +47,11 @@ public class Option<T> {
     }
 
     public boolean isNone() {
-        return value.isEmpty();
+        return !value.isPresent();
     }
 
     public T unwrap() {
-        return value.get();
+        return value.orElse(null);
     }
 
     public T expect(String message) {
