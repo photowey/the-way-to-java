@@ -1,4 +1,4 @@
-package com.photowey.spring.project.infras.in.action.service.imppl;
+package com.photowey.spring.project.infras.in.action.service.impl;
 
 import com.photowey.spring.project.infras.in.action.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
