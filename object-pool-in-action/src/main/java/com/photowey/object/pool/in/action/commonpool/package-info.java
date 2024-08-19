@@ -16,6 +16,7 @@
 /**
  * {@code com.photowey.com.photowey.object.pool.in.action.commonpool}
  * |- 简化的 {@code Apache Common Pool} 的对象池
+ * |- 部分代码来自于 {@code Apache commons-pool3}
  *
  * @author photowey
  * @version 1.0.0
