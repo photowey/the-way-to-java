@@ -104,7 +104,7 @@ public class App {
 
 
 
-![object_header](./doc/object_header.png)
+![object_header](./doc/vm_stack.png)
 
 
 
