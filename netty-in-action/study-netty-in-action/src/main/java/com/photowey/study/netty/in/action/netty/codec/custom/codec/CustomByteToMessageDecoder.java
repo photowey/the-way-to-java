@@ -55,7 +55,7 @@ public class CustomByteToMessageDecoder extends ByteToMessageDecoder {
          * 1.不论解码器 {@code handler} 还是编码器 {@code handler}, 接受的消息类型必须与待处理的消息类型一直
          * -- 否则, 该 {@code handler} 不会被执行.
          *
-         * 2.在解码器 {@code handler} 进行数据节码时, 需要判断缓存区 {@link ByteBuf} 数据是否足够,
+         * 2.在解码器 {@code handler} 进行数据解码时, 需要判断缓存区 {@link ByteBuf} 数据是否足够,
          * -- 否则接收到的数据会与预期的结果不一致.
          */
     }
