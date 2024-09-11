@@ -1,0 +1,8 @@
+server:
+  port: 7923
+
+spring:
+  application:
+    name: "dameng-in-action"
+  profiles:
+    active: dev
