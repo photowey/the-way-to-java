@@ -18,6 +18,116 @@
 > - `must_not`: 必须不匹配, 不参与算分
 > - `filter`: 必须匹配, 不参与算分
 
+## 0.接口
+
+### 0.1.查看
+
+```shell
+# 查看单节点的 shard 分配整体情况
+GET /_cat/allocation
+
+# 查看各 shard 的详细情况
+GET /_cat/shards
+
+# 查看指定分片的详细情况
+GET /_cat/shards/{index}
+
+# 查看 master 节点信息
+GET /_cat/master
+
+# 查看所有节点信息
+GET /_cat/nodes
+
+# 查看集群中所有 index 的详细信息
+GET /_cat/indices
+
+# 查看集群中指定 index 的详细信息
+GET /_cat/indices/{index}
+
+# 查看各 index 的 segment 详细信息,包括 segment 名,所属 shard,内存(磁盘)占用大小,是否刷盘
+GET /_cat/segments
+
+# 查看指定 index 的 segment 详细信息
+GET /_cat/segments/{index}
+
+# 查看当前集群的 doc 数量
+GET /_cat/count
+
+# 查看指定索引的 doc 数量
+GET /_cat/count/{index}
+
+# 查看集群内每个 shard 的 recovery 过程,调整 replica
+GET /_cat/recovery
+
+# 查看指定索引 shard 的 recovery 过程
+GET /_cat/recovery/{index}
+
+# 查看集群当前状态: 红、黄、绿
+GET /_cat/health
+
+# 查看当前集群的 pending task
+GET /_cat/pending_tasks
+
+# 查看集群中所有 alias 信息,路由配置等
+GET /_cat/aliases
+
+ # 查看指定索引的 alias 信息
+GET /_cat/aliases/{alias}
+
+# 查看集群各节点内部不同类型的 threadpool 的统计信息
+GET /_cat/thread_pool
+
+# 查看集群各个节点上的 plugin 信息
+GET /_cat/plugins
+
+# 查看当前集群各个节点的 fielddata 内存使用情况
+GET /_cat/fielddata
+
+# 查看指定 field 的内存使用情况,里面传 field 属性对应的值
+GET /_cat/fielddata/{fields}
+
+# 查看单节点的自定义属性
+GET /_cat/nodeattrs
+
+# 输出集群中注册快照存储库
+GET /_cat/repositories
+
+# 输出当前正在存在的模板信息
+GET /_cat/templates
+```
+
+### 0.2.集群
+
+```shell
+# 用于获取集群的健康状态,返回的状态信息包括集群是否绿色green/yellow/red,以及集群的节点数、数据分片等信息
+GET /_cluster/health
+
+# 提供整个集群的统计信息,包括索引、节点、分片等的详细信息
+GET /_cluster/stats
+
+# 返回集群的状态信息,包含集群的元数据、路由表、分片信息等.这个接口非常详细,用于调试和分析集群状态
+GET /_cluster/state
+
+# 获取和更新集群级别的设置,你可以通过这个接口查看当前的动态设置,也可以用来修改某些配置项
+GET /_cluster/settings
+
+# 显示集群当前等待执行的任务,这些任务通常包括分片的分配、索引的创建等
+GET /_cluster/pending_tasks
+
+# 手动触发集群的分片重新分配,可以指定分片的移动、复制等操作
+GET /_cluster/reroute
+
+# 解释为什么某些分片不能分配到节点上,对于集群故障排查和优化分片分配策略非常有帮助
+GET /_cluster/allocation/explain
+
+# 用于查看节点的 "热点" 线程,显示节点上正在消耗大量 CPU 的线程信息
+GET /_cluster/nodes/hot_threads
+
+# 用于排除投票节点,通常用于集群升级或者节点移除场景
+POST /_cluster/voting_config_exclusions
+DELATE /_cluster/voting_config_exclusions
+```
+
 
 
 ## 1.`match`
