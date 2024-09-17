@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.photowey.grpc.in.action.api";
+option java_multiple_files = false;
+option java_outer_classname = "HelloProto";
+
+message HelloRequest {
+  string name = 1;
+}
+
+message  HeResponse {
+  string message = 1;
+}
+
+service HelloService {
+  rpc hello(HelloRequest) returns (HeResponse);
+}
