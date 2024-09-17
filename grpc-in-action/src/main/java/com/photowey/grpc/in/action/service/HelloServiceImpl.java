@@ -33,12 +33,12 @@ import org.springframework.stereotype.Service;
 public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
     @Override
-    public void hello(HelloProto.HelloRequest request, StreamObserver<HelloProto.HeResponse> responseObserver) {
+    public void hello(HelloProto.HelloRequest request, StreamObserver<HelloProto.HelloResponse> responseObserver) {
         String name = request.getName();
         log.info("gRPC: hello.request.parameter.name is:{}", name);
         // 18:19:52.370 [grpc-default-executor-0] INFO com.photowey.grpc.in.action.service.HelloServiceImpl - gRPC: hello.request.parameter.name is:photowey
 
-        HelloProto.HeResponse response = HelloProto.HeResponse.newBuilder()
+        HelloProto.HelloResponse response = HelloProto.HelloResponse.newBuilder()
                 .setMessage("Hello, " + name + "!")
                 .build();
 
