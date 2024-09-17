@@ -145,6 +145,7 @@
         <module>object-pool-in-action</module>
         <module>dameng-in-action</module>
         <module>grpc-in-action</module>
+        <module>grpc-spring-boot-in-action</module>
     </modules>
 
     <dependencyManagement>
