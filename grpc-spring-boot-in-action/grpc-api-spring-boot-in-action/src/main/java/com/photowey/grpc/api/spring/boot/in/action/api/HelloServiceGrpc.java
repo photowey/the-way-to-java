@@ -5,7 +5,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-        value = "by gRPC proto compiler (version 1.66.0)",
+        value = "by gRPC proto compiler (version 1.63.0)",
         comments = "Source: Hello.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class HelloServiceGrpc {
@@ -16,34 +16,34 @@ public final class HelloServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest,
-          com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getHelloMethod;
+          com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getSayHelloMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-          fullMethodName = SERVICE_NAME + '/' + "hello",
+          fullMethodName = SERVICE_NAME + '/' + "sayHello",
           requestType = com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest.class,
           responseType = com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse.class,
           methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest,
-          com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getHelloMethod() {
-    io.grpc.MethodDescriptor<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getHelloMethod;
-    if ((getHelloMethod = HelloServiceGrpc.getHelloMethod) == null) {
+          com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getSayHelloMethod() {
+    io.grpc.MethodDescriptor<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> getSayHelloMethod;
+    if ((getSayHelloMethod = HelloServiceGrpc.getSayHelloMethod) == null) {
       synchronized (HelloServiceGrpc.class) {
-        if ((getHelloMethod = HelloServiceGrpc.getHelloMethod) == null) {
-          HelloServiceGrpc.getHelloMethod = getHelloMethod =
+        if ((getSayHelloMethod = HelloServiceGrpc.getSayHelloMethod) == null) {
+          HelloServiceGrpc.getSayHelloMethod = getSayHelloMethod =
                   io.grpc.MethodDescriptor.<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse>newBuilder()
                           .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "hello"))
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "sayHello"))
                           .setSampledToLocalTracing(true)
                           .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                                   com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest.getDefaultInstance()))
                           .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                                   com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse.getDefaultInstance()))
-                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("hello"))
+                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("sayHello"))
                           .build();
         }
       }
     }
-    return getHelloMethod;
+    return getSayHelloMethod;
   }
 
   /**
@@ -91,16 +91,14 @@ public final class HelloServiceGrpc {
   }
 
   /**
-   *
    */
   public interface AsyncService {
 
     /**
-     *
      */
-    default void hello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request,
-                       io.grpc.stub.StreamObserver<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHelloMethod(), responseObserver);
+    default void sayHello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request,
+                          io.grpc.stub.StreamObserver<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSayHelloMethod(), responseObserver);
     }
   }
 
@@ -133,12 +131,11 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
-    public void hello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request,
-                      io.grpc.stub.StreamObserver<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> responseObserver) {
+    public void sayHello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request,
+                         io.grpc.stub.StreamObserver<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-              getChannel().newCall(getHelloMethod(), getCallOptions()), request, responseObserver);
+              getChannel().newCall(getSayHelloMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -159,11 +156,10 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
-    public com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse hello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request) {
+    public com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse sayHello(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-              getChannel(), getHelloMethod(), getCallOptions(), request);
+              getChannel(), getSayHelloMethod(), getCallOptions(), request);
     }
   }
 
@@ -184,16 +180,15 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> hello(
+    public com.google.common.util.concurrent.ListenableFuture<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse> sayHello(
             com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-              getChannel().newCall(getHelloMethod(), getCallOptions()), request);
+              getChannel().newCall(getSayHelloMethod(), getCallOptions()), request);
     }
   }
 
-  private static final int METHODID_HELLO = 0;
+  private static final int METHODID_SAY_HELLO = 0;
 
   private static final class MethodHandlers<Req, Resp> implements
           io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -212,8 +207,8 @@ public final class HelloServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_HELLO:
-          serviceImpl.hello((com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest) request,
+        case METHODID_SAY_HELLO:
+          serviceImpl.sayHello((com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest) request,
                   (io.grpc.stub.StreamObserver<com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse>) responseObserver);
           break;
         default:
@@ -235,12 +230,12 @@ public final class HelloServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
             .addMethod(
-                    getHelloMethod(),
+                    getSayHelloMethod(),
                     io.grpc.stub.ServerCalls.asyncUnaryCall(
                             new MethodHandlers<
                                     com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest,
                                     com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse>(
-                                    service, METHODID_HELLO)))
+                                    service, METHODID_SAY_HELLO)))
             .build();
   }
 
@@ -289,7 +284,7 @@ public final class HelloServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
                   .setSchemaDescriptor(new HelloServiceFileDescriptorSupplier())
-                  .addMethod(getHelloMethod())
+                  .addMethod(getSayHelloMethod())
               .build();
         }
       }

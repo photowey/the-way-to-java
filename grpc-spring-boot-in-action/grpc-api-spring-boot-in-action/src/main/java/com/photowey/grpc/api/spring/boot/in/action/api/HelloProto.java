@@ -6,7 +6,6 @@ package com.photowey.grpc.api.spring.boot.in.action.api;
 
 public final class HelloProto {
   private HelloProto() {}
-
   public static void registerAllExtensions(
           com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -16,27 +15,22 @@ public final class HelloProto {
     registerAllExtensions(
             (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-
   public interface HelloRequestOrBuilder extends
           // @@protoc_insertion_point(interface_extends:HelloRequest)
           com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     java.lang.String getName();
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     com.google.protobuf.ByteString
     getNameBytes();
   }
-
   /**
    * Protobuf type {@code HelloRequest}
    */
@@ -45,12 +39,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloRequest)
           HelloRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloRequest.newBuilder() to construct.
     private HelloRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloRequest() {
       name_ = "";
     }
@@ -78,10 +70,8 @@ public final class HelloProto {
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     @java.lang.Override
@@ -97,10 +87,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     @java.lang.Override
@@ -119,7 +107,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -188,45 +175,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -248,14 +228,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -266,15 +244,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -287,7 +262,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloRequest}
      */
@@ -318,7 +292,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -366,40 +339,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest) {
@@ -464,14 +431,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object name_ = "";
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The name.
        */
       public java.lang.String getName() {
@@ -486,10 +450,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
@@ -505,10 +467,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The name to set.
        * @return This builder for chaining.
        */
@@ -520,10 +480,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearName() {
@@ -532,10 +490,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
@@ -548,7 +504,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -567,7 +522,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloRequest)
     private static final com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloRequest();
     }
@@ -620,20 +574,16 @@ public final class HelloProto {
 
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     java.lang.String getMessage();
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     com.google.protobuf.ByteString
     getMessageBytes();
   }
-
   /**
    * Protobuf type {@code HelloResponse}
    */
@@ -642,12 +592,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloResponse)
           HelloResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloResponse.newBuilder() to construct.
     private HelloResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloResponse() {
       message_ = "";
     }
@@ -675,10 +623,8 @@ public final class HelloProto {
     public static final int MESSAGE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object message_ = "";
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     @java.lang.Override
@@ -694,10 +640,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     @java.lang.Override
@@ -716,7 +660,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -785,45 +728,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -845,14 +781,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -863,15 +797,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -884,7 +815,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloResponse}
      */
@@ -915,7 +845,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -963,40 +892,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse) {
@@ -1061,14 +984,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object message_ = "";
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The message.
        */
       public java.lang.String getMessage() {
@@ -1083,10 +1003,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
@@ -1102,10 +1020,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The message to set.
        * @return This builder for chaining.
        */
@@ -1117,10 +1033,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
@@ -1129,10 +1043,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
@@ -1145,7 +1057,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1164,7 +1075,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloResponse)
     private static final com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.api.spring.boot.in.action.api.HelloProto.HelloResponse();
     }
@@ -1229,15 +1139,14 @@ public final class HelloProto {
 
   private static com.google.protobuf.Descriptors.FileDescriptor
           descriptor;
-
   static {
     java.lang.String[] descriptorData = {
             "\n\013Hello.proto\"\034\n\014HelloRequest\022\014\n\004name\030\001 " +
-                    "\001(\t\" \n\rHelloResponse\022\017\n\007message\030\001 \001(\t26\n" +
-                    "\014HelloService\022&\n\005hello\022\r.HelloRequest\032\016." +
-                    "HelloResponseB?\n/com.photowey.grpc.api.s" +
-                    "pring.boot.in.action.apiB\nHelloProtoP\000b\006" +
-                    "proto3"
+                    "\001(\t\" \n\rHelloResponse\022\017\n\007message\030\001 \001(\t29\n" +
+                    "\014HelloService\022)\n\010sayHello\022\r.HelloRequest" +
+                    "\032\016.HelloResponseB?\n/com.photowey.grpc.ap" +
+                    "i.spring.boot.in.action.apiB\nHelloProtoP" +
+                    "\000b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
             .internalBuildGeneratedFileFrom(descriptorData,
