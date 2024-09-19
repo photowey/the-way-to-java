@@ -53,13 +53,6 @@
                 <artifactId>grpc-spring-boot-starter</artifactId>
                 <version>${grpc-spring.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>net.devh</groupId>
-                <artifactId>grpc-spring-boot-starter</artifactId>
-                <version>${grpc-spring.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>net.devh</groupId>
                 <artifactId>grpc-server-spring-boot-starter</artifactId>
