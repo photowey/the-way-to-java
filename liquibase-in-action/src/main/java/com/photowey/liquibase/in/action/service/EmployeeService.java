@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.liauibase.in.action;
+package com.photowey.liquibase.in.action.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.photowey.liquibase.in.action.domain.entity.Employee;
 
 /**
- * {@code AppTests}
+ * {@code EmployeeService}
  *
  * @author photowey
+ * @version 1.0.0
  * @since 2024/10/01
  */
-class AppTests {
-
-}
+public interface EmployeeService extends IService<Employee> {}

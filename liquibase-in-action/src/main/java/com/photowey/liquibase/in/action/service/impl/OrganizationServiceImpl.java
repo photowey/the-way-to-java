@@ -13,13 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.liauibase.in.action;
+package com.photowey.liquibase.in.action.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.photowey.liquibase.in.action.domain.entity.Organization;
+import com.photowey.liquibase.in.action.repository.OrganizationRepository;
+import com.photowey.liquibase.in.action.service.OrganizationService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
- * {@code App}
+ * {@code OrganizationServiceImpl} Service Impl
  *
  * @author photowey
  * @version 1.0.0
  * @since 2024/10/01
  */
-public class App {}
+@Slf4j
+@Service
+public class OrganizationServiceImpl extends ServiceImpl<OrganizationRepository, Organization> implements OrganizationService {}
+

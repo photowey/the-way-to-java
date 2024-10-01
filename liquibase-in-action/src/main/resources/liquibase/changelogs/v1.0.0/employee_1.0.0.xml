@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- https://docs.liquibase.com/change-types/nested-tags/column.html -->
+
+    <changeSet id="employee_20241001_001" author="photowey" dbms="mysql" context="dev,test,stage" labels="v1.0.0">
+        <createTable tableName="employee">
+            <column name="id" type="${type.bigint}(20)" remarks="主键标识" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="create_by" type="${type.bigint}(20)" remarks="创建人">
+                <constraints nullable="false"/>
+            </column>
+            <column name="update_by" type="${type.bigint}(20)" remarks="更新人">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" type="${type.timestamp}" remarks="创建时间">
+                <constraints nullable="false"/>
+            </column>
+            <column name="update_time" type="${type.timestamp}" remarks="更新时间"
+                    defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="${type.tinyint}(2)" remarks="删除标记 0:未删除 1:已删除">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="employee_no" type="${type.varchar}(32)" remarks="工号">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_id" type="${type.bigint}(20)" remarks="隶属机构标识">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_name" type="${type.varchar}(64)" remarks="组织名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sorted" type="${type.varchar}(32)" remarks="排序序号">
+                <constraints nullable="false"/>
+            </column>
+            <column name="states" type="${type.int}(4)" remarks="状态">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="remark" type="${type.text}" remarks="备注">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <replace replace="MODIFY COLUMN update_time timestamp"
+                     with="MODIFY COLUMN update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
+        </modifySql>
+    </changeSet>
+</databaseChangeLog>

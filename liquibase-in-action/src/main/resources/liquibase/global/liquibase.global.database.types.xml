@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <property name="type.varchar" value="VARCHAR"/>
+
+    <property name="type.bigint" value="BIGINT" dbms="mysql"/>
+
+    <property name="type.tinyint" value="TINYINT" dbms="mysql"/>
+    <property name="type.tinyint" value="INT" dbms="oracle,dm,kingbase"/>
+
+    <property name="type.int" value="INT" dbms="mysql"/>
+    <property name="type.int" value="INT" dbms="oracle,dm,kingbase"/>
+
+    <property name="type.datetime" value="DATE" dbms="oracle,dm,mssql"/>
+    <property name="type.datetime" value="DATETIME" dbms="mysql"/>
+
+    <property name="type.timestamp" value="TIMESTAMP" dbms="mysql"/>
+
+    <property name="type.blob" value="BLOB" dbms="mysql"/>
+
+    <property name="type.clob" value="CLOB" dbms="oracle,db2,dm,kingbase"/>
+    <property name="type.clob" value="LONGTEXT" dbms="mysql"/>
+    <property name="type.clob" value="TEXT" dbms="mssql"/>
+
+    <property name="type.text" value="TEXT" dbms="mysql"/>
+
+</databaseChangeLog>

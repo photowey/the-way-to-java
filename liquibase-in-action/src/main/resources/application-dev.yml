@@ -1,3 +1,16 @@
+# ----------------------------------------------------------------
+
+local:
+  config:
+    mysql:
+      host: "192.168.1.11"
+      port: 3307
+      username: "root"
+      password: "root"
+      database: "liquibase_in_action"
+
+# ----------------------------------------------------------------
+
 management:
   endpoint:
     shutdown:
@@ -11,6 +24,8 @@ management:
         # include: [health,info,beans,env,configprops,mappings,metrics]
         include: "*"
 
+# ----------------------------------------------------------------
+
 # custom the /actuator/info endpoint
 info:
   app:
@@ -21,3 +36,39 @@ info:
       target: @java.version@
   evn:
     active: ${spring.profiles.active}
+
+# ----------------------------------------------------------------
+
+spring:
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    type: "com.alibaba.druid.pool.DruidDataSource"
+    url: "jdbc:mysql://${local.config.mysql.host}:${local.config.mysql.port}/${local.config.mysql.database}?useUnicode=true&characterEncoding=UTF-8&useSSL=false"
+    username: ${local.config.mysql.username}
+    password: ${local.config.mysql.password}
+  liquibase:
+    enabled: true
+    drop-first: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+    change-log: "classpath:/liquibase/master.xml"
+    database-change-log-table: "database_change_log"
+    database-change-log-lock-table: "database_change_log_lock"
+
+# ----------------------------------------------------------------
+
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+    jdbc-type-for-null: "null"
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+  check-config-location: true
+  mapper-locations: "classpath:mapper/*.xml"
+  type-aliases-package: "com.photowey.liquibase.in.action.domain.entity"
