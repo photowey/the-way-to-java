@@ -56,8 +56,8 @@ public class MyService implements MyServiceInterface {
     public void doLongRunningJob(String anArgument) {
         try {
             for (int i = 0; i < 10; i++) {
-                System.out.println(String.format("Doing work item %d: %s", i, anArgument));
-                Thread.sleep(20000);
+                System.out.printf("Doing work item %d: %s%n", i, anArgument);
+                Thread.sleep(20_000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -70,8 +70,8 @@ public class MyService implements MyServiceInterface {
             final JobDashboardProgressBar progressBar = jobContext.progressBar(10);
             for (int i = 0; i < 10; i++) {
                 LOGGER.info(String.format("Processing item %d: %s", i, anArgument));
-                System.out.println(String.format("Doing work item %d: %s", i, anArgument));
-                Thread.sleep(15000);
+                System.out.printf("Doing work item %d: %s%n", i, anArgument);
+                Thread.sleep(15_000);
                 progressBar.increaseByOne();
             }
             LOGGER.warn("Finished long running job...");

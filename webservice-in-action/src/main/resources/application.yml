@@ -1,0 +1,12 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: "webservice-in-action"
+  profiles:
+    active: dev
+
+logging:
+  pattern:
+    console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
