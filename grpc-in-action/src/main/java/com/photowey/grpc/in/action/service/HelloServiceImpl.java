@@ -135,8 +135,11 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         return new StreamObserver<>() {
             @Override
             public void onNext(HelloProto.HelloBidiStreamingRequest request) {
+                String name = request.getName();
+                log.info("gRPC: hello.request.bidi.streaming.parameter.name is:{}", name);
+
                 HelloProto.HelloBidiStreamingResponse response = HelloProto.HelloBidiStreamingResponse.newBuilder()
-                        .setMessage(request.getName())
+                        .setMessage("Hello, bidiStreaming " + name + "!")
                         .build();
 
                 responseObserver.onNext(response);
@@ -149,6 +152,7 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
             @Override
             public void onCompleted() {
+                log.info("gRPC: hello.bidi.streaming.request call onCompleted()");
                 if (tryInjectError()) {
                     responseObserver.onError(Status.INTERNAL.asException());
 
