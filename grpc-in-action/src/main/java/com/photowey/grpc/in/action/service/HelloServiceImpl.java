@@ -107,9 +107,11 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
             return;
         }
 
+        String name = request.getName();
+
         for (int i = 0; i < 10; i++) {
             HelloProto.HelloServerStreamingResponse response = HelloProto.HelloServerStreamingResponse.newBuilder()
-                    .setMessage(request.getName() + ":" + (i + 1))
+                    .setMessage("Hello, " + name + ":" + (i + 1) + "!")
                     .build();
             responseObserver.onNext(response);
 

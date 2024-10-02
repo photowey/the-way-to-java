@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.grpc.in.action.service.hello.c2ss;
+package com.photowey.grpc.in.action.service.hello.c2ss.async;
 
 import com.photowey.grpc.in.action.api.HelloProto;
 import com.photowey.grpc.in.action.api.HelloServiceGrpc;
-import io.grpc.*;
+import io.grpc.Channel;
+import io.grpc.Grpc;
+import io.grpc.InsecureChannelCredentials;
+import io.grpc.ManagedChannel;
+import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,10 +36,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class Client {
 
-    private final HelloServiceGrpc.HelloServiceBlockingStub blockingStub;
+    private final HelloServiceGrpc.HelloServiceStub asyncStub;
 
     public Client(Channel channel) {
-        blockingStub = HelloServiceGrpc.newBlockingStub(channel);
+        asyncStub = HelloServiceGrpc.newStub(channel);
     }
 
     public static void main(String[] args) throws Exception {
@@ -47,6 +50,7 @@ public class Client {
         try {
             Client client = new Client(channel);
             client.c2ss(name);
+            channel.awaitTermination(15, TimeUnit.SECONDS);
         } finally {
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
         }
@@ -59,16 +63,32 @@ public class Client {
         HelloProto.HelloServerStreamingRequest request = HelloProto.HelloServerStreamingRequest.newBuilder()
                 .setName(name)
                 .build();
-        try {
-            Iterator<HelloProto.HelloServerStreamingResponse> iterator = blockingStub.serverStreaming(request);
-            while (iterator.hasNext()) {
-                HelloProto.HelloServerStreamingResponse response = iterator.next();
+
+        asyncStub.serverStreaming(request, new StreamObserver<>() {
+            @Override
+            public void onNext(HelloProto.HelloServerStreamingResponse response) {
                 log.info("C2ss: {}", response.getMessage());
             }
 
-            log.info("C2ss after call serverStreaming()");
-        } catch (StatusRuntimeException e) {
-            log.error("C2ss failed", e);
+            @Override
+            public void onError(Throwable t) {
+                log.info("{} onError ...", name, t);
+            }
+
+            @Override
+            public void onCompleted() {
+                log.info("{} onCompleted ...", name);
+            }
+        });
+
+        log.info("C2ss after call serverStreaming()");
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
