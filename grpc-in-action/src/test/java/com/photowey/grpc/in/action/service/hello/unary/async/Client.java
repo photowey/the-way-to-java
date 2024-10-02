@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.grpc.in.action.service.hello;
+package com.photowey.grpc.in.action.service.hello.unary.async;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.photowey.grpc.in.action.api.HelloProto;
 import com.photowey.grpc.in.action.api.HelloServiceGrpc;
-import io.grpc.*;
+import io.grpc.Channel;
+import io.grpc.Grpc;
+import io.grpc.InsecureChannelCredentials;
+import io.grpc.ManagedChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,10 +41,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class Client {
 
-    private final HelloServiceGrpc.HelloServiceBlockingStub blockingStub;
+    private final HelloServiceGrpc.HelloServiceFutureStub futureStub;
+    private static final ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public Client(Channel channel) {
-        blockingStub = HelloServiceGrpc.newBlockingStub(channel);
+        futureStub = HelloServiceGrpc.newFutureStub(channel);
     }
 
     public static void main(String[] args) throws Exception {
@@ -45,7 +55,10 @@ public class Client {
                 .build();
         try {
             Client client = new Client(channel);
-            client.greet(name);
+            client.greetAsync(name);
+            channel.awaitTermination(3, TimeUnit.SECONDS);
+
+            threadPool.shutdownNow();
         } finally {
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
         }
@@ -53,18 +66,31 @@ public class Client {
         // ...
     }
 
-    public void greet(String name) {
+    public void greetAsync(String name) {
         log.info("Will try to greet {} ...", name);
         HelloProto.HelloRequest request = HelloProto.HelloRequest.newBuilder()
                 .setName(name)
                 .build();
-        try {
-            HelloProto.HelloResponse response = blockingStub.unary(request);
-            log.info("Greeting: {}", response.getMessage());
 
-            // 18:19:52.465 [main] INFO com.photowey.grpc.in.action.service.hello.Client - Greeting: Hello, photowey!
-        } catch (StatusRuntimeException e) {
-            log.error("Greeting failed", e);
-        }
+        ListenableFuture<HelloProto.HelloResponse> future = futureStub.unaryAsync(request);
+
+        /**
+         future.addListener(() -> {
+         log.info("Greeting async response");
+         }, Executors.newCachedThreadPool());
+         */
+
+        Futures.addCallback(future, new FutureCallback<>() {
+            @Override
+            public void onSuccess(HelloProto.@Nullable HelloResponse response) {
+                assert response != null;
+                log.info("Greeting async response: {}", response.getMessage());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                log.error("Greeting async failed", t);
+            }
+        }, threadPool);
     }
 }

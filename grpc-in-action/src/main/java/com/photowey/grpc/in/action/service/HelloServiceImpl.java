@@ -66,6 +66,19 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void unaryAsync(HelloProto.HelloRequest request, StreamObserver<HelloProto.HelloResponse> responseObserver) {
+        String name = request.getName();
+        log.info("gRPC: hello.async.request.parameter.name is:{}", name);
+
+        HelloProto.HelloResponse response = HelloProto.HelloResponse.newBuilder()
+                .setMessage("Hello, async " + name + "!")
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
     /**
      * 客户端流式 {@code RPC}
      * IOT

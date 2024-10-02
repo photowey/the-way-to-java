@@ -4495,7 +4495,7 @@ public final class HelloProto {
       "st\022\014\n\004name\030\001 \001(\t\"/\n\034HelloServerStreaming" +
                     "Response\022\017\n\007message\030\001 \001(\t\")\n\031HelloBidiSt" +
                     "reamingRequest\022\014\n\004name\030\001 \001(\t\"-\n\032HelloBid" +
-                    "iStreamingResponse\022\017\n\007message\030\001 \001(\t2\256\002\n\014" +
+                    "iStreamingResponse\022\017\n\007message\030\001 \001(\t2\333\002\n\014" +
                     "HelloService\022&\n\005unary\022\r.HelloRequest\032\016.H" +
                     "elloResponse\022R\n\017clientStreaming\022\034.HelloC" +
                     "lientStreamingRequest\032\035.HelloClientStrea" +
@@ -4503,8 +4503,10 @@ public final class HelloProto {
                     "lloServerStreamingRequest\032\035.HelloServerS" +
                     "treamingResponse\"\0000\001\022N\n\rbidiStreaming\022\032." +
                     "HelloBidiStreamingRequest\032\033.HelloBidiStr" +
-                    "eamingResponse\"\000(\0010\001B/\n\037com.photowey.grp" +
-                    "c.in.action.apiB\nHelloProtoP\000b\006proto3"
+                    "eamingResponse\"\000(\0010\001\022+\n\nunaryAsync\022\r.Hel" +
+                    "loRequest\032\016.HelloResponseB/\n\037com.photowe" +
+                    "y.grpc.in.action.apiB\nHelloProtoP\000b\006prot" +
+                    "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
             .internalBuildGeneratedFileFrom(descriptorData,

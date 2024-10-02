@@ -51,4 +51,5 @@ service HelloService {
   rpc clientStreaming (stream HelloClientStreamingRequest) returns (HelloClientStreamingResponse) {}
   rpc serverStreaming (HelloServerStreamingRequest) returns (stream HelloServerStreamingResponse) {}
   rpc bidiStreaming (stream HelloBidiStreamingRequest) returns (stream HelloBidiStreamingResponse) {}
+  rpc unaryAsync(HelloRequest) returns (HelloResponse);
 }

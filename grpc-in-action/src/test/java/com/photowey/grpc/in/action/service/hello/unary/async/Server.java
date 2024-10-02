@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.grpc.in.action.service.hello;
+package com.photowey.grpc.in.action.service.hello.unary.async;
 
 import com.photowey.grpc.in.action.service.HelloServiceImpl;
 import io.grpc.ServerBuilder;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * {@code Server}
@@ -33,7 +35,7 @@ public class Server {
                 .build();
 
         server.start();
-        server.awaitTermination();
+        server.awaitTermination(10, TimeUnit.SECONDS);
 
         // ...
     }
