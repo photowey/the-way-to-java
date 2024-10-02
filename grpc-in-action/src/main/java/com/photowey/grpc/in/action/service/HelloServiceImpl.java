@@ -22,8 +22,6 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * {@code HelloServiceImpl}
  *
@@ -37,7 +35,9 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
     private boolean tryInjectError() {
         // We create ~5% error.
-        return ThreadLocalRandom.current().nextInt(0, 99) >= 95;
+        // return ThreadLocalRandom.current().nextInt(0, 99) >= 95;
+
+        return false;
     }
 
     @Override
@@ -65,11 +65,12 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         return new StreamObserver<>() {
             @Override
             public void onNext(HelloProto.HelloClientStreamingRequest request) {
-                HelloProto.HelloClientStreamingResponse response = HelloProto.HelloClientStreamingResponse.newBuilder()
-                        .setMessage(request.getName())
-                        .build();
+                // 监控客户端的每条请求
 
-                responseObserver.onNext(response);
+                String name = request.getName();
+                log.info("gRPC: hello.request.client.streaming.parameter.name is:{}", name);
+
+                // Response or NOT?
             }
 
             @Override
@@ -82,6 +83,13 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
                 if (tryInjectError()) {
                     responseObserver.onError(Status.INTERNAL.asException());
                 } else {
+                    // 接收到全部消息 -> 再响应结束
+
+                    HelloProto.HelloClientStreamingResponse response = HelloProto.HelloClientStreamingResponse.newBuilder()
+                            .setMessage("Hello, finished!")
+                            .build();
+
+                    responseObserver.onNext(response);
                     responseObserver.onCompleted();
                 }
             }
@@ -111,7 +119,7 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
         for (int i = 0; i < 10; i++) {
             HelloProto.HelloServerStreamingResponse response = HelloProto.HelloServerStreamingResponse.newBuilder()
-                    .setMessage("Hello, " + name + ":" + (i + 1) + "!")
+                    .setMessage("Hello, serverStreaming " + name + ":" + (i + 1) + "!")
                     .build();
             responseObserver.onNext(response);
 
