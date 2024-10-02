@@ -1125,20 +1125,16 @@ public final class HelloProto {
 
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     java.lang.String getName();
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     com.google.protobuf.ByteString
     getNameBytes();
   }
-
   /**
    * Protobuf type {@code HelloClientStreamingRequest}
    */
@@ -1147,12 +1143,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloClientStreamingRequest)
           HelloClientStreamingRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloClientStreamingRequest.newBuilder() to construct.
     private HelloClientStreamingRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloClientStreamingRequest() {
       name_ = "";
     }
@@ -1180,10 +1174,8 @@ public final class HelloProto {
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     @java.lang.Override
@@ -1199,10 +1191,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     @java.lang.Override
@@ -1221,7 +1211,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1290,45 +1279,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1350,14 +1332,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1368,15 +1348,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -1389,7 +1366,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloClientStreamingRequest}
      */
@@ -1420,7 +1396,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -1468,40 +1443,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest) {
@@ -1566,14 +1535,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object name_ = "";
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The name.
        */
       public java.lang.String getName() {
@@ -1588,10 +1554,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
@@ -1607,10 +1571,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The name to set.
        * @return This builder for chaining.
        */
@@ -1622,10 +1584,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearName() {
@@ -1634,10 +1594,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
@@ -1650,7 +1608,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1669,7 +1626,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloClientStreamingRequest)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest();
     }
@@ -1722,20 +1678,16 @@ public final class HelloProto {
 
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     java.lang.String getMessage();
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     com.google.protobuf.ByteString
     getMessageBytes();
   }
-
   /**
    * Protobuf type {@code HelloClientStreamingResponse}
    */
@@ -1744,12 +1696,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloClientStreamingResponse)
           HelloClientStreamingResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloClientStreamingResponse.newBuilder() to construct.
     private HelloClientStreamingResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloClientStreamingResponse() {
       message_ = "";
     }
@@ -1777,10 +1727,8 @@ public final class HelloProto {
     public static final int MESSAGE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object message_ = "";
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     @java.lang.Override
@@ -1796,10 +1744,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     @java.lang.Override
@@ -1818,7 +1764,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1887,45 +1832,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1947,14 +1885,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1965,15 +1901,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -1986,7 +1919,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloClientStreamingResponse}
      */
@@ -2017,7 +1949,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -2065,40 +1996,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse) {
@@ -2163,14 +2088,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object message_ = "";
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The message.
        */
       public java.lang.String getMessage() {
@@ -2185,10 +2107,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
@@ -2204,10 +2124,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The message to set.
        * @return This builder for chaining.
        */
@@ -2219,10 +2137,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
@@ -2231,10 +2147,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
@@ -2247,7 +2161,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2266,7 +2179,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloClientStreamingResponse)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse();
     }
@@ -2319,20 +2231,16 @@ public final class HelloProto {
 
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     java.lang.String getName();
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     com.google.protobuf.ByteString
     getNameBytes();
   }
-
   /**
    * Protobuf type {@code HelloServerStreamingRequest}
    */
@@ -2341,12 +2249,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloServerStreamingRequest)
           HelloServerStreamingRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloServerStreamingRequest.newBuilder() to construct.
     private HelloServerStreamingRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloServerStreamingRequest() {
       name_ = "";
     }
@@ -2374,10 +2280,8 @@ public final class HelloProto {
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     @java.lang.Override
@@ -2393,10 +2297,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     @java.lang.Override
@@ -2415,7 +2317,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2484,45 +2385,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2544,14 +2438,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2562,15 +2454,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -2583,7 +2472,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloServerStreamingRequest}
      */
@@ -2614,7 +2502,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -2662,40 +2549,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest) {
@@ -2760,14 +2641,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object name_ = "";
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The name.
        */
       public java.lang.String getName() {
@@ -2782,10 +2660,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
@@ -2801,10 +2677,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The name to set.
        * @return This builder for chaining.
        */
@@ -2816,10 +2690,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearName() {
@@ -2828,10 +2700,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
@@ -2844,7 +2714,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2863,7 +2732,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloServerStreamingRequest)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest();
     }
@@ -2916,20 +2784,16 @@ public final class HelloProto {
 
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     java.lang.String getMessage();
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     com.google.protobuf.ByteString
     getMessageBytes();
   }
-
   /**
    * Protobuf type {@code HelloServerStreamingResponse}
    */
@@ -2938,12 +2802,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloServerStreamingResponse)
           HelloServerStreamingResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloServerStreamingResponse.newBuilder() to construct.
     private HelloServerStreamingResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloServerStreamingResponse() {
       message_ = "";
     }
@@ -2971,10 +2833,8 @@ public final class HelloProto {
     public static final int MESSAGE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object message_ = "";
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     @java.lang.Override
@@ -2990,10 +2850,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     @java.lang.Override
@@ -3012,7 +2870,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3081,45 +2938,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3141,14 +2991,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3159,15 +3007,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -3180,7 +3025,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloServerStreamingResponse}
      */
@@ -3211,7 +3055,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -3259,40 +3102,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse) {
@@ -3357,14 +3194,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object message_ = "";
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The message.
        */
       public java.lang.String getMessage() {
@@ -3379,10 +3213,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
@@ -3398,10 +3230,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The message to set.
        * @return This builder for chaining.
        */
@@ -3413,10 +3243,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
@@ -3425,10 +3253,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
@@ -3441,7 +3267,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3460,7 +3285,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloServerStreamingResponse)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse();
     }
@@ -3513,20 +3337,16 @@ public final class HelloProto {
 
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     java.lang.String getName();
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     com.google.protobuf.ByteString
     getNameBytes();
   }
-
   /**
    * Protobuf type {@code HelloBidiStreamingRequest}
    */
@@ -3535,12 +3355,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloBidiStreamingRequest)
           HelloBidiStreamingRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloBidiStreamingRequest.newBuilder() to construct.
     private HelloBidiStreamingRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloBidiStreamingRequest() {
       name_ = "";
     }
@@ -3568,10 +3386,8 @@ public final class HelloProto {
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The name.
      */
     @java.lang.Override
@@ -3587,10 +3403,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string name = 1;</code>
-     *
      * @return The bytes for name.
      */
     @java.lang.Override
@@ -3609,7 +3423,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3678,45 +3491,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3738,14 +3544,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3756,15 +3560,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -3777,7 +3578,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloBidiStreamingRequest}
      */
@@ -3808,7 +3608,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -3856,40 +3655,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest) {
@@ -3954,14 +3747,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object name_ = "";
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The name.
        */
       public java.lang.String getName() {
@@ -3976,10 +3766,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
@@ -3995,10 +3783,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The name to set.
        * @return This builder for chaining.
        */
@@ -4010,10 +3796,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearName() {
@@ -4022,10 +3806,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string name = 1;</code>
-       *
        * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
@@ -4038,7 +3820,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4057,7 +3838,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloBidiStreamingRequest)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest();
     }
@@ -4110,20 +3890,16 @@ public final class HelloProto {
 
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     java.lang.String getMessage();
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     com.google.protobuf.ByteString
     getMessageBytes();
   }
-
   /**
    * Protobuf type {@code HelloBidiStreamingResponse}
    */
@@ -4132,12 +3908,10 @@ public final class HelloProto {
           // @@protoc_insertion_point(message_implements:HelloBidiStreamingResponse)
           HelloBidiStreamingResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use HelloBidiStreamingResponse.newBuilder() to construct.
     private HelloBidiStreamingResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private HelloBidiStreamingResponse() {
       message_ = "";
     }
@@ -4165,10 +3939,8 @@ public final class HelloProto {
     public static final int MESSAGE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object message_ = "";
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The message.
      */
     @java.lang.Override
@@ -4184,10 +3956,8 @@ public final class HelloProto {
         return s;
       }
     }
-
     /**
      * <code>string message = 1;</code>
-     *
      * @return The bytes for message.
      */
     @java.lang.Override
@@ -4206,7 +3976,6 @@ public final class HelloProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4275,45 +4044,38 @@ public final class HelloProto {
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             java.nio.ByteBuffer data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             com.google.protobuf.ByteString data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             com.google.protobuf.ByteString data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(byte[] data)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             byte[] data,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(java.io.InputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             java.io.InputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4335,14 +4097,12 @@ public final class HelloProto {
       return com.google.protobuf.GeneratedMessageV3
               .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input)
             throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
               .parseWithIOException(PARSER, input);
     }
-
     public static com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse parseFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4353,15 +4113,12 @@ public final class HelloProto {
 
     @java.lang.Override
     public Builder newBuilderForType() {return newBuilder();}
-
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
     public static Builder newBuilder(com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
@@ -4374,7 +4131,6 @@ public final class HelloProto {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code HelloBidiStreamingResponse}
      */
@@ -4405,7 +4161,6 @@ public final class HelloProto {
         super(parent);
 
       }
-
       @java.lang.Override
       public Builder clear() {
         super.clear();
@@ -4453,40 +4208,34 @@ public final class HelloProto {
       public Builder clone() {
         return super.clone();
       }
-
       @java.lang.Override
       public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.setField(field, value);
       }
-
       @java.lang.Override
       public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-
       @java.lang.Override
       public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-
       @java.lang.Override
       public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-
       @java.lang.Override
       public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse) {
@@ -4551,14 +4300,11 @@ public final class HelloProto {
         } // finally
         return this;
       }
-
       private int bitField0_;
 
       private java.lang.Object message_ = "";
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The message.
        */
       public java.lang.String getMessage() {
@@ -4573,10 +4319,8 @@ public final class HelloProto {
           return (java.lang.String) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
@@ -4592,10 +4336,8 @@ public final class HelloProto {
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The message to set.
        * @return This builder for chaining.
        */
@@ -4607,10 +4349,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
@@ -4619,10 +4359,8 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>string message = 1;</code>
-       *
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
@@ -4635,7 +4373,6 @@ public final class HelloProto {
         onChanged();
         return this;
       }
-
       @java.lang.Override
       public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4654,7 +4391,6 @@ public final class HelloProto {
 
     // @@protoc_insertion_point(class_scope:HelloBidiStreamingResponse)
     private static final com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse DEFAULT_INSTANCE;
-
     static {
       DEFAULT_INSTANCE = new com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse();
     }
@@ -4749,7 +4485,6 @@ public final class HelloProto {
 
   private static com.google.protobuf.Descriptors.FileDescriptor
           descriptor;
-
   static {
     java.lang.String[] descriptorData = {
             "\n\013Hello.proto\"\034\n\014HelloRequest\022\014\n\004name\030\001 " +
@@ -4758,11 +4493,11 @@ public final class HelloProto {
       "(\t\"/\n\034HelloClientStreamingResponse\022\017\n\007me" +
       "ssage\030\001 \001(\t\"+\n\033HelloServerStreamingReque" +
       "st\022\014\n\004name\030\001 \001(\t\"/\n\034HelloServerStreaming" +
-              "Response\022\017\n\007message\030\001 \001(\t\")\n\031HelloBidiSt" +
+                    "Response\022\017\n\007message\030\001 \001(\t\")\n\031HelloBidiSt" +
                     "reamingRequest\022\014\n\004name\030\001 \001(\t\"-\n\032HelloBid" +
                     "iStreamingResponse\022\017\n\007message\030\001 \001(\t2\256\002\n\014" +
                     "HelloService\022&\n\005unary\022\r.HelloRequest\032\016.H" +
-              "elloResponse\022R\n\017clientStreaming\022\034.HelloC" +
+                    "elloResponse\022R\n\017clientStreaming\022\034.HelloC" +
                     "lientStreamingRequest\032\035.HelloClientStrea" +
                     "mingResponse\"\000(\001\022R\n\017serverStreaming\022\034.He" +
                     "lloServerStreamingRequest\032\035.HelloServerS" +

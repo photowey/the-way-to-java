@@ -52,7 +52,10 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
                 .setMessage("Hello, " + name + "!")
                 .build();
 
+        // 数据回传 -> 客户端
         responseObserver.onNext(response);
+        // 通知客户端 -> 整个服务结束
+        // 响应结束 -> 打上结束标记
         responseObserver.onCompleted();
     }
 
@@ -85,6 +88,15 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         };
     }
 
+    /**
+     * 服务端流式 {@code RPC}
+     * |- 不同时刻, 返回多个结果
+     * |- 例如: 股票系统
+     * |- |- -> 客户端发送某个股票代码 -> 服务端返回某个时刻股票的行情
+     *
+     * @param request          {@link HelloProto.HelloServerStreamingRequest}
+     * @param responseObserver {@link StreamObserver<HelloProto.HelloServerStreamingResponse>}
+     */
     @Override
     public void serverStreaming(
             HelloProto.HelloServerStreamingRequest request,
@@ -95,13 +107,15 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
             return;
         }
 
-        HelloProto.HelloServerStreamingResponse response = HelloProto.HelloServerStreamingResponse.newBuilder()
-                .setMessage(request.getName())
-                .build();
+        for (int i = 0; i < 10; i++) {
+            HelloProto.HelloServerStreamingResponse response = HelloProto.HelloServerStreamingResponse.newBuilder()
+                    .setMessage(request.getName() + ":" + (i + 1))
+                    .build();
+            responseObserver.onNext(response);
 
-        // 数据回传
-        responseObserver.onNext(response);
-        // 响应结束 -> 打上结束标记
+            sleep(1_000L);
+        }
+
         responseObserver.onCompleted();
     }
 
@@ -134,5 +148,13 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
                 responseObserver.onCompleted();
             }
         };
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

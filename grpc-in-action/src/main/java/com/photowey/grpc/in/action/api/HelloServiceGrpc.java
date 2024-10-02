@@ -195,7 +195,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     default io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest> clientStreaming(
             io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> responseObserver) {
@@ -203,7 +202,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     default void serverStreaming(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request,
                                  io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> responseObserver) {
@@ -211,7 +209,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     default io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest> bidiStreaming(
             io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> responseObserver) {
@@ -248,7 +245,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public void unary(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request,
                       io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> responseObserver) {
@@ -257,7 +253,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest> clientStreaming(
             io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> responseObserver) {
@@ -266,7 +261,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public void serverStreaming(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request,
                                 io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> responseObserver) {
@@ -275,7 +269,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest> bidiStreaming(
             io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> responseObserver) {
@@ -301,7 +294,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public com.photowey.grpc.in.action.api.HelloProto.HelloResponse unary(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
@@ -309,7 +301,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public java.util.Iterator<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> serverStreaming(
             com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request) {
@@ -335,7 +326,6 @@ public final class HelloServiceGrpc {
     }
 
     /**
-     *
      */
     public com.google.common.util.concurrent.ListenableFuture<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> unary(
             com.photowey.grpc.in.action.api.HelloProto.HelloRequest request) {

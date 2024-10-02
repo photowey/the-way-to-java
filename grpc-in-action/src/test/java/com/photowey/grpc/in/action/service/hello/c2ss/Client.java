@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.grpc.in.action.service.hello;
+package com.photowey.grpc.in.action.service.hello.c2ss;
 
 import com.photowey.grpc.in.action.api.HelloProto;
 import com.photowey.grpc.in.action.api.HelloServiceGrpc;
 import io.grpc.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author photowey
  * @version 1.0.0
- * @since 2024/09/17
+ * @since 2024/10/02
  */
 @Slf4j
 public class Client {
@@ -45,7 +46,7 @@ public class Client {
                 .build();
         try {
             Client client = new Client(channel);
-            client.greet(name);
+            client.c2ss(name);
         } finally {
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
         }
@@ -53,18 +54,19 @@ public class Client {
         // ...
     }
 
-    public void greet(String name) {
-        log.info("Will try to greet {} ...", name);
-        HelloProto.HelloRequest request = HelloProto.HelloRequest.newBuilder()
+    public void c2ss(String name) {
+        log.info("Will try to c2ss {} ...", name);
+        HelloProto.HelloServerStreamingRequest request = HelloProto.HelloServerStreamingRequest.newBuilder()
                 .setName(name)
                 .build();
         try {
-            HelloProto.HelloResponse response = blockingStub.unary(request);
-            log.info("Greeting: {}", response.getMessage());
-
-            // 18:19:52.465 [main] INFO com.photowey.grpc.in.action.service.hello.Client - Greeting: Hello, photowey!
+            Iterator<HelloProto.HelloServerStreamingResponse> iterator = blockingStub.serverStreaming(request);
+            while (iterator.hasNext()) {
+                HelloProto.HelloServerStreamingResponse response = iterator.next();
+                log.info("C2ss: {}", response.getMessage());
+            }
         } catch (StatusRuntimeException e) {
-            log.error("Greeting failed", e);
+            log.error("C2ss failed", e);
         }
     }
 }
