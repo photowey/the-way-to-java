@@ -16,34 +16,127 @@ public final class HelloServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloRequest,
-          com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getHelloMethod;
+          com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getUnaryMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-          fullMethodName = SERVICE_NAME + '/' + "hello",
+          fullMethodName = SERVICE_NAME + '/' + "unary",
           requestType = com.photowey.grpc.in.action.api.HelloProto.HelloRequest.class,
           responseType = com.photowey.grpc.in.action.api.HelloProto.HelloResponse.class,
           methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloRequest,
-          com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getHelloMethod() {
-    io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getHelloMethod;
-    if ((getHelloMethod = HelloServiceGrpc.getHelloMethod) == null) {
+          com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getUnaryMethod() {
+    io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.in.action.api.HelloProto.HelloResponse> getUnaryMethod;
+    if ((getUnaryMethod = HelloServiceGrpc.getUnaryMethod) == null) {
       synchronized (HelloServiceGrpc.class) {
-        if ((getHelloMethod = HelloServiceGrpc.getHelloMethod) == null) {
-          HelloServiceGrpc.getHelloMethod = getHelloMethod =
+        if ((getUnaryMethod = HelloServiceGrpc.getUnaryMethod) == null) {
+          HelloServiceGrpc.getUnaryMethod = getUnaryMethod =
                   io.grpc.MethodDescriptor.<com.photowey.grpc.in.action.api.HelloProto.HelloRequest, com.photowey.grpc.in.action.api.HelloProto.HelloResponse>newBuilder()
                           .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "hello"))
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "unary"))
                           .setSampledToLocalTracing(true)
                           .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                                   com.photowey.grpc.in.action.api.HelloProto.HelloRequest.getDefaultInstance()))
                           .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                                   com.photowey.grpc.in.action.api.HelloProto.HelloResponse.getDefaultInstance()))
-                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("hello"))
+                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("unary"))
                           .build();
         }
       }
     }
-    return getHelloMethod;
+    return getUnaryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> getClientStreamingMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "clientStreaming",
+          requestType = com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest.class,
+          responseType = com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> getClientStreamingMethod() {
+    io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> getClientStreamingMethod;
+    if ((getClientStreamingMethod = HelloServiceGrpc.getClientStreamingMethod) == null) {
+      synchronized (HelloServiceGrpc.class) {
+        if ((getClientStreamingMethod = HelloServiceGrpc.getClientStreamingMethod) == null) {
+          HelloServiceGrpc.getClientStreamingMethod = getClientStreamingMethod =
+                  io.grpc.MethodDescriptor.<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "clientStreaming"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("clientStreaming"))
+                          .build();
+        }
+      }
+    }
+    return getClientStreamingMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> getServerStreamingMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "serverStreaming",
+          requestType = com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest.class,
+          responseType = com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> getServerStreamingMethod() {
+    io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> getServerStreamingMethod;
+    if ((getServerStreamingMethod = HelloServiceGrpc.getServerStreamingMethod) == null) {
+      synchronized (HelloServiceGrpc.class) {
+        if ((getServerStreamingMethod = HelloServiceGrpc.getServerStreamingMethod) == null) {
+          HelloServiceGrpc.getServerStreamingMethod = getServerStreamingMethod =
+                  io.grpc.MethodDescriptor.<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "serverStreaming"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("serverStreaming"))
+                          .build();
+        }
+      }
+    }
+    return getServerStreamingMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> getBidiStreamingMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "bidiStreaming",
+          requestType = com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest.class,
+          responseType = com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest,
+          com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> getBidiStreamingMethod() {
+    io.grpc.MethodDescriptor<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> getBidiStreamingMethod;
+    if ((getBidiStreamingMethod = HelloServiceGrpc.getBidiStreamingMethod) == null) {
+      synchronized (HelloServiceGrpc.class) {
+        if ((getBidiStreamingMethod = HelloServiceGrpc.getBidiStreamingMethod) == null) {
+          HelloServiceGrpc.getBidiStreamingMethod = getBidiStreamingMethod =
+                  io.grpc.MethodDescriptor.<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest, com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "bidiStreaming"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("bidiStreaming"))
+                          .build();
+        }
+      }
+    }
+    return getBidiStreamingMethod;
   }
 
   /**
@@ -91,16 +184,38 @@ public final class HelloServiceGrpc {
   }
 
   /**
-   *
    */
   public interface AsyncService {
 
     /**
+     */
+    default void unary(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request,
+                       io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUnaryMethod(), responseObserver);
+    }
+
+    /**
      *
      */
-    default void hello(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request,
-                       io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHelloMethod(), responseObserver);
+    default io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest> clientStreaming(
+            io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getClientStreamingMethod(), responseObserver);
+    }
+
+    /**
+     *
+     */
+    default void serverStreaming(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request,
+                                 io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getServerStreamingMethod(), responseObserver);
+    }
+
+    /**
+     *
+     */
+    default io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest> bidiStreaming(
+            io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getBidiStreamingMethod(), responseObserver);
     }
   }
 
@@ -135,10 +250,37 @@ public final class HelloServiceGrpc {
     /**
      *
      */
-    public void hello(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request,
+    public void unary(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request,
                       io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-              getChannel().newCall(getHelloMethod(), getCallOptions()), request, responseObserver);
+              getChannel().newCall(getUnaryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     *
+     */
+    public io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest> clientStreaming(
+            io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
+              getChannel().newCall(getClientStreamingMethod(), getCallOptions()), responseObserver);
+    }
+
+    /**
+     *
+     */
+    public void serverStreaming(com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request,
+                                io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+              getChannel().newCall(getServerStreamingMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     *
+     */
+    public io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest> bidiStreaming(
+            io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
+              getChannel().newCall(getBidiStreamingMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -161,9 +303,18 @@ public final class HelloServiceGrpc {
     /**
      *
      */
-    public com.photowey.grpc.in.action.api.HelloProto.HelloResponse hello(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request) {
+    public com.photowey.grpc.in.action.api.HelloProto.HelloResponse unary(com.photowey.grpc.in.action.api.HelloProto.HelloRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-              getChannel(), getHelloMethod(), getCallOptions(), request);
+              getChannel(), getUnaryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     */
+    public java.util.Iterator<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse> serverStreaming(
+            com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+              getChannel(), getServerStreamingMethod(), getCallOptions(), request);
     }
   }
 
@@ -173,33 +324,36 @@ public final class HelloServiceGrpc {
   public static final class HelloServiceFutureStub
           extends io.grpc.stub.AbstractFutureStub<HelloServiceFutureStub> {
     private HelloServiceFutureStub(
-            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
     protected HelloServiceFutureStub build(
-            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new HelloServiceFutureStub(channel, callOptions);
     }
 
     /**
      *
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> hello(
+    public com.google.common.util.concurrent.ListenableFuture<com.photowey.grpc.in.action.api.HelloProto.HelloResponse> unary(
             com.photowey.grpc.in.action.api.HelloProto.HelloRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-              getChannel().newCall(getHelloMethod(), getCallOptions()), request);
+              getChannel().newCall(getUnaryMethod(), getCallOptions()), request);
     }
   }
 
-  private static final int METHODID_HELLO = 0;
+  private static final int METHODID_UNARY = 0;
+  private static final int METHODID_SERVER_STREAMING = 1;
+  private static final int METHODID_CLIENT_STREAMING = 2;
+  private static final int METHODID_BIDI_STREAMING = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
           io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
           io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
           io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-          io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
+      io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
     private final AsyncService serviceImpl;
     private final int methodId;
 
@@ -212,9 +366,13 @@ public final class HelloServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_HELLO:
-          serviceImpl.hello((com.photowey.grpc.in.action.api.HelloProto.HelloRequest) request,
+        case METHODID_UNARY:
+          serviceImpl.unary((com.photowey.grpc.in.action.api.HelloProto.HelloRequest) request,
                   (io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloResponse>) responseObserver);
+          break;
+        case METHODID_SERVER_STREAMING:
+          serviceImpl.serverStreaming((com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest) request,
+                  (io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -226,6 +384,12 @@ public final class HelloServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
             io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_CLIENT_STREAMING:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.clientStreaming(
+                  (io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse>) responseObserver);
+        case METHODID_BIDI_STREAMING:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.bidiStreaming(
+                  (io.grpc.stub.StreamObserver<com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -235,12 +399,33 @@ public final class HelloServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
             .addMethod(
-                    getHelloMethod(),
+                    getUnaryMethod(),
                     io.grpc.stub.ServerCalls.asyncUnaryCall(
                             new MethodHandlers<
                                     com.photowey.grpc.in.action.api.HelloProto.HelloRequest,
                                     com.photowey.grpc.in.action.api.HelloProto.HelloResponse>(
-                                    service, METHODID_HELLO)))
+                                    service, METHODID_UNARY)))
+            .addMethod(
+                    getClientStreamingMethod(),
+                    io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+                            new MethodHandlers<
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingRequest,
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloClientStreamingResponse>(
+                                    service, METHODID_CLIENT_STREAMING)))
+            .addMethod(
+                    getServerStreamingMethod(),
+                    io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+                            new MethodHandlers<
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingRequest,
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloServerStreamingResponse>(
+                                    service, METHODID_SERVER_STREAMING)))
+            .addMethod(
+                    getBidiStreamingMethod(),
+                    io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+                            new MethodHandlers<
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingRequest,
+                                    com.photowey.grpc.in.action.api.HelloProto.HelloBidiStreamingResponse>(
+                                    service, METHODID_BIDI_STREAMING)))
             .build();
   }
 
@@ -260,13 +445,13 @@ public final class HelloServiceGrpc {
   }
 
   private static final class HelloServiceFileDescriptorSupplier
-          extends HelloServiceBaseDescriptorSupplier {
+      extends HelloServiceBaseDescriptorSupplier {
     HelloServiceFileDescriptorSupplier() {}
   }
 
   private static final class HelloServiceMethodDescriptorSupplier
           extends HelloServiceBaseDescriptorSupplier
-          implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
     private final java.lang.String methodName;
 
     HelloServiceMethodDescriptorSupplier(java.lang.String methodName) {
@@ -289,7 +474,10 @@ public final class HelloServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
                   .setSchemaDescriptor(new HelloServiceFileDescriptorSupplier())
-                  .addMethod(getHelloMethod())
+                  .addMethod(getUnaryMethod())
+                  .addMethod(getClientStreamingMethod())
+                  .addMethod(getServerStreamingMethod())
+              .addMethod(getBidiStreamingMethod())
               .build();
         }
       }

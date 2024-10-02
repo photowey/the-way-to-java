@@ -59,7 +59,7 @@ public class Client {
                 .setName(name)
                 .build();
         try {
-            HelloProto.HelloResponse response = blockingStub.hello(request);
+            HelloProto.HelloResponse response = blockingStub.unary(request);
             log.info("Greeting: {}", response.getMessage());
 
             // 18:19:52.465 [main] INFO com.photowey.grpc.in.action.service.hello.Client - Greeting: Hello, photowey!

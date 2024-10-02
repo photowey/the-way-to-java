@@ -6,6 +6,8 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <changeSet id="organization_20241001_001" author="photowey" dbms="mysql" context="dev,test,stage" labels="v1.0.0">
+        <comment>Initialize the table: organization</comment>
+
         <createTable tableName="organization" remarks="组织机构">
             <column name="id" type="${type.bigint}(20)" remarks="主键标识" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>

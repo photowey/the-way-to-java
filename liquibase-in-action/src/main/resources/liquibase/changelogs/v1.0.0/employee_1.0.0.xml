@@ -8,6 +8,8 @@
     <!-- https://docs.liquibase.com/change-types/nested-tags/column.html -->
 
     <changeSet id="employee_20241001_001" author="photowey" dbms="mysql" context="dev,test,stage" labels="v1.0.0">
+        <comment>Initialize the table: employee</comment>
+
         <createTable tableName="employee">
             <column name="id" type="${type.bigint}(20)" remarks="主键标识" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>

@@ -4,6 +4,8 @@ option java_package = "com.photowey.grpc.in.action.api";
 option java_multiple_files = false;
 option java_outer_classname = "HelloProto";
 
+// ----------------------------------------------------------------
+
 message HelloRequest {
   string name = 1;
 }
@@ -12,6 +14,41 @@ message  HelloResponse {
   string message = 1;
 }
 
+// ----------------------------------------------------------------
+
+message HelloClientStreamingRequest {
+  string name = 1;
+}
+
+message  HelloClientStreamingResponse {
+  string message = 1;
+}
+
+// ----------------------------------------------------------------
+
+message HelloServerStreamingRequest {
+  string name = 1;
+}
+
+message  HelloServerStreamingResponse {
+  string message = 1;
+}
+
+// ----------------------------------------------------------------
+
+message HelloBidiStreamingRequest {
+  string name = 1;
+}
+
+message  HelloBidiStreamingResponse {
+  string message = 1;
+}
+
+// ----------------------------------------------------------------
+
 service HelloService {
-  rpc hello(HelloRequest) returns (HelloResponse);
+  rpc unary(HelloRequest) returns (HelloResponse);
+  rpc clientStreaming (stream HelloClientStreamingRequest) returns (HelloClientStreamingResponse) {}
+  rpc serverStreaming (HelloServerStreamingRequest) returns (stream HelloServerStreamingResponse) {}
+  rpc bidiStreaming (stream HelloBidiStreamingRequest) returns (stream HelloBidiStreamingResponse) {}
 }
