@@ -83,12 +83,4 @@ public class Client {
 
         log.info("C2ss after call serverStreaming()");
     }
-
-    private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -17,6 +17,7 @@ package com.photowey.grpc.in.action.service;
 
 import com.photowey.grpc.in.action.api.HelloProto;
 import com.photowey.grpc.in.action.api.HelloServiceGrpc;
+import com.photowey.grpc.in.action.util.Sleeper;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,12 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         return false;
     }
 
+    /**
+     * 一元 {@code RPC}
+     *
+     * @param request          {@link HelloProto.HelloRequest}
+     * @param responseObserver {@link StreamObserver<HelloProto.HelloResponse>}
+     */
     @Override
     public void unary(
             HelloProto.HelloRequest request,
@@ -59,6 +66,13 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    /**
+     * 客户端流式 {@code RPC}
+     * IOT
+     *
+     * @param responseObserver {@link StreamObserver<HelloProto.HelloClientStreamingResponse>}
+     * @return {@link StreamObserver<HelloProto.HelloClientStreamingRequest>}
+     */
     @Override
     public StreamObserver<HelloProto.HelloClientStreamingRequest> clientStreaming(
             StreamObserver<HelloProto.HelloClientStreamingResponse> responseObserver) {
@@ -129,6 +143,13 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    /**
+     * 双工流式 {@code RPC}
+     * 聊天室
+     *
+     * @param responseObserver {@link StreamObserver<HelloProto.HelloBidiStreamingResponse>}
+     * @return {@link StreamObserver<HelloProto.HelloBidiStreamingRequest>}
+     */
     @Override
     public StreamObserver<HelloProto.HelloBidiStreamingRequest> bidiStreaming(
             StreamObserver<HelloProto.HelloBidiStreamingResponse> responseObserver) {
@@ -165,10 +186,6 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
     }
 
     private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Sleeper.sleep(millis);
     }
 }

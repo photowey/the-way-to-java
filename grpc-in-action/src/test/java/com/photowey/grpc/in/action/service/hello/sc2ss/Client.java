@@ -17,6 +17,7 @@ package com.photowey.grpc.in.action.service.hello.sc2ss;
 
 import com.photowey.grpc.in.action.api.HelloProto;
 import com.photowey.grpc.in.action.api.HelloServiceGrpc;
+import com.photowey.grpc.in.action.util.Sleeper;
 import io.grpc.Channel;
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
@@ -95,10 +96,6 @@ public class Client {
     }
 
     private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Sleeper.sleep(millis);
     }
 }
