@@ -36,3 +36,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Generated files
+.flattened-pom.xml

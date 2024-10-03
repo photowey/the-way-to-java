@@ -149,6 +149,7 @@
         <module>jprotobuf-in-action</module>
         <module>liquibase-in-action</module>
         <module>webservice-in-action</module>
+        <module>flatten-in-action</module>
     </modules>
 
     <dependencyManagement>

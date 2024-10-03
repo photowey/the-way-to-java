@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.photowey</groupId>
+        <artifactId>the-way-to-java</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <version>${reversion}</version>
+
+    <artifactId>flatten-in-action</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>flatten-in-action-client</module>
+        <module>flatten-in-action-core</module>
+        <module>flatten-in-action-server</module>
+    </modules>
+
+    <properties>
+        <reversion>1.0.0-SNAPSHOT</reversion>
+        <maven-flatten-plugin.version>1.2.7</maven-flatten-plugin.version>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>flatten-in-action-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>flatten-in-action-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>flatten-in-action-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${maven-flatten-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenDependencyMode>all</flattenDependencyMode>
+                    <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <parent>expand</parent>
+                    </pomElements>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <!-- package -->
+                        <!-- compile -->
+                        <!-- process-resources -->
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>ossrh</flattenMode>
+                            <pomElements>
+                                <parent>expand</parent>
+                            </pomElements>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
