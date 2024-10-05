@@ -12,41 +12,35 @@
     </parent>
 
     <artifactId>webservice-in-action</artifactId>
+    <packaging>pom</packaging>
 
     <properties>
-        <jprotobuf.version>2.4.20</jprotobuf.version>
-        <jprotobuf-precompile-plugin.version>2.2.9</jprotobuf-precompile-plugin.version>
+        <!-- https://central.sonatype.com/artifact/org.apache.cxf/cxf-spring-boot-starter-jaxws -->
+        <cxf-spring-boot-starter-jaxws.version>3.6.4</cxf-spring-boot-starter-jaxws.version>
     </properties>
 
+    <modules>
+        <module>webservice-client-in-action</module>
+        <module>webservice-core-in-action</module>
+        <module>webservice-server-in-action</module>
+    </modules>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.photowey</groupId>
-            <artifactId>print-in-action</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+                <version>${cxf-spring-boot-starter-jaxws.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.photowey</groupId>
+                <artifactId>webservice-core-in-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

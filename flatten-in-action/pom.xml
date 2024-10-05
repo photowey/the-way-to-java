@@ -56,14 +56,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${maven-flatten-plugin.version}</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenDependencyMode>all</flattenDependencyMode>
-                    <flattenMode>ossrh</flattenMode>
-                    <pomElements>
-                        <parent>expand</parent>
-                    </pomElements>
-                </configuration>
                 <executions>
                     <execution>
                         <id>flatten</id>
@@ -76,14 +68,18 @@
                         </goals>
                         <configuration>
                             <updatePomFile>true</updatePomFile>
+                            <flattenDependencyMode>all</flattenDependencyMode>
+                            <!-- resolveCiFriendliesOnly -->
                             <flattenMode>ossrh</flattenMode>
                             <pomElements>
                                 <parent>expand</parent>
+                                <distributionManagement>remove</distributionManagement>
+                                <repositories>remove</repositories>
                             </pomElements>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>flatten.clean</id>
+                        <id>flatten-clean</id>
                         <phase>clean</phase>
                         <goals>
                             <goal>clean</goal>
