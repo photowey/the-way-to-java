@@ -17,6 +17,7 @@
     <properties>
         <!-- https://central.sonatype.com/artifact/org.apache.cxf/cxf-spring-boot-starter-jaxws -->
         <cxf-spring-boot-starter-jaxws.version>3.6.4</cxf-spring-boot-starter-jaxws.version>
+        <jaxb.version>2.3.3</jaxb.version>
     </properties>
 
     <modules>
@@ -40,6 +41,17 @@
                 <groupId>com.photowey</groupId>
                 <artifactId>webservice-core-in-action</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

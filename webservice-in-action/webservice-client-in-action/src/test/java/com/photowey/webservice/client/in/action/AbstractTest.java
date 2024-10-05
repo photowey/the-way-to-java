@@ -15,19 +15,18 @@
  */
 package com.photowey.webservice.client.in.action;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.photowey.webservice.core.in.action.proxy.objectmapper.ObjectMapperProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * {@code AppTests}
+ * {@code AbstractTest}
  *
  * @author photowey
- * @since 2024/10/01
+ * @version 1.0.0
+ * @since 2024/10/06
  */
-@SpringBootTest
-class AppTests {
+public abstract class AbstractTest {
 
-    @Test
-    void contextLoads() {}
-
+    @Autowired
+    protected ObjectMapperProxy mapperProxy;
 }
