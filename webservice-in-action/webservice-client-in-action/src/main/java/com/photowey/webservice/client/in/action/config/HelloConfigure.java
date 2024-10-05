@@ -16,6 +16,9 @@
 package com.photowey.webservice.client.in.action.config;
 
 import com.photowey.webservice.core.in.action.annotation.EnableWebserviceCore;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -27,4 +30,35 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableWebserviceCore
-public class HelloConfigure {}
+public class HelloConfigure {
+
+    /*
+    @Bean
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPaths(
+            "com.photowey.webservice.core.in.action.core.domain.payload",
+            "com.photowey.webservice.core.in.action.core.response"
+        );
+        return marshaller;
+    }
+
+    @Bean("helloTemplate")
+    public WebServiceTemplate helloTemplate(Jaxb2Marshaller marshaller) {
+        WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
+        webServiceTemplate.setDefaultUri("http://localhost:7923/ws/hello");
+
+        webServiceTemplate.setMarshaller(marshaller);
+        webServiceTemplate.setUnmarshaller(marshaller);
+
+        return webServiceTemplate;
+    }
+    */
+
+    @Bean("helloClient")
+    public Client helloClient() {
+        JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+        return dcf.createClient("http://localhost:7923/ws/hello?wsdl");
+    }
+}
+

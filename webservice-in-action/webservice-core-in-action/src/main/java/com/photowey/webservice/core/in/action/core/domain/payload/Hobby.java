@@ -36,12 +36,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonRootName("HOBBY")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlRootElement(name = "HOBBY")
 public class Hobby implements Serializable {
 
     private static final long serialVersionUID = -5614818631022278336L;
 
     @JsonProperty("ID")
+    //@XmlElement(name = "ID", required = true)
     private Long id;
     @JsonProperty("NAME")
+    //@XmlElement(name = "NAME", required = true)
     private String name;
 }

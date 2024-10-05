@@ -37,16 +37,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonRootName("PARA")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlRootElement(name = "PARA")
 public class HelloPayload implements Serializable {
 
     private static final long serialVersionUID = 8815182225078998816L;
 
     @JsonProperty("ID")
+    //@XmlElement(name = "ID", required = true)
     private Long id;
     @JsonProperty("NAME")
+    //@XmlElement(name = "NAME", required = true)
     private String name;
     @JsonProperty("AGE")
+    //@XmlElement(name = "AGE", required = true)
     private Integer age;
     @JsonProperty("LIST")
+    //@XmlElement(name = "LIST", required = true)
     private List<Hobby> hobbies;
 }

@@ -36,11 +36,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonRootName("DATA")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlRootElement(name = "DATA")
 public class OpenapiResponse extends AbstractResponse {
 
     private static final long serialVersionUID = 5470290630623092000L;
 
     @JsonProperty("BODY")
+    //@XmlElement(name = "BODY", required = true)
     private String body;
 
     public static OpenapiResponseBuilder<?, ?> ok() {

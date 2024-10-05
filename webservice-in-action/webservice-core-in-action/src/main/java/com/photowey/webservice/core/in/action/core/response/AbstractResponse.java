@@ -35,13 +35,16 @@ import java.util.Objects;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+//@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractResponse implements Serializable {
 
     public static final String API_OK = "000000";
 
     @JsonProperty("CODE")
+    //@XmlElement(name = "CODE", required = true)
     protected String code;
     @JsonProperty("MESSAGE")
+    //@XmlElement(name = "MESSAGE", required = true)
     protected String message;
 
     public boolean predicateIsSuccess() {

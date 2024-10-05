@@ -19,12 +19,13 @@ import com.photowey.webservice.client.in.action.AbstractTest;
 import com.photowey.webservice.core.in.action.core.domain.payload.HelloPayload;
 import com.photowey.webservice.core.in.action.core.domain.payload.Hobby;
 import com.photowey.webservice.core.in.action.core.response.OpenapiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StopWatch;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -36,15 +37,22 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  * @since 2024/10/06
  */
+@Slf4j
 @SpringBootTest
 class HelloWebServiceClientTest extends AbstractTest {
 
     private Client client;
 
-    @BeforeEach
+    //@BeforeEach
     void init() {
+        StopWatch watch = new StopWatch("t1");
+        watch.start();
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+
+        // init the dynamic client cost 3237 ms
         this.client = dcf.createClient("http://localhost:7923/ws/hello?wsdl");
+        watch.stop();
+        log.info("init the dynamic client cost {} ms", watch.getLastTaskTimeMillis());
     }
 
     // JDK 11
@@ -54,12 +62,53 @@ class HelloWebServiceClientTest extends AbstractTest {
         String payload = this.requestBody();
 
         this.testSingle(payload);
-        //this.testStreaming(payload);
+        this.testStreaming(payload);
     }
 
-    private void testSingle(String payload) throws Exception {
-        String xml = this.call("sayHello", payload);
+    // FIXME FAILED
+    //@Test
+    void testWebServiceTemplate() throws Exception {
+        String payload = this.requestBody();
+        String uri = "http://localhost:7923/ws/hello?wsdl";
+
+        this.testSingleTemplate(payload);
+        this.testSingleTemplate(uri, payload);
+    }
+
+    // ----------------------------------------------------------------
+
+    private void testSingleTemplate(String payload) throws Exception {
+        StopWatch watch = new StopWatch("t1");
+        watch.start();
+        String xml = this.sendAndReceive(payload);
+        watch.stop();
+        log.info("the request cost {} ms", watch.getTotalTimeMillis());
+
         OpenapiResponse response = this.mapperProxy.parseXMLObject(xml, OpenapiResponse.class);
+
+        Assertions.assertTrue(response.predicateIsSuccess());
+    }
+
+    private void testSingleTemplate(String uri, String payload) throws Exception {
+        String xml = this.sendAndReceive(uri, payload);
+        OpenapiResponse response = this.mapperProxy.parseXMLObject(xml, OpenapiResponse.class);
+
+        Assertions.assertTrue(response.predicateIsSuccess());
+    }
+
+    // ----------------------------------------------------------------
+
+    private void testSingle(String payload) throws Exception {
+        StopWatch watch = new StopWatch("t1");
+        watch.start();
+        String xml = this.call("sayHello", payload);
+        watch.stop();
+        log.info("the request cost {} ms", watch.getLastTaskTimeMillis());
+
+        watch.start("t2");
+        OpenapiResponse response = this.mapperProxy.parseXMLObject(xml, OpenapiResponse.class);
+        watch.stop();
+        log.info("parse the response cost {} ms", watch.getLastTaskTimeMillis());
 
         Assertions.assertTrue(response.predicateIsSuccess());
 
@@ -77,11 +126,15 @@ class HelloWebServiceClientTest extends AbstractTest {
         }
     }
 
+    // ----------------------------------------------------------------
+
     private String call(String service, String payload) throws Exception {
-        Object[] responses = client.invoke(service, payload);
+        Object[] responses = (client != null ? client : this.helloClient).invoke(service, payload);
 
         return (String) responses[0];
     }
+
+    // ----------------------------------------------------------------
 
     private String requestBody() {
         Hobby hobby = Hobby.builder()
