@@ -17,7 +17,6 @@ package com.photowey.common.in.action.util;
 
 import com.photowey.common.in.action.thrower.AssertionErrorThrower;
 
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -57,18 +56,16 @@ public final class FileUtils {
      * 注意: 当前启动用户的 {@code rwx} 权限
      */
     public static void write(final String target, boolean quiet, final byte[] data) {
-        try {
-            RandomAccessFile raf = new RandomAccessFile(target, "rw");
-            try (FileChannel channel = raf.getChannel()) {
-                ByteBuffer buffer = ByteBuffer.allocate(data.length);
-                buffer.put(data);
-                buffer.flip();
-                while (buffer.hasRemaining()) {
-                    channel.write(buffer);
-                }
-                channel.force(true);
+        try (RandomAccessFile raf = new RandomAccessFile(target, "rw");
+             FileChannel channel = raf.getChannel()) {
+            ByteBuffer buffer = ByteBuffer.allocate(data.length);
+            buffer.put(data);
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                channel.write(buffer);
             }
-        } catch (IOException e) {
+            channel.force(true);
+        } catch (Exception e) {
             if (!quiet) {
                 throw new RuntimeException(String.format("write data into target file:%s exception", target), e);
             }
@@ -95,10 +92,10 @@ public final class FileUtils {
     public static String read(final String target, boolean quiet, Predicate<String> filter) {
         try {
             return Files.readAllLines(Paths.get(ClassLoader.getSystemResource(target).toURI()))
-                    .stream()
-                    .filter(filter)
-                    .map(each -> each + System.lineSeparator())
-                    .collect(Collectors.joining());
+                .stream()
+                .filter(filter)
+                .map(each -> each + System.lineSeparator())
+                .collect(Collectors.joining());
         } catch (Exception e) {
             if (!quiet) {
                 throw new RuntimeException(String.format("read the target file:%s exception", target));

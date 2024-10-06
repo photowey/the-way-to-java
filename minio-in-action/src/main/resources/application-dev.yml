@@ -1,12 +1,30 @@
+# ----------------------------------------------------------------
+
+local:
+  config:
+    minio:
+      playground:
+        endpoint: "https://play.min.io"
+        accessKey: "Q3AM3UQ867SPQQA43P2F"
+        secretKey: "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
+      local:
+        endpoint: "http://127.0.0.1:9000"
+        #accessKey: "vNQc8ndSMIVb7pNs.dev"
+        #secretKey: "NwdZhp5qgHpAKMJCwbbMMx9pEWn5NALi3IeL.dev"
+        accessKey: "uSloqshPrpXwZmGei6Gj"
+        secretKey: "GJOcYlunjSUarZO2Xvnip5ja8FIjADyiai0JNScB"
+
+# ----------------------------------------------------------------
+
 spring:
   minio:
     async:
-      enabled: true
+      enabled: false
     sync:
       enabled: true
-    endpoint: "https://play.min.io"
-    accessKey: "Q3AM3UQ867SPQQA43P2F"
-    secretKey: "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
+    endpoint: "${local.config.minio.local.endpoint}"
+    accessKey: "${local.config.minio.local.accessKey}"
+    secretKey: "${local.config.minio.local.secretKey}"
 
 management:
   endpoint:
