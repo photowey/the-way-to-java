@@ -22,170 +22,125 @@ import io.minio.messages.Bucket;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
  * {@code MinioTemplate}
  *
  * @author photowey
- * @date 2022/06/09
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/10/06
  */
-public class MinioTemplate {
+public interface MinioTemplate {
 
-    private static final String CONTENT_TYPE = "application/octet-stream";
-    private final MinioClient minioClient;
+    String DEFAULT_STREAM_CONTENT_TYPE = "application/octet-stream";
 
-    public MinioTemplate(MinioClient minioClient) {
-        this.minioClient = minioClient;
+    // ----------------------------------------------------------------
+
+    default boolean bucketNotExists(String bucket) {
+        return !this.bucketExists(bucket);
     }
 
-    // ---------------------------------------------------------------- exists
+    boolean bucketExists(String bucket);
 
-    public boolean bucketExists(String bucket) throws MinioException {
-        try {
-            return this.minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
+    boolean createBucket(String bucket);
+
+    boolean removeBucket(String bucket);
+
+    List<Bucket> buckets();
+
+    // ----------------------------------------------------------------
+
+    default ObjectWriteResponse putObject(String bucket, String object, InputStream in) {
+        return this.call(() -> {
+            return this.putObject(bucket, object, DEFAULT_STREAM_CONTENT_TYPE, in, in.available());
+        });
     }
 
-    public boolean bucketNotExists(String bucket) throws MinioException {
-        return !bucketExists(bucket);
+    default ObjectWriteResponse putObject(String bucket, String object, String contextType, InputStream in) {
+        return this.call(() -> {
+            return this.putObject(bucket, object, contextType, in, in.available());
+        });
     }
 
-    // ---------------------------------------------------------------- create
+    ObjectWriteResponse putObject(String bucket, String object, String contextType, InputStream in, long size);
 
-    public void createBucket(String bucket) throws MinioException {
-        try {
-            if (this.bucketNotExists(bucket)) {
-                this.minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
-            }
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
+    // ----------------------------------------------------------------
+
+    InputStream downloadObject(String bucket, String object);
+
+    default void downloadObject(String bucket, String object, String filename) {
+        this.run(() -> {
+            DownloadObjectArgs args = DownloadObjectArgs.builder()
+                .bucket(bucket)
+                .object(object)
+                .filename(filename)
+                .build();
+
+            this.downloadObject(args);
+        });
     }
 
-    public void removeBucket(String bucket) throws MinioException {
-        try {
-            this.minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucket).build());
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
+    boolean downloadObject(DownloadObjectArgs args);
+
+    // ----------------------------------------------------------------
+
+    default StatObjectResponse statObject(String bucket, String object) {
+        return this.call(() -> {
+            StatObjectArgs args = StatObjectArgs.builder()
+                .bucket(bucket)
+                .object(object)
+                .build();
+
+            return this.statObject(args);
+        });
     }
 
-    public List<Bucket> listBuckets() throws MinioException {
-        try {
-            return this.minioClient.listBuckets();
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
+    StatObjectResponse statObject(StatObjectArgs args);
 
-    // ---------------------------------------------------------------- put
+    // -----------------------------------------------------------------
 
-    public void putObject(String bucket, String object, InputStream in) throws MinioException {
-        try {
-            this.putObject(bucket, object, in, in.available(), CONTENT_TYPE);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-
-    }
-
-    public void putObject(String bucket, String object, InputStream in, long size, String contextType) throws MinioException {
-        try {
-            PutObjectArgs args = PutObjectArgs.builder()
-                    .bucket(bucket).
-                    object(object)
-                    .stream(in, size, -1)
-                    .contentType(contextType)
-                    .build();
-            this.minioClient.putObject(args);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    // ---------------------------------------------------------------- download
-
-    public InputStream downloadObject(String bucket, String object) throws MinioException {
-        try {
-            return this.minioClient.getObject(GetObjectArgs.builder().bucket(bucket).object(object).build());
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    public void downloadObject(String bucket, String object, String file) throws MinioException {
-        try {
-            this.downloadObject(DownloadObjectArgs.builder().bucket(bucket).object(object).filename(file).build());
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    public void downloadObject(DownloadObjectArgs args) throws MinioException {
-        try {
-            this.minioClient.downloadObject(args);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    // ---------------------------------------------------------------- stat
-
-    public StatObjectResponse statObject(String bucket, String object) throws MinioException {
-        try {
-            return this.statObject(StatObjectArgs.builder().bucket(bucket).object(object).build());
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    public StatObjectResponse statObject(StatObjectArgs args) throws MinioException {
-        try {
-            return this.minioClient.statObject(args);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
-    }
-
-    // ---------------------------------------------------------------- url
-
-    public String url(String bucket, String object) throws MinioException {
-        try {
+    default String url(String bucket, String object) {
+        return this.call(() -> {
             return this.url(bucket, object, GetPresignedObjectUrlArgs.DEFAULT_EXPIRY_TIME);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
+        });
     }
 
-    public String url(String bucket, String object, int expiry) throws MinioException {
-        try {
+    default String url(String bucket, String object, int expiry) {
+        return this.call(() -> {
             return this.url(bucket, object, expiry, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            throw new MinioException(e);
-        }
+        });
     }
 
-    public String url(String bucket, String object, int expiry, TimeUnit timeUnit) throws MinioException {
-        try {
+    default String url(String bucket, String object, int expiry, TimeUnit timeUnit) {
+        return this.call(() -> {
             GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
-                    .method(Method.GET)
-                    .bucket(bucket)
-                    .object(object)
-                    .expiry(expiry, timeUnit).
-                    build();
+                .method(Method.GET)
+                .bucket(bucket)
+                .object(object)
+                .expiry(expiry, timeUnit).
+                build();
+
             return this.url(args);
+        });
+    }
+
+    String url(GetPresignedObjectUrlArgs args);
+
+    // -----------------------------------------------------------------
+
+    default void run(Runnable task) {
+        try {
+            task.run();
         } catch (Exception e) {
             throw new MinioException(e);
         }
     }
 
-    public String url(GetPresignedObjectUrlArgs args) throws MinioException {
+    default <T> T call(Callable<T> task) {
         try {
-            return this.minioClient.getPresignedObjectUrl(args);
+            return task.call();
         } catch (Exception e) {
             throw new MinioException(e);
         }

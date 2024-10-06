@@ -16,6 +16,7 @@
 package com.photowey.minio.in.action.config;
 
 import com.photowey.minio.in.action.property.MinioProperties;
+import com.photowey.minio.in.action.template.DefaultMinioTemplate;
 import com.photowey.minio.in.action.template.MinioTemplate;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
@@ -53,8 +54,8 @@ public class MinioAutoConfigurer {
     @ConditionalOnExpression("${spring.minio.sync.enabled:true}") // ?
     public MinioClient minioClient() {
         MinioClient.Builder builder = MinioClient.builder()
-                .endpoint(properties.getEndpoint())
-                .credentials(properties.getAccessKey(), properties.getSecretKey());
+            .endpoint(properties.getEndpoint())
+            .credentials(properties.getAccessKey(), properties.getSecretKey());
 
         if (StringUtils.hasText(properties.getRegion())) {
             builder.region(properties.getRegion());
@@ -74,8 +75,8 @@ public class MinioAutoConfigurer {
     @ConditionalOnExpression("${spring.minio.async.enabled:false}")
     public MinioAsyncClient minioAsyncClient() {
         MinioAsyncClient.Builder builder = MinioAsyncClient.builder()
-                .endpoint(properties.getEndpoint())
-                .credentials(properties.getAccessKey(), properties.getSecretKey());
+            .endpoint(properties.getEndpoint())
+            .credentials(properties.getAccessKey(), properties.getSecretKey());
 
         if (StringUtils.hasText(properties.getRegion())) {
             builder.region(properties.getRegion());
@@ -93,7 +94,7 @@ public class MinioAutoConfigurer {
     @Bean
     @ConditionalOnMissingBean
     public MinioTemplate minioTemplate(MinioClient minioClient) {
-        return new MinioTemplate(minioClient);
+        return new DefaultMinioTemplate(minioClient);
     }
 
 }

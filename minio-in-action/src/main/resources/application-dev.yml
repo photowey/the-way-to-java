@@ -9,8 +9,10 @@ local:
         secretKey: "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
       local:
         endpoint: "http://127.0.0.1:9000"
+        # dev.admin
         #accessKey: "vNQc8ndSMIVb7pNs.dev"
         #secretKey: "NwdZhp5qgHpAKMJCwbbMMx9pEWn5NALi3IeL.dev"
+        # default.minioadmin
         accessKey: "uSloqshPrpXwZmGei6Gj"
         secretKey: "GJOcYlunjSUarZO2Xvnip5ja8FIjADyiai0JNScB"
 
