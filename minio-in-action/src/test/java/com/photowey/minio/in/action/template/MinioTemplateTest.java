@@ -56,26 +56,26 @@ class MinioTemplateTest extends AbstractTest {
         this.minioTemplate.putObject(bucket, object, resource.getInputStream());
         String url = this.minioTemplate.url(bucket, object, 1, TimeUnit.MINUTES);
         // http://127.0.0.1:9000/openio.dev/sky.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=uSloqshPrpXwZmGei6Gj%2F20241006%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241006T075933Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=fb8c59f482437ce71f286b0242b7cfb719cc879b2e218f43a30f5abe0a9ff027
-        log.info("the minIO access url is: {}", url);
+        log.info("the MinIO access url is: {}", url);
     }
 
     @Test
     void testDownload() throws IOException {
         String bucket = "openio.dev";
         String object = "sky.jpg";
-        InputStream stream = this.minioTemplate.downloadObject(bucket, object);
+        try (InputStream stream = this.minioTemplate.downloadObject(bucket, object)) {
+            String dir = System.getProperty("user.dir");
+            if (!dir.endsWith(File.separator)) {
+                dir += File.separator;
+            }
 
-        String dir = System.getProperty("user.dir");
-        if (!dir.endsWith(File.separator)) {
-            dir += File.separator;
-        }
+            String tmpFile = dir + "sky.jpg";
+            this.write(tmpFile, true, stream.readAllBytes());
 
-        String tmpFile = dir + "sky.jpg";
-        this.write(tmpFile, true, stream.readAllBytes());
-
-        File file = new File(tmpFile);
-        if (file.exists()) {
-            file.delete();
+            File file = new File(tmpFile);
+            if (file.exists()) {
+                file.delete();
+            }
         }
     }
 
