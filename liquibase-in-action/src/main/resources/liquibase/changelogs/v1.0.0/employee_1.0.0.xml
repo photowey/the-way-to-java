@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <!-- https://docs.liquibase.com/change-types/nested-tags/column.html -->
@@ -10,7 +10,7 @@
     <changeSet id="employee_20241001_001" author="photowey" dbms="mysql" context="dev,test,stage" labels="v1.0.0">
         <comment>Initialize the table: employee</comment>
 
-        <createTable tableName="employee">
+        <createTable tableName="employee" remarks="员工">
             <column name="id" type="${type.bigint}(20)" remarks="主键标识" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
