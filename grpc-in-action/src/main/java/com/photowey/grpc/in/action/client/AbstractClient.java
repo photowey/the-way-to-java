@@ -36,11 +36,11 @@ public abstract class AbstractClient implements Client {
 
     private static final long serialVersionUID = 7613745227538081596L;
 
-    private String clientId;
-    private String clientIp;
-    private Integer clientPort;
+    protected String clientId;
+    protected String clientIp;
+    protected Integer clientPort;
 
-    private Connection connection;
+    protected Connection connection;
 
     @Override
     public String clientId() {

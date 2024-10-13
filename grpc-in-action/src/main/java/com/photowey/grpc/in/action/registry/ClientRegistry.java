@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.grpc.in.action.client;
-
-import com.photowey.grpc.in.action.connection.GrpcConnection;
+package com.photowey.grpc.in.action.registry;
 
 /**
- * {@code GrpcClient}
+ * {@code ClientRegistry}
  *
  * @author photowey
  * @version 1.0.0
  * @since 2024/10/12
  */
-public interface GrpcClient extends Client {
-
-    @Override
-    GrpcConnection connection();
-}
+public class ClientRegistry {}

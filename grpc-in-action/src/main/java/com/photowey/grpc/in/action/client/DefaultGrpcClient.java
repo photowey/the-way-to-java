@@ -15,6 +15,7 @@
  */
 package com.photowey.grpc.in.action.client;
 
+import com.photowey.grpc.in.action.connection.GrpcConnection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,5 +41,10 @@ public class DefaultGrpcClient extends AbstractClient implements GrpcClient {
     @Override
     public String protocol() {
         return this.protocol;
+    }
+
+    @Override
+    public GrpcConnection connection() {
+        return (GrpcConnection) this.connection;
     }
 }
