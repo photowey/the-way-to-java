@@ -55,8 +55,8 @@ public class HelloConfigure {
     }
     */
 
-    @Bean("helloClient")
-    public Client helloClient() {
+    @Bean("dynamicClient")
+    public Client dynamicClient() {
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
         return dcf.createClient("http://localhost:7923/ws/hello?wsdl");
     }

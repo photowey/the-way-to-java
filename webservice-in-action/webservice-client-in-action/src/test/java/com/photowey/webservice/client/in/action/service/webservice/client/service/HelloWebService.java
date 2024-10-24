@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.webservice.server.in.action.service.webservice.server;
+package com.photowey.webservice.client.in.action.service.webservice.client.service;
 
-import com.photowey.webservice.core.in.action.core.domain.payload.HelloPayload;
-import com.photowey.webservice.core.in.action.core.response.OpenapiResponse;
+import com.photowey.webservice.client.in.action.webservice.client.SayModel;
+import com.photowey.webservice.client.in.action.webservice.client.SayModelResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -27,17 +27,14 @@ import javax.jws.WebService;
  *
  * @author photowey
  * @version 1.0.0
- * @since 2024/10/05
+ * @since 2024/10/24
  */
-@WebService(
-    name = "hello",
-    targetNamespace = "http://server.webservice.service.action.in.webservice.photowey.com"
-)
+@WebService
 public interface HelloWebService {
-
     @WebMethod(action = "sayHello")
     String sayHello(@WebParam(name = "payload") String payload);
 
     @WebMethod(action = "sayModel")
-    OpenapiResponse sayModel(@WebParam(name = "payload") HelloPayload payload);
+    SayModelResponse sayModel(@WebParam(name = "payload") SayModel payload);
 }
+

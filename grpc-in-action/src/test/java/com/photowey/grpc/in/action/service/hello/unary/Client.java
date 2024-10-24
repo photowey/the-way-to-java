@@ -42,7 +42,7 @@ public class Client {
         String target = "localhost:9090";
         String name = "photowey";
         ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
-                .build();
+            .build();
         try {
             Client client = new Client(channel);
             client.greet(name);
@@ -56,8 +56,8 @@ public class Client {
     public void greet(String name) {
         log.info("Will try to greet {} ...", name);
         HelloProto.HelloRequest request = HelloProto.HelloRequest.newBuilder()
-                .setName(name)
-                .build();
+            .setName(name)
+            .build();
         try {
             HelloProto.HelloResponse response = blockingStub.unary(request);
             log.info("Greeting: {}", response.getMessage());

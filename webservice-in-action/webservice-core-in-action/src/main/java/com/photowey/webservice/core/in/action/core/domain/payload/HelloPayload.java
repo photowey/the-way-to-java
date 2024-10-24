@@ -22,6 +22,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,22 +41,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonRootName("PARA")
-//@XmlAccessorType(XmlAccessType.FIELD)
-//@XmlRootElement(name = "PARA")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "PARA")
 public class HelloPayload implements Serializable {
 
     private static final long serialVersionUID = 8815182225078998816L;
 
     @JsonProperty("ID")
-    //@XmlElement(name = "ID", required = true)
+    @XmlElement(name = "ID", required = true)
     private Long id;
     @JsonProperty("NAME")
-    //@XmlElement(name = "NAME", required = true)
+    @XmlElement(name = "NAME", required = true)
     private String name;
     @JsonProperty("AGE")
-    //@XmlElement(name = "AGE", required = true)
+    @XmlElement(name = "AGE", required = true)
     private Integer age;
     @JsonProperty("LIST")
-    //@XmlElement(name = "LIST", required = true)
+    @XmlElement(name = "LIST", required = true)
     private List<Hobby> hobbies;
 }

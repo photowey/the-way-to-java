@@ -23,6 +23,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * {@code OpenapiResponse}
  *
@@ -36,14 +41,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonRootName("DATA")
-//@XmlAccessorType(XmlAccessType.FIELD)
-//@XmlRootElement(name = "DATA")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "DATA")
 public class OpenapiResponse extends AbstractResponse {
 
     private static final long serialVersionUID = 5470290630623092000L;
 
     @JsonProperty("BODY")
-    //@XmlElement(name = "BODY", required = true)
+    @XmlElement(name = "BODY", required = true)
     private String body;
 
     public static OpenapiResponseBuilder<?, ?> ok() {

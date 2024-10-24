@@ -16,8 +16,6 @@
 package com.photowey.webservice.client.in.action.service.webservice.client;
 
 import com.photowey.webservice.client.in.action.AbstractTest;
-import com.photowey.webservice.core.in.action.core.domain.payload.HelloPayload;
-import com.photowey.webservice.core.in.action.core.domain.payload.Hobby;
 import com.photowey.webservice.core.in.action.core.response.OpenapiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.endpoint.Client;
@@ -27,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -129,26 +126,9 @@ class HelloWebServiceClientTest extends AbstractTest {
     // ----------------------------------------------------------------
 
     private String call(String service, String payload) throws Exception {
-        Object[] responses = (client != null ? client : this.helloClient).invoke(service, payload);
+        Object[] responses = (client != null ? client : this.dynamicClient).invoke(service, payload);
 
         return (String) responses[0];
     }
 
-    // ----------------------------------------------------------------
-
-    private String requestBody() {
-        Hobby hobby = Hobby.builder()
-            .id(9527L)
-            .name("badminton")
-            .build();
-
-        HelloPayload payload = HelloPayload.builder()
-            .id(10086L)
-            .age(18)
-            .name("photowey")
-            .hobbies(Arrays.asList(hobby))
-            .build();
-
-        return this.mapperProxy.toXMLString(payload);
-    }
 }

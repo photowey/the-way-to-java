@@ -14,6 +14,7 @@
     <artifactId>webservice-client-in-action</artifactId>
 
     <properties>
+        <jaxws-maven-plugin.version>3.0.0</jaxws-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -24,6 +25,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -58,6 +70,29 @@
 
     <build>
         <plugins>
+            <!--
+            -->
+            <plugin>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>${jaxws-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <packageName>com.photowey.webservice.client.in.action.webservice.client</packageName>
+                    <wsdlUrls>
+                        <wsdlUrl>http://localhost:7923/ws/hello?wsdl</wsdlUrl>
+                    </wsdlUrls>
+                    <sourceDestDir>${sourcesDir}</sourceDestDir>
+                    <destDir>${classesDir}</destDir>
+                    <extension>true</extension>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

@@ -52,6 +52,15 @@ public class HelloWebServiceImpl implements HelloWebService {
         return this.toXML(response);
     }
 
+    @Override
+    public OpenapiResponse sayModel(HelloPayload payload) {
+        OpenapiResponse response = OpenapiResponse.ok()
+            .body("Nice~")
+            .build();
+
+        return response;
+    }
+
     // ----------------------------------------------------------------
 
     private void handleRequest(HelloPayload payload) {
