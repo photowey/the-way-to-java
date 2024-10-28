@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.photowey.webservice.client.in.action.webservice.client;
 
@@ -8,17 +23,18 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each
- * Java content interface and Java element interface
- * generated in the com.photowey.webservice.client.in.action.webservice.client package.
- * <p>An ObjectFactory allows you to programatically
- * construct new instances of the Java representation
- * for XML content. The Java representation of XML
- * content can consist of schema derived interfaces
- * and classes representing the binding of schema
- * type definitions, element declarations and model
- * groups.  Factory methods for each of these are
+ * This object contains factory methods for each 
+ * Java content interface and Java element interface 
+ * generated in the com.photowey.webservice.client.in.action.webservice.client package. 
+ * <p>An ObjectFactory allows you to programatically 
+ * construct new instances of the Java representation 
+ * for XML content. The Java representation of XML 
+ * content can consist of schema derived interfaces 
+ * and classes representing the binding of schema 
+ * type definitions, element declarations and model 
+ * groups.  Factory methods for each of these are 
  * provided in this class.
+ * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -32,12 +48,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.photowey.webservice.client.in.action.webservice.client
+     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link OpenapiResponse }
+     * 
      */
     public OpenapiResponse createOpenapiResponse() {
         return new OpenapiResponse();
@@ -45,6 +63,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link HelloPayload }
+     * 
      */
     public HelloPayload createHelloPayload() {
         return new HelloPayload();
@@ -52,6 +71,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SayHello }
+     * 
      */
     public SayHello createSayHello() {
         return new SayHello();
@@ -59,6 +79,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SayHelloResponse }
+     * 
      */
     public SayHelloResponse createSayHelloResponse() {
         return new SayHelloResponse();
@@ -66,6 +87,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SayModel }
+     * 
      */
     public SayModel createSayModel() {
         return new SayModel();
@@ -73,6 +95,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SayModelResponse }
+     * 
      */
     public SayModelResponse createSayModelResponse() {
         return new SayModelResponse();
@@ -80,6 +103,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Hobby }
+     * 
      */
     public Hobby createHobby() {
         return new Hobby();
@@ -88,8 +112,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link OpenapiResponse }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link OpenapiResponse }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link OpenapiResponse }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "DATA")
     public JAXBElement<OpenapiResponse> createDATA(OpenapiResponse value) {
@@ -99,8 +125,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link HelloPayload }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link HelloPayload }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link HelloPayload }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "PARA")
     public JAXBElement<HelloPayload> createPARA(HelloPayload value) {
@@ -110,8 +138,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SayHello }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link SayHello }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link SayHello }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "sayHello")
     public JAXBElement<SayHello> createSayHello(SayHello value) {
@@ -121,8 +151,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SayHelloResponse }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link SayHelloResponse }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link SayHelloResponse }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "sayHelloResponse")
     public JAXBElement<SayHelloResponse> createSayHelloResponse(SayHelloResponse value) {
@@ -132,8 +164,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SayModel }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link SayModel }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link SayModel }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "sayModel")
     public JAXBElement<SayModel> createSayModel(SayModel value) {
@@ -143,8 +177,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SayModelResponse }{@code >}
      *
-     * @param value Java instance representing xml element's value.
-     * @return the new instance of {@link JAXBElement }{@code <}{@link SayModelResponse }{@code >}
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link SayModelResponse }{@code >}
      */
     @XmlElementDecl(namespace = "http://server.webservice.service.action.in.webservice.photowey.com", name = "sayModelResponse")
     public JAXBElement<SayModelResponse> createSayModelResponse(SayModelResponse value) {

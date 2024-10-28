@@ -16,6 +16,8 @@
 package com.photowey.webservice.client.in.action;
 
 import com.photowey.webservice.client.in.action.webservice.client.HelloClient;
+import com.photowey.webservice.client.in.action.webservice.client.HelloPayload;
+import com.photowey.webservice.client.in.action.webservice.client.Hobby;
 import com.photowey.webservice.core.in.action.proxy.objectmapper.ObjectMapperProxy;
 import org.apache.cxf.endpoint.Client;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,13 +103,13 @@ public abstract class AbstractTest {
         return this.mapperProxy.toXMLString(this.requestPayload());
     }
 
-    protected com.photowey.webservice.client.in.action.webservice.client.HelloPayload requestPayload() {
-        com.photowey.webservice.client.in.action.webservice.client.Hobby hobby = com.photowey.webservice.client.in.action.webservice.client.Hobby.builder()
+    protected HelloPayload requestPayload() {
+        Hobby hobby = Hobby.builder()
             .id(9527L)
             .name("badminton")
             .build();
 
-        com.photowey.webservice.client.in.action.webservice.client.HelloPayload payload = com.photowey.webservice.client.in.action.webservice.client.HelloPayload.builder()
+        HelloPayload payload = HelloPayload.builder()
             .id(10086L)
             .age(18)
             .name("photowey")

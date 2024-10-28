@@ -1,22 +1,31 @@
+/*
+ * Copyright © 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.photowey.webservice.client.in.action.webservice.client;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * <p>sayHello complex type的 Java 类。
- *
+ * 
  * <p>以下模式片段指定包含在此类中的预期内容。
- *
+ * 
  * <pre>
  * &lt;complexType name="sayHello"&gt;
  *   &lt;complexContent&gt;
@@ -28,16 +37,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ *
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sayHello", propOrder = {
     "payload"
-}, namespace = "com.photowey.webservice.client.in.action.service.webservice.client.service.HelloWebService")
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@XmlRootElement(name = "PARA")
+})
 public class SayHello {
 
     protected String payload;
@@ -45,8 +51,10 @@ public class SayHello {
     /**
      * 获取payload属性的值。
      *
-     * @return possible object is
-     * {@link String }
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getPayload() {
         return payload;
@@ -55,8 +63,10 @@ public class SayHello {
     /**
      * 设置payload属性的值。
      *
-     * @param value allowed object is
-     *              {@link String }
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setPayload(String value) {
         this.payload = value;

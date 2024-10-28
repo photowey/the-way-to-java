@@ -14,7 +14,8 @@
     <artifactId>webservice-client-in-action</artifactId>
 
     <properties>
-        <jaxws-maven-plugin.version>3.0.0</jaxws-maven-plugin.version>
+        <!-- 3.0.0 -->
+        <jaxws-maven-plugin.version>2.3.2</jaxws-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -86,10 +87,16 @@
                 <configuration>
                     <packageName>com.photowey.webservice.client.in.action.webservice.client</packageName>
                     <wsdlUrls>
+                        <!--
                         <wsdlUrl>http://localhost:7923/ws/hello?wsdl</wsdlUrl>
+                        -->
+                        <wsdlUrl>${project.basedir}/src/main/resources/wsdl/hello.wsdl</wsdlUrl>
                     </wsdlUrls>
+                    <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                    <!--
                     <sourceDestDir>${sourcesDir}</sourceDestDir>
                     <destDir>${classesDir}</destDir>
+                    -->
                     <extension>true</extension>
                 </configuration>
             </plugin>

@@ -39,3 +39,6 @@ build/
 
 # Generated files
 .flattened-pom.xml
+
+# XCodeMap
+.xcodemap/

@@ -1,0 +1,116 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://server.webservice.service.action.in.webservice.photowey.com"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  name="HelloWebServiceImplService"
+                  targetNamespace="http://server.webservice.service.action.in.webservice.photowey.com">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://server.webservice.service.action.in.webservice.photowey.com"
+                   elementFormDefault="unqualified"
+                   targetNamespace="http://server.webservice.service.action.in.webservice.photowey.com" version="1.0">
+            <xs:element name="DATA" type="tns:openapiResponse"/>
+            <xs:element name="PARA" type="tns:helloPayload"/>
+            <xs:element name="sayHello" type="tns:sayHello"/>
+            <xs:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
+            <xs:element name="sayModel" type="tns:sayModel"/>
+            <xs:element name="sayModelResponse" type="tns:sayModelResponse"/>
+            <xs:complexType name="sayHello">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="payload" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="sayHelloResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="return" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="sayModel">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="payload" type="tns:helloPayload"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="helloPayload">
+                <xs:sequence>
+                    <xs:element name="ID" type="xs:long"/>
+                    <xs:element name="NAME" type="xs:string"/>
+                    <xs:element name="AGE" type="xs:int"/>
+                    <xs:element maxOccurs="unbounded" name="LIST" type="tns:hobby"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="hobby">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="id" type="xs:long"/>
+                    <xs:element minOccurs="0" name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="sayModelResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="return" type="tns:openapiResponse"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="openapiResponse">
+                <xs:complexContent>
+                    <xs:extension base="tns:abstractResponse">
+                        <xs:sequence>
+                            <xs:element name="BODY" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType abstract="true" name="abstractResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="code" type="xs:string"/>
+                    <xs:element minOccurs="0" name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="sayHelloResponse">
+        <wsdl:part element="tns:sayHelloResponse" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="sayHello">
+        <wsdl:part element="tns:sayHello" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="sayModelResponse">
+        <wsdl:part element="tns:sayModelResponse" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="sayModel">
+        <wsdl:part element="tns:sayModel" name="parameters"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="hello">
+        <wsdl:operation name="sayHello">
+            <wsdl:input message="tns:sayHello" name="sayHello"></wsdl:input>
+            <wsdl:output message="tns:sayHelloResponse" name="sayHelloResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="sayModel">
+            <wsdl:input message="tns:sayModel" name="sayModel"></wsdl:input>
+            <wsdl:output message="tns:sayModelResponse" name="sayModelResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="HelloWebServiceImplServiceSoapBinding" type="tns:hello">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="sayHello">
+            <soap:operation soapAction="sayHello" style="document"/>
+            <wsdl:input name="sayHello">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="sayHelloResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="sayModel">
+            <soap:operation soapAction="sayModel" style="document"/>
+            <wsdl:input name="sayModel">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="sayModelResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="HelloWebServiceImplService">
+        <wsdl:port binding="tns:HelloWebServiceImplServiceSoapBinding" name="helloPort">
+            <soap:address location="http://127.0.0.1:7923/ws/hello"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
