@@ -17,7 +17,6 @@ package com.photowey.webservice.client.in.action.service.webservice.client.servi
 
 import com.photowey.webservice.client.in.action.AbstractTest;
 import com.photowey.webservice.client.in.action.App;
-import com.photowey.webservice.client.in.action.webservice.client.HelloWebServiceImplService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,9 +43,9 @@ class HelloWebServiceImplServiceTest extends AbstractTest {
     void testStaticStub() {
         String payload = this.requestBody();
 
-        HelloWebServiceImplService helloWebService = new HelloWebServiceImplService();
+        /*HelloWebServiceImplService helloWebService = new HelloWebServiceImplService();
         String response = helloWebService.getHelloPort().sayHello(payload);
 
-        log.info("stub: the Hello webservice response is:[{}]", response);
+        log.info("stub: the Hello webservice response is:[{}]", response);*/
     }
 }

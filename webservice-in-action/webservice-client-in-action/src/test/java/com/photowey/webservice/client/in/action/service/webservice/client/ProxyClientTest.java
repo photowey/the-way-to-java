@@ -27,10 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean;
-
-import java.net.URL;
 
 /**
  * {@code ProxyClientTest}
@@ -58,7 +58,11 @@ class ProxyClientTest extends AbstractTest {
             proxy.setServiceName("HelloWebServiceImplService");
             proxy.setPortName("helloPort");
             proxy.setNamespaceUri("http://server.webservice.service.action.in.webservice.photowey.com");
-            proxy.setWsdlDocumentUrl(new URL("http://localhost:7923/ws/hello?wsdl"));
+
+            //proxy.setWsdlDocumentUrl(new URL("http://localhost:7923/ws/hello?wsdl"));
+            Resource resource = new ClassPathResource("wsdl/hello.wsdl");
+            proxy.setWsdlDocumentUrl(resource.getURL());
+
             proxy.setServiceInterface(HelloWebService.class);
 
             return proxy;

@@ -87,16 +87,9 @@
                 <configuration>
                     <packageName>com.photowey.webservice.client.in.action.webservice.client</packageName>
                     <wsdlUrls>
-                        <!--
-                        <wsdlUrl>http://localhost:7923/ws/hello?wsdl</wsdlUrl>
-                        -->
                         <wsdlUrl>${project.basedir}/src/main/resources/wsdl/hello.wsdl</wsdlUrl>
                     </wsdlUrls>
                     <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
-                    <!--
-                    <sourceDestDir>${sourcesDir}</sourceDestDir>
-                    <destDir>${classesDir}</destDir>
-                    -->
                     <extension>true</extension>
                 </configuration>
             </plugin>

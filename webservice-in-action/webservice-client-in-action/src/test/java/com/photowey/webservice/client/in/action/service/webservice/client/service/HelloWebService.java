@@ -15,9 +15,6 @@
  */
 package com.photowey.webservice.client.in.action.service.webservice.client.service;
 
-import com.photowey.webservice.client.in.action.webservice.client.SayModel;
-import com.photowey.webservice.client.in.action.webservice.client.SayModelResponse;
-
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -34,7 +31,7 @@ public interface HelloWebService {
     @WebMethod(action = "sayHello")
     String sayHello(@WebParam(name = "payload") String payload);
 
-    @WebMethod(action = "sayModel")
-    SayModelResponse sayModel(@WebParam(name = "payload") SayModel payload);
+    /*@WebMethod(action = "sayModel")
+    SayModelResponse sayModel(@WebParam(name = "payload") SayModel payload);*/
 }
 
