@@ -150,6 +150,7 @@
         <module>liquibase-in-action</module>
         <module>webservice-in-action</module>
         <module>flatten-in-action</module>
+        <module>desktop-in-action</module>
     </modules>
 
     <dependencyManagement>
