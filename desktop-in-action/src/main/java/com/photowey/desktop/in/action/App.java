@@ -17,9 +17,12 @@ package com.photowey.desktop.in.action;
 
 import com.photowey.desktop.in.action.core.event.CustomApplicationStartedEvent;
 import com.photowey.print.in.action.printer.AppPrinter;
-import org.springframework.boot.SpringApplication;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.util.StopWatch;
 
 /**
  * {@code App}
@@ -28,16 +31,27 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2024/10/30
  * @since 1.0.0
  */
+@Slf4j
 @SpringBootApplication
 public class App {
 
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
 
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(App.class, args);
-        AppPrinter.print(applicationContext, false);
+        StopWatch watch = new StopWatch("setup");
+        watch.start();
+
+        ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(App.class)
+            .bannerMode(Banner.Mode.CONSOLE)
+            .logStartupInfo(true)
+            .build(args)
+            .run(args);
+
+        watch.stop();
 
         applicationContext.publishEvent(new CustomApplicationStartedEvent());
-    }
 
+        AppPrinter.print(applicationContext, false);
+        log.info("Report: webapp started, took [{}] ms", watch.getTotalTimeMillis());
+    }
 }
