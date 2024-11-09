@@ -311,6 +311,40 @@ public enum MediaTable {
         }
     }
 
+    public enum Payload {
+
+        JSON("json", "application/json; charset=utf-8"),
+        FORM("form", "application/x-www-form-urlencoded"),
+
+        ;
+
+        private final String suffix;
+        private final String contentType;
+
+        Payload(String suffix, String contentType) {
+            this.suffix = suffix;
+            this.contentType = contentType;
+        }
+
+        public String suffix() {
+            return suffix;
+        }
+
+        public String contentType() {
+            return contentType;
+        }
+
+        public static String suffixOf(String suffix) {
+            for (Payload target : Payload.values()) {
+                if (target.suffix().equalsIgnoreCase(suffix)) {
+                    return target.contentType();
+                }
+            }
+
+            return null;
+        }
+    }
+
     public enum Bin {
 
         VSD("vsd", "application/vnd.visio"),
@@ -372,6 +406,11 @@ public enum MediaTable {
         }
 
         contentType = Txt.suffixOf(suffix);
+        if (ObjectUtils.isNotNullOrEmpty(contentType)) {
+            return contentType;
+        }
+
+        contentType = Payload.suffixOf(suffix);
         if (ObjectUtils.isNotNullOrEmpty(contentType)) {
             return contentType;
         }
