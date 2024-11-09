@@ -24,9 +24,9 @@ import org.springframework.context.ApplicationEvent;
  * @version 1.0.0
  * @since 2024/10/30
  */
-public class CustomApplicationStartedEvent extends ApplicationEvent {
+public class ApplicationStartedLocalEvent extends ApplicationEvent {
 
-    public CustomApplicationStartedEvent() {
+    public ApplicationStartedLocalEvent() {
         super(new Object());
     }
 }

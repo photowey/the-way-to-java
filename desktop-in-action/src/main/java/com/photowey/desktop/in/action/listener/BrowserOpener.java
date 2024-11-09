@@ -15,7 +15,7 @@
  */
 package com.photowey.desktop.in.action.listener;
 
-import com.photowey.desktop.in.action.core.event.CustomApplicationStartedEvent;
+import com.photowey.desktop.in.action.core.event.ApplicationStartedLocalEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +30,10 @@ import java.net.URI;
  * @since 2024/10/30
  */
 @Component
-public class BrowserOpener implements ApplicationListener<CustomApplicationStartedEvent> {
+public class BrowserOpener implements ApplicationListener<ApplicationStartedLocalEvent> {
 
     @Override
-    public void onApplicationEvent(CustomApplicationStartedEvent event) {
+    public void onApplicationEvent(ApplicationStartedLocalEvent event) {
         openBrowser("http://localhost:9527/healthz");
     }
 

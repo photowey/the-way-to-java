@@ -15,7 +15,7 @@
  */
 package com.photowey.desktop.in.action;
 
-import com.photowey.desktop.in.action.core.event.CustomApplicationStartedEvent;
+import com.photowey.desktop.in.action.core.event.ApplicationStartedLocalEvent;
 import com.photowey.print.in.action.printer.AppPrinter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.Banner;
@@ -48,10 +48,9 @@ public class App {
             .run(args);
 
         watch.stop();
-
-        applicationContext.publishEvent(new CustomApplicationStartedEvent());
-
+        applicationContext.publishEvent(new ApplicationStartedLocalEvent());
         AppPrinter.print(applicationContext, false);
+
         log.info("Report: webapp started, took [{}] ms", watch.getTotalTimeMillis());
     }
 }
