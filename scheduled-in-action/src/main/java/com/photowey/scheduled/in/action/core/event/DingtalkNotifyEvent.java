@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
+package com.photowey.scheduled.in.action.core.event;
 
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+import com.photowey.scheduled.in.action.core.domain.payload.DingtalkNotifyPayload;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * {@code HardwareUtils}
+ * {@code DingtalkNotifyEvent}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+public class DingtalkNotifyEvent extends ApplicationEvent {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    private static final long serialVersionUID = 2882348375644367071L;
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
+    public DingtalkNotifyEvent(DingtalkNotifyPayload source) {
+        super(source);
     }
 
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
+    public DingtalkNotifyPayload getDingtalkNotifyPayload() {
+        return (DingtalkNotifyPayload) this.getSource();
     }
 }
+

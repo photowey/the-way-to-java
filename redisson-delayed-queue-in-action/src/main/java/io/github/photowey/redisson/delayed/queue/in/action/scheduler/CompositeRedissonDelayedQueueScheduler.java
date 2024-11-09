@@ -39,7 +39,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class CompositeRedissonDelayedQueueScheduler implements RedissonDelayedQueueScheduler {
 
-    private static final int THRESHOLD = HardwareUtils.getNcpu();
+    private static final int THRESHOLD = HardwareUtils.ncpu();
     private static final String SCHEDULER_NAME_TEMPLATE = "redisson-delayqueue-scheduler-%d";
 
     private final RedissonDelayedQueueManager manager;

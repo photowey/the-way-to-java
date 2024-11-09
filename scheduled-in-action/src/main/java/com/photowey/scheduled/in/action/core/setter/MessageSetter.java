@@ -13,31 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
+package com.photowey.scheduled.in.action.core.setter;
 
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+import com.photowey.scheduled.in.action.context.NotifyContext;
+import org.springframework.core.Ordered;
 
 /**
- * {@code HardwareUtils}
+ * {@code MessageSetter}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+public interface MessageSetter extends Ordered {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    boolean supports(NotifyContext ctx);
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
-    }
+    void advance(NotifyContext ctx);
 
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
+    @Override
+    default int getOrder() {
+        return 0;
     }
 }
+

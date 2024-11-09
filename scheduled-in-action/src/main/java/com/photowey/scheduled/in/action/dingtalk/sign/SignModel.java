@@ -13,31 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
-
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+package com.photowey.scheduled.in.action.dingtalk.sign;
 
 /**
- * {@code HardwareUtils}
+ * {@code SignModel}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+public abstract class SignModel {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    protected static final String SEPARATOR = "&";
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
-    }
-
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
-    }
+    public abstract String transferTo();
 }
+

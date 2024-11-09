@@ -13,31 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
+package com.photowey.scheduled.in.action.core.domain.payload;
 
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
- * {@code HardwareUtils}
+ * {@code DingtalkNotifyPayload}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DingtalkNotifyPayload implements Serializable {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
-
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
-    }
-
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
-    }
+    /**
+     * 主题标识
+     */
+    private String topicId;
+    /**
+     * 主题
+     */
+    private String topic;
 }
+

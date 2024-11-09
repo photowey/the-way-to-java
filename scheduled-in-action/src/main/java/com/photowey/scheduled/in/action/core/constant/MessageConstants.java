@@ -13,31 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
-
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+package com.photowey.scheduled.in.action.core.constant;
 
 /**
- * {@code HardwareUtils}
+ * {@code MessageConstants}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+public interface MessageConstants {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    String MESSAGE_TYPE_SMS = "sms";
+    String MESSAGE_TYPE_EMAIL = "email";
+    String MESSAGE_TYPE_DINGTALK = "dingtalk";
+    String MESSAGE_TYPE_WECHAT = "wechat";
+    String MESSAGE_TYPE_MINI = "mini";
+    String MESSAGE_TYPE_NO_OPS = "noops";
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
-    }
-
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
-    }
+    String DINGTALK_TXT_MESSAGE_TYPE = "text";
+    String DINGTALK_MARKDOWN_MESSAGE_TYPE = "markdown";
 }
+

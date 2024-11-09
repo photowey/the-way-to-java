@@ -13,31 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
+package com.photowey.scheduled.in.action.dingtalk.sign;
 
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+import lombok.*;
 
 /**
- * {@code HardwareUtils}
+ * {@code SignResult}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class SignResult extends SignModel {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    private String sign;
+    private Long timestamp;
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
-    }
-
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
+    @Override
+    public String transferTo() {
+        return String.format("timestamp=%s%ssign=%s", this.getTimestamp(), SEPARATOR, this.getSign());
     }
 }
+

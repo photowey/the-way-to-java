@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.common.in.action.util;
+package com.photowey.scheduled.in.action.core.domain.payload;
 
-import com.photowey.common.in.action.thrower.AssertionErrorThrower;
+import java.util.Collection;
 
 /**
- * {@code HardwareUtils}
+ * {@code AliyunPayload}
  *
  * @author photowey
- * @date 2023/03/03
- * @since 1.0.0
+ * @version 1.0.0
+ * @since 2024/11/09
  */
-public final class HardwareUtils {
+public interface AliyunPayload {
 
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    String getType();
 
-    private HardwareUtils() {
-        // utility class; can't create
-        AssertionErrorThrower.throwz(HardwareUtils.class);
+    String getAppId();
+
+    default void checkAppIdIfNecessary() {
+
     }
 
-    public static int ncpu() {
-        return NCPU;
-    }
-
-    public static int doubleNcpu() {
-        return NCPU << 1;
+    default <T> boolean contains(final Collection<T> c1, final T t2) {
+        return c1.contains(t2);
     }
 }
