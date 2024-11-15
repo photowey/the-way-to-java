@@ -15,10 +15,15 @@
  */
 package com.photowey.redis.in.action.config;
 
+import com.photowey.redis.in.action.property.redis.RedisProperties;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.integration.redis.util.RedisLockRegistry;
+import org.springframework.integration.support.locks.LockRegistry;
 
 /**
  * {@code RedisLockConfigure}
@@ -30,8 +35,23 @@ import org.springframework.integration.redis.util.RedisLockRegistry;
 @Configuration
 public class RedisLockConfigure {
 
+    private static final String GLOBAL_LOCK_REGISTRY_KEY = "io:github:photowey:global:lock";
+
     @Bean
-    public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
-        return new RedisLockRegistry(redisConnectionFactory, "redis-lock");
+    public LockRegistry redisLockRegistry(RedisConnectionFactory connectionFactory) {
+        return new RedisLockRegistry(connectionFactory, GLOBAL_LOCK_REGISTRY_KEY);
+    }
+
+    @Bean
+    public RedissonClient redissonClient(RedisProperties properties) {
+        Config config = new Config();
+
+        config.useSingleServer()
+            .setAddress(properties.populateAddress())
+            .setDatabase(properties.getDatabase())
+            .setPassword(properties.getPassword())
+            .setTimeout(properties.getTimeout());
+
+        return Redisson.create(config);
     }
 }

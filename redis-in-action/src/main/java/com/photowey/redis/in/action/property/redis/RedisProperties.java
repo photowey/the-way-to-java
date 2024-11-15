@@ -43,4 +43,8 @@ public class RedisProperties implements Serializable {
     public boolean passwordEnabled() {
         return StringUtils.hasText(password);
     }
+
+    public String populateAddress() {
+        return String.format("redis://%s:%d", host, port);
+    }
 }
