@@ -45,6 +45,7 @@ public interface RedissonDistributedLock extends DistributedLock {
     @Override
     default void run(String key, Runnable task) {
         RLock lock = this.locker().getLock(key);
+
         lock.lock();
         try {
             task.run();
