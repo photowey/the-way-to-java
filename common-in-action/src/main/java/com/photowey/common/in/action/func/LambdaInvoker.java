@@ -30,16 +30,33 @@ import java.util.concurrent.Callable;
  */
 public interface LambdaInvoker {
 
+    /**
+     * 获取日志记录器
+     *
+     * @return {@link Logger}
+     */
     default Logger log() {
         return null;
     }
 
     // ----------------------------------------------------------------
 
+    /**
+     * 执行无返回值的任务
+     *
+     * @param task {@link Runnable}
+     */
     default void run(Runnable task) {
         this.run(task, null);
     }
 
+    /**
+     * 执行无返回值的任务
+     *
+     * @param task    {@link Runnable}
+     * @param message 异常消息模板
+     * @param args    异常消息模板参数
+     */
     default void run(Runnable task, String message, Object... args) {
         try {
             task.run();
@@ -53,10 +70,26 @@ public interface LambdaInvoker {
 
     // ----------------------------------------------------------------
 
+    /**
+     * 执行有返回值的任务
+     *
+     * @param task {@link Callable}
+     * @param <T>  T 返回值类型
+     * @return T 类型
+     */
     default <T> T call(Callable<T> task) {
         return this.call(task, null);
     }
 
+    /**
+     * 执行有返回值的任务
+     *
+     * @param task    {@link Callable}
+     * @param message 异常消息模板
+     * @param args    异常消息模板参数
+     * @param <T>     T 返回值类型
+     * @return T 类型
+     */
     default <T> T call(Callable<T> task, String message, Object... args) {
         try {
             return task.call();

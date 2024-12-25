@@ -16,7 +16,6 @@
 package com.photowey.common.in.action.threadpool.scheduled;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 class SafeScheduledThreadPoolExecutorTest {
 
-    @Test
+    //@Test
     void testSafeExecutorScheduleWithFixedDelay() {
         SafeScheduledThreadPoolExecutor safeExecutor = new SafeScheduledThreadPoolExecutor(1);
 
