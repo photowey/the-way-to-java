@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: "captcha-in-action"
+  profiles:
+    active: dev

@@ -152,6 +152,7 @@
         <module>flatten-in-action</module>
         <module>desktop-in-action</module>
         <module>scheduled-in-action</module>
+        <module>captcha-in-action</module>
     </modules>
 
     <dependencyManagement>
