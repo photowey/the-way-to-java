@@ -36,6 +36,8 @@ import java.util.Base64;
 @Slf4j
 class CaptchaTest {
 
+    private static final String PREFIX = "data:image/png;base64,";
+
     @Test
     void testGenerate() {
         // 去掉部分易混淆的字符 0|o 1|l|i b|h ...
@@ -46,7 +48,7 @@ class CaptchaTest {
         String code = lineCaptcha.getCode();
         log.info("the captcha code: \n{}", code);
 
-        String base64ImageString = "data:image/png;base64," + lineCaptcha.getImageBase64();
+        String base64ImageString = PREFIX + lineCaptcha.getImageBase64();
         log.info("the captcha code base64: \n{}", base64ImageString);
 
         String outputImagePath = code + ".png";
@@ -61,19 +63,16 @@ class CaptchaTest {
     }
 
     public static void write(byte[] content, String outputPath) {
-        try {
-            try (OutputStream outputStream = new FileOutputStream(outputPath)) {
-                outputStream.write(content);
-            }
+        try (OutputStream outputStream = new FileOutputStream(outputPath)) {
+            outputStream.write(content);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static String tryTrim(String base64ImageString) {
-        final String prefix = "data:image/png;base64,";
-        if (base64ImageString.startsWith(prefix)) {
-            base64ImageString = base64ImageString.substring(prefix.length());
+        if (base64ImageString.startsWith(PREFIX)) {
+            base64ImageString = base64ImageString.substring(PREFIX.length());
         }
 
         return base64ImageString;
