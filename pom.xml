@@ -44,7 +44,7 @@
         <ulid.version>5.0.2</ulid.version>
         <jsonpath.version>2.7.0</jsonpath.version>
         <auto-pipeline.version>0.2.0</auto-pipeline.version>
-        
+
         <nanoid.version>2.0.0</nanoid.version>
         <commons-collections4.version>4.3</commons-collections4.version>
 
@@ -75,7 +75,7 @@
         <module>event-bus-in-action</module>
         <module>common-in-action</module>
         <module>juc-in-action</module>
-<!--        <module>hashmap-in-action</module>-->
+        <!--        <module>hashmap-in-action</module>-->
         <module>jvm-in-action</module>
         <module>mysql-in-action</module>
         <module>mongo-in-action</module>
@@ -424,6 +424,8 @@ limitations under the License.
                         <exclude>**/shared/**/*.java</exclude>
                         <exclude>**/*Proto.java</exclude>
                         <exclude>**/*Grpc.java</exclude>
+
+                        <exclude>**/jwt/authcenter/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
