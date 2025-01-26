@@ -40,8 +40,8 @@ class CaptchaTest {
 
     @Test
     void testGenerate() {
-        // 去掉部分易混淆的字符 0|o 1|l|i b|h ...
-        String baseStr = "234567890abcdefgkmnpqrtuvwxtzABCDEFGHJKLMNPQRSTUVWXYZ";
+        // 去掉部分易混淆的字符 0|o, 1|l|i|j, b|h, 3|5|s|S, 2|z, ...
+        String baseStr = "023456789abcdefgkmnpqrtuvwxyABCDEFGHJKLMNPQRTUVWXYZ";
         RandomGenerator generator = new RandomGenerator(baseStr, 4);
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(130, 48, generator, 100);
 
