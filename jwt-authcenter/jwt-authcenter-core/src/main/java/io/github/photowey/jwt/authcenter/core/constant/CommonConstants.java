@@ -15,7 +15,7 @@
  */
 package io.github.photowey.jwt.authcenter.core.constant;
 
-import java.util.*;
+import io.github.photowey.jwt.authcenter.core.util.Strings;
 
 /**
  * {@code CommonConstants}
@@ -39,6 +39,7 @@ public interface CommonConstants {
     }
 
     interface Api {
+
         int HTTP_STATUS_OK = 200;
         int HTTP_STATUS_BAD_REQUEST = 400;
         int HTTP_STATUS_UNAUTHORIZED = 401;
@@ -52,8 +53,16 @@ public interface CommonConstants {
 
         // ----------------------------------------------------------------
 
+        /**
+         * [/]xxx/**
+         * http[s]://${domain}/${path}[/]
+         */
+        String API_TEMPLATE = "%s%s";
+
+        // ----------------------------------------------------------------
+
         static String cleanPrefixIfNecessary(String api) {
-            if (isNotEmpty(api) && api.startsWith(Symbol.SLASH)) {
+            if (Strings.isNotEmpty(api) && api.startsWith(Symbol.SLASH)) {
                 return api.substring(1);
             }
 
@@ -61,48 +70,28 @@ public interface CommonConstants {
         }
 
         static String insertPrefixIfNecessary(String api) {
-            if (isNotEmpty(api) && !api.startsWith(Symbol.SLASH)) {
-                return String.format("%s%s", Symbol.SLASH, api);
+            if (Strings.isNotEmpty(api) && !api.startsWith(Symbol.SLASH)) {
+                return String.format(API_TEMPLATE, Symbol.SLASH, api);
             }
 
             return api;
         }
 
         static String appendSuffixIfNecessary(String api) {
-            if (isNotEmpty(api) && !api.endsWith(Symbol.SLASH)) {
-                return String.format("%s%s", api, Symbol.SLASH);
+            if (Strings.isNotEmpty(api) && !api.endsWith(Symbol.SLASH)) {
+                return String.format(API_TEMPLATE, api, Symbol.SLASH);
             }
 
             return api;
         }
 
         static String cleanSuffixIfNecessary(String api) {
-            if (isNotEmpty(api) && api.endsWith(Symbol.SLASH)) {
+            if (Strings.isNotEmpty(api) && api.endsWith(Symbol.SLASH)) {
                 return api.substring(0, api.length() - 1);
             }
 
             return api;
         }
-    }
-
-    // ----------------------------------------------------------------
-
-    static boolean isNotEmpty(CharSequence cs) {
-        return null != cs && !cs.isEmpty();
-    }
-
-    // ----------------------------------------------------------------
-
-    static <T> List<T> emptyList() {
-        return new ArrayList<>(0);
-    }
-
-    static <T> Set<T> emptySet() {
-        return new HashSet<>(0);
-    }
-
-    static <K, V> Map<K, V> emptyMap() {
-        return new HashMap<>(0);
     }
 }
 
