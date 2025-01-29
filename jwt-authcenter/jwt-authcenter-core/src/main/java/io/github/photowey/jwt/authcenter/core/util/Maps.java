@@ -17,51 +17,37 @@ package io.github.photowey.jwt.authcenter.core.util;
 
 import io.github.photowey.jwt.authcenter.core.thrower.AssertionErrorThrower;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * {@code Collections}
+ * {@code Maps}
  *
  * @author photowey
  * @version 1.0.0
- * @since 2025/01/28
+ * @since 2025/01/29
  */
-public final class Collections {
+public final class Maps {
 
-    private Collections() {
+    private Maps() {
         // utility class; can't create
-        AssertionErrorThrower.throwz(Collections.class);
+        AssertionErrorThrower.throwz(Maps.class);
     }
 
     // ----------------------------------------------------------------
 
-    public static <T> boolean isEmpty(Collection<T> collection) {
+    public static <K, V> Map<K, V> emptyMap() {
+        return new HashMap<>(0);
+    }
+
+    // ----------------------------------------------------------------
+
+    public static <K, V> boolean isEmpty(Map<K, V> collection) {
         return null == collection || collection.isEmpty();
-    }
-
-    public static <T> boolean isNotEmpty(Collection<T> collection) {
-        return !isEmpty(collection);
-    }
-
-    public static <K, V> boolean isEmpty(Map<K, V> map) {
-        return Maps.isEmpty(map);
     }
 
     public static <K, V> boolean isNotEmpty(Map<K, V> collection) {
         return !isEmpty(collection);
     }
 
-    // ----------------------------------------------------------------
-
-    public static <T> List<T> emptyList() {
-        return new ArrayList<>(0);
-    }
-
-    public static <T> Set<T> emptySet() {
-        return new HashSet<>(0);
-    }
-
-    public static <K, V> Map<K, V> emptyMap() {
-        return Maps.emptyMap();
-    }
 }
