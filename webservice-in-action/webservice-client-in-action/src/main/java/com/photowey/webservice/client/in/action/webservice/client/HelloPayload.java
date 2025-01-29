@@ -1,10 +1,20 @@
+/*
+ * Copyright © 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.photowey.webservice.client.in.action.webservice.client;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,9 +26,9 @@ import java.util.List;
 
 /**
  * <p>helloPayload complex type的 Java 类。
- *
+ * 
  * <p>以下模式片段指定包含在此类中的预期内容。
- *
+ * 
  * <pre>
  * &lt;complexType name="helloPayload"&gt;
  *   &lt;complexContent&gt;
@@ -33,11 +43,9 @@ import java.util.List;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ *
+ * 
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "helloPayload", propOrder = {
     "id",
@@ -58,6 +66,7 @@ public class HelloPayload {
 
     /**
      * 获取id属性的值。
+     * 
      */
     public long getID() {
         return id;
@@ -65,6 +74,7 @@ public class HelloPayload {
 
     /**
      * 设置id属性的值。
+     * 
      */
     public void setID(long value) {
         this.id = value;
@@ -73,8 +83,10 @@ public class HelloPayload {
     /**
      * 获取name属性的值。
      *
-     * @return possible object is
-     * {@link String }
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getNAME() {
         return name;
@@ -83,8 +95,10 @@ public class HelloPayload {
     /**
      * 设置name属性的值。
      *
-     * @param value allowed object is
-     *              {@link String }
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setNAME(String value) {
         this.name = value;
@@ -92,6 +106,7 @@ public class HelloPayload {
 
     /**
      * 获取age属性的值。
+     * 
      */
     public int getAGE() {
         return age;
@@ -99,6 +114,7 @@ public class HelloPayload {
 
     /**
      * 设置age属性的值。
+     * 
      */
     public void setAGE(int value) {
         this.age = value;
@@ -106,23 +122,25 @@ public class HelloPayload {
 
     /**
      * Gets the value of the list property.
-     *
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the list property.
-     *
+     * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getLIST().add(newItem);
      * </pre>
      *
-     *
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Hobby }
+     *
+     * 
      */
     public List<Hobby> getLIST() {
         if (list == null) {

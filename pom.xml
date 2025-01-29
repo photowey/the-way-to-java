@@ -369,7 +369,10 @@ limitations under the License.
                         <email>photowey@gmail.com</email>
                     </properties>
                     <excludes>
+                        <exclude>.editorconfig</exclude>
+                        <exclude>.gitattributes</exclude>
                         <exclude>.gitignore</exclude>
+                        <exclude>Makefile</exclude>
                         <exclude>LICENSE</exclude>
                         <exclude>**/*.properties</exclude>
                         <exclude>**/*.yml</exclude>
@@ -422,6 +425,7 @@ limitations under the License.
                         <exclude>**/shared/Sequence.java</exclude>
                         <exclude>**/listener/scope/*.java</exclude>
                         <exclude>**/shared/**/*.java</exclude>
+                        <exclude>**/shaded/**/*.java</exclude>
                         <exclude>**/*Proto.java</exclude>
                         <exclude>**/*Grpc.java</exclude>
 
