@@ -31,6 +31,10 @@ public final class Strings {
         AssertionErrorThrower.throwz(Strings.class);
     }
 
+    public static String defaultIfEmpty(String target, String defaultValue) {
+        return isNotEmpty(target) ? target : defaultValue;
+    }
+
     public static boolean isEmpty(CharSequence cs) {
         return null == cs || cs.isEmpty();
     }
