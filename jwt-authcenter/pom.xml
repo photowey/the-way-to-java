@@ -219,6 +219,7 @@ limitations under the License.
                         <exclude>**/*.sh</exclude>
                         <exclude>**/*.cmd</exclude>
                         <exclude>**/.mvn/**</exclude>
+                        <exclude>**/shaded/**/*.java</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>
