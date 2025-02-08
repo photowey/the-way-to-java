@@ -153,6 +153,7 @@
         <module>desktop-in-action</module>
         <module>scheduled-in-action</module>
         <module>captcha-in-action</module>
+        <module>drools-in-action</module>
     </modules>
 
     <dependencyManagement>
