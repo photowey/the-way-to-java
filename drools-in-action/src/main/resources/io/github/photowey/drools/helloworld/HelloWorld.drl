@@ -1,0 +1,25 @@
+package io.github.photowey.drools.helloworld
+
+import com.photowey.drools.in.action.domain.helloworld.Message;
+
+global java.util.List list
+
+rule "io.github.photowey.drools.rule.helloworld"
+    dialect "mvel"
+    when
+        $msg: Message( status == Message.HELLO, message: message )
+    then
+        System.out.println( message );
+        modify($msg) {
+            message = "Goodbye cruel world",
+            status = Message.GOODBYE
+        };
+end
+
+rule "io.github.photowey.drools.rule.goodbye"
+    dialect "java"
+    when
+        Message( status == Message.GOODBYE, message : message )
+    then
+        System.out.println( message );
+end

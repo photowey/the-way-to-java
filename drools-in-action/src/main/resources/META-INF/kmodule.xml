@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
 
-    <kbase name="io.github.photowey.drools.kbase.001" packages="rules" default="true">
+    <kbase name="io.github.photowey.drools.kbase.001"
+           packages="io.github.photowey.drools.helloworld"
+           default="true">
         <ksession name="io.github.photowey.drools.kbase.ksession.001" default="true"/>
     </kbase>
 </kmodule>

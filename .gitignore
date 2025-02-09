@@ -42,3 +42,6 @@ build/
 
 # XCodeMap
 .xcodemap/
+
+/**/*.log
+*.log
