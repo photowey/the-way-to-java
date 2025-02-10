@@ -29,6 +29,7 @@ import java.util.ArrayList;
  * {@code MessageTest}
  *
  * @author photowey
+ * @version 1.0.0
  * @since 2025/02/09
  */
 class MessageTest {
@@ -42,14 +43,16 @@ class MessageTest {
     }
 
     public static void execute(KieServices ks, KieContainer kc) {
-        KieSession ksession = kc.newKieSession("io.github.photowey.drools.kbase.ksession.001");
+        KieSession ksession = kc.newKieSession(
+            "io.github.photowey.drools.kbase.ksession.helloworld"
+        );
 
         ksession.setGlobal("list", new ArrayList<>());
 
         ksession.addEventListener(new DebugAgendaEventListener());
         ksession.addEventListener(new DebugRuleRuntimeEventListener());
 
-        KieRuntimeLogger logger = ks.getLoggers().newFileLogger(ksession, "./helloworld");
+        KieRuntimeLogger logger = ks.getLoggers().newFileLogger(ksession, "logs/helloworld");
 
         final Message message = new Message();
         message.setMessage("Hello World");

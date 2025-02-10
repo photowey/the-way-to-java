@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
 
-    <kbase name="io.github.photowey.drools.kbase.001"
+    <kbase name="io.github.photowey.drools.kbase.helloworld"
            packages="io.github.photowey.drools.helloworld"
            default="true">
-        <ksession name="io.github.photowey.drools.kbase.ksession.001" default="true"/>
+        <ksession name="io.github.photowey.drools.kbase.ksession.helloworld" default="true"/>
+    </kbase>
+
+    <kbase name="io.github.photowey.drools.kbase.petstore"
+           packages="io.github.photowey.drools.petstore">
+        <ksession name="io.github.photowey.drools.kbase.ksession.petstore"/>
     </kbase>
 </kmodule>

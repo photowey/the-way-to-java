@@ -1,8 +1,8 @@
-package io.github.photowey.drools.helloworld
+package io.github.photowey.drools.helloworld;
 
 import com.photowey.drools.in.action.domain.helloworld.Message;
 
-global java.util.List list
+global java.util.List list;
 
 rule "io.github.photowey.drools.rule.helloworld"
     dialect "mvel"

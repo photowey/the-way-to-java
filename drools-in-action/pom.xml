@@ -25,6 +25,10 @@
         </dependency>
 
         <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
         </dependency>
@@ -52,8 +56,28 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-api</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.drools</groupId>
                 <artifactId>drools-compiler</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-core</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-spring</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-templates</artifactId>
                 <version>${drools.version}</version>
             </dependency>
 
@@ -62,7 +86,6 @@
                 <artifactId>drools-xml-support</artifactId>
                 <version>${drools.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.drools</groupId>
                 <artifactId>drools-mvel</artifactId>
