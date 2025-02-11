@@ -36,6 +36,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -66,7 +67,9 @@ public class DroolsAutoConfigure {
         KieFileSystem kfs = this.kieServices().newKieFileSystem();
 
         for (Resource ruleFile : this.tryReadRuleFiles(resolver, props)) {
-            String resourcePath = props.populateRuleFullPath(ruleFile.getFilename());
+            // String resourcePath = props.populateRuleFullPath(ruleFile.getFilename());
+            String resourcePath = this.tryExtractRelativePath(ruleFile);
+
             org.kie.api.io.Resource kr =
                 ResourceFactory.newClassPathResource(resourcePath, StandardCharsets.UTF_8.displayName());
             kfs.write(kr);
@@ -120,5 +123,34 @@ public class DroolsAutoConfigure {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String tryExtractRelativePath(Resource resource) {
+        try {
+            return this.extractRelativePath("", resource);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String extractRelativePath(String classpath, Resource resource) throws IOException {
+        URL url = resource.getURL();
+        String absolutePath = url.toString();
+
+        if (absolutePath.startsWith("jar:")) {
+            int startOfPath = absolutePath.indexOf("!/") + 2;
+            return absolutePath.substring(startOfPath);
+        }
+        if (absolutePath.startsWith("file:")) {
+            String classpathPrefix = "target/classes/";
+            int index = absolutePath.indexOf(classpathPrefix);
+            if (index != -1) {
+                return absolutePath.substring(index + classpathPrefix.length()).replace("\\", "/");
+            }
+
+            return absolutePath;
+        }
+
+        throw new IllegalArgumentException("Unsupported resource URL protocol: " + url.getProtocol());
     }
 }

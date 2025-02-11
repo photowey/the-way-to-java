@@ -44,11 +44,11 @@ public class DroolsProperties implements Serializable {
     // ----------------------------------------------------------------
 
     public String populateClasspathRuleResources() {
-        return String.format("classpath*:%s**/*.*", tryTrim(this.rulePath));
+        return String.format("classpath*:%s/**/*.*", tryTrim(this.rulePath));
     }
 
     public String populateRuleFullPath(String filename) {
-        return tryTrim(this.rulePath) + filename;
+        return tryTrim(this.rulePath) + "/" + filename;
     }
 
     // ----------------------------------------------------------------
