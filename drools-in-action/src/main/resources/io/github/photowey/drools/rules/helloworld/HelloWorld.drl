@@ -1,4 +1,4 @@
-package io.github.photowey.drools.helloworld;
+package io.github.photowey.drools.rules.helloworld;
 
 import com.photowey.drools.in.action.domain.helloworld.Message;
 

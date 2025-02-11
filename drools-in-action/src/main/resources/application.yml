@@ -12,3 +12,10 @@ logging:
     root: info
   pattern:
     console: '%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %red([${spring.application.name}]) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)'
+
+io:
+  github:
+    photowey:
+      drools:
+        rules:
+          rule-path: "io/github/photowey/drools/rules/"

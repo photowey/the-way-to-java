@@ -1,4 +1,4 @@
-package io.github.photowey.drools.petstore;
+package io.github.photowey.drools.rules.petstore;
 
 import org.kie.api.runtime.KieRuntime;
 

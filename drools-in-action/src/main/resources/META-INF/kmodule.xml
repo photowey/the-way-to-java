@@ -2,13 +2,13 @@
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
 
     <kbase name="io.github.photowey.drools.kbase.helloworld"
-           packages="io.github.photowey.drools.helloworld"
+           packages="io.github.photowey.drools.rules.helloworld"
            default="true">
         <ksession name="io.github.photowey.drools.kbase.ksession.helloworld" default="true"/>
     </kbase>
 
     <kbase name="io.github.photowey.drools.kbase.petstore"
-           packages="io.github.photowey.drools.petstore">
+           packages="io.github.photowey.drools.rules.petstore">
         <ksession name="io.github.photowey.drools.kbase.ksession.petstore"/>
     </kbase>
 </kmodule>
