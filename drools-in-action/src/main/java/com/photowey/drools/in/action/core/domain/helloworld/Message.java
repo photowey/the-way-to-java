@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.drools.in.action.domain.helloworld;
+package com.photowey.drools.in.action.core.domain.helloworld;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

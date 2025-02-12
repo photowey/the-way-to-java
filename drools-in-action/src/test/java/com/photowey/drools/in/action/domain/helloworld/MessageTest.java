@@ -15,6 +15,7 @@
  */
 package com.photowey.drools.in.action.domain.helloworld;
 
+import com.photowey.drools.in.action.core.domain.helloworld.Message;
 import org.junit.jupiter.api.Test;
 import org.kie.api.KieServices;
 import org.kie.api.event.rule.DebugAgendaEventListener;

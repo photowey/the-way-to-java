@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.drools.in.action.domain.petstore;
+package com.photowey.drools.in.action.core.domain.petstore;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;

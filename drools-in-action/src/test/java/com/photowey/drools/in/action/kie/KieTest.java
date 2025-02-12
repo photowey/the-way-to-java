@@ -16,7 +16,7 @@
 package com.photowey.drools.in.action.kie;
 
 import com.photowey.drools.in.action.App;
-import com.photowey.drools.in.action.domain.helloworld.Message;
+import com.photowey.drools.in.action.core.domain.helloworld.Message;
 import org.junit.jupiter.api.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;

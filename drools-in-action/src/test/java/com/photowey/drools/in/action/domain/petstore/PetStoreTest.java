@@ -15,6 +15,7 @@
  */
 package com.photowey.drools.in.action.domain.petstore;
 
+import com.photowey.drools.in.action.core.domain.petstore.PetStore;
 import org.junit.jupiter.api.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;

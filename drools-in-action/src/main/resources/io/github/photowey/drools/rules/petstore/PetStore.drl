@@ -2,14 +2,15 @@ package io.github.photowey.drools.rules.petstore;
 
 import org.kie.api.runtime.KieRuntime;
 
-import com.photowey.drools.in.action.domain.petstore.Order;
-import com.photowey.drools.in.action.domain.petstore.Purchase;
-import com.photowey.drools.in.action.domain.petstore.Product;
+import com.photowey.drools.in.action.core.domain.petstore.Order;
+import com.photowey.drools.in.action.core.domain.petstore.Purchase;
+import com.photowey.drools.in.action.core.domain.petstore.Product;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-import javax.swing.JFrame;
+import javax.swing.JFrame
+import com.photowey.drools.in.action.core.domain.petstore.Purchase;
 
 global JFrame frame;
 global javax.swing.JTextArea textArea;

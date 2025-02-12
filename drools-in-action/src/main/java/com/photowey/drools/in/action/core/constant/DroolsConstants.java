@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.photowey.drools.in.action.core.constant;
+
 /**
- * {@code com.photowey.drools.in.action.domain.helloworld}
- * copy from {@code org.drools.examples.helloworld.HelloWorldExample}
+ * {@code DroolsConstants}.
  *
  * @author photowey
  * @version 1.0.0
- * @since 2025/02/10
+ * @since 2025/02/12
  */
-package com.photowey.drools.in.action.domain.helloworld;
+public interface DroolsConstants {
+
+    String SLUSH = "/";
+
+    String JAVA_LOCAL_CLASSPATH_PREFIX = "target/classes/";
+    String JAR_PROTOCOL = "jar:";
+    String JAR_PROTOCOL_SYMBOL = "!/";
+    String FILE_PROTOCOL = "file:";
+}
+

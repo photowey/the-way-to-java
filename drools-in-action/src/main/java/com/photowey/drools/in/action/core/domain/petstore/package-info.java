@@ -21,4 +21,4 @@
  * @version 1.0.0
  * @since 2025/02/10
  */
-package com.photowey.drools.in.action.domain.petstore;
+package com.photowey.drools.in.action.core.domain.petstore;

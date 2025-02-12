@@ -1,6 +1,6 @@
 package io.github.photowey.drools.rules.helloworld;
 
-import com.photowey.drools.in.action.domain.helloworld.Message;
+import com.photowey.drools.in.action.core.domain.helloworld.Message;
 
 global java.util.List list;
 

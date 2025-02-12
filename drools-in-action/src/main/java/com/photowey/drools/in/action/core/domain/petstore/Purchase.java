@@ -13,45 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.photowey.drools.in.action.domain.petstore;
+package com.photowey.drools.in.action.core.domain.petstore;
 
 import lombok.Getter;
 
 import java.io.Serializable;
 
 /**
- * {@code Product}
+ * {@code Purchase}
  *
  * @author photowey
  * @version 1.0.0
  * @since 2025/02/10
  */
 @Getter
-public class Product implements Serializable {
+public class Purchase implements Serializable {
 
     private static final long serialVersionUID = -7260130106941902846L;
 
-    private String name;
-    private double price;
+    private Order order;
+    private Product product;
 
-    public Product(String name, double cost) {
-        this.name = name;
-        this.price = cost;
-    }
-
-    @Override
-    public String toString() {
-        return name + " " + this.price;
+    public Purchase(Order order, Product product) {
+        this.order = order;
+        this.product = product;
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(price);
-        result = PRIME * result + (int) (temp ^ (temp >>> 32));
+        result = PRIME * result + ((order == null) ? 0 : order.hashCode());
+        result = PRIME * result + ((product == null) ? 0 : product.hashCode());
         return result;
     }
 
@@ -60,11 +53,14 @@ public class Product implements Serializable {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        final Product other = (Product) obj;
-        if (name == null) {
-            if (other.name != null) return false;
-        } else if (!name.equals(other.name)) return false;
-        if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price)) return false;
+        final Purchase other = (Purchase) obj;
+        if (order == null) {
+            if (other.order != null) return false;
+        } else if (!order.equals(other.order)) return false;
+        if (product == null) {
+            if (other.product != null) return false;
+        } else if (!product.equals(other.product)) return false;
         return true;
     }
+
 }
