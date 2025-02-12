@@ -37,6 +37,11 @@ public class DroolsProperties implements Serializable {
 
     private static final long serialVersionUID = 4479253614243628525L;
 
+    public static final String DROOLS_RULE_ENGINE_ENV_PREFIX =
+        "DROOLS_RULE_ENGINE_PROPERTY_PREFIX";
+    public static final String DROOLS_RULE_ENGINE_PROPERTY_CUSTOM_PREFIX =
+        "drools.rule.engine.property.custom.prefix";
+
     private static final String SLUSH = "/";
 
     private String rulePath = "io/github/photowey/drools/rules/";

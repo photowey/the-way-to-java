@@ -25,10 +25,10 @@ import org.springframework.core.env.Environment;
  * @version 1.0.0
  * @since 2025/02/11
  */
-public final class PropertyBinder {
+public final class PropertyBinders {
 
-    private PropertyBinder() {
-        throwz(PropertyBinder.class);
+    private PropertyBinders() {
+        throwz(PropertyBinders.class);
     }
 
     public static <T> T bind(Environment environment, String prefix, Class<T> clazz) {

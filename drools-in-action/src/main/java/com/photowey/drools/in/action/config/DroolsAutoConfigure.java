@@ -15,7 +15,8 @@
  */
 package com.photowey.drools.in.action.config;
 
-import com.photowey.drools.in.action.bind.PropertyBinder;
+import com.photowey.drools.in.action.bind.PropertyBinders;
+import com.photowey.drools.in.action.core.util.Paths;
 import com.photowey.drools.in.action.property.DroolsProperties;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -36,8 +37,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * {@code DroolsAutoConfigure}.
@@ -50,11 +51,17 @@ import java.nio.charset.StandardCharsets;
 @Import(KModuleBeanFactoryPostProcessor.class)
 public class DroolsAutoConfigure {
 
+    private static final String DROOLS_RULE_ENGINE_ENV_PREFIX =
+        DroolsProperties.DROOLS_RULE_ENGINE_ENV_PREFIX;
+    private static final String DROOLS_RULE_ENGINE_PROPERTY_CUSTOM_PREFIX =
+        DroolsProperties.DROOLS_RULE_ENGINE_PROPERTY_CUSTOM_PREFIX;
+
     @Bean
+    @ConditionalOnMissingBean(DroolsProperties.class)
     public DroolsProperties droolsProperties(Environment environment) {
-        return PropertyBinder.bind(
+        return PropertyBinders.bind(
             environment,
-            DroolsProperties.getPrefix(),
+            this.tryPropertyPrefix(environment),
             DroolsProperties.class
         );
     }
@@ -67,11 +74,11 @@ public class DroolsAutoConfigure {
         KieFileSystem kfs = this.kieServices().newKieFileSystem();
 
         for (Resource ruleFile : this.tryReadRuleFiles(resolver, props)) {
-            // String resourcePath = props.populateRuleFullPath(ruleFile.getFilename());
             String resourcePath = this.tryExtractRelativePath(ruleFile);
-
-            org.kie.api.io.Resource kr =
-                ResourceFactory.newClassPathResource(resourcePath, StandardCharsets.UTF_8.displayName());
+            org.kie.api.io.Resource kr = ResourceFactory.newClassPathResource(
+                resourcePath,
+                StandardCharsets.UTF_8.displayName()
+            );
             kfs.write(kr);
         }
 
@@ -93,14 +100,14 @@ public class DroolsAutoConfigure {
 
     @Bean
     @ConditionalOnMissingBean(KieBase.class)
-    public KieBase defaultKieBase(KieFileSystem kieFileSystem) {
-        return this.kieContainer(kieFileSystem).getKieBase();
+    public KieBase defaultKieBase(KieContainer kieContainer) {
+        return kieContainer.getKieBase();
     }
 
     @Bean
     @ConditionalOnMissingBean(KieSession.class)
-    public KieSession defaultKieSession(KieFileSystem kieFileSystem) {
-        return this.kieContainer(kieFileSystem).newKieSession();
+    public KieSession defaultKieSession(KieContainer kieContainer) {
+        return kieContainer.newKieSession();
     }
 
     // ----------------------------------------------------------------
@@ -117,6 +124,27 @@ public class DroolsAutoConfigure {
         return KieServices.get();
     }
 
+    // ----------------------------------------------------------------
+
+    private String tryPropertyPrefix(Environment environment) {
+        String prefix = System.getenv(DROOLS_RULE_ENGINE_ENV_PREFIX);
+        if (Objects.nonNull(prefix)) {
+            return prefix;
+        }
+
+        prefix = environment.getProperty(DROOLS_RULE_ENGINE_ENV_PREFIX);
+        if (Objects.nonNull(prefix)) {
+            return prefix;
+        }
+
+        prefix = environment.getProperty(DROOLS_RULE_ENGINE_PROPERTY_CUSTOM_PREFIX);
+        if (Objects.nonNull(prefix)) {
+            return prefix;
+        }
+
+        return DroolsProperties.getPrefix();
+    }
+
     private Resource[] tryReadRuleFiles(ResourcePatternResolver resolver, DroolsProperties props) {
         try {
             return resolver.getResources(props.populateClasspathRuleResources());
@@ -126,31 +154,6 @@ public class DroolsAutoConfigure {
     }
 
     public String tryExtractRelativePath(Resource resource) {
-        try {
-            return this.extractRelativePath("", resource);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String extractRelativePath(String classpath, Resource resource) throws IOException {
-        URL url = resource.getURL();
-        String absolutePath = url.toString();
-
-        if (absolutePath.startsWith("jar:")) {
-            int startOfPath = absolutePath.indexOf("!/") + 2;
-            return absolutePath.substring(startOfPath);
-        }
-        if (absolutePath.startsWith("file:")) {
-            String classpathPrefix = "target/classes/";
-            int index = absolutePath.indexOf(classpathPrefix);
-            if (index != -1) {
-                return absolutePath.substring(index + classpathPrefix.length()).replace("\\", "/");
-            }
-
-            return absolutePath;
-        }
-
-        throw new IllegalArgumentException("Unsupported resource URL protocol: " + url.getProtocol());
+        return Paths.tryExtractRelativePath(resource);
     }
 }
