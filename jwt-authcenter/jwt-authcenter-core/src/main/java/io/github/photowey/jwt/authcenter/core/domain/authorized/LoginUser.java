@@ -113,10 +113,6 @@ public class LoginUser implements Serializable, UserDetails, SafeRole, SafeScope
         this.authoritySet = authoritySet;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     @JsonIgnore
     public Long getUserId() {
         return this.userId;
