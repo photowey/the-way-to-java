@@ -18,8 +18,8 @@ package io.github.photowey.jwt.authcenter.core.threadlocal;
 import io.github.photowey.jwt.authcenter.core.domain.authorized.LoginUser;
 import io.github.photowey.jwt.authcenter.core.enums.ExceptionStatus;
 import io.github.photowey.jwt.authcenter.core.exception.AuthcenterSecurityException;
-import io.github.photowey.jwt.authcenter.core.security.SecurityUtils;
 import io.github.photowey.jwt.authcenter.core.thrower.AssertionErrorThrower;
+import io.github.photowey.jwt.authcenter.core.util.security.SecurityUtils;
 
 import java.util.Objects;
 

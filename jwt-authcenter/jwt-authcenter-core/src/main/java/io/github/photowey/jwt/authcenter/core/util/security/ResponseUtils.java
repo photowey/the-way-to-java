@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.jwt.authcenter.core.security;
+package io.github.photowey.jwt.authcenter.core.util.security;
 
 import io.github.photowey.jwt.authcenter.core.domain.json.JSON;
 import io.github.photowey.jwt.authcenter.core.domain.model.ExceptionBody;
@@ -59,15 +59,15 @@ public final class ResponseUtils {
     }
 
     public static <T> void toJSONBody(AuthcenterException exception) {
-        write(JSON.toJSONString(new ExceptionBody(exception.code(), exception.message())));
+        write(new ExceptionBody(exception.code(), exception.message()));
     }
 
     public static void toJSONBody(ExceptionStatus status) {
-        write(JSON.toJSONString(new ExceptionBody(status)));
+        write(new ExceptionBody(status));
     }
 
     public static void toJSONBody(ExceptionStatus status, String message) {
-        write(JSON.toJSONString(new ExceptionBody(status, message)));
+        write(new ExceptionBody(status, message));
     }
 
     public static <T> void write(T body) {

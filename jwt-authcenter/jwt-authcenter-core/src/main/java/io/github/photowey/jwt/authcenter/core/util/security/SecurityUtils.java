@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.jwt.authcenter.core.security;
+package io.github.photowey.jwt.authcenter.core.util.security;
 
 import io.github.photowey.jwt.authcenter.core.constant.AuthorityConstants;
 import io.github.photowey.jwt.authcenter.core.domain.authorized.LoginUser;

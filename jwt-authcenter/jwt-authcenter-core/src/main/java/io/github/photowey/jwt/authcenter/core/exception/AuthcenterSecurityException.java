@@ -19,6 +19,7 @@ import io.github.photowey.jwt.authcenter.core.enums.ExceptionStatus;
 
 /**
  * {@code AuthcenterSecurityException}.
+ * |- 和 {@code Security} 相关时,抛出该异常
  *
  * @author photowey
  * @version 1.0.0
