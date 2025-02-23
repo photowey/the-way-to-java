@@ -18,6 +18,7 @@ package io.github.photowey.jwt.authcenter.core.domain.authorized;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.github.photowey.jwt.authcenter.core.cache.AuthorizedCache;
 import io.github.photowey.jwt.authcenter.core.constant.AuthorityConstants;
 import io.github.photowey.jwt.authcenter.core.domain.role.SafeRole;
 import io.github.photowey.jwt.authcenter.core.domain.scope.SafeScope;
@@ -395,6 +396,15 @@ public class LoginUser implements Serializable, UserDetails, SafeRole, SafeScope
     public String token() {
         return token;
     }
+
+    // ----------------------------------------------------------------
+
+    public void injectSets(AuthorizedCache target) {
+        this.appendAuthoritySets(target.authorities());
+        this.appendRoles(target.roles());
+        this.appendScopes(target.scopes());
+    }
+
 }
 
 

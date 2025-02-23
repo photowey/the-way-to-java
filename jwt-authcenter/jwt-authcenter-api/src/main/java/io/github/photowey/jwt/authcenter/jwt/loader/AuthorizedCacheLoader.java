@@ -13,67 +13,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.photowey.jwt.authcenter.jwt.token.api;
+package io.github.photowey.jwt.authcenter.jwt.loader;
 
-import io.github.photowey.jwt.authcenter.jwt.encryptor.SubjectEncryptor;
+import io.github.photowey.jwt.authcenter.core.cache.AuthorizedCache;
 import io.github.photowey.jwt.authcenter.property.SecurityProperties;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.core.Ordered;
 
 /**
- * {@code TokenService}
+ * {@code AuthorizedCacheLoader}.
  *
  * @author photowey
  * @version 1.0.0
- * @since 2025/02/15
+ * @since 2025/02/23
  */
-public interface TokenService
-    extends TokenValidatorService, AuthenticationService, TokenParserService {
+public interface AuthorizedCacheLoader extends BeanFactoryAware, Ordered {
 
     /**
      * 获取 {@link BeanFactory} 实例
      *
-     * @return {@link BeanFactory}
+     * @return {@link BeanFactory} 实例
      */
     BeanFactory beanFactory();
 
     /**
      * 获取 {@link SecurityProperties} 实例
      *
-     * @return {@link SecurityProperties}
+     * @return {@link SecurityProperties} 实例
      */
-    @Override
     default SecurityProperties securityProperties() {
         return this.beanFactory().getBean(SecurityProperties.class);
     }
 
     /**
-     * 获取 {@link SubjectEncryptor} 实例
+     * 获取配置的权限加载器名称
      *
-     * @return {@link SubjectEncryptor}
+     * @return 权限加载器名称
      */
-    @Override
-    default SubjectEncryptor subjectEncryptor() {
-        return this.beanFactory().getBean(SubjectEncryptor.class);
+    default String loader() {
+        return this.securityProperties().auth().loader().name();
     }
 
     /**
-     * 颁发令牌
-     * |- 默认: 不记住我
+     * 是否支持权限集加载
      *
-     * @param authentication {@link Authentication} 认证对象
-     * @return 令牌
+     * @return {@code boolean} true: 支持; false: 不支持
      */
-    default String createToken(Authentication authentication) {
-        return this.createToken(authentication, false);
-    }
+    boolean supports();
 
     /**
-     * 颁发令牌
+     * 加载权限
      *
-     * @param authentication {@link Authentication} 认证对象
-     * @param rememberMe     rememberMe 记住我 true: 是; false: 否
-     * @return 令牌
+     * @param userId {@link AuthorizedCache}
+     * @return {@link AuthorizedCache} 认证用户权限集
      */
-    String createToken(Authentication authentication, boolean rememberMe);
+    AuthorizedCache load(Long userId);
 }
+

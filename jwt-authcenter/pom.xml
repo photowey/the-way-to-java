@@ -18,8 +18,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>jwt-authcenter-api</module>
         <module>jwt-authcenter-core</module>
-        <module>jwt-authcenter-jwt</module>
+        <module>jwt-authcenter-jjwt</module>
         <module>jwt-authcenter-property</module>
         <module>jwt-authcenter-repository</module>
         <module>jwt-authcenter-security</module>
@@ -63,6 +64,8 @@
 
         <maven-git-commit-id-plugin.version>4.9.10</maven-git-commit-id-plugin.version>
         <maven-versions-plugin.version>2.7</maven-versions-plugin.version>
+
+        <jjwt.version>0.12.6</jjwt.version>
     </properties>
 
     <dependencies>
@@ -72,12 +75,17 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.photowey</groupId>
+                <artifactId>jwt-authcenter-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.photowey</groupId>
                 <artifactId>jwt-authcenter-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.photowey</groupId>
-                <artifactId>jwt-authcenter-jwt</artifactId>
+                <artifactId>jwt-authcenter-jjwt</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -99,6 +107,12 @@
                 <groupId>io.github.photowey</groupId>
                 <artifactId>jwt-authcenter-service</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
