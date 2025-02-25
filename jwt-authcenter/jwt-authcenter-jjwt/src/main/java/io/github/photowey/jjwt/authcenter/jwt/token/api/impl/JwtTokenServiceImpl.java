@@ -276,9 +276,14 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private void populatePrincipalClaim(Authentication authentication, JwtBuilder builder) {
         LoginUser principal = (LoginUser) authentication.getPrincipal();
-        builder.claim(AuthorityConstants.AUTHORIZATION_PRINCIPAL_ID,
-                String.valueOf(principal.getPrincipalId()))
-            .claim(AuthorityConstants.AUTHORIZATION_PRINCIPAL_TYPE, principal.getPrincipalType());
+        builder.claim(
+                AuthorityConstants.AUTHORIZATION_PRINCIPAL_ID,
+                String.valueOf(principal.getPrincipalId())
+            )
+            .claim(
+                AuthorityConstants.AUTHORIZATION_PRINCIPAL_TYPE,
+                principal.getPrincipalType()
+            );
     }
 
     private void populateRoleClaim(Authentication authentication, JwtBuilder builder) {
@@ -290,7 +295,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private Map<String, Object> populateHeaders() {
         Map<String, Object> headers = new HashMap<>(4);
         headers.put("typ", "JWT");
-        headers.put("kid", UUID.randomUUID().toString().replaceAll("-", ""));
+        headers.put("kid", genKid());
 
         return headers;
     }
@@ -307,6 +312,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private PassportUsername decryptSubject(String subject) {
         SubjectEncryptor subjectEncryptor = this.beanFactory.getBean(SubjectEncryptor.class);
         String secret = this.securityProperties().auth().issuer().secret();
+
         String mix = this.decompressSubject(subject);
         String proxy = subjectEncryptor.decrypt(secret, mix);
 
@@ -318,14 +324,17 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             Encryptor.ENCRYPT_SUBJECT_TEMPLATE,
             Encryptor.SUBJECT_ENCRYPT_PREFIX,
             Encryptor.SUBJECT_ENCRYPT_SEPARATOR,
-            proxy);
+            proxy
+        );
     }
 
     private String decompressSubject(String proxy) {
         String prefix = StringFormatter.format(
             SubjectEncryptor.ENCRYPT_SUBJECT_TEMPLATE,
             SubjectEncryptor.SUBJECT_ENCRYPT_PREFIX,
-            SubjectEncryptor.SUBJECT_ENCRYPT_SEPARATOR);
+            SubjectEncryptor.SUBJECT_ENCRYPT_SEPARATOR
+        );
+
         return proxy.replaceAll(prefix, "");
     }
 
@@ -338,6 +347,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         return authoritySet;
     }
 
+    @SuppressWarnings("unchecked")
     private List<String> determineSets(Claims claims, String claimKey) {
         List<String> items = (List<String>) claims.get(claimKey);
         if (Objects.nonNull(items)) {
@@ -407,6 +417,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         }
 
         throw new UnsupportedOperationException("Unreachable here.");
+    }
+
+    // ----------------------------------------------------------------
+
+    private static String genKid() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }
 
