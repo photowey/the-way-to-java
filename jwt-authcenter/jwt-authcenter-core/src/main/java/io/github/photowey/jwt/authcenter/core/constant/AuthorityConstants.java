@@ -148,7 +148,7 @@ public interface AuthorityConstants {
         "/login/**",
         "/authorize/**",
         "/actuator/**",
-        "/healthz",
+        "/healthy",
         "/error"
     };
 }
