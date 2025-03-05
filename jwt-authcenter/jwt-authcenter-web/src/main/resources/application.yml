@@ -3,3 +3,21 @@ spring:
     active: dev
   application:
     name: "jwt-authcenter-web"
+
+# ----------------------------------------------------------------
+
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+    jdbc-type-for-null: "null"
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+  global-config:
+    banner: false
+    db-config:
+      id-type: ASSIGN_ID
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  check-config-location: true
+  mapper-locations: "classpath:mapper/*.xml"

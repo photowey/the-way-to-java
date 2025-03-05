@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- @author photowey -->
+<!-- @version 1.0.0 -->
+<!-- @since 2025/03/06 -->
+
+<mapper namespace="io.github.photowey.jwt.authcenter.repository.database.AuthorizeUserRepository">
+    <!-- do nothing now -->
+</mapper>

@@ -1,2 +1,32 @@
+local:
+  config:
+    database:
+      mysql:
+        host: "192.168.0.11"
+        port: 3307
+        address: "${local.config.database.mysql.host}:${local.config.database.mysql.port}"
+        database: "uaa_authcenter"
+        username: "root"
+        password: "root"
+      postgres:
+        host: "192.168.0.11"
+        port: 5432
+        address: "${local.config.database.postgres.host}:${local.config.database.postgres.port}"
+        database: "uaa_authcenter"
+        username: "root"
+        password: "root"
+      druid:
+        username: "admin"
+        password: "admin@druid.com"
+    cache:
+      redis:
+        host: "192.168.0.11"
+        port: 6379
+        database: 0
+        password: "admin@redis.com"
+
+# ----------------------------------------------------------------
+
+
 server:
   port: 9527
