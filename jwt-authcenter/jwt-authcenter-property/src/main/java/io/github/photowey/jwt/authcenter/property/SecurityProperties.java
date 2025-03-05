@@ -195,7 +195,7 @@ public class SecurityProperties implements Serializable {
         private static final long serialVersionUID = -8759736364181583010L;
 
         private boolean enabled = false;
-        private String secret = "yzcloud.platform.authorize.security.mock.salt";
+        private String secret = "io.github.photowey.platform.authorize.security.mock.salt";
     }
 
     @Data

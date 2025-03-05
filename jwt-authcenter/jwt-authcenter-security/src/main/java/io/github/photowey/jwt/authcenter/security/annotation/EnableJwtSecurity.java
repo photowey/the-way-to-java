@@ -17,6 +17,7 @@ package io.github.photowey.jwt.authcenter.security.annotation;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,6 +41,9 @@ import java.lang.annotation.*;
 public @interface EnableJwtSecurity {
 
     @Configuration
+    @ComponentScan(value = {
+        "io.github.photowey.jwt.authcenter.security.checker",
+    })
     class SecurityConfigure {
 
         @Bean

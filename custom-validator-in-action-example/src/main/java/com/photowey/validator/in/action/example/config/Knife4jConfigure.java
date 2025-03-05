@@ -48,28 +48,28 @@ public class Knife4jConfigure {
     }
 
     @Bean(value = "custom-validator-in-action-example-docket")
-    public Docket uphicooDocket() {
-        String group = "uphicoo-cloud-platform-validator";
+    public Docket cloudDocket() {
+        String group = "cloud-platform-validator";
         Contact contact = new Contact("photowey", "https://github.com/photowey", "photowey@gmail.com");
         Docket docket = new Docket(DocumentationType.OAS_30)
-                .apiInfo(this.populateApiInfo(contact))
-                .groupName(group)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.photowey.spring.in.action.controller"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildExtensions(group));
+            .apiInfo(this.populateApiInfo(contact))
+            .groupName(group)
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.photowey.spring.in.action.controller"))
+            .paths(PathSelectors.any())
+            .build()
+            .extensions(openApiExtensionResolver.buildExtensions(group));
 
         return docket;
     }
 
     private ApiInfo populateApiInfo(Contact contact) {
         return new ApiInfoBuilder()
-                .title("custom-validator-in-action-example project")
-                .description("# custom-validator-in-action-example project RESTful APIs")
-                .termsOfServiceUrl("https://github.com/photowey/")
-                .contact(contact)
-                .version("1.0.0")
-                .build();
+            .title("custom-validator-in-action-example project")
+            .description("# custom-validator-in-action-example project RESTful APIs")
+            .termsOfServiceUrl("https://github.com/photowey/")
+            .contact(contact)
+            .version("1.0.0")
+            .build();
     }
 }
