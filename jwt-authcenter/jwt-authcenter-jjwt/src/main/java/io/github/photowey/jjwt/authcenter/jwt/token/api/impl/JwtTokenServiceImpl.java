@@ -23,6 +23,7 @@ import io.github.photowey.jwt.authcenter.core.constant.CommonConstants;
 import io.github.photowey.jwt.authcenter.core.constant.MessageConstants;
 import io.github.photowey.jwt.authcenter.core.domain.authorized.LoginUser;
 import io.github.photowey.jwt.authcenter.core.domain.username.PassportUsername;
+import io.github.photowey.jwt.authcenter.core.enums.AuthcenterDictionary;
 import io.github.photowey.jwt.authcenter.core.enums.ExceptionStatus;
 import io.github.photowey.jwt.authcenter.core.formatter.StringFormatter;
 import io.github.photowey.jwt.authcenter.core.threadlocal.LoginUserHolder;
@@ -388,8 +389,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             .client(passport.client())
             // --------------------------------
             .token(authToken)
-            .status(2)
-            .authorizeStatus(1)
+            .status(AuthcenterDictionary.UserStatus.ACTIVATED.value())
+            .authorizeStatus(AuthcenterDictionary.AuthorizeStatus.AUTHORIZED.value())
             .dummy(false)
             .build();
 

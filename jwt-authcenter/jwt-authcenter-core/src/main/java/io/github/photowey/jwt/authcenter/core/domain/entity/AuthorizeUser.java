@@ -87,8 +87,8 @@ public class AuthorizeUser implements Serializable {
     private Integer userStatus;
     /**
      * 授权状态
-     * |- 0: 未认证
-     * |- 1: 已认证
+     * |- 0: 未授权
+     * |- 1: 已授权
      */
     private Integer authorizeStatus;
 
