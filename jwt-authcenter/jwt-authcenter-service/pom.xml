@@ -17,6 +17,14 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.github.photowey</groupId>
+            <artifactId>jwt-authcenter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.photowey</groupId>
+            <artifactId>jwt-authcenter-repository</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
