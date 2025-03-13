@@ -15,11 +15,13 @@
  */
 package io.github.photowey.jwt.authcenter.security.annotation;
 
+import io.github.photowey.jwt.authcenter.security.service.impl.DomainUserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -50,6 +52,11 @@ public @interface EnableJwtSecurity {
         @ConditionalOnMissingBean(PasswordEncoder.class)
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
+        }
+
+        @Bean
+        public UserDetailsService userDetailsService() {
+            return new DomainUserDetailsServiceImpl();
         }
     }
 }
