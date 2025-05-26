@@ -18,21 +18,24 @@ package com.photowey.juc.in.action.mdc;
 import org.slf4j.MDC;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 /**
- * {@code ThreadMDCUtils}
+ * {@code Runnables}.
  *
- * @author photowey
- * @date 2022/10/14
- * @since 1.0.0
+ * @author 1.0.0
+ * @since 2025/05/26
  */
-public class ThreadMDCUtils {
+public final class Runnables {
 
-    private static final String TRACE_ID = "trace_id";
+    private Runnables() {}
+
+    private static final String TRACE_ID = "traceId";
 
     public static String traceId() {
-        return "";
+        return UUID.randomUUID().toString().replaceAll("-", "").toLowerCase();
     }
 
     public static void setTraceIdIfAbsent() {
@@ -42,18 +45,15 @@ public class ThreadMDCUtils {
     }
 
     public static <T> Callable<T> wrap(final Callable<T> callable) {
-        return wrap(callable, null);
-    }
+        Map<String, String> context = MDC.getCopyOfContextMap();
 
-    public static <T> Callable<T> wrap(final Callable<T> callable, final Map<String, String> context) {
         return () -> {
-            if (context == null) {
-                MDC.clear();
-            } else {
+            if (Objects.nonNull(context)) {
                 MDC.setContextMap(context);
             }
 
             setTraceIdIfAbsent();
+
             try {
                 return callable.call();
             } finally {
@@ -63,17 +63,15 @@ public class ThreadMDCUtils {
     }
 
     public static Runnable wrap(final Runnable runnable) {
-        return wrap(runnable, null);
-    }
+        Map<String, String> context = MDC.getCopyOfContextMap();
 
-    public static Runnable wrap(final Runnable runnable, final Map<String, String> context) {
         return () -> {
-            if (context == null) {
-                MDC.clear();
-            } else {
+            if (Objects.nonNull(context)) {
                 MDC.setContextMap(context);
             }
+
             setTraceIdIfAbsent();
+
             try {
                 runnable.run();
             } finally {
@@ -81,4 +79,5 @@ public class ThreadMDCUtils {
             }
         };
     }
+
 }
