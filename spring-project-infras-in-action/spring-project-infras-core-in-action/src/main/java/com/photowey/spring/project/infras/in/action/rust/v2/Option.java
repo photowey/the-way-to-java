@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 /**
  * {@code Option}.
- * A Java imitation of Rust's Option<T>.
+ * A Java imitation of Rust's {@code Option<T>}.
  * Represents an optional value: every Option is either Some(T) or None.
  *
  * @param <T> the type of the value
@@ -19,8 +19,11 @@ import java.util.function.Supplier;
 @SuppressWarnings("all")
 public abstract class Option<T> {
 
-    private Option() {}
+    // @formatter:off
 
+    private Option() { }
+
+    // @formatter:on
 
     // ----------------------------------------------------------------
     // Static Constructors
@@ -30,12 +33,15 @@ public abstract class Option<T> {
         return new Some<>(Objects.requireNonNull(value, "Value must not be null"));
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> Option<T> none() {
         return (Option<T>) None.NONE;
     }
 
     public static <T> Option<T> of(T value) {
+        return ofNullable(value);
+    }
+
+    public static <T> Option<T> ofNullable(T value) {
         return Objects.isNull(value) ? none() : some(value);
     }
 
@@ -130,10 +136,7 @@ public abstract class Option<T> {
      * @return the result of the matched case
      * @throws NullPointerException if {@code someCase} or {@code noneCase} is {@code null}
      */
-    public abstract <R> R match(
-        Function<? super T, ? extends R> someCase,
-        Supplier<? extends R> noneCase
-    );
+    public abstract <R> R match(Function<? super T, ? extends R> someCase, Supplier<? extends R> noneCase);
 
     /**
      * Functional-style pattern matching.
@@ -151,10 +154,7 @@ public abstract class Option<T> {
      *                 Represented as a {@link Runnable} since no value is available
      * @throws NullPointerException if {@code someCase} or {@code noneCase} is {@code null}
      */
-    public abstract void matchRun(
-        Consumer<? super T> someCase,
-        Runnable noneCase
-    );
+    public abstract void matchRun(Consumer<? super T> someCase, Runnable noneCase);
 
     // ----------------------------------------------------------------
     // Optional: Interop with Java Optional
@@ -182,10 +182,11 @@ public abstract class Option<T> {
     // ----------------------------------------------------------------
 
     private static final class Some<T> extends Option<T> {
+
         private final T value;
 
         private Some(T value) {
-            this.value = value;
+            this.value = Objects.requireNonNull(value, "Value must not be null");
         }
 
         @Override
@@ -215,22 +216,22 @@ public abstract class Option<T> {
 
         @Override
         public <U> Option<U> map(Function<? super T, ? extends U> mapper) {
-            return new Some<>(mapper.apply(value));
+            return ofNullable(Objects.requireNonNull(mapper, "Function must not be null").apply(value));
         }
 
         @Override
         public <U> Option<U> flatMap(Function<? super T, Option<U>> mapper) {
-            return mapper.apply(value);
+            return Objects.requireNonNull(mapper, "Function must not be null").apply(value);
         }
 
         @Override
         public Option<T> filter(Predicate<? super T> predicate) {
-            return predicate.test(value) ? this : none();
+            return Objects.requireNonNull(predicate, "Predicate must not be null").test(value) ? this : none();
         }
 
         @Override
         public void ifPresent(Consumer<? super T> consumer) {
-            consumer.accept(value);
+            Objects.requireNonNull(consumer, "Consumer must not be null").accept(value);
         }
 
         @Override
@@ -276,7 +277,12 @@ public abstract class Option<T> {
     // ----------------------------------------------------------------
 
     private static final class None<T> extends Option<T> {
-        private None() {}
+
+        // @formatter:off
+
+        private None() { }
+
+        // @formatter:on
 
         private static final None<?> NONE = new None<>();
 
@@ -327,7 +333,7 @@ public abstract class Option<T> {
 
         @Override
         public void ifEmpty(Runnable runnable) {
-            runnable.run();
+            Objects.requireNonNull(runnable, "Runnable must not be null").run();
         }
 
         @Override
